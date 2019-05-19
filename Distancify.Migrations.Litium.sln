@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Distancify.Migrations.Litium", "Distancify.Migrations.Litium\Distancify.Migrations.Litium.csproj", "{AB6964F2-EBFA-4775-BDDD-C1860EA66A47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7B229574-6869-46B1-9E53-E55A1232A1DB}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+		README.md = README.md
+		SetBuildVariables.ps1 = SetBuildVariables.ps1
+		SetVersion.ps1 = SetVersion.ps1
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB6964F2-EBFA-4775-BDDD-C1860EA66A47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB6964F2-EBFA-4775-BDDD-C1860EA66A47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB6964F2-EBFA-4775-BDDD-C1860EA66A47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB6964F2-EBFA-4775-BDDD-C1860EA66A47}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {51C57BDF-BEFD-433E-8A15-24957FB76260}
+	EndGlobalSection
+EndGlobal
