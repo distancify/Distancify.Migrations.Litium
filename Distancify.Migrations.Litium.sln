@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7B229574-6869-46B1-9E53-E55A1232A1DB}"
 	ProjectSection(SolutionItems) = preProject
 		azure-pipelines.yml = azure-pipelines.yml
+		NuGet.config = NuGet.config
 		README.md = README.md
 		SetBuildVariables.ps1 = SetBuildVariables.ps1
 		SetVersion.ps1 = SetVersion.ps1

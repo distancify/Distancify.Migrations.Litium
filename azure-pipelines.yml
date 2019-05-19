@@ -25,6 +25,9 @@ steps:
   displayName: 'Restore NuGet packages'
   inputs:
     restoreSolution: '$(solution)'
+    feedsToUse: config
+    nugetConfigPath: NuGet.config
+    externalFeedCredentials: Litium
 
 - task: PowerShell@2
   displayName: 'SetBuildVariables.ps1'
