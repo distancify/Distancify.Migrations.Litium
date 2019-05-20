@@ -25,6 +25,30 @@ ChannelSeed.Ensure("MyChannel", "DefaultChannelFieldTemplate")
 
 _Note_ the last method call `Commit()`. This method creates/updates the entity. Nothing will happen if you forget this call.
 
+### Apply migrations at Litium startup
+
+If you have a set of migrations that you want to run on all environments, you can make sure these are applied everywhere by creating a startup task:
+
+```csharp
+public class MigrationsSetup : IStartupTask
+{
+    private readonly MigrationService migrationService;
+
+    public MigrationsSetup(MigrationService migrationService)
+    {
+        this.migrationService = migrationService;
+    }
+
+    public void Start()
+    {
+        using (Solution.Instance.SystemToken.Use())
+        {
+            migrationService.Apply<ProductionMigration>();
+        }
+    }
+}
+```
+
 ## Running the tests
 
 The tests are built using xUnit and does not require any setup in order to run inside Visual Studio's standard test runner.
