@@ -2,6 +2,9 @@ function SetVersion ($file, $fileVersion, $packageVersion)
 {
     $file = Resolve-Path $file
 
+    if (!$fileVersion) { $fileVersion = "0.0.1" }
+    if (!$packageVersion) { $packageVersion = "0.0.1-ci" }
+
     Write-Output "Updating $file"
     Write-Output "Setting AssemblyVersion to $fileVersion"
     Write-Output "Setting AssemblyFileVersion to $fileVersion"
@@ -11,9 +14,9 @@ function SetVersion ($file, $fileVersion, $packageVersion)
     $content = $sr.ReadToEnd()
     $sr.Close()
 
-    $content = [Regex]::Replace($content, "AssemblyVersion\(""[\d\.]+""\)", "AssemblyVersion(""$fileVersion"")");
-    $content = [Regex]::Replace($content, "AssemblyFileVersion\(""[\d\.]+""\)", "AssemblyFileVersion(""$fileVersion"")");
-    $content = [Regex]::Replace($content, "AssemblyInformationalVersion\(""[\d\.]+""\)", "AssemblyInformationalVersion(""$packageVersion"")");
+    $content = [Regex]::Replace($content, "AssemblyVersion\("".*?""\)", "AssemblyVersion(""$fileVersion"")");
+    $content = [Regex]::Replace($content, "AssemblyFileVersion\("".*?""\)", "AssemblyFileVersion(""$fileVersion"")");
+    $content = [Regex]::Replace($content, "AssemblyInformationalVersion\("".*?""\)", "AssemblyInformationalVersion(""$packageVersion"")");
 
     $sw = new-object System.IO.StreamWriter( $file, $false, [System.Text.Encoding]::GetEncoding("utf-8") )
     $sw.Write( $content )
