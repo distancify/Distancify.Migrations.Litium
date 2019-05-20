@@ -34,6 +34,9 @@
     <OutputPath>bin\Kristoffer\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="aspNetEmail, Version=3.6.1.8, Culture=neutral, PublicKeyToken=bc571e8da1c1f543">
+      <HintPath>..\packages\Litium.Studio.ThirdParty.AspNetEmail.1.0.0\lib\net45\aspNetEmail.dll</HintPath>
+    </Reference>
     <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
@@ -46,41 +49,86 @@
     <Reference Include="Castle.Windsor, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Windsor.4.1.1\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="Dapper.StrongName, Version=1.60.0.0, Culture=neutral, PublicKeyToken=e3e8412083d25dd3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.StrongName.1.60.1\lib\net451\Dapper.StrongName.dll</HintPath>
+    <Reference Include="Dapper.StrongName, Version=1.50.5.0, Culture=neutral, PublicKeyToken=e3e8412083d25dd3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.StrongName.1.50.5\lib\net451\Dapper.StrongName.dll</HintPath>
     </Reference>
     <Reference Include="Distancify.Migrations, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Distancify.Migrations.1.0.3\lib\netstandard2.0\Distancify.Migrations.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Abstractions, Version=7.2.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Abstractions.7.2.0\lib\netstandard2.0\Litium.Abstractions.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Application, Version=7.2.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Application.7.2.0\lib\netstandard2.0\Litium.Application.dll</HintPath>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Studio.ThirdParty.DotNetZip.1.0.0\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Foundation, Version=7.2.0.0, Culture=neutral, PublicKeyToken=e47737e618208e4b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Foundation.7.2.0\lib\net472\Litium.Foundation.dll</HintPath>
+    <Reference Include="iTextSharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
+      <HintPath>..\packages\iTextSharp-LGPL.4.1.6\lib\iTextSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Foundation.GUI, Version=7.2.0.0, Culture=neutral, PublicKeyToken=a40357825b856809, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Foundation.GUI.7.2.0\lib\net472\Litium.Foundation.GUI.dll</HintPath>
+    <Reference Include="Litium.Abstractions, Version=7.1.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Abstractions.7.1.0\lib\netstandard2.0\Litium.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Framework.Search, Version=5.1.2.0, Culture=neutral, PublicKeyToken=8232cca59cf208c4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Framework.Search.5.1.2\lib\net472\Litium.Framework.Search.dll</HintPath>
+    <Reference Include="Litium.Application, Version=7.1.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Application.7.1.0\lib\netstandard2.0\Litium.Application.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Infrastructure.InversionOfControl, Version=7.2.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Infrastructure.InversionOfControl.7.2.0\lib\net472\Litium.Infrastructure.InversionOfControl.dll</HintPath>
+    <Reference Include="Litium.Application.Bootstrapper, Version=7.1.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Application.Bootstrapper.7.1.0\lib\net472\Litium.Application.Bootstrapper.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Owin, Version=7.2.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Owin.7.2.0\lib\net472\Litium.Owin.dll</HintPath>
+    <Reference Include="Litium.Foundation, Version=7.1.0.0, Culture=neutral, PublicKeyToken=e47737e618208e4b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Foundation.7.1.0\lib\net472\Litium.Foundation.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Studio, Version=7.2.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Studio.7.2.0\lib\net472\Litium.Studio.dll</HintPath>
+    <Reference Include="Litium.Foundation.GUI, Version=7.1.0.0, Culture=neutral, PublicKeyToken=a40357825b856809, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Foundation.GUI.7.1.0\lib\net472\Litium.Foundation.GUI.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Utilities, Version=7.2.0.0, Culture=neutral, PublicKeyToken=640ada3058909375, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Utilities.7.2.0\lib\net472\Litium.Utilities.dll</HintPath>
+    <Reference Include="Litium.Framework.Search, Version=5.1.0.0, Culture=neutral, PublicKeyToken=8232cca59cf208c4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Framework.Search.5.1.0\lib\net40\Litium.Framework.Search.dll</HintPath>
+    </Reference>
+    <Reference Include="Litium.Framework.Search.Indexing, Version=5.1.0.0, Culture=neutral, PublicKeyToken=b23e0df65af16ff6, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Framework.Search.Indexing.5.1.0\lib\net40\Litium.Framework.Search.Indexing.dll</HintPath>
+    </Reference>
+    <Reference Include="Litium.Framework.Search.Indexing.Lucene, Version=5.1.0.0, Culture=neutral, PublicKeyToken=1d3412bd6f4c8328, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Framework.Search.Indexing.Lucene.5.1.0\lib\net40\Litium.Framework.Search.Indexing.Lucene.dll</HintPath>
+    </Reference>
+    <Reference Include="Litium.Framework.Search.Lucene, Version=5.1.0.0, Culture=neutral, PublicKeyToken=680e140f5b6dd0c7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Framework.Search.Lucene.5.1.0\lib\net40\Litium.Framework.Search.Lucene.dll</HintPath>
+    </Reference>
+    <Reference Include="Litium.Infrastructure.InversionOfControl, Version=7.1.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Infrastructure.InversionOfControl.7.1.0\lib\net472\Litium.Infrastructure.InversionOfControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Litium.Infrastructure.Logging.NLog, Version=7.1.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Infrastructure.Logging.NLog.7.1.0\lib\net472\Litium.Infrastructure.Logging.NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Litium.Infrastructure.Logging.NLog.Extensions, Version=7.1.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Infrastructure.Logging.NLog.Extensions.7.1.0\lib\net472\Litium.Infrastructure.Logging.NLog.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Litium.Infrastructure.Search.Lucene, Version=7.1.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Infrastructure.Search.Lucene.7.1.0\lib\net472\Litium.Infrastructure.Search.Lucene.dll</HintPath>
+    </Reference>
+    <Reference Include="Litium.Owin, Version=7.1.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Owin.7.1.0\lib\net472\Litium.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Litium.Studio, Version=7.1.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Studio.7.1.0\lib\net472\Litium.Studio.dll</HintPath>
+    </Reference>
+    <Reference Include="Litium.Studio.Builders, Version=7.1.0.0, Culture=neutral, PublicKeyToken=e47737e618208e4b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Studio.Builders.7.1.0\lib\net472\Litium.Studio.Builders.dll</HintPath>
+    </Reference>
+    <Reference Include="Litium.Studio.Packages, Version=7.1.0.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Studio.Packages.7.1.0\lib\net472\Litium.Studio.Packages.dll</HintPath>
+    </Reference>
+    <Reference Include="Litium.Utilities, Version=7.1.0.0, Culture=neutral, PublicKeyToken=640ada3058909375, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Utilities.7.1.0\lib\net472\Litium.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="MetadataExtractor.StrongName, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b66b5ccaf776c301, processorArchitecture=MSIL">
       <HintPath>..\packages\MetadataExtractor.StrongName.2.0.0\lib\net45\MetadataExtractor.StrongName.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Cryptography.Internal, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Cryptography.Internal.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Cryptography.Internal.dll</HintPath>
@@ -91,17 +139,17 @@
     <Reference Include="Microsoft.DotNet.PlatformAbstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.DotNet.PlatformAbstractions.2.1.0\lib\net45\Microsoft.DotNet.PlatformAbstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.EntityFrameworkCore, Version=2.2.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.EntityFrameworkCore.2.2.4\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+    <Reference Include="Microsoft.EntityFrameworkCore, Version=2.2.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.2.2.1\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.EntityFrameworkCore.Abstractions, Version=2.2.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Abstractions.2.2.4\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.EntityFrameworkCore.Abstractions, Version=2.2.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Abstractions.2.2.1\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.EntityFrameworkCore.Relational, Version=2.2.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Relational.2.2.4\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Relational.dll</HintPath>
+    <Reference Include="Microsoft.EntityFrameworkCore.Relational, Version=2.2.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Relational.2.2.1\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Relational.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.EntityFrameworkCore.SqlServer, Version=2.2.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.EntityFrameworkCore.SqlServer.2.2.4\lib\netstandard2.0\Microsoft.EntityFrameworkCore.SqlServer.dll</HintPath>
+    <Reference Include="Microsoft.EntityFrameworkCore.SqlServer, Version=2.2.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.SqlServer.2.2.1\lib\netstandard2.0\Microsoft.EntityFrameworkCore.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
@@ -130,6 +178,9 @@
     <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Composite, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Composite.2.2.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Composite.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.FileProviders.Physical, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.FileProviders.Physical.2.2.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
     </Reference>
@@ -154,11 +205,32 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.0\lib\net451\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.4.0.0\lib\net451\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.0\lib\net451\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="NetSpell.SpellChecker, Version=2.1.8.20545, Culture=neutral, PublicKeyToken=318b389f0db66e46, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Studio.ThirdParty.NetSpell.SpellChecker.1.0.0\lib\net20\NetSpell.SpellChecker.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp, Version=1.32.2608.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Studio.ThirdParty.PdfSharp.1.0.0\lib\net20\PdfSharp.dll</HintPath>
     </Reference>
     <Reference Include="Remotion.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <HintPath>..\packages\Remotion.Linq.2.2.0\lib\net45\Remotion.Linq.dll</HintPath>
@@ -189,6 +261,7 @@
     <Reference Include="System.Interactive.Async, Version=3.2.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Interactive.Async.3.2.0\lib\net46\System.Interactive.Async.dll</HintPath>
     </Reference>
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.2\lib\netstandard2.0\System.Memory.dll</HintPath>
     </Reference>
@@ -214,9 +287,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Primitives, Version=4.5.0.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ServiceModel.Primitives.4.5.3\lib\net461\System.ServiceModel.Primitives.dll</HintPath>
-    </Reference>
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Threading.ThreadPool, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.ThreadPool.4.3.0\lib\net46\System.Threading.ThreadPool.dll</HintPath>
@@ -249,8 +319,8 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XmpCore.StrongName, Version=5.1.3.1, Culture=neutral, PublicKeyToken=961f4f366277b80e, processorArchitecture=MSIL">
-      <HintPath>..\packages\XmpCore.StrongName.5.1.3.1\lib\net35\XmpCore.StrongName.dll</HintPath>
+    <Reference Include="XmpCore.StrongName, Version=5.1.3.0, Culture=neutral, PublicKeyToken=961f4f366277b80e, processorArchitecture=MSIL">
+      <HintPath>..\packages\XmpCore.StrongName.5.1.3\lib\net35\XmpCore.StrongName.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
