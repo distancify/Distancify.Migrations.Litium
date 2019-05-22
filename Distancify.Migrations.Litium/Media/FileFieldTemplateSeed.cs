@@ -35,9 +35,11 @@ namespace Distancify.Migrations.Litium.Media
             return new FileFieldTemplateSeed(fieldTemplate);
         }
 
-        public void WithTemplateType(FileTemplateType type)
+        public FileFieldTemplateSeed WithTemplateType(FileTemplateType type)
         {
             fieldTemplate.TemplateType = type;
+
+            return this;
         }
     }
 }
