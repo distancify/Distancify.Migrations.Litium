@@ -328,6 +328,11 @@
     <Compile Include="CountrySeed.cs" />
     <Compile Include="Cultures.cs" />
     <Compile Include="CurrencySeed.cs" />
+    <Compile Include="Customers\PersonSeed.cs" />
+    <Compile Include="Customers\StaticGroupSeed.cs" />
+    <Compile Include="Customers\OrganizationFieldTemplateSeed.cs" />
+    <Compile Include="Customers\PersonFieldTemplateSeed.cs" />
+    <Compile Include="Customers\GroupFieldTemplateSeed.cs" />
     <Compile Include="DomainNameSeed.cs" />
     <Compile Include="FieldDefinitionSeed.cs" />
     <Compile Include="ISeed.cs" />
