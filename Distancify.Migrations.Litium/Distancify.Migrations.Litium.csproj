@@ -332,8 +332,10 @@
     <Compile Include="FieldDefinitionSeed.cs" />
     <Compile Include="ISeed.cs" />
     <Compile Include="LanguageSeed.cs" />
-    <Compile Include="FieldTemplateSeed.cs" />
+    <Compile Include="BaseSeeds\FieldTemplateSeed.cs" />
     <Compile Include="MarketSeed.cs" />
+    <Compile Include="Media\FolderFieldTemplateSeed.cs" />
+    <Compile Include="Media\FileFieldTemplateSeed.cs" />
     <Compile Include="Setup\MigrationsSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

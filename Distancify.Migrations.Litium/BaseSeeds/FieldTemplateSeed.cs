@@ -7,13 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Distancify.Migrations.Litium
+namespace Distancify.Migrations.Litium.BaseSeeds
 {
-    public class FieldTemplateSeed : ISeed
+    public abstract class FieldTemplateSeed : ISeed
     {
         private readonly FieldTemplate FieldTemplate;
 
-        private FieldTemplateSeed(FieldTemplate fieldTemplate)
+        protected FieldTemplateSeed(FieldTemplate fieldTemplate)
         {
             this.FieldTemplate = fieldTemplate;
         }
@@ -33,38 +33,22 @@ namespace Distancify.Migrations.Litium
             }
         }
 
-        public static FieldTemplateSeed Ensure<T, TArea>(string id)
-            where T : FieldTemplate<TArea>
-            where TArea : IArea
+        public FieldTemplateSeed WithName(string culture, string name)
         {
-            var fieldTemplate = IoC.Resolve<FieldTemplateService>().Get<T>(id)?.MakeWritableClone();
-
-            if (fieldTemplate is null)
+            if (!FieldTemplate.Localizations.Any(l => l.Key.Equals(culture)) ||
+                !FieldTemplate.Localizations[culture].Name.Equals(name))
             {
-                fieldTemplate = (T)Activator.CreateInstance(typeof(T), id);
-                fieldTemplate.SystemId = Guid.Empty;
-
-                switch (fieldTemplate)
-                {
-                    case ChannelFieldTemplate _: (fieldTemplate as ChannelFieldTemplate).FieldGroups = new List<FieldTemplateFieldGroup>(); break;
-                    case MarketFieldTemplate _: (fieldTemplate as MarketFieldTemplate).FieldGroups = new List<FieldTemplateFieldGroup>(); break;
-                    case WebsiteFieldTemplate _: (fieldTemplate as WebsiteFieldTemplate).FieldGroups = new List<FieldTemplateFieldGroup>(); break;
-                    case PageFieldTemplate _: (fieldTemplate as PageFieldTemplate).FieldGroups = new List<FieldTemplateFieldGroup>(); break;
-                }
+                FieldTemplate.Localizations[culture].Name = name;
             }
 
-            return new FieldTemplateSeed(fieldTemplate);
+            return this;
         }
 
         public FieldTemplateSeed WithNames(Dictionary<string, string> localizedNamesByCulture)
         {
             foreach (var item in localizedNamesByCulture)
             {
-                if (!FieldTemplate.Localizations.Any(l => l.Key.Equals(item.Key)) ||
-                    !FieldTemplate.Localizations[item.Key].Name.Equals(item.Value))
-                {
-                    FieldTemplate.Localizations[item.Key].Name = item.Value;
-                }
+                WithName(item.Key, item.Value);
             }
 
             return this;
