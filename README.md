@@ -50,6 +50,11 @@ public class MigrationsSetup : IStartupTask
         using (Solution.Instance.SystemToken.Use())
         {
             migrationService.Apply<ProductionMigration>();
+
+            if (bool.TryParse(ConfigurationManager.AppSettings["RunDevMigrationAtStartup"], out bool result) && result)
+            {
+                migrationService.Apply<DevelopmentMigration>();
+            }
         }
     }
 }
