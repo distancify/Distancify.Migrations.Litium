@@ -104,5 +104,12 @@ namespace Distancify.Migrations.Litium.Customers
 
             return this;
         }
+
+        public PersonSeed WithLogin(string username, string password)
+        {
+            person.LoginCredential.Username = username;
+            person.LoginCredential.NewPassword = password;
+            return this;
+        }
     }
 }
