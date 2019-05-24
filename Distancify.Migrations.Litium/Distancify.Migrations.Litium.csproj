@@ -325,6 +325,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChannelSeed.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="CountrySeed.cs" />
     <Compile Include="Cultures.cs" />
     <Compile Include="CurrencySeed.cs" />
@@ -338,9 +339,11 @@
     <Compile Include="ISeed.cs" />
     <Compile Include="LanguageSeed.cs" />
     <Compile Include="BaseSeeds\FieldTemplateSeed.cs" />
+    <Compile Include="LitiumMigration.cs" />
     <Compile Include="MarketSeed.cs" />
     <Compile Include="Media\FolderFieldTemplateSeed.cs" />
     <Compile Include="Media\FileFieldTemplateSeed.cs" />
+    <Compile Include="Migrations\BootstrapCustomers.cs" />
     <Compile Include="Setup\MigrationsSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

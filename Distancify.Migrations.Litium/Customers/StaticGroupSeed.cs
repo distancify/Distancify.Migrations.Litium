@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Litium.Security;
 
 namespace Distancify.Migrations.Litium.Customers
 {
@@ -48,6 +49,39 @@ namespace Distancify.Migrations.Litium.Customers
             {
                 service.Update(group);
             }
+        }
+
+        public StaticGroupSeed WithProductsContentAccess()
+        {
+            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Products.Content));
+            return this;
+        }
+
+        public StaticGroupSeed WithProductsSettingsAccess()
+        {
+            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Products.Settings));
+            return this;
+        }
+
+        public StaticGroupSeed WithProductsUIAccess()
+        {
+            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Products.UI));
+            return this;
+        }
+        public StaticGroupSeed WithWebsitesContentAccess()
+        {
+            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Websites.Content));
+            return this;
+        }
+        public StaticGroupSeed WithWebsitesSettingsAccess()
+        {
+            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Websites.Settings));
+            return this;
+        }
+        public StaticGroupSeed WithWebsitesUIAccess()
+        {
+            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Websites.UI));
+            return this;
         }
     }
 }

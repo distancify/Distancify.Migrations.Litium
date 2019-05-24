@@ -25,6 +25,12 @@ ChannelSeed.Ensure("MyChannel", "DefaultChannelFieldTemplate")
 
 _Note_ the last method call `Commit()`. This method creates/updates the entity. Nothing will happen if you forget this call.
 
+### Litium Bootstrapping
+
+If you base your project on a completely empty Litium database, there are some basic bootstrapping that
+needs to be made, such as creating the special _System_ user. By inheriting from `LitiumMigration` instead
+of `Distancify.Migrations.Migration`, this will be automatically taken care of for you.
+
 ### Apply migrations at Litium startup
 
 If you have a set of migrations that you want to run on all environments, you can make sure these are applied everywhere by creating a startup task:

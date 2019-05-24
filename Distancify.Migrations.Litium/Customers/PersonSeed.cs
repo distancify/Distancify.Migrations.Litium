@@ -29,7 +29,7 @@ namespace Distancify.Migrations.Litium.Customers
             {
                 person = new Person(templateSystemId);
                 person.Id = "_system";
-                person.SystemId = Guid.Parse("00000000-0000-0000-0000-000000000001");
+                person.SystemId = Guid.Empty;
             }
 
             return new PersonSeed(person);
@@ -91,6 +91,18 @@ namespace Distancify.Migrations.Litium.Customers
             {
                 service.Update(person);
             }
+        }
+
+        public PersonSeed WithGroupLink(string groupId)
+        {
+            var group = IoC.Resolve<GroupService>().Get<Group>(groupId);
+
+            if (group != null && !person.GroupLinks.Any(r => r.GroupSystemId == group.SystemId))
+            {
+                person.GroupLinks.Add(new PersonToGroupLink(group.SystemId));
+            }
+
+            return this;
         }
     }
 }
