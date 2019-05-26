@@ -54,7 +54,7 @@ namespace Distancify.Migrations.Litium.Websites
                     }
                     else
                     {
-                        batch.Create(entity);
+                        batch.Create(ur);
                     }
                 }
                 batch.Commit();
