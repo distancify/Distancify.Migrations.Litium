@@ -334,6 +334,7 @@
     <Compile Include="Customers\OrganizationFieldTemplateSeed.cs" />
     <Compile Include="Customers\PersonFieldTemplateSeed.cs" />
     <Compile Include="Customers\GroupFieldTemplateSeed.cs" />
+    <Compile Include="Data\ConnectionProvider.cs" />
     <Compile Include="DomainNameSeed.cs" />
     <Compile Include="FieldDefinitionSeed.cs" />
     <Compile Include="ISeed.cs" />
@@ -343,14 +344,16 @@
     <Compile Include="MarketSeed.cs" />
     <Compile Include="Media\FolderFieldTemplateSeed.cs" />
     <Compile Include="Media\FileFieldTemplateSeed.cs" />
-    <Compile Include="Migrations\BootstrapCustomers.cs" />
+    <Compile Include="Migrations\Bootstrap.cs" />
     <Compile Include="Setup\MigrationsSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Websites\UrlRedirectSeed.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Distancify.Migrations.Litium.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
