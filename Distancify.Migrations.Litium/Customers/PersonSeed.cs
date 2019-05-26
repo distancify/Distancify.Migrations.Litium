@@ -33,6 +33,7 @@ namespace Distancify.Migrations.Litium.Customers
             }
 
             person.Fields[SystemFieldDefinitionConstants.FirstName] = "System";
+            person.LoginCredential.Username = "_system";
 
             return new PersonSeed(person);
         }
@@ -50,6 +51,7 @@ namespace Distancify.Migrations.Litium.Customers
             }
 
             person.Fields[SystemFieldDefinitionConstants.FirstName] = "Everyone";
+            person.LoginCredential.Username = "_everyone";
 
             return new PersonSeed(person);
         }
