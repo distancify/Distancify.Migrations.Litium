@@ -32,6 +32,8 @@ namespace Distancify.Migrations.Litium.Customers
                 person.SystemId = Guid.Empty;
             }
 
+            person.Fields[SystemFieldDefinitionConstants.FirstName] = "System";
+
             return new PersonSeed(person);
         }
 
@@ -46,6 +48,8 @@ namespace Distancify.Migrations.Litium.Customers
                 person.Id = "_everyone";
                 person.SystemId = Guid.Empty;
             }
+
+            person.Fields[SystemFieldDefinitionConstants.FirstName] = "Everyone";
 
             return new PersonSeed(person);
         }
@@ -91,6 +95,18 @@ namespace Distancify.Migrations.Litium.Customers
             {
                 service.Update(person);
             }
+        }
+
+        public PersonSeed WithFirstName(string firstName)
+        {
+            person.Fields[SystemFieldDefinitionConstants.FirstName] = firstName;
+            return this;
+        }
+
+        public PersonSeed WithLastName(string lastName)
+        {
+            person.Fields[SystemFieldDefinitionConstants.LastName] = lastName;
+            return this;
         }
 
         public PersonSeed WithGroupLink(string groupId)
