@@ -1,4 +1,5 @@
 ﻿using Distancify.Migrations.Litium.Data;
+using Litium.Media;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -33,6 +34,12 @@ namespace Distancify.Migrations.Litium.Migrations
                 .Commit();
             Customers.PersonSeed.EnsureEveryone(Constants.DefaultSystemUserTemplate)
                 .WithGroupLink(Constants.Visitors)
+                .Commit();
+
+            Media.FolderFieldTemplateSeed.Ensure("DefaultFolderTemplate")
+                .Commit();
+            Media.FileFieldTemplateSeed.Ensure("DefaultFileTemplate")
+                .WithTemplateType(FileTemplateType.Other)
                 .Commit();
         }
 
