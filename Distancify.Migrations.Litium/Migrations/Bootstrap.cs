@@ -65,12 +65,11 @@ namespace Distancify.Migrations.Litium.Migrations
         {
             if (!modules.Contains(moduleName))
             {
-                var command = new SqlCommand("INSERT INTO [dbo].[Foundation_Module] ([ModuleID],[ModuleName],[AssemblyName],[ClassName],[LicenceInfo],[StartPageUrl],[SettingsPageUrl],[ErrorPageUrl],[IconUrlSmall],[IconUrlMedium],[IconUrlLarge]) VALUES (@id, @moduleName, @assemblyName, @className, @licenseInfo, @startPageUrl, @settingsPageUrl, @errorPageUrl, @iconUrlSmall, @iconUrlMedium, @iconUrlLarge)", connection);
+                var command = new SqlCommand("INSERT INTO [dbo].[Foundation_Module] ([ModuleID],[ModuleName],[AssemblyName],[ClassName],[StartPageUrl],[SettingsPageUrl],[ErrorPageUrl],[IconUrlSmall],[IconUrlMedium],[IconUrlLarge]) VALUES (@id, @moduleName, @assemblyName, @className, @startPageUrl, @settingsPageUrl, @errorPageUrl, @iconUrlSmall, @iconUrlMedium, @iconUrlLarge)", connection);
                 command.Parameters.AddWithValue("@id", id);
                 command.Parameters.AddWithValue("@moduleName", moduleName);
                 command.Parameters.AddWithValue("@assemblyName", assemblyName);
                 command.Parameters.AddWithValue("@className", className);
-                command.Parameters.AddWithValue("@licenseInfo", licenseInfo);
                 command.Parameters.AddWithValue("@startPageUrl", startPageUrl);
                 command.Parameters.AddWithValue("@settingsPageUrl", settingsPageUrl);
                 command.Parameters.AddWithValue("@errorPageUrl", errorPageUrl);
