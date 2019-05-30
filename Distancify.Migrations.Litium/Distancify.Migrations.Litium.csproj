@@ -337,6 +337,7 @@
     <Compile Include="Data\ConnectionProvider.cs" />
     <Compile Include="DomainNameSeed.cs" />
     <Compile Include="FieldDefinitionSeed.cs" />
+    <Compile Include="Globalization\DomainNameSeed.cs" />
     <Compile Include="ISeed.cs" />
     <Compile Include="LanguageSeed.cs" />
     <Compile Include="BaseSeeds\FieldTemplateSeed.cs" />
