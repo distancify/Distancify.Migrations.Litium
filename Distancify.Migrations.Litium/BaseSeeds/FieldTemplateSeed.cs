@@ -11,34 +11,34 @@ namespace Distancify.Migrations.Litium.BaseSeeds
 {
     public abstract class FieldTemplateSeed : ISeed
     {
-        private readonly FieldTemplate FieldTemplate;
+        private readonly FieldTemplate fieldTemplate;
 
         protected FieldTemplateSeed(FieldTemplate fieldTemplate)
         {
-            this.FieldTemplate = fieldTemplate;
+            this.fieldTemplate = fieldTemplate;
         }
 
         public void Commit()
         {
             var fieldTemplateService = IoC.Resolve<FieldTemplateService>();
 
-            if (FieldTemplate.SystemId == Guid.Empty)
+            if (fieldTemplate.SystemId == Guid.Empty)
             {
-                FieldTemplate.SystemId = Guid.NewGuid();
-                fieldTemplateService.Create(FieldTemplate);
+                fieldTemplate.SystemId = Guid.NewGuid();
+                fieldTemplateService.Create(fieldTemplate);
             }
             else
             {
-                fieldTemplateService.Update(FieldTemplate);
+                fieldTemplateService.Update(fieldTemplate);
             }
         }
 
         public FieldTemplateSeed WithName(string culture, string name)
         {
-            if (!FieldTemplate.Localizations.Any(l => l.Key.Equals(culture)) ||
-                !FieldTemplate.Localizations[culture].Name.Equals(name))
+            if (!fieldTemplate.Localizations.Any(l => l.Key.Equals(culture)) ||
+                !fieldTemplate.Localizations[culture].Name.Equals(name))
             {
-                FieldTemplate.Localizations[culture].Name = name;
+                fieldTemplate.Localizations[culture].Name = name;
             }
 
             return this;
@@ -58,7 +58,7 @@ namespace Distancify.Migrations.Litium.BaseSeeds
         {
             ICollection<FieldTemplateFieldGroup> currentFieldGroups = null;
 
-            switch (FieldTemplate)
+            switch (fieldTemplate)
             {
                 case ChannelFieldTemplate channelFieldTemplate: currentFieldGroups = channelFieldTemplate.FieldGroups; break;
                 case MarketFieldTemplate marketFieldTemplate: currentFieldGroups = marketFieldTemplate.FieldGroups; break;

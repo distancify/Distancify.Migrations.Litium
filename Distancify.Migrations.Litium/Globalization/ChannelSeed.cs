@@ -25,7 +25,9 @@ namespace Distancify.Migrations.Litium.Globalization
             if (channelClone is null)
             {
                 channelClone = new Channel(templateSystemId);
+                channelClone.Id = channelName;
                 channelClone.SystemId = Guid.Empty;
+                channelClone.Localizations["en-US"].Name = channelName;
             }
 
             return new ChannelSeed(channelClone);
@@ -43,6 +45,26 @@ namespace Distancify.Migrations.Litium.Globalization
             }
 
             service.Update(channel);
+        }
+
+        public ChannelSeed WithDomain(string name)
+        {
+            var domainName = IoC.Resolve<DomainNameService>().Get(name);
+            if (domainName == null)
+            {
+                throw new NullReferenceException($"Domain {name} not found in DomainNameService");
+            }
+
+            var domainNameLink = new ChannelToDomainNameLink(domainName.SystemId);
+
+            //TODO: Fix this
+            //if (channel.DomainNameLinks.Contains(domainNameLink))
+            //{
+            //    return this;
+            //}
+
+            channel.DomainNameLinks.Add(domainNameLink);
+            return this;
         }
 
         // countries

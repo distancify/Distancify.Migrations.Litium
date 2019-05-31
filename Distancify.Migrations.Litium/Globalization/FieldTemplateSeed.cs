@@ -16,7 +16,7 @@ namespace Distancify.Migrations.Litium.Globalization
 
         public static FieldTemplateSeed Ensure(string channelFieldTemplateId)
         {
-            var channelFieldTemplate = IoC.Resolve<FieldTemplateService>().Get<ChannelFieldTemplate>(channelFieldTemplateId).MakeWritableClone();
+            var channelFieldTemplate = IoC.Resolve<FieldTemplateService>().Get<ChannelFieldTemplate>(channelFieldTemplateId)?.MakeWritableClone();
             if (channelFieldTemplate is null)
             {
                 channelFieldTemplate = new ChannelFieldTemplate(channelFieldTemplateId);
