@@ -337,7 +337,10 @@
     <Compile Include="Data\ConnectionProvider.cs" />
     <Compile Include="DomainNameSeed.cs" />
     <Compile Include="FieldDefinitionSeed.cs" />
+    <Compile Include="Globalization\ChannelSeed.cs" />
     <Compile Include="Globalization\DomainNameSeed.cs" />
+    <Compile Include="Globalization\FieldTemplateSeed.cs" />
+    <Compile Include="Globalization\LanguageSeed.cs" />
     <Compile Include="ISeed.cs" />
     <Compile Include="LanguageSeed.cs" />
     <Compile Include="BaseSeeds\FieldTemplateSeed.cs" />
@@ -353,8 +356,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Distancify.Migrations.Litium.nuspec" />
+    <None Include="NuGetReferenceHintPathRewrite.targets" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="NuGetReferenceHintPathRewrite.targets" />
 </Project>
