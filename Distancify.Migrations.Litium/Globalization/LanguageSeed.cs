@@ -10,7 +10,10 @@ namespace Distancify.Migrations.Litium.Globalization
 {
     public class LanguageSeed : ISeed
     {
-        private Language language;
+        public const string Sweden = "SE";
+        public const string UnitedKingdom = "GB";
+
+        private readonly Language language;
 
         protected LanguageSeed(Language language)
         {
@@ -19,12 +22,11 @@ namespace Distancify.Migrations.Litium.Globalization
 
         public static LanguageSeed Ensure(string culture)
         {
-            var languageClone = IoC.Resolve<LanguageService>().Get(culture)?.MakeWritableClone();
-            if (languageClone is null)
-            {
-                languageClone = new Language(culture);
-                languageClone.SystemId = Guid.Empty;
-            }
+            var languageClone = IoC.Resolve<LanguageService>().Get(culture)?.MakeWritableClone() ??
+                new Language(culture)
+                {
+                    SystemId = Guid.Empty
+                };
 
             return new LanguageSeed(languageClone);
         }
@@ -43,7 +45,7 @@ namespace Distancify.Migrations.Litium.Globalization
             service.Update(language);
         }
 
-        public LanguageSeed WithDefaultLanguage(bool isDefaultLanguage)
+        public LanguageSeed IsDefaultLanguage(bool isDefaultLanguage)
         {
             language.IsDefaultLanguage = isDefaultLanguage;
             return this;
