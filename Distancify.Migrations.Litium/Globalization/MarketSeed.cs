@@ -3,31 +3,31 @@ using Litium.FieldFramework;
 using Litium.Globalization;
 using Litium.Products;
 using System;
+using System.Linq;
 
-namespace Distancify.Migrations.Litium
+namespace Distancify.Migrations.Litium.Globalization
 {
     public class MarketSeed : ISeed
     {
-        private readonly Market Market;
+        private readonly Market market;
 
         private MarketSeed(Market market)
         {
-            this.Market = market;
+            this.market = market;
         }
 
         public void Commit()
         {
             var marketService = IoC.Resolve<MarketService>();
 
-            if (Market.SystemId == Guid.Empty)
+            if (market.SystemId == Guid.Empty)
             {
-                Market.SystemId = Guid.NewGuid();
-                marketService.Create(Market);
+                market.SystemId = Guid.NewGuid();
+                marketService.Create(market);
+                return;
             }
-            else
-            {
-                marketService.Update(Market);
-            }
+
+            marketService.Update(market);
         }
 
         public static MarketSeed Ensure(string id, string fieldTemplateId)
@@ -45,19 +45,30 @@ namespace Distancify.Migrations.Litium
 
         public MarketSeed WithField(string id, object value)
         {
-            Market.Fields.AddOrUpdateValue(id, value);
+            market.Fields.AddOrUpdateValue(id, value);
             return this;
         }
 
         public MarketSeed WithField(string id, string culture, object value)
         {
-            Market.Fields.AddOrUpdateValue(id, culture, value);
+            market.Fields.AddOrUpdateValue(id, culture, value);
             return this;
         }
 
         public MarketSeed WithAssortment(string id)
         {
-            Market.AssortmentSystemId = IoC.Resolve<AssortmentService>().Get(id).SystemId;
+            market.AssortmentSystemId = IoC.Resolve<AssortmentService>().Get(id).SystemId;
+            return this;
+        }
+
+        public MarketSeed WithName(string culture, string name)
+        {
+            if (!market.Localizations.Any(l => l.Key.Equals(culture)) ||
+                !market.Localizations[culture].Name.Equals(name))
+            {
+                market.Localizations[culture].Name = name;
+            }
+
             return this;
         }
     }

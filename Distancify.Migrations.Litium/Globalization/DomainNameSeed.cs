@@ -15,12 +15,11 @@ namespace Distancify.Migrations.Litium.Globalization
 
         public static DomainNameSeed Ensure(string name)
         {
-            var domainName = IoC.Resolve<DomainNameService>().Get(name)?.MakeWritableClone();
-            if (domainName is null)
-            {
-                domainName = new DomainName(name);
-                domainName.SystemId = Guid.Empty;
-            }
+            var domainName = IoC.Resolve<DomainNameService>().Get(name)?.MakeWritableClone() ??
+                new DomainName(name)
+                {
+                    SystemId = Guid.Empty
+                };
 
             return new DomainNameSeed(domainName);
         }
@@ -45,7 +44,7 @@ namespace Distancify.Migrations.Litium.Globalization
             return this;
         }
 
-        public DomainNameSeed WithHttpStrictTransportSecurityMaxAge(long httpStrictTransportSecurityMaxAge) {
+        public DomainNameSeed WithHttpStrictTransportSecurityMaxAge(long? httpStrictTransportSecurityMaxAge) {
             domainName.HttpStrictTransportSecurityMaxAge = httpStrictTransportSecurityMaxAge;
             return this;
         }

@@ -2,33 +2,32 @@
 using Litium.Globalization;
 using System;
 
-namespace Distancify.Migrations.Litium
+namespace Distancify.Migrations.Litium.Globalization
 {
     public class CurrencySeed : ISeed
     {
         public const string SwedishKrona = "SEK";
         public const string PoundSterling = "GBP";
 
-        private readonly Currency Currency;
+        private readonly Currency currency;
 
         private CurrencySeed(Currency currency)
         {
-            this.Currency = currency;
+            this.currency = currency;
         }
 
         public void Commit()
         {
             var currencyService = IoC.Resolve<CurrencyService>();
 
-            if (Currency.SystemId == Guid.Empty)
+            if (currency.SystemId == Guid.Empty)
             {
-                Currency.SystemId = Guid.NewGuid();
-                currencyService.Create(Currency);
+                currency.SystemId = Guid.NewGuid();
+                currencyService.Create(currency);
+                return;
             }
-            else
-            {
-                currencyService.Update(Currency);
-            }
+
+            currencyService.Update(currency);
         }
 
         public static CurrencySeed Ensure(string id)
@@ -44,8 +43,15 @@ namespace Distancify.Migrations.Litium
 
         public CurrencySeed IsBaseCurrency(bool on)
         {
-            Currency.IsBaseCurrency = on;
+            currency.IsBaseCurrency = on;
             return this;
         }
+
+        //EchangeRate
+        //GroupSeperator
+        // Symbol
+        // SymbolPosition
+        //TextFormat
+
     }
 }

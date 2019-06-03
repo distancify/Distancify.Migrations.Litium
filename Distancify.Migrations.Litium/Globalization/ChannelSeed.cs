@@ -1,11 +1,12 @@
 ﻿using Litium;
 using Litium.FieldFramework;
+using Litium.Foundation;
+using Litium.Foundation.Modules.ECommerce;
 using Litium.Globalization;
+using Litium.Websites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Globalization
 {
@@ -47,38 +48,132 @@ namespace Distancify.Migrations.Litium.Globalization
             service.Update(channel);
         }
 
-        public ChannelSeed WithDomain(string name)
+        public ChannelSeed WithField(string id, object value)
         {
-            var domainName = IoC.Resolve<DomainNameService>().Get(name);
-            if (domainName == null)
-            {
-                throw new NullReferenceException($"Domain {name} not found in DomainNameService");
-            }
-
-            var domainNameLink = new ChannelToDomainNameLink(domainName.SystemId);
-
-            //TODO: Fix this
-            //if (channel.DomainNameLinks.Contains(domainNameLink))
-            //{
-            //    return this;
-            //}
-
-            channel.DomainNameLinks.Add(domainNameLink);
+            channel.Fields.AddOrUpdateValue(id, value);
             return this;
         }
 
-        // countries
+        public ChannelSeed WithField(string id, string culture, object value)
+        {
+            channel.Fields.AddOrUpdateValue(id, culture, value);
+            return this;
+        }
+
+        public ChannelSeed WithDomainNameLink(string domainName, bool redirect = false, string urlPrefix = null)
+        {
+            var domainNameSystemId = IoC.Resolve<DomainNameService>().Get(domainName).SystemId;
+            ChannelToDomainNameLink domainNameLink = channel.DomainNameLinks.FirstOrDefault(link => link.DomainNameSystemId.Equals(domainNameSystemId));
+
+            if (domainNameLink != null)
+            {
+                // Link exist, update the link
+                domainNameLink.Redirect = redirect;
+                domainNameLink.UrlPrefix = urlPrefix;
+                return this;
+            }
+
+            channel.DomainNameLinks.Add(new ChannelToDomainNameLink(domainNameSystemId)
+            {
+                Redirect = redirect,
+                UrlPrefix = urlPrefix
+            });
+            return this;
+        }
+
+        public ChannelSeed WithoutDomainNameLink(string domainName)
+        {
+            var systemId = IoC.Resolve<DomainNameService>().Get(domainName).SystemId;
+            var domainNameLink = channel.DomainNameLinks.FirstOrDefault(item => item.DomainNameSystemId.Equals(systemId));
+            channel.DomainNameLinks.Remove(domainNameLink);
+            return this;
+        }
+
+        public ChannelSeed WithMarket(string marketId)
+        {
+            channel.MarketSystemId = IoC.Resolve<MarketService>().Get(marketId).SystemId;
+            return this;
+        }
+
+        public ChannelSeed WithCountryLink(string id, List<string> deliveryMethodIds = null, List<string> paymentMethodIds = null)
+        {
+            var systemId = IoC.Resolve<CountryService>().Get(id).SystemId;
+            var deliveryMethodSystemIds = deliveryMethodIds is null ? new List<Guid>() : deliveryMethodIds.Select(deliveryMethodId => ModuleECommerce.Instance.DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken).ID).ToList();
+            var paymentMethods = ModuleECommerce.Instance.PaymentMethods.GetAll();
+            var paymentMethodSystemIds = paymentMethodIds is null ? new List<Guid>() : paymentMethodIds.Select(paymentMethodId => paymentMethods.FirstOrDefault(paymentMethod => paymentMethod.Name.Equals(paymentMethodId)).ID).ToList();
+
+            if (!channel.CountryLinks.Any(countryLink => countryLink.CountrySystemId.Equals(systemId)))
+            {
+                channel.CountryLinks.Add(new ChannelToCountryLink(systemId)
+                {
+                    DeliveryMethodSystemIds = deliveryMethodSystemIds,
+                    PaymentMethodSystemIds = paymentMethodSystemIds
+                });
+            }
+
+            return this;
+        }
+
+        public ChannelSeed WithoutCountryLink(string id)
+        {
+            var systemId = IoC.Resolve<CountryService>().Get(id).SystemId;
+            var countryLink = channel.CountryLinks.FirstOrDefault(item => item.CountrySystemId.Equals(systemId));
+            channel.CountryLinks.Remove(countryLink);
+
+            return this;
+        }
+
+        public ChannelSeed WithWebsiteId(string id)
+        {
+            channel.WebsiteSystemId = string.IsNullOrEmpty(id) ? null : (Guid?)IoC.Resolve<WebsiteService>().Get(id).SystemId;
+            return this;
+        }
+
+        public ChannelSeed WebsiteLanguageSystemId(string id)
+        {
+            channel.WebsiteLanguageSystemId = string.IsNullOrEmpty(id) ? null : (Guid?)IoC.Resolve<LanguageService>().Get(id).SystemId;
+            return this;
+        }
+
+        public ChannelSeed ProductLanguageSystemId(string id)
+        {
+            channel.ProductLanguageSystemId = string.IsNullOrEmpty(id) ? null : (Guid?)IoC.Resolve<LanguageService>().Get(id).SystemId;
+            return this;
+        }
+
+        public ChannelSeed GoogleAnalyticsAccountId(string id)
+        {
+            channel.GoogleAnalyticsAccountId = id;
+            return this;
+        }
+
+        public ChannelSeed GoogleTagManagerContainerId(string id)
+        {
+            channel.GoogleTagManagerContainerId = id;
+            return this;
+        }
+
+        public ChannelSeed ShowPricesWithVat(bool on)
+        {
+            channel.ShowPricesWithVat = on;
+            return this;
+        }
+        public ChannelSeed PriceAgents(bool on)
+        {
+            channel.PriceAgents = on;
+            return this;
+        }
+
         // Market
         // Language for pages and blocks
         // Language for products
         // Websites
-        // Domain
         // Domain, Url prefix
         // Setting
-            // Templates
-            // GTM
-            // AU
-            // VAT
-            // Price agents
+        //  Templates
+        //  GTM
+        //  AU
+        //  VAT
+        //  Price agents
     }
 }

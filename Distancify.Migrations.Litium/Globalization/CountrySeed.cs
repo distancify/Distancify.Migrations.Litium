@@ -2,32 +2,32 @@
 using Litium.Globalization;
 using System;
 
-namespace Distancify.Migrations.Litium
+namespace Distancify.Migrations.Litium.Globalization
 {
     public class CountrySeed : ISeed
     {
         public const string Sweden = "SE";
         public const string UnitedKingdom ="GB";
 
-        private readonly Country Country;
+        private readonly Country country;
 
         private CountrySeed(Country country)
         {
-            this.Country = country;
+            this.country = country;
         }
 
         public void Commit()
         {
             var countryService = IoC.Resolve<CountryService>();
 
-            if (Country.SystemId == Guid.Empty)
+            if (country.SystemId == Guid.Empty)
             {
-                Country.SystemId = Guid.NewGuid();
-                countryService.Create(Country);
+                country.SystemId = Guid.NewGuid();
+                countryService.Create(country);
             }
             else
             {
-                countryService.Update(Country);
+                countryService.Update(country);
             }
         }
 
@@ -46,8 +46,12 @@ namespace Distancify.Migrations.Litium
 
         public CountrySeed WithStandardVatRate(decimal standardVatRate)
         {
-            Country.StandardVatRate = standardVatRate;
+            country.StandardVatRate = standardVatRate;
             return this;
         }
+
+        //TODO: Taxclass links
+        //TODO: Inventories
+        //TODO: Price lists
     }
 }

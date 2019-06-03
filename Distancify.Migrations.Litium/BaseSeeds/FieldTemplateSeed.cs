@@ -22,15 +22,14 @@ namespace Distancify.Migrations.Litium.BaseSeeds
         {
             var fieldTemplateService = IoC.Resolve<FieldTemplateService>();
 
-            if (fieldTemplate.SystemId == Guid.Empty)
+            if (fieldTemplate.SystemId == null || fieldTemplate.SystemId == Guid.Empty)
             {
                 fieldTemplate.SystemId = Guid.NewGuid();
                 fieldTemplateService.Create(fieldTemplate);
+                return;
             }
-            else
-            {
-                fieldTemplateService.Update(fieldTemplate);
-            }
+
+            fieldTemplateService.Update(fieldTemplate);
         }
 
         public FieldTemplateSeed WithName(string culture, string name)
