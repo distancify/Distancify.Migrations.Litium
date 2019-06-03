@@ -98,17 +98,22 @@ namespace Distancify.Migrations.Litium.Globalization
         public ChannelSeed WithCountryLink(string id, List<string> deliveryMethodIds = null, List<string> paymentMethodIds = null)
         {
             var systemId = IoC.Resolve<CountryService>().Get(id).SystemId;
-            var deliveryMethodSystemIds = deliveryMethodIds is null ? new List<Guid>() : deliveryMethodIds.Select(deliveryMethodId => ModuleECommerce.Instance.DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken).ID).ToList();
-            var paymentMethods = ModuleECommerce.Instance.PaymentMethods.GetAll();
-            var paymentMethodSystemIds = paymentMethodIds is null ? new List<Guid>() : paymentMethodIds.Select(paymentMethodId => paymentMethods.FirstOrDefault(paymentMethod => paymentMethod.Name.Equals(paymentMethodId)).ID).ToList();
+            //var deliveryMethodSystemIds = deliveryMethodIds is null ? new List<Guid>() : deliveryMethodIds.Select(deliveryMethodId => ModuleECommerce.Instance.DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken).ID).ToList();
+            //var paymentMethods = ModuleECommerce.Instance.PaymentMethods.GetAll();
+            //var paymentMethodSystemIds = paymentMethodIds is null ? new List<Guid>() : paymentMethodIds.Select(paymentMethodId => paymentMethods.FirstOrDefault(paymentMethod => paymentMethod.Name.Equals(paymentMethodId)).ID).ToList();
+
+            //if (!channel.CountryLinks.Any(countryLink => countryLink.CountrySystemId.Equals(systemId)))
+            //{
+            //    channel.CountryLinks.Add(new ChannelToCountryLink(systemId)
+            //    {
+            //        DeliveryMethodSystemIds = deliveryMethodSystemIds,
+            //        PaymentMethodSystemIds = paymentMethodSystemIds
+            //    });
+            //}
 
             if (!channel.CountryLinks.Any(countryLink => countryLink.CountrySystemId.Equals(systemId)))
             {
-                channel.CountryLinks.Add(new ChannelToCountryLink(systemId)
-                {
-                    DeliveryMethodSystemIds = deliveryMethodSystemIds,
-                    PaymentMethodSystemIds = paymentMethodSystemIds
-                });
+                channel.CountryLinks.Add(new ChannelToCountryLink(systemId));
             }
 
             return this;
@@ -123,19 +128,19 @@ namespace Distancify.Migrations.Litium.Globalization
             return this;
         }
 
-        public ChannelSeed WithWebsiteId(string id)
+        public ChannelSeed WithWebsite(string id)
         {
             channel.WebsiteSystemId = string.IsNullOrEmpty(id) ? null : (Guid?)IoC.Resolve<WebsiteService>().Get(id).SystemId;
             return this;
         }
 
-        public ChannelSeed WebsiteLanguageSystemId(string id)
+        public ChannelSeed WebsiteLanguage(string id)
         {
             channel.WebsiteLanguageSystemId = string.IsNullOrEmpty(id) ? null : (Guid?)IoC.Resolve<LanguageService>().Get(id).SystemId;
             return this;
         }
 
-        public ChannelSeed ProductLanguageSystemId(string id)
+        public ChannelSeed ProductLanguage(string id)
         {
             channel.ProductLanguageSystemId = string.IsNullOrEmpty(id) ? null : (Guid?)IoC.Resolve<LanguageService>().Get(id).SystemId;
             return this;
