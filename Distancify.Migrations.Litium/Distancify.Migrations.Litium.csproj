@@ -325,9 +325,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Countries.cs" />
+    <Compile Include="Currencies.cs" />
+    <Compile Include="Products\AssortmentCategorySeed.cs" />
     <Compile Include="Products\BaseProductSeed.cs" />
+    <Compile Include="Products\VariantSeed.cs" />
     <Compile Include="Settings\Globalization\CountrySeed.cs" />
-    <Compile Include="Settings\Globalization\Cultures.cs" />
+    <Compile Include="Cultures.cs" />
     <Compile Include="Settings\Globalization\CurrencySeed.cs" />
     <Compile Include="Customers\PersonSeed.cs" />
     <Compile Include="Customers\StaticGroupSeed.cs" />

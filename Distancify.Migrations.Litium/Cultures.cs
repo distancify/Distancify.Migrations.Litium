@@ -1,4 +1,4 @@
-namespace Distancify.Migrations.Litium.Settings.Globalization
+namespace Distancify.Migrations.Litium
 {
     public static class Cultures
     {

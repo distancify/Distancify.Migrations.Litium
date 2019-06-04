@@ -6,8 +6,7 @@ namespace Distancify.Migrations.Litium.Settings.Globalization
 {
     public class CurrencySeed : ISeed
     {
-        public const string SwedishKrona = "SEK";
-        public const string PoundSterling = "GBP";
+
 
         private readonly Currency currency;
 

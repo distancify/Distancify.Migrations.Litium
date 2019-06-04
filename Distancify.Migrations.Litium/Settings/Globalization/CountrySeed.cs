@@ -6,8 +6,6 @@ namespace Distancify.Migrations.Litium.Settings.Globalization
 {
     public class CountrySeed : ISeed
     {
-        public const string Sweden = "SE";
-        public const string UnitedKingdom ="GB";
 
         private readonly Country country;
 

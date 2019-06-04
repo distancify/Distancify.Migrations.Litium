@@ -1,5 +1,6 @@
 ﻿using Litium;
 using Litium.FieldFramework;
+using Litium.Globalization;
 using Litium.Products;
 using System;
 using System.Collections.Generic;
@@ -46,29 +47,96 @@ namespace Distancify.Migrations.Litium.Products
             service.Update(baseProduct);
         }
 
+
+        // Active is obsolutlete by Litium
+
+        public BaseProductSeed WithTaxClassSystem(string taxClassId)
+        {
+            var taxClassSystemGuid = IoC.Resolve<TaxClassService>().Get(taxClassId).SystemId;
+            baseProduct.TaxClassSystemId = taxClassSystemGuid;
+            return this;
+        }
+
+        public BaseProductSeed WithName(string culture, string name)
+        {
+            if (!baseProduct.Localizations.Any(l => l.Key.Equals(culture)) ||
+                string.IsNullOrEmpty(baseProduct.Localizations[culture].Name) ||
+                !baseProduct.Localizations[culture].Name.Equals(name))
+            {
+                baseProduct.Localizations[culture].Name = name;
+            }
+
+            return this;
+        }
+
+        public BaseProductSeed WithDescription(string culture, string description)
+        {
+            if (!baseProduct.Localizations.Any(l => l.Key.Equals(culture)) ||
+                string.IsNullOrEmpty(baseProduct.Localizations[culture].Description) ||
+                !baseProduct.Localizations[culture].Description.Equals(description))
+            {
+                baseProduct.Localizations[culture].Description = description;
+            }
+
+            return this;
+        }
+
+        public BaseProductSeed WithSeoDescription(string culture, string seoDescription)
+        {
+            if (!baseProduct.Localizations.Any(l => l.Key.Equals(culture)) ||
+                string.IsNullOrEmpty(baseProduct.Localizations[culture].SeoDescription) ||
+                !baseProduct.Localizations[culture].SeoDescription.Equals(seoDescription))
+            {
+                baseProduct.Localizations[culture].SeoDescription = seoDescription;
+            }
+
+            return this;
+        }
+
+        public BaseProductSeed WithSeoTitle(string culture, string seoTitle)
+        {
+            if (!baseProduct.Localizations.Any(l => l.Key.Equals(culture)) ||
+                string.IsNullOrEmpty(baseProduct.Localizations[culture].SeoTitle) ||
+                !baseProduct.Localizations[culture].SeoTitle.Equals(seoTitle))
+            {
+                baseProduct.Localizations[culture].SeoTitle = seoTitle;
+            }
+
+            return this;
+        }
+
+        public BaseProductSeed WithUrl(string culture, string url)
+        {
+            if (!baseProduct.Localizations.Any(l => l.Key.Equals(culture)) ||
+                string.IsNullOrEmpty(baseProduct.Localizations[culture].Url) ||
+                !baseProduct.Localizations[culture].Url.Equals(url))
+            {
+                baseProduct.Localizations[culture].Url = url;
+            }
+
+            return this;
+        }
+
         /*
-         * Active
-         * TaxClassSystemId
-         * CategoryLinks
-         * Fields
-         * Localizations
-         * ProductListLinks
-         * RelationshipLinks
+         * TODO: CategoryLinks
+         * TODO: Fields
+         * TODO: ProductListLinks
+         * TODO: RelationshipLinks
          */
 
-            /*
-             With
-            - Image
-            - Variants
-            - Relations
-            - Bundle
-            - Plan
-            - Publish
-            - Price
-            - Inventory
-            - Workflow
-            - History
-            - Settings
-            */
-}
+        /*TODO:?
+         With
+        - Image
+        - Variants
+        - Relations
+        - Bundle
+        - Plan
+        - Publish
+        - Price (variant?)
+        - Inventory
+        - Workflow
+        - History
+        - Settings
+        */
+    }
 }
