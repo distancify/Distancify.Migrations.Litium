@@ -98,6 +98,8 @@ namespace Distancify.Migrations.Litium.Settings.Globalization
         public ChannelSeed WithCountryLink(string id, List<string> deliveryMethodIds = null, List<string> paymentMethodIds = null)
         {
             var systemId = IoC.Resolve<CountryService>().Get(id).SystemId;
+
+            /* SKJ: this is commented due to problems fetching the payment methods, I asume that is will be solved later on in the process
             //var deliveryMethodSystemIds = deliveryMethodIds is null ? new List<Guid>() : deliveryMethodIds.Select(deliveryMethodId => ModuleECommerce.Instance.DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken).ID).ToList();
             //var paymentMethods = ModuleECommerce.Instance.PaymentMethods.GetAll();
             //var paymentMethodSystemIds = paymentMethodIds is null ? new List<Guid>() : paymentMethodIds.Select(paymentMethodId => paymentMethods.FirstOrDefault(paymentMethod => paymentMethod.Name.Equals(paymentMethodId)).ID).ToList();
@@ -110,6 +112,7 @@ namespace Distancify.Migrations.Litium.Settings.Globalization
             //        PaymentMethodSystemIds = paymentMethodSystemIds
             //    });
             //}
+            */
 
             if (!channel.CountryLinks.Any(countryLink => countryLink.CountrySystemId.Equals(systemId)))
             {
@@ -169,12 +172,12 @@ namespace Distancify.Migrations.Litium.Settings.Globalization
             return this;
         }
 
-        // Market
-        // Language for pages and blocks
-        // Language for products
-        // Websites
-        // Domain, Url prefix
-        // Setting
+        //TODO:  Market
+        //TODO:  Language for pages and blocks
+        //TODO:  Language for products
+        //TODO:  Websites
+        //TODO:  Domain, Url prefix
+        // TODO: Setting
         //  Templates
         //  GTM
         //  AU

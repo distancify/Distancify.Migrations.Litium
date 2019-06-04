@@ -325,6 +325,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Products\BaseProductSeed.cs" />
     <Compile Include="Settings\Globalization\CountrySeed.cs" />
     <Compile Include="Settings\Globalization\Cultures.cs" />
     <Compile Include="Settings\Globalization\CurrencySeed.cs" />

@@ -47,11 +47,11 @@ namespace Distancify.Migrations.Litium.Settings.Globalization
             return this;
         }
 
-        //EchangeRate
-        //GroupSeperator
-        // Symbol
-        // SymbolPosition
-        //TextFormat
+        //TODO: EchangeRate
+        //TODO: GroupSeperator
+        //TODO:  Symbol
+        //TODO:  SymbolPosition
+        //TODO: TextFormat
 
     }
 }

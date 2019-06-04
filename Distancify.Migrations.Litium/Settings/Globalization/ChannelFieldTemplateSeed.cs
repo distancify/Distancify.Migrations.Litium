@@ -24,7 +24,7 @@ namespace Distancify.Migrations.Litium.Settings.Globalization
             return new ChannelFieldTemplateSeed(channelFieldTemplate);
         }
 
-        // group
-        // AreaType
+        // TODO: group
+        // TODO: AreaType
     }
 }
