@@ -1,4 +1,4 @@
-﻿using Litium;
+using Litium;
 using Litium.Globalization;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Distancify.Migrations.Litium.Globalization
+namespace Distancify.Migrations.Litium.Settings.Globalization
 {
     public class LanguageSeed : ISeed
     {

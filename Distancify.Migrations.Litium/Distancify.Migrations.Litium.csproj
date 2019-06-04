@@ -325,9 +325,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Globalization\CountrySeed.cs" />
-    <Compile Include="Globalization\Cultures.cs" />
-    <Compile Include="Globalization\CurrencySeed.cs" />
+    <Compile Include="Settings\Globalization\CountrySeed.cs" />
+    <Compile Include="Settings\Globalization\Cultures.cs" />
+    <Compile Include="Settings\Globalization\CurrencySeed.cs" />
     <Compile Include="Customers\PersonSeed.cs" />
     <Compile Include="Customers\StaticGroupSeed.cs" />
     <Compile Include="Customers\OrganizationFieldTemplateSeed.cs" />
@@ -335,28 +335,28 @@
     <Compile Include="Customers\GroupFieldTemplateSeed.cs" />
     <Compile Include="Data\ConnectionProvider.cs" />
     <Compile Include="FieldDefinitionSeed.cs" />
-    <Compile Include="Globalization\ChannelSeed.cs" />
-    <Compile Include="Globalization\DomainNameSeed.cs" />
-    <Compile Include="Globalization\ChannelFieldTemplateSeed.cs" />
-    <Compile Include="Globalization\LanguageSeed.cs" />
-    <Compile Include="Globalization\MarketFieldTemplateSeed.cs" />
-    <Compile Include="Globalization\TaxClassSeed.cs" />
+    <Compile Include="Settings\Globalization\ChannelSeed.cs" />
+    <Compile Include="Settings\Globalization\DomainNameSeed.cs" />
+    <Compile Include="Settings\Globalization\ChannelFieldTemplateSeed.cs" />
+    <Compile Include="Settings\Globalization\LanguageSeed.cs" />
+    <Compile Include="Settings\Globalization\MarketFieldTemplateSeed.cs" />
+    <Compile Include="Settings\Globalization\TaxClassSeed.cs" />
     <Compile Include="ISeed.cs" />
     <Compile Include="BaseSeeds\FieldTemplateSeed.cs" />
     <Compile Include="LitiumMigration.cs" />
-    <Compile Include="Globalization\MarketSeed.cs" />
+    <Compile Include="Settings\Globalization\MarketSeed.cs" />
     <Compile Include="Media\FolderFieldTemplateSeed.cs" />
     <Compile Include="Media\FileFieldTemplateSeed.cs" />
     <Compile Include="Migrations\Bootstrap.cs" />
-    <Compile Include="Products\AssortmentSeed.cs" />
-    <Compile Include="Products\ProductDisplayTemplateSeed.cs" />
-    <Compile Include="Products\ProductFieldTemplateSeed.cs" />
+    <Compile Include="Settings\Products\AssortmentSeed.cs" />
+    <Compile Include="Settings\Products\ProductDisplayTemplateSeed.cs" />
+    <Compile Include="Settings\Products\ProductFieldTemplateSeed.cs" />
     <Compile Include="Setup\MigrationsSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Websites\PageFieldTemplateSeed.cs" />
-    <Compile Include="Websites\UrlRedirectSeed.cs" />
-    <Compile Include="Websites\WebsiteSeed.cs" />
-    <Compile Include="Websites\WebsiteFieldTemplateSeed.cs" />
+    <Compile Include="Settings\Websites\PageFieldTemplateSeed.cs" />
+    <Compile Include="Settings\Websites\UrlRedirectSeed.cs" />
+    <Compile Include="Settings\Websites\WebsiteSeed.cs" />
+    <Compile Include="Settings\Websites\WebsiteFieldTemplateSeed.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

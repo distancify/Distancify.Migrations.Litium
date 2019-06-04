@@ -1,4 +1,4 @@
-﻿using Litium;
+using Litium;
 using Litium.FieldFramework;
 using Litium.Foundation;
 using Litium.Foundation.Modules.ECommerce;
@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Distancify.Migrations.Litium.Globalization
+namespace Distancify.Migrations.Litium.Settings.Globalization
 {
     public class ChannelSeed : ISeed
     {

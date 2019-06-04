@@ -1,9 +1,9 @@
-﻿using Litium;
+using Litium;
 using Litium.Globalization;
 using System;
 using System.Linq;
 
-namespace Distancify.Migrations.Litium.Globalization
+namespace Distancify.Migrations.Litium.Settings.Globalization
 {
     public class TaxClassSeed : ISeed
     {

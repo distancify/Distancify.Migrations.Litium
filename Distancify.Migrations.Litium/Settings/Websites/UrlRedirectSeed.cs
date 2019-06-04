@@ -1,4 +1,4 @@
-﻿using Litium;
+using Litium;
 using Litium.Data;
 using Litium.Data.Batching;
 using Litium.Validations;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Distancify.Migrations.Litium.Websites
+namespace Distancify.Migrations.Litium.Settings.Websites
 {
     public class UrlRedirectSeed : ISeed
     {

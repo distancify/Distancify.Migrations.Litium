@@ -1,10 +1,10 @@
-﻿using Distancify.Migrations.Litium.BaseSeeds;
+using Distancify.Migrations.Litium.BaseSeeds;
 using Litium;
 using Litium.FieldFramework;
 using Litium.Globalization;
 using System;
 
-namespace Distancify.Migrations.Litium.Globalization
+namespace Distancify.Migrations.Litium.Settings.Globalization
 {
     public class MarketFieldTemplateSeed : FieldTemplateSeed
     {

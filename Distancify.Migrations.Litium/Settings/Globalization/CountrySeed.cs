@@ -1,8 +1,8 @@
-﻿using Litium;
+using Litium;
 using Litium.Globalization;
 using System;
 
-namespace Distancify.Migrations.Litium.Globalization
+namespace Distancify.Migrations.Litium.Settings.Globalization
 {
     public class CountrySeed : ISeed
     {

@@ -1,9 +1,9 @@
-﻿using Litium;
+using Litium;
 using Litium.FieldFramework;
 using Litium.Websites;
 using System;
 
-namespace Distancify.Migrations.Litium.Websites
+namespace Distancify.Migrations.Litium.Settings.Websites
 {
     public class WebsiteSeed : ISeed
     {

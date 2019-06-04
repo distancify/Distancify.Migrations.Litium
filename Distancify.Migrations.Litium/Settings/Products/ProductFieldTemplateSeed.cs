@@ -1,10 +1,10 @@
-﻿using Distancify.Migrations.Litium.BaseSeeds;
+using Distancify.Migrations.Litium.BaseSeeds;
 using Litium;
 using Litium.FieldFramework;
 using Litium.Products;
 using System;
 
-namespace Distancify.Migrations.Litium.Products
+namespace Distancify.Migrations.Litium.Settings.Products
 {
     public class ProductFieldTemplateSeed : FieldTemplateSeed
     {

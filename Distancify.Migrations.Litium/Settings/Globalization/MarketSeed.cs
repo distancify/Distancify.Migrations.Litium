@@ -1,11 +1,11 @@
-﻿using Litium;
+using Litium;
 using Litium.FieldFramework;
 using Litium.Globalization;
 using Litium.Products;
 using System;
 using System.Linq;
 
-namespace Distancify.Migrations.Litium.Globalization
+namespace Distancify.Migrations.Litium.Settings.Globalization
 {
     public class MarketSeed : ISeed
     {

@@ -1,10 +1,10 @@
-﻿using Distancify.Migrations.Litium.BaseSeeds;
+using Distancify.Migrations.Litium.BaseSeeds;
 using Litium;
 using Litium.FieldFramework;
 using Litium.Websites;
 using System;
 
-namespace Distancify.Migrations.Litium.Websites
+namespace Distancify.Migrations.Litium.Settings.Websites
 {
     public class WebsiteFieldTemplateSeed : FieldTemplateSeed
     {
