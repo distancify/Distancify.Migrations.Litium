@@ -117,8 +117,26 @@ namespace Distancify.Migrations.Litium.Products
             return this;
         }
 
+
+        public BaseProductSeed WithCategoryLink(string assortmentCategoryId)
+        {
+            var categorySystemGuid = IoC.Resolve<CategoryService>().Get(assortmentCategoryId).SystemId;
+            var categoryLink = baseProduct.CategoryLinks.FirstOrDefault(c => c.CategorySystemId == categorySystemGuid);
+
+            if (categoryLink == null)
+            {
+                baseProduct.CategoryLinks.Add(
+                new BaseProductToCategoryLink(categorySystemGuid)
+                {
+                    //TODO:ActiveVariantSystemIds
+                    //TODO:MainCategory
+                });
+            }
+
+            return this;
+        }
         /*
-         * TODO: CategoryLinks
+         * TODO: Remove CategoryLinks
          * TODO: Fields
          * TODO: ProductListLinks
          * TODO: RelationshipLinks
@@ -137,6 +155,8 @@ namespace Distancify.Migrations.Litium.Products
         - Workflow
         - History
         - Settings
+
+        TaxClass?
         */
     }
 }

@@ -354,6 +354,8 @@
     <Compile Include="Media\FileFieldTemplateSeed.cs" />
     <Compile Include="Migrations\Bootstrap.cs" />
     <Compile Include="Settings\Products\AssortmentSeed.cs" />
+    <Compile Include="Settings\Products\CategoryDisplayTemplateSeed.cs" />
+    <Compile Include="Settings\Products\CategoryFieldTemplateSeed.cs" />
     <Compile Include="Settings\Products\ProductDisplayTemplateSeed.cs" />
     <Compile Include="Settings\Products\ProductFieldTemplateSeed.cs" />
     <Compile Include="Setup\MigrationsSetup.cs" />

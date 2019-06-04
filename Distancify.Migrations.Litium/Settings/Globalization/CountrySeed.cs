@@ -1,6 +1,7 @@
 using Litium;
 using Litium.Globalization;
 using System;
+using System.Linq;
 
 namespace Distancify.Migrations.Litium.Settings.Globalization
 {
@@ -45,6 +46,26 @@ namespace Distancify.Migrations.Litium.Settings.Globalization
         public CountrySeed WithStandardVatRate(decimal standardVatRate)
         {
             country.StandardVatRate = standardVatRate;
+            return this;
+        }
+
+        public CountrySeed WithTaxClassLink(string taxClassId, decimal vatRate)
+        {
+            var taxClassSystemGuid = IoC.Resolve<TaxClassService>().Get(taxClassId).SystemId;
+            var taxClassLink = country.TaxClassLinks.FirstOrDefault(t => t.TaxClassSystemId == taxClassSystemGuid);
+            if (taxClassLink == null)
+            {
+                country.TaxClassLinks.Add(
+                new CountryToTaxClassLink(taxClassSystemGuid)
+                {
+                    VatRate = vatRate
+                });
+
+                return this;
+            }
+
+            taxClassLink.VatRate = vatRate;
+
             return this;
         }
 
