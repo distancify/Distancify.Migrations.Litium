@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Distancify.Migrations.Litium.Settings.Websites
+namespace Distancify.Migrations.Litium.Websites
 {
     public class UrlRedirectSeed : ISeed
     {

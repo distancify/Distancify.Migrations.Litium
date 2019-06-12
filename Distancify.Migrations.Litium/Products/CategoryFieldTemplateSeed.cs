@@ -1,4 +1,4 @@
-﻿using Distancify.Migrations.Litium.BaseSeeds;
+using Distancify.Migrations.Litium.BaseSeeds;
 using Litium;
 using Litium.FieldFramework;
 using Litium.Products;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Distancify.Migrations.Litium.Settings.Products
+namespace Distancify.Migrations.Litium.Products
 {
     public class CategoryFieldTemplateSeed : FieldTemplateSeed
     {

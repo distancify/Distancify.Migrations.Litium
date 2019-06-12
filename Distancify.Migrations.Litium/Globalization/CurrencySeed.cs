@@ -2,7 +2,7 @@ using Litium;
 using Litium.Globalization;
 using System;
 
-namespace Distancify.Migrations.Litium.Settings.Globalization
+namespace Distancify.Migrations.Litium.Globalization
 {
     public class CurrencySeed : ISeed
     {

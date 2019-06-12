@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Distancify.Migrations.Litium.Settings.Products
+namespace Distancify.Migrations.Litium.Products
 {
     public class ProductDisplayTemplateSeed : ISeed
     {

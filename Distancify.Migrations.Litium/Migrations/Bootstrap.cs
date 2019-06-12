@@ -18,7 +18,7 @@ namespace Distancify.Migrations.Litium.Migrations
                 EnsureModules(connection);
             }
 
-            Settings.Websites.UrlRedirectSeed.EnsureBatch()
+            Websites.UrlRedirectSeed.EnsureBatch()
                 .Add("/", "~/Litium/", true)
                 .Commit();
 

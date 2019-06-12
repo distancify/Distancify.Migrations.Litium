@@ -5,7 +5,7 @@ using Litium.Products;
 using System;
 using System.Linq;
 
-namespace Distancify.Migrations.Litium.Settings.Globalization
+namespace Distancify.Migrations.Litium.Globalization
 {
     public class MarketSeed : ISeed
     {

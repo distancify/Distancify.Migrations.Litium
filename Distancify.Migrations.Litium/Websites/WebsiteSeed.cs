@@ -3,7 +3,7 @@ using Litium.FieldFramework;
 using Litium.Websites;
 using System;
 
-namespace Distancify.Migrations.Litium.Settings.Websites
+namespace Distancify.Migrations.Litium.Websites
 {
     public class WebsiteSeed : ISeed
     {

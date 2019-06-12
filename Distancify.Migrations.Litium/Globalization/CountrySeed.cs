@@ -3,7 +3,7 @@ using Litium.Globalization;
 using System;
 using System.Linq;
 
-namespace Distancify.Migrations.Litium.Settings.Globalization
+namespace Distancify.Migrations.Litium.Globalization
 {
     public class CountrySeed : ISeed
     {

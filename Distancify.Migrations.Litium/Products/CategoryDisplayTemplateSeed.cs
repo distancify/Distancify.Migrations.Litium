@@ -1,4 +1,4 @@
-﻿using Litium;
+using Litium;
 using Litium.Products;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Distancify.Migrations.Litium.Settings.Products
+namespace Distancify.Migrations.Litium.Products
 {
     public class CategoryDisplayTemplateSeed : ISeed
     {

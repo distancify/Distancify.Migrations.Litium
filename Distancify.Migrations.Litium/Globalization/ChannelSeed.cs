@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Distancify.Migrations.Litium.Settings.Globalization
+namespace Distancify.Migrations.Litium.Globalization
 {
     public class ChannelSeed : ISeed
     {

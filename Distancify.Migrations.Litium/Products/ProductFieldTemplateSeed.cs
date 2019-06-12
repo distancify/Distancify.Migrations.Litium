@@ -4,7 +4,7 @@ using Litium.FieldFramework;
 using Litium.Products;
 using System;
 
-namespace Distancify.Migrations.Litium.Settings.Products
+namespace Distancify.Migrations.Litium.Products
 {
     public class ProductFieldTemplateSeed : FieldTemplateSeed
     {
