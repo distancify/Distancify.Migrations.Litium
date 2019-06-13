@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Products
 {
-    public class CategoryFieldTemplateSeed : FieldTemplateSeed
+    public class CategoryFieldTemplateSeed : FieldTemplateSeed<CategoryFieldTemplate>
     {
         public CategoryFieldTemplateSeed(CategoryFieldTemplate fieldTemplate) : base(fieldTemplate)
         {

@@ -6,9 +6,9 @@ using System;
 
 namespace Distancify.Migrations.Litium.Products
 {
-    public class ProductFieldTemplateSeed : FieldTemplateSeed
+    public class ProductFieldTemplateSeed : FieldTemplateSeed<ProductFieldTemplate>
     {
-        public ProductFieldTemplateSeed(FieldTemplate fieldTemplate) : base(fieldTemplate)
+        public ProductFieldTemplateSeed(ProductFieldTemplate fieldTemplate) : base(fieldTemplate)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Distancify.Migrations.Litium.Products
             }
 
             return new ProductFieldTemplateSeed(productFieldTemplate);
-        }
 
+        }
     }
 }

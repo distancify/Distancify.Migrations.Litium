@@ -9,11 +9,11 @@ using System.Linq;
 
 namespace Distancify.Migrations.Litium.BaseSeeds
 {
-    public abstract class FieldTemplateSeed : ISeed
+    public abstract class FieldTemplateSeed<T> : ISeed  where T: FieldTemplate
     {
-        private readonly FieldTemplate fieldTemplate;
+        protected readonly T fieldTemplate;
 
-        protected FieldTemplateSeed(FieldTemplate fieldTemplate)
+        protected FieldTemplateSeed(T fieldTemplate)
         {
             this.fieldTemplate = fieldTemplate;
         }
@@ -32,7 +32,7 @@ namespace Distancify.Migrations.Litium.BaseSeeds
             fieldTemplateService.Update(fieldTemplate);
         }
 
-        public FieldTemplateSeed WithName(string culture, string name)
+        public FieldTemplateSeed<T> WithName(string culture, string name)
         {
             if (!fieldTemplate.Localizations.Any(l => l.Key.Equals(culture)) ||
                 !fieldTemplate.Localizations[culture].Name.Equals(name))
@@ -43,7 +43,7 @@ namespace Distancify.Migrations.Litium.BaseSeeds
             return this;
         }
 
-        public FieldTemplateSeed WithNames(Dictionary<string, string> localizedNamesByCulture)
+        public FieldTemplateSeed<T> WithNames(Dictionary<string, string> localizedNamesByCulture)
         {
             foreach (var item in localizedNamesByCulture)
             {
@@ -53,7 +53,7 @@ namespace Distancify.Migrations.Litium.BaseSeeds
             return this;
         }
 
-        public FieldTemplateSeed WithFieldGroups(List<FieldTemplateFieldGroup> newFieldGroups)
+        public FieldTemplateSeed<T> WithFieldGroups(List<FieldTemplateFieldGroup> newFieldGroups)
         {
             ICollection<FieldTemplateFieldGroup> currentFieldGroups = null;
 

@@ -104,6 +104,7 @@ namespace Distancify.Migrations.Litium.Globalization
             //var paymentMethods = ModuleECommerce.Instance.PaymentMethods.GetAll();
             //var paymentMethodSystemIds = paymentMethodIds is null ? new List<Guid>() : paymentMethodIds.Select(paymentMethodId => paymentMethods.FirstOrDefault(paymentMethod => paymentMethod.Name.Equals(paymentMethodId)).ID).ToList();
 
+            
             //if (!channel.CountryLinks.Any(countryLink => countryLink.CountrySystemId.Equals(systemId)))
             //{
             //    channel.CountryLinks.Add(new ChannelToCountryLink(systemId)

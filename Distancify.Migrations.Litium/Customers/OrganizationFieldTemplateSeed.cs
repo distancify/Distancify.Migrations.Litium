@@ -11,14 +11,12 @@ using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Customers
 {
-    public class OrganizationFieldTemplateSeed : FieldTemplateSeed
+    public class OrganizationFieldTemplateSeed : FieldTemplateSeed<OrganizationFieldTemplate>
     {
-        private readonly OrganizationFieldTemplate fieldTemplate;
 
         protected OrganizationFieldTemplateSeed(OrganizationFieldTemplate fieldTemplate)
             : base(fieldTemplate)
             {
-            this.fieldTemplate = fieldTemplate;
         }
 
         public static OrganizationFieldTemplateSeed Ensure(string id)

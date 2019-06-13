@@ -3,10 +3,11 @@ using Litium;
 using Litium.FieldFramework;
 using Litium.Websites;
 using System;
+using System.Linq;
 
 namespace Distancify.Migrations.Litium.Websites
 {
-    public class PageFieldTemplateSeed : FieldTemplateSeed
+    public class PageFieldTemplateSeed : FieldTemplateSeed<PageFieldTemplate>
     {
         public PageFieldTemplateSeed(PageFieldTemplate fieldTemplate) : base(fieldTemplate)
         {
@@ -22,6 +23,17 @@ namespace Distancify.Migrations.Litium.Websites
             }
 
             return new PageFieldTemplateSeed(pageFieldTemplate);
+        }
+
+        public PageFieldTemplateSeed WithContainer(string containerId)
+        {
+            if(base.fieldTemplate.Containers.FirstOrDefault(c => c.Id == containerId) == null)
+            {
+                base.fieldTemplate.Containers.Add(new BlockContainerDefinition() { Id = containerId });
+                //TODO Name
+            }
+            
+            return this;
         }
     }
 }

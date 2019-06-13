@@ -6,7 +6,7 @@ using System;
 
 namespace Distancify.Migrations.Litium.Globalization
 {
-    public class ChannelFieldTemplateSeed : FieldTemplateSeed
+    public class ChannelFieldTemplateSeed : FieldTemplateSeed<ChannelFieldTemplate>
     {
         protected ChannelFieldTemplateSeed(ChannelFieldTemplate fieldTemplate) : base(fieldTemplate)
         {

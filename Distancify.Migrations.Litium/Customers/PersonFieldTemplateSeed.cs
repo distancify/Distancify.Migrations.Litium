@@ -1,24 +1,17 @@
-﻿
-using Distancify.Migrations.Litium.BaseSeeds;
+﻿using Distancify.Migrations.Litium.BaseSeeds;
 using Litium;
 using Litium.FieldFramework;
 using Litium.Customers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Customers
 {
-    public class PersonFieldTemplateSeed : FieldTemplateSeed
+    public class PersonFieldTemplateSeed : FieldTemplateSeed<PersonFieldTemplate>
     {
-        private readonly PersonFieldTemplate fieldTemplate;
-
         protected PersonFieldTemplateSeed(PersonFieldTemplate fieldTemplate)
             : base(fieldTemplate)
-            {
-            this.fieldTemplate = fieldTemplate;
+        {
         }
 
         public static PersonFieldTemplateSeed Ensure(string id)
@@ -34,7 +27,5 @@ namespace Distancify.Migrations.Litium.Customers
 
             return new PersonFieldTemplateSeed(fieldTemplate);
         }
-
-        
     }
 }

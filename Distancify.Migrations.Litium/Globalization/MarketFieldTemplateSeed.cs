@@ -6,9 +6,9 @@ using System;
 
 namespace Distancify.Migrations.Litium.Globalization
 {
-    public class MarketFieldTemplateSeed : FieldTemplateSeed
+    public class MarketFieldTemplateSeed : FieldTemplateSeed<MarketFieldTemplate>
     {
-        public MarketFieldTemplateSeed(FieldTemplate fieldTemplate) : base(fieldTemplate)
+        public MarketFieldTemplateSeed(MarketFieldTemplate fieldTemplate) : base(fieldTemplate)
         {
         }
 

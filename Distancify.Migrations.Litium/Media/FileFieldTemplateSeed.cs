@@ -11,14 +11,13 @@ using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Media
 {
-    public class FileFieldTemplateSeed : FieldTemplateSeed
+    public class FileFieldTemplateSeed : FieldTemplateSeed<FileFieldTemplate>
     {
-        private readonly FileFieldTemplate fieldTemplate;
+
 
         protected FileFieldTemplateSeed(FileFieldTemplate fieldTemplate)
             : base(fieldTemplate)
             {
-            this.fieldTemplate = fieldTemplate;
         }
 
         public static FileFieldTemplateSeed Ensure(string id)

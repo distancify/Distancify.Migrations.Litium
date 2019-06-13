@@ -369,7 +369,11 @@
     <Compile Include="Products\ProductFieldTemplateSeed.cs" />
     <Compile Include="Setup\MigrationsSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Websites\BlockCategorySeed.cs" />
+    <Compile Include="Websites\BlockSeed.cs" />
+    <Compile Include="Websites\BlockFieldTemplateSeed.cs" />
     <Compile Include="Websites\PageFieldTemplateSeed.cs" />
+    <Compile Include="Websites\PageSeed.cs" />
     <Compile Include="Websites\UrlRedirectSeed.cs" />
     <Compile Include="Websites\WebsiteSeed.cs" />
     <Compile Include="Websites\WebsiteFieldTemplateSeed.cs" />

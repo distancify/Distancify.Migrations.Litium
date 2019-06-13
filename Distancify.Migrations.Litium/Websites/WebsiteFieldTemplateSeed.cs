@@ -6,7 +6,7 @@ using System;
 
 namespace Distancify.Migrations.Litium.Websites
 {
-    public class WebsiteFieldTemplateSeed : FieldTemplateSeed
+    public class WebsiteFieldTemplateSeed : FieldTemplateSeed<WebsiteFieldTemplate>
     {
         public WebsiteFieldTemplateSeed(WebsiteFieldTemplate fieldTemplate) : base(fieldTemplate)
         {
