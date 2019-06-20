@@ -31,7 +31,7 @@ namespace Distancify.Migrations.Litium.LitiumGraphqlModel
             //?? FieldTemplateFieldGroup
             //?? LitiumEntity
             //CountrySeed + standardrate
-            //LanguageSeed
+            //LanguageSeed + isdefaultlanguage
             //TODO: MarketFieldTemplateSeed (graphql)
             //TODO: MarketSeed
             //?? ChannelFields
@@ -43,7 +43,7 @@ namespace Distancify.Migrations.Litium.LitiumGraphqlModel
             //TODO: WebsiteFieldTemplateSeed
             //WebsiteSeed
             //?? WebsiteText
-            // ChannelSeed
+            // ChannelSeed + domainNameLink
             //TODO: ProductDisplayTemplateSeed (graphql)
             //TODO: ProductFieldTemplateSeed (graphql)
             //TODO: CategoryDisplayTemplateSeed (graphql)

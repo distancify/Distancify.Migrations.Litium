@@ -1,5 +1,6 @@
 ﻿using Distancify.Migrations.Litium.Generator;
 using Distancify.Migrations.Litium.IntegrationTests.Mocks;
+using System;
 using Xunit;
 
 namespace Distancify.Migrations.Litium.IntegrationTests
@@ -7,10 +8,9 @@ namespace Distancify.Migrations.Litium.IntegrationTests
     public class ChannelTests
     {
         [Fact]
-        public void GenerateFile_OneChannelWithoutTemplate_NoSeedsInCode()
+        public void GenerateFile_OneChannelWithoutTemplate_ExceptionDueToMissingTemplate()
         {
             // Arrange
-
             var client = new GraphqlClientMock()
             {
                 GraphqlQueryResponse = @"
@@ -28,19 +28,14 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             var sut = new LitiumMigrationGenerator(client);
             var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
-            // Act
-            var res = sut.GenerateFile(config);
-
-            // Assert
-            Assert.DoesNotContain("ChannelSeed.Ensure(\"sweden\"", res.Content);
-
+            // Act + Assert
+            Assert.Throws<NullReferenceException>(() => sut.GenerateFile(config));
         }
 
         [Fact]
         public void GenerateFile_OneChannelWithTemplate_ChannelSeedCode()
         {
             // Arrange
-
             var client = new GraphqlClientMock()
             {
                 GraphqlQueryResponse = @"
@@ -68,7 +63,98 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             // Assert
             Assert.Contains("ChannelSeed.Ensure(\"sweden\", \"channelTemplate1\")", res.Content);
             Assert.Contains(".Commit();", res.Content);
+        }
 
+        [Fact]
+        public void GenerateFile_OneChannelWithTemplateAndOneDomainNameLink_ChannelSeedCode()
+        {
+            // Arrange
+            var client = new GraphqlClientMock()
+            {
+                GraphqlQueryResponse = @"
+{
+    ""data"": {
+        ""channels"": [
+            {
+                ""id"": ""sweden"",
+                ""fieldTemplate"": {
+                    ""id"": ""channelTemplate1""
+                },
+                ""domains"": [
+                    {
+                    ""domain"": {
+                      ""id"": ""distancify.com""
+                        },
+                        ""redirect"": false,
+                        ""urlPrefix"": null
+                    }
+                ],
+            }
+        ]
+    }
+}"
+            };
+
+            var sut = new LitiumMigrationGenerator(client);
+            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+
+            // Act
+            var res = sut.GenerateFile(config);
+
+            // Assert
+            Assert.Contains("ChannelSeed.Ensure(\"sweden\", \"channelTemplate1\")", res.Content);
+            Assert.Contains(".WithDomainNameLink(\"distancify.com\")", res.Content);
+            Assert.Contains(".Commit();", res.Content);
+        }
+
+        [Fact]
+        public void GenerateFile_OneChannelWithTemplateAndTwoDomainNameLink_ChannelSeedCode()
+        {
+            // Arrange
+            var client = new GraphqlClientMock()
+            {
+                GraphqlQueryResponse = @"
+{
+    ""data"": {
+        ""channels"": [
+            {
+                ""id"": ""sweden"",
+                ""fieldTemplate"": {
+                    ""id"": ""channelTemplate1""
+                },
+                ""domains"": [
+                    {
+                    ""domain"": {
+                      ""id"": ""distancify.com""
+                        },
+                        ""redirect"": false,
+                        ""urlPrefix"": null
+                    },                    
+                    {
+                    ""domain"": {
+                      ""id"": ""distancify.se""
+                        },
+                        ""redirect"": false,
+                        ""urlPrefix"": null
+                    }
+                ],
+            }
+        ]
+    }
+}"
+            };
+
+            var sut = new LitiumMigrationGenerator(client);
+            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+
+            // Act
+            var res = sut.GenerateFile(config);
+
+            // Assert
+            Assert.Contains("ChannelSeed.Ensure(\"sweden\", \"channelTemplate1\")", res.Content);
+            Assert.Contains(".WithDomainNameLink(\"distancify.com\")", res.Content);
+            Assert.Contains(".WithDomainNameLink(\"distancify.se\")", res.Content);
+            Assert.Contains(".Commit();", res.Content);
         }
     }
 }

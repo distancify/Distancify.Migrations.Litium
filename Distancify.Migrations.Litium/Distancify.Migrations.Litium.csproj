@@ -383,6 +383,7 @@
     <Compile Include="Generator\LitiumMigrationGenerator.cs" />
     <Compile Include="LitiumGraphqlModel\Assortment.cs" />
     <Compile Include="LitiumGraphqlModel\Channel.cs" />
+    <Compile Include="LitiumGraphqlModel\ChannelDomainProperties.cs" />
     <Compile Include="LitiumGraphqlModel\ChannelFieldTemplate.cs" />
     <Compile Include="LitiumGraphqlModel\Country.cs" />
     <Compile Include="LitiumGraphqlModel\Currency.cs" />

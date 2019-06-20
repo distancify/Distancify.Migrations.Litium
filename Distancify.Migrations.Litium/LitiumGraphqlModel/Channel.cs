@@ -9,6 +9,7 @@ namespace Distancify.Migrations.Litium.LitiumGraphqlModel
     public class Channel
     {
         public string Id { get; set; }
-        public ChannelFieldTemplate FieldTemplate { get; set; } 
+        public ChannelFieldTemplate FieldTemplate { get; set; }
+        public IEnumerable<ChannelDomainProperties> Domains { get; set; }
     }
 }
