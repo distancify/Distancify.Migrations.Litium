@@ -61,9 +61,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssortmentTests.cs" />
+    <Compile Include="ChannelTests.cs" />
+    <Compile Include="CountryTests.cs" />
+    <Compile Include="CurrencyTests.cs" />
+    <Compile Include="DomainNameTests.cs" />
+    <Compile Include="LanguageTests.cs" />
     <Compile Include="LitiumMigrationGenerator.cs" />
     <Compile Include="Mocks\GraphqlClientMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebsiteTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

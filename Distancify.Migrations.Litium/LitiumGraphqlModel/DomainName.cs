@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.LitiumGraphqlModel
 {
@@ -10,5 +6,8 @@ namespace Distancify.Migrations.Litium.LitiumGraphqlModel
     {
         public string Id { get; set; }
         public Guid SystemId { get; set; }
+        public string Robots { get; set; }
+        public int? HttpStrictTransportSecurityMaxAge { get; set; }
+
     }
 }

@@ -192,6 +192,21 @@ namespace Distancify.Migrations.Litium.Globalization
             StringBuilder builder = new StringBuilder();
             //builder.AppendLine($"\t\t\t{nameof(ChannelSeed)}.{nameof(ChannelSeed.Ensure)}(\"{channel.Id}\", \"\")");
             builder.AppendLine($"\t\t\t{nameof(ChannelSeed)}.{nameof(ChannelSeed.Ensure)}(\"{graphqlChannel.Id}\", \"{graphqlChannel.FieldTemplate.Id}\")");
+            // WithField
+            // WithField
+            // WithDomainNameLink
+            // WithoutDomainNameLink
+            // WithMarket
+            //WithCountryLink
+            // WithoutCountryLink
+            // WithWebsite
+            // ProductLanguage
+            // GoogleAnalyticsAccountId
+            // GoogleTagManagerContainerId
+            // ShowPricesWithVat
+            //PriceAgents
+
+
             //foreach (var c in channel.CountryLinks)
             //{
             //    builder.AppendLine($"\t\t\t\t.{nameof(ChannelSeed.WithCountryLink)}(\"{c.Id}\")");
