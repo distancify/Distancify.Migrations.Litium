@@ -57,7 +57,10 @@ namespace Distancify.Migrations.Litium.Globalization
             StringBuilder builder = new StringBuilder();
 
             builder.AppendLine($"\t\t\t{nameof(LanguageSeed)}.{nameof(LanguageSeed.Ensure)}(\"{graphqllanguage.Id}\")");
-
+            if (graphqllanguage.IsDefaultLanguage.HasValue)
+            {
+                builder.AppendLine($"\t\t\t\t{nameof(LanguageSeed)}.{nameof(LanguageSeed.IsDefaultLanguage)}({graphqllanguage.IsDefaultLanguage.Value.ToString().ToLower()})");
+            }
 
             builder.AppendLine("\t\t\t\t.Commit();");
             return builder.ToString();
