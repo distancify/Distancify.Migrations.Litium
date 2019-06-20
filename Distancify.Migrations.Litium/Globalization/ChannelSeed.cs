@@ -127,7 +127,7 @@ namespace Distancify.Migrations.Litium.Globalization
             {
                 channel.CountryLinks.Add(new ChannelToCountryLink(systemId));
             }
-
+            
             return this;
         }
 

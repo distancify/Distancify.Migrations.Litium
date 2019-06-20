@@ -11,5 +11,6 @@ namespace Distancify.Migrations.Litium.LitiumGraphqlModel
         public string Id { get; set; }
         public Guid SystemId { get; set; }
 
+        public bool? IsBaseCurrency { get; set; }
     }
 }

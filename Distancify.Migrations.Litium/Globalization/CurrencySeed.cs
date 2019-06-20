@@ -55,10 +55,18 @@ namespace Distancify.Migrations.Litium.Globalization
 
         public string GenerateMigration()
         {
+            if (graphqlCurrency == null || string.IsNullOrEmpty(graphqlCurrency.Id))
+            {
+                throw new NullReferenceException("At least one Currency with an ID obtained from the GraphQL endpoint is needed in order to ensure the Currencies");
+            }
+
             StringBuilder builder = new StringBuilder();
 
             builder.AppendLine($"\t\t\t{nameof(CurrencySeed)}.{nameof(CurrencySeed.Ensure)}(\"{graphqlCurrency.Id}\")");
-
+            if (graphqlCurrency.IsBaseCurrency.HasValue)
+            {
+                builder.AppendLine($"\t\t\t\t{nameof(CurrencySeed)}.{nameof(CurrencySeed.IsBaseCurrency)}({graphqlCurrency.IsBaseCurrency.Value.ToString().ToLower()})");
+            }
 
             builder.AppendLine("\t\t\t\t.Commit();");
             return builder.ToString();
