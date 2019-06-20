@@ -27,5 +27,6 @@ namespace Distancify.Migrations.Litium.Customers
 
             return new PersonFieldTemplateSeed(fieldTemplate);
         }
+
     }
 }

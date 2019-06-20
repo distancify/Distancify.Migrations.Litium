@@ -43,5 +43,10 @@ namespace Distancify.Migrations.Litium.Products
             }
             service.Update(categoryDisplayTemplate);
         }
+
+        public string GenerateMigration()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

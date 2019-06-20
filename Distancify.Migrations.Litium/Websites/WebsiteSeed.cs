@@ -2,13 +2,20 @@ using Litium;
 using Litium.FieldFramework;
 using Litium.Websites;
 using System;
+using System.Text;
+using Graphql = Distancify.Migrations.Litium.LitiumGraphqlModel;
 
 namespace Distancify.Migrations.Litium.Websites
 {
     public class WebsiteSeed : ISeed
     {
         private Website website;
+        private Graphql.Website graphqlWebsite;
 
+        public WebsiteSeed(Graphql.Website graphqlWebsite)
+        {
+            this.graphqlWebsite = graphqlWebsite;
+        }
 
         protected WebsiteSeed(Website website)
         {
@@ -44,6 +51,14 @@ namespace Distancify.Migrations.Litium.Websites
             }
 
             return new WebsiteSeed(websiteClone);
+        }
+
+        public string GenerateMigration()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine($"\t\t\t{nameof(WebsiteSeed)}.{nameof(WebsiteSeed.Ensure)}(\"{graphqlWebsite.Id}\",\"{graphqlWebsite.FieldTemplate.Id}\")");
+            builder.AppendLine("\t\t\t\t.Commit();");
+            return builder.ToString();
         }
     }
 }

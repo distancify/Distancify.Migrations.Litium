@@ -43,6 +43,11 @@ namespace Distancify.Migrations.Litium.Products
             service.Update(productDisplayTemplate);
         }
 
+        public string GenerateMigration()
+        {
+            throw new NotImplementedException();
+        }
+
         // TODO: WithDisplayTemplate
         // TODO: TemplatePath
         // TODO: Name

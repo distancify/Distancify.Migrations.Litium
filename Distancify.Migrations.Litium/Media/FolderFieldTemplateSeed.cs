@@ -28,7 +28,8 @@ namespace Distancify.Migrations.Litium.Media
                 fieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
             }
 
-            return new FolderFieldTemplateSeed(fieldTemplate);
+            return new FolderFieldTemplateSeed(fieldTemplate);    
         }
+
     }
 }

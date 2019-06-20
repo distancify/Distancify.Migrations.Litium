@@ -33,6 +33,5 @@ namespace Distancify.Migrations.Litium.Customers
             return new OrganizationFieldTemplateSeed(fieldTemplate);
         }
 
-        
     }
 }

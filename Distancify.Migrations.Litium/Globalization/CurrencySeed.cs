@@ -1,14 +1,21 @@
 using Litium;
 using Litium.Globalization;
 using System;
+using System.Text;
+using Graphql = Distancify.Migrations.Litium.LitiumGraphqlModel;
 
 namespace Distancify.Migrations.Litium.Globalization
 {
     public class CurrencySeed : ISeed
     {
 
-
+        private Graphql.Currency graphqlCurrency;
         private readonly Currency currency;
+
+        public CurrencySeed(Graphql.Currency graphqlCurrency)
+        {
+            this.graphqlCurrency = graphqlCurrency;
+        }
 
         private CurrencySeed(Currency currency)
         {
@@ -44,6 +51,17 @@ namespace Distancify.Migrations.Litium.Globalization
         {
             currency.IsBaseCurrency = on;
             return this;
+        }
+
+        public string GenerateMigration()
+        {
+            StringBuilder builder = new StringBuilder();
+
+            builder.AppendLine($"\t\t\t{nameof(CurrencySeed)}.{nameof(CurrencySeed.Ensure)}(\"{graphqlCurrency.Id}\")");
+
+
+            builder.AppendLine("\t\t\t\t.Commit();");
+            return builder.ToString();
         }
 
         //TODO: EchangeRate

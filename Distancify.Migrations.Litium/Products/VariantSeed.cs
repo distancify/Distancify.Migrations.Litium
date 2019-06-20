@@ -124,6 +124,11 @@ namespace Distancify.Migrations.Litium.Products
             return this;
         }
 
+        public string GenerateMigration()
+        {
+            throw new NotImplementedException();
+        }
+
         //public VariantSeed WithInventoryItem(string inventoryId, string unitOfMeasurementId, decimal inStockQuantity = 0)
         //{
         //    var inventorySystemGuid = IoC.Resolve<InventoryService>().Get(inventoryId).SystemId;

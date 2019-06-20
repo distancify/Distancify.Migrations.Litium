@@ -1,7 +1,6 @@
 ﻿using Litium;
 using Litium.FieldFramework;
 using Litium.Globalization;
-using Litium.Runtime;
 using Litium.Websites;
 using System;
 using System.Collections.Generic;
@@ -95,6 +94,11 @@ namespace Distancify.Migrations.Litium.BaseSeeds
             }
 
             return this;
+        }
+
+        public virtual string GenerateMigration()
+        {
+            throw new NotImplementedException();
         }
     }
 }

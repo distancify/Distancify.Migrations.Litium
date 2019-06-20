@@ -5,12 +5,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Graphql = Distancify.Migrations.Litium.LitiumGraphqlModel;
 
 namespace Distancify.Migrations.Litium.Products
 {
     public class AssortmentSeed : ISeed
     {
+        private readonly Graphql.Assortment graphqlAssortment;
         private readonly Assortment assortment;
+
+        public AssortmentSeed(Graphql.Assortment graphqlAssortment)
+        {
+            this.graphqlAssortment = graphqlAssortment;
+        }
 
         protected AssortmentSeed(Assortment assortment)
         {
@@ -52,6 +59,14 @@ namespace Distancify.Migrations.Litium.Products
             }
 
             return this;
+        }
+
+        public string GenerateMigration()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine($"\t\t\t{nameof(AssortmentSeed)}.{nameof(AssortmentSeed.Ensure)}(\"{graphqlAssortment.Id}\")");
+            builder.AppendLine("\t\t\t\t.Commit();");
+            return builder.ToString();
         }
     }
 }

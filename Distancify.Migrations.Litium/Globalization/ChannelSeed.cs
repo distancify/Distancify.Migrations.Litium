@@ -7,12 +7,20 @@ using Litium.Websites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Graphql = Distancify.Migrations.Litium.LitiumGraphqlModel;
 
 namespace Distancify.Migrations.Litium.Globalization
 {
     public class ChannelSeed : ISeed
     {
         public Channel channel;
+        private Graphql.Channel graphqlChannel;
+
+        public ChannelSeed(Graphql.Channel channel)
+        {
+            this.graphqlChannel = channel;
+        }
 
         protected ChannelSeed(Channel channel)
         {
@@ -171,6 +179,28 @@ namespace Distancify.Migrations.Litium.Globalization
         {
             channel.PriceAgents = on;
             return this;
+        }
+
+        public string GenerateMigration()
+        {
+           
+            if (graphqlChannel.FieldTemplate == null)
+            {
+                Console.WriteLine("Error: Can't ensure channel if no ChannelFieldTemplate is returned from GraphQL endpoint");
+                return string.Empty;
+            }
+            StringBuilder builder = new StringBuilder();
+            //builder.AppendLine($"\t\t\t{nameof(ChannelSeed)}.{nameof(ChannelSeed.Ensure)}(\"{channel.Id}\", \"\")");
+            builder.AppendLine($"\t\t\t{nameof(ChannelSeed)}.{nameof(ChannelSeed.Ensure)}(\"{graphqlChannel.Id}\", \"{graphqlChannel.FieldTemplate.Id}\")");
+            //foreach (var c in channel.CountryLinks)
+            //{
+            //    builder.AppendLine($"\t\t\t\t.{nameof(ChannelSeed.WithCountryLink)}(\"{c.Id}\")");
+            //}
+
+            //AppendFields(i, builder);
+
+            builder.AppendLine("\t\t\t\t.Commit();");
+            return builder.ToString();
         }
 
         //TODO:  Market

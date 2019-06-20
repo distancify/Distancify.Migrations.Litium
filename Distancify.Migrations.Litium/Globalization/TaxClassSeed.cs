@@ -40,6 +40,11 @@ namespace Distancify.Migrations.Litium.Globalization
             fieldTemplateService.Update(taxClass);
         }
 
+        public string GenerateMigration()
+        {
+            throw new NotImplementedException();
+        }
+
         public TaxClassSeed WithName(string culture, string name)
         {
             if (!taxClass.Localizations.Any(l => l.Key.Equals(culture)) ||

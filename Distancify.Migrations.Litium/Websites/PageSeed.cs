@@ -56,16 +56,30 @@ namespace Distancify.Migrations.Litium.Websites
             return this;
         }
 
-        public PageSeed WithBlock(string blockId)
+        public PageSeed WithBlock(string containerId, string blockId)
         {
-            var blockLinkItem = page.Blocks.FirstOrDefault(c => c.Id == blockId);
+            //BUG: For some reason is blocks not added to the page.. why???
 
-            if (blockLinkItem == null)
+            var blockItemContainerItem = page.Blocks.FirstOrDefault(c => c.Id == containerId);
+            if(blockItemContainerItem == null)
             {
-                page.Blocks.Add(
-                    new BlockItemContainer(blockId));
-                return this;
+                blockItemContainerItem = new BlockItemContainer(containerId);
+                page.Blocks.Add(blockItemContainerItem);
             }
+
+
+            var blockGuid = IoC.Resolve<BlockService>().Get(blockId).SystemId;
+
+            foreach (var i in blockItemContainerItem.Items) {
+                if(i is BlockItemLink && ((BlockItemLink)i).BlockSystemId == blockGuid)
+                {
+                    return this;
+                }
+
+                continue;
+            }
+
+            blockItemContainerItem.Items.Add(new BlockItemLink(blockGuid));
 
             return this;
         }
@@ -77,6 +91,11 @@ namespace Distancify.Migrations.Litium.Websites
             var draftPageClone = service.Get(page.SystemId).MakeWritableClone();
             service.Update(draftPageClone);
             service.Publish(draftPageClone);
+        }
+
+        public string Generate()
+        {
+            throw new NotImplementedException();
         }
 
         /*TODO

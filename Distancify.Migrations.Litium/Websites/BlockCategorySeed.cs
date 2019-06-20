@@ -41,6 +41,11 @@ namespace Distancify.Migrations.Litium.Websites
             return new BlockCategorySeed(blockCatagoryClone);
         }
 
+        public string GenerateMigration()
+        {
+            throw new NotImplementedException();
+        }
+
         //Fields
         //Localizations
     }

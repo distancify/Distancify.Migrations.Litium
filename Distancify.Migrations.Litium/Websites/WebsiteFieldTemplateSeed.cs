@@ -23,6 +23,7 @@ namespace Distancify.Migrations.Litium.Websites
             return new WebsiteFieldTemplateSeed(websiteFieldTemplate);
         }
 
+
         //TODO: areatype
     }
 }

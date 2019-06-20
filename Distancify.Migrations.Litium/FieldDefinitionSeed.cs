@@ -90,5 +90,10 @@ namespace Distancify.Migrations.Litium
 
             return this;
         }
+
+        public string GenerateMigration()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

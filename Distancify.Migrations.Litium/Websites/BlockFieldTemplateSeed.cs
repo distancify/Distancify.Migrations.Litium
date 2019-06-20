@@ -25,6 +25,11 @@ namespace Distancify.Migrations.Litium.Websites
             return new BlockFieldTemplateSeed(blockFieldTemplate);
         }
 
+        public override string GenerateMigration()
+        {
+            throw new NotImplementedException();
+        }
+
         public BlockFieldTemplateSeed WithCategory(string blockCategoryId)
         {
             var blockCatagorySystemGuid = IoC.Resolve<CategoryService>().Get(blockCategoryId).SystemId;

@@ -157,5 +157,10 @@ namespace Distancify.Migrations.Litium.Customers
             WithSystemSettingsAccess();
             return this;
         }
+
+        public string GenerateMigration()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

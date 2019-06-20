@@ -135,12 +135,17 @@ namespace Distancify.Migrations.Litium.Products
 
             return this;
         }
+
+        public string GenerateMigration()
+        {
+            throw new NotImplementedException();
+        }
         /*
-         * TODO: Remove CategoryLinks
-         * TODO: Fields
-         * TODO: ProductListLinks
-         * TODO: RelationshipLinks
-         */
+* TODO: Remove CategoryLinks
+* TODO: Fields
+* TODO: ProductListLinks
+* TODO: RelationshipLinks
+*/
 
         /*TODO:?
          With

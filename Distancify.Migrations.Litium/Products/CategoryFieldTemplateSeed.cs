@@ -28,5 +28,6 @@ namespace Distancify.Migrations.Litium.Products
 
             return new CategoryFieldTemplateSeed(categoryFieldTemplate);
         }
+
     }
 }

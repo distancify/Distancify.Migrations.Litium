@@ -2,17 +2,24 @@ using Litium;
 using Litium.Globalization;
 using System;
 using System.Linq;
+using System.Text;
+using Graphql = Distancify.Migrations.Litium.LitiumGraphqlModel;
 
 namespace Distancify.Migrations.Litium.Globalization
 {
     public class CountrySeed : ISeed
     {
-
+        private readonly Graphql.Country graphqlCountry;
         private readonly Country country;
 
         private CountrySeed(Country country)
         {
             this.country = country;
+        }
+
+        public CountrySeed(Graphql.Country graphqlCountry)
+        {
+            this.graphqlCountry = graphqlCountry;
         }
 
         public void Commit()
@@ -67,6 +74,23 @@ namespace Distancify.Migrations.Litium.Globalization
             taxClassLink.VatRate = vatRate;
 
             return this;
+        }
+
+        public string GenerateMigration()
+        {
+            if (graphqlCountry.Currency == null)
+            {
+                Console.WriteLine("Error: Can't ensure country if no Currency is returned from GraphQL endpoint");
+                return string.Empty;
+            }
+
+            StringBuilder builder = new StringBuilder();
+
+            builder.AppendLine($"\t\t\t{nameof(CountrySeed)}.{nameof(CountrySeed.Ensure)}(\"{graphqlCountry.Id}\",\"{graphqlCountry.Currency.Id}\")");
+
+
+            builder.AppendLine("\t\t\t\t.Commit();");
+            return builder.ToString();
         }
 
         //TODO: Taxclass links

@@ -129,5 +129,10 @@ namespace Distancify.Migrations.Litium.Customers
             person.LoginCredential.NewPassword = password;
             return this;
         }
+
+        public string GenerateMigration()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
