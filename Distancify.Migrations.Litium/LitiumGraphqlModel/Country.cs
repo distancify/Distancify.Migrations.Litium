@@ -12,5 +12,8 @@ namespace Distancify.Migrations.Litium.LitiumGraphqlModel
         public Guid SystemId { get; set; }
 
         public Currency Currency { get; set; }
+
+        //taxclass
+        public double? StandardVatRate { get; set; }
     }
 }

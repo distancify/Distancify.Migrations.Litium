@@ -23,14 +23,14 @@ namespace Distancify.Migrations.Litium.LitiumGraphqlModel
             //TODO: PersonFieldTemplateSeed (graphql)
             //TODO: PersonSeed (graphql)
             //DomainNameSeed, robots + maxage
-            //CurrencySeed
+            //CurrencySeed, isBaseCurrency
             //TODO: TaxClassSeed (graphql)
             //?? Culture
             //?? FieldDefinition
             //?? Field
             //?? FieldTemplateFieldGroup
             //?? LitiumEntity
-            //CountrySeed
+            //CountrySeed + standardrate
             //LanguageSeed
             //TODO: MarketFieldTemplateSeed (graphql)
             //TODO: MarketSeed

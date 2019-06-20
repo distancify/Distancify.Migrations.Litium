@@ -78,22 +78,28 @@ namespace Distancify.Migrations.Litium.Globalization
 
         public string GenerateMigration()
         {
+            if (graphqlCountry == null || string.IsNullOrEmpty(graphqlCountry.Id))
+            {
+                throw new NullReferenceException("At least one Country with an ID obtained from the GraphQL endpoint is needed in order to ensure the Countries");
+            }
+
             if (graphqlCountry.Currency == null)
             {
-                Console.WriteLine("Error: Can't ensure country if no Currency is returned from GraphQL endpoint");
-                return string.Empty;
+                throw new NullReferenceException("Can't ensure country if no Currency is returned from GraphQL endpoint");
             }
 
             StringBuilder builder = new StringBuilder();
-
             builder.AppendLine($"\t\t\t{nameof(CountrySeed)}.{nameof(CountrySeed.Ensure)}(\"{graphqlCountry.Id}\",\"{graphqlCountry.Currency.Id}\")");
-
+            if (graphqlCountry.StandardVatRate.HasValue)
+            {
+                builder.AppendLine($"\t\t\t\t{nameof(CountrySeed)}.{nameof(CountrySeed.WithStandardVatRate)}({graphqlCountry.StandardVatRate.Value})");
+            }
+            //WithTaxClassLink
 
             builder.AppendLine("\t\t\t\t.Commit();");
             return builder.ToString();
         }
 
-        //TODO: Taxclass links
         //TODO: Inventories
         //TODO: Price lists
     }
