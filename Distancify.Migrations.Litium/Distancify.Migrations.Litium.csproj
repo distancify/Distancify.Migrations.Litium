@@ -374,9 +374,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChannelSeed.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Countries.cs" />
+    <Compile Include="CountrySeed.cs" />
     <Compile Include="Currencies.cs" />
+    <Compile Include="CurrencySeed.cs" />
+    <Compile Include="DomainNameSeed.cs" />
+    <Compile Include="FieldTemplateSeed.cs" />
     <Compile Include="Generator\AssortmentRepository.cs" />
     <Compile Include="Generator\ChannelRepository.cs" />
     <Compile Include="Generator\CountryRepository.cs" />
@@ -388,6 +393,7 @@
     <Compile Include="Generator\IGraphqlClient.cs" />
     <Compile Include="Generator\LanguageRepository.cs" />
     <Compile Include="Generator\LitiumMigrationGenerator.cs" />
+    <Compile Include="LanguageSeed.cs" />
     <Compile Include="Generator\Repository.cs" />
     <Compile Include="Generator\SeedRepository.cs" />
     <Compile Include="Generator\WebsiteRepository.cs" />
@@ -406,6 +412,8 @@
     <Compile Include="LitiumGraphqlModel\WebsiteFieldTemplate.cs" />
     <Compile Include="LitiumMigrationGeneratorCmdlet.cs" />
     <Compile Include="Generator\MigrationConfiguration.cs" />
+    <Compile Include="MarketSeed.cs" />
+    <Compile Include="PaymentMethodNames.cs" />
     <Compile Include="Products\AssortmentCategorySeed.cs" />
     <Compile Include="Products\BaseProductSeed.cs" />
     <Compile Include="Products\InventorySeed.cs" />
