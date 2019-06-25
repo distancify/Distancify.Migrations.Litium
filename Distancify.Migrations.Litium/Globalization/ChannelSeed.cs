@@ -1,26 +1,16 @@
 using Litium;
 using Litium.FieldFramework;
-using Litium.Foundation;
-using Litium.Foundation.Modules.ECommerce;
 using Litium.Globalization;
 using Litium.Websites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Graphql = Distancify.Migrations.Litium.LitiumGraphqlModel;
 
 namespace Distancify.Migrations.Litium.Globalization
 {
     public class ChannelSeed : ISeed
     {
         public Channel channel;
-        private Graphql.Channel graphqlChannel;
-
-        public ChannelSeed(Graphql.Channel channel)
-        {
-            this.graphqlChannel = channel;
-        }
 
         protected ChannelSeed(Channel channel)
         {
@@ -181,62 +171,6 @@ namespace Distancify.Migrations.Litium.Globalization
             return this;
         }
 
-        public string GenerateMigration()
-        {
-            if (graphqlChannel == null || string.IsNullOrEmpty(graphqlChannel.Id))
-            {
-                throw new NullReferenceException("At least one Channel with an ID obtained from the GraphQL endpoint is needed in order to ensure the Channels");
-            }
-
-            if (graphqlChannel.FieldTemplate == null)
-            {
-                throw new NullReferenceException("Can't ensure channel if no ChannelFieldTemplate is returned from GraphQL endpoint");
-            }
-
-            StringBuilder builder = new StringBuilder();
-            //builder.AppendLine($"\t\t\t{nameof(ChannelSeed)}.{nameof(ChannelSeed.Ensure)}(\"{channel.Id}\", \"\")");
-            builder.AppendLine($"\t\t\t{nameof(ChannelSeed)}.{nameof(ChannelSeed.Ensure)}(\"{graphqlChannel.Id}\", \"{graphqlChannel.FieldTemplate.Id}\")");
-            // WithField
-            // WithField
-
-            if (graphqlChannel.Domains != null && graphqlChannel.Domains.Count() > 0)
-            {
-                foreach (var d in graphqlChannel.Domains)
-                {
-                    if (d.Domain == null)
-                    {
-                        throw new NullReferenceException("Can't ensure with country link if no Domain is returned from GraphQL endpoint as part of Channel");
-                    }
-                    builder.Append($"\t\t\t{nameof(ChannelSeed)}.{nameof(ChannelSeed.WithDomainNameLink)}(\"{d.Domain.Id}\"");
-
-                    //d.Redirect //redirect
-                    //d.UrlPrefix //urlPrefix
-                    builder.AppendLine(")");
-                }
-            }
-
-            // WithoutDomainNameLink
-            // WithMarket
-            //WithCountryLink
-            // WithoutCountryLink
-            // WithWebsite
-            // ProductLanguage
-            // GoogleAnalyticsAccountId
-            // GoogleTagManagerContainerId
-            // ShowPricesWithVat
-            //PriceAgents
-
-
-            //foreach (var c in channel.CountryLinks)
-            //{
-            //    builder.AppendLine($"\t\t\t\t.{nameof(ChannelSeed.WithCountryLink)}(\"{c.Id}\")");
-            //}
-
-            //AppendFields(i, builder);
-
-            builder.AppendLine("\t\t\t\t.Commit();");
-            return builder.ToString();
-        }
 
         //TODO:  Market
         //TODO:  Language for pages and blocks

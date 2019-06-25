@@ -54,11 +54,6 @@ namespace Distancify.Migrations.Litium.Globalization
             return this;
         }
 
-        public string GenerateMigration()
-        {
-            throw new NotImplementedException();
-        }
-
         //TODO: DecimalDigits
         //TODO: Fields
     }

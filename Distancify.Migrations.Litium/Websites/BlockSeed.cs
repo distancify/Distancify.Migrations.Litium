@@ -61,10 +61,6 @@ namespace Distancify.Migrations.Litium.Websites
             service.Publish(draftBlockClone);
         }
 
-        public string Generate()
-        {
-            throw new NotImplementedException();
-        }
 
         /* TODO
          * AccessControlList

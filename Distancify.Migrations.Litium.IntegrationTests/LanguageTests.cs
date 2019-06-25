@@ -33,8 +33,8 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
             // Assert
             Assert.Contains("LanguageSeed.Ensure(\"sv-SE\")", res.Content);
-            Assert.DoesNotContain(".IsDefaultLanguage(", res.Content);
-            Assert.Contains(".Commit();", res.Content);
+            Assert.DoesNotContain("\t.IsDefaultLanguage(", res.Content);
+            Assert.Contains("\t.Commit();", res.Content);
 
         }
 
@@ -66,8 +66,8 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
             // Assert
             Assert.Contains("LanguageSeed.Ensure(\"sv-SE\")", res.Content);
-            Assert.Contains(".IsDefaultLanguage(true)", res.Content);
-            Assert.Contains(".Commit();", res.Content);
+            Assert.Contains("\t.IsDefaultLanguage(true)", res.Content);
+            Assert.Contains("\t.Commit();", res.Content);
 
         }
 
@@ -99,8 +99,8 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
             // Assert
             Assert.Contains("LanguageSeed.Ensure(\"sv-SE\")", res.Content);
-            Assert.Contains(".IsDefaultLanguage(false)", res.Content);
-            Assert.Contains(".Commit();", res.Content);
+            Assert.Contains("\t.IsDefaultLanguage(false)", res.Content);
+            Assert.Contains("\t.Commit();", res.Content);
 
         }
 
@@ -139,7 +139,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             Assert.Contains("LanguageSeed.Ensure(\"da-DK\")", res.Content);
             Assert.Contains("LanguageSeed.Ensure(\"en-GB\")", res.Content);
             Assert.Contains("LanguageSeed.Ensure(\"sv-SE\")", res.Content);
-            Assert.Contains(".Commit();", res.Content);
+            Assert.Contains("\t.Commit();", res.Content);
         }
     }
 }

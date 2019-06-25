@@ -2,24 +2,16 @@ using Litium;
 using Litium.Globalization;
 using System;
 using System.Linq;
-using System.Text;
-using Graphql = Distancify.Migrations.Litium.LitiumGraphqlModel;
 
 namespace Distancify.Migrations.Litium.Globalization
 {
     public class CountrySeed : ISeed
     {
-        private readonly Graphql.Country graphqlCountry;
         private readonly Country country;
 
         private CountrySeed(Country country)
         {
             this.country = country;
-        }
-
-        public CountrySeed(Graphql.Country graphqlCountry)
-        {
-            this.graphqlCountry = graphqlCountry;
         }
 
         public void Commit()
@@ -76,29 +68,6 @@ namespace Distancify.Migrations.Litium.Globalization
             return this;
         }
 
-        public string GenerateMigration()
-        {
-            if (graphqlCountry == null || string.IsNullOrEmpty(graphqlCountry.Id))
-            {
-                throw new NullReferenceException("At least one Country with an ID obtained from the GraphQL endpoint is needed in order to ensure the Countries");
-            }
-
-            if (graphqlCountry.Currency == null)
-            {
-                throw new NullReferenceException("Can't ensure country if no Currency is returned from GraphQL endpoint");
-            }
-
-            StringBuilder builder = new StringBuilder();
-            builder.AppendLine($"\t\t\t{nameof(CountrySeed)}.{nameof(CountrySeed.Ensure)}(\"{graphqlCountry.Id}\",\"{graphqlCountry.Currency.Id}\")");
-            if (graphqlCountry.StandardVatRate.HasValue)
-            {
-                builder.AppendLine($"\t\t\t\t{nameof(CountrySeed)}.{nameof(CountrySeed.WithStandardVatRate)}({graphqlCountry.StandardVatRate.Value})");
-            }
-            //WithTaxClassLink
-
-            builder.AppendLine("\t\t\t\t.Commit();");
-            return builder.ToString();
-        }
 
         //TODO: Inventories
         //TODO: Price lists

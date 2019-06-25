@@ -1,5 +1,7 @@
 ﻿using Distancify.Migrations.Litium.Generator;
+using Distancify.Migrations.Litium.IntegrationTests.Asserts;
 using Distancify.Migrations.Litium.IntegrationTests.Mocks;
+using System.Linq;
 using Xunit;
 
 namespace Distancify.Migrations.Litium.IntegrationTests
@@ -36,8 +38,8 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
             // Assert
             Assert.Contains("CountrySeed.Ensure(\"SE\",\"SEK\")", res.Content);
-            Assert.DoesNotContain("CountrySeed.WithStandardVatRate(", res.Content);
-            Assert.Contains(".Commit();", res.Content);
+            Assert.DoesNotContain("\t.WithStandardVatRate(", res.Content);
+            Assert.Contains("\t.Commit();", res.Content);
 
         }
 
@@ -72,8 +74,58 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
             // Assert
             Assert.Contains("CountrySeed.Ensure(\"SE\",\"SEK\")", res.Content);
-            Assert.Contains("CountrySeed.WithStandardVatRate(25)", res.Content);
-            Assert.Contains(".Commit();", res.Content);
+            Assert.Contains("\t.WithStandardVatRate(25)", res.Content);
+            Assert.Contains("\t.Commit();", res.Content);
+
+        }
+
+        [Fact]
+        public void GenerateFile_CountryFromMultipleSources_OneCountrySeedCodeAndCommit()
+        {
+            // Arrange
+
+            var client = new GraphqlClientMock()
+            {
+                GraphqlQueryResponse = @"
+{
+    ""data"": {
+        ""countries"": [
+            {
+                ""id"": ""SE"",
+                ""standardVatRate"": ""25.000000""
+            }
+        ],
+        ""channels"": [
+            {
+                ""id"": ""sweden"",
+                ""countries"": [
+                    {
+                        ""id"": ""SE"",
+                        ""currency"": {
+                            ""id"": ""SEK""
+                        }
+                    }
+                ],
+                ""fieldTemplate"": {
+                    ""id"": ""channelTemplate1""
+                }
+            }
+        ]
+    }
+}"
+            };
+
+            var sut = new LitiumMigrationGenerator(client);
+            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+
+            // Act
+            var res = sut.GenerateFile(config);
+
+            // Assert
+            Assert.Contains("CountrySeed.Ensure(\"SE\",\"SEK\")", res.Content);
+            Assert.Contains("\t.WithStandardVatRate(25)", res.Content);
+            Assert.Contains("\t.Commit();", res.Content);
+            AssertExtentions.StringCount(1, "CountrySeed.Ensure(", res.Content);
 
         }
     }

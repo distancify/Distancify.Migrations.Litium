@@ -1,16 +1,11 @@
 using Litium;
 using Litium.Products;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Products
 {
     public class CategoryDisplayTemplateSeed : ISeed
     {
-
         private CategoryDisplayTemplate categoryDisplayTemplate;
 
         public CategoryDisplayTemplateSeed(CategoryDisplayTemplate productDisplayTemplate)
@@ -42,11 +37,6 @@ namespace Distancify.Migrations.Litium.Products
                 return;
             }
             service.Update(categoryDisplayTemplate);
-        }
-
-        public string GenerateMigration()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.LitiumGraphqlModel
 {
-    public class Language
+    public class Language : GraphQlObject
     {
-        public string Id { get; set; }
         public Guid SystemId { get; set; }
 
         public bool? IsDefaultLanguage { get; set; }

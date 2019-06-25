@@ -3,10 +3,7 @@ using Litium.FieldFramework;
 using Litium.Globalization;
 using Litium.Products;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Products
 {
@@ -136,10 +133,6 @@ namespace Distancify.Migrations.Litium.Products
             return this;
         }
 
-        public string GenerateMigration()
-        {
-            throw new NotImplementedException();
-        }
         /*
 * TODO: Remove CategoryLinks
 * TODO: Fields

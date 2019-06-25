@@ -33,8 +33,8 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
             // Assert
             Assert.Contains("CurrencySeed.Ensure(\"SEK\")", res.Content);
-            Assert.DoesNotContain("CurrencySeed.IsBaseCurrency(", res.Content);
-            Assert.Contains(".Commit();", res.Content);
+            Assert.DoesNotContain("\t.IsBaseCurrency(", res.Content);
+            Assert.Contains("\t.Commit();", res.Content);
 
         }
 
@@ -66,8 +66,8 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
             // Assert
             Assert.Contains("CurrencySeed.Ensure(\"SEK\")", res.Content);
-            Assert.Contains("CurrencySeed.IsBaseCurrency(true)", res.Content);
-            Assert.Contains(".Commit();", res.Content);
+            Assert.Contains("\t.IsBaseCurrency(true)", res.Content);
+            Assert.Contains("\t.Commit();", res.Content);
 
         }
 
@@ -99,8 +99,8 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
             // Assert
             Assert.Contains("CurrencySeed.Ensure(\"SEK\")", res.Content);
-            Assert.Contains("CurrencySeed.IsBaseCurrency(false)", res.Content);
-            Assert.Contains(".Commit();", res.Content);
+            Assert.Contains("\t.IsBaseCurrency(false)", res.Content);
+            Assert.Contains("\t.Commit();", res.Content);
 
         }
     }

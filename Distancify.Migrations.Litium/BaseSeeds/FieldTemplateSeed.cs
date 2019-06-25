@@ -8,7 +8,8 @@ using System.Linq;
 
 namespace Distancify.Migrations.Litium.BaseSeeds
 {
-    public abstract class FieldTemplateSeed<T> : ISeed  where T: FieldTemplate
+    public abstract class FieldTemplateSeed<T> : ISeed  
+        where T: FieldTemplate
     {
         protected readonly T fieldTemplate;
 
@@ -94,11 +95,6 @@ namespace Distancify.Migrations.Litium.BaseSeeds
             }
 
             return this;
-        }
-
-        public virtual string GenerateMigration()
-        {
-            throw new NotImplementedException();
         }
     }
 }

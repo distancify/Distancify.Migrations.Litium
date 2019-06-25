@@ -1,6 +1,6 @@
 ﻿namespace Distancify.Migrations.Litium.LitiumGraphqlModel
 {
-    public class ChannelDomainProperties
+    public class ChannelDomainProperties : GraphQlObject
     {
         public bool? Redirect { get; set; }
         public string UrlPrefix { get; set; }

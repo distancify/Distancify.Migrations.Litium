@@ -9,6 +9,7 @@ namespace Distancify.Migrations.Litium
 {
     public class FieldDefinitionSeed : ISeed
     {
+        public string Id { get { return string.IsNullOrEmpty(FieldDefinition.Id) ? string.Empty : FieldDefinition.Id; } }
         private readonly FieldDefinition FieldDefinition;
 
         private FieldDefinitionSeed(FieldDefinition fieldDefinition)
@@ -89,11 +90,6 @@ namespace Distancify.Migrations.Litium
             }
 
             return this;
-        }
-
-        public string GenerateMigration()
-        {
-            throw new NotImplementedException();
         }
     }
 }

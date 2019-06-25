@@ -1,13 +1,7 @@
-﻿
-using Distancify.Migrations.Litium.BaseSeeds;
-using Litium;
+﻿using Litium;
 using Litium.FieldFramework;
 using Litium.Customers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Litium.Security;
 
 namespace Distancify.Migrations.Litium.Customers
@@ -158,9 +152,5 @@ namespace Distancify.Migrations.Litium.Customers
             return this;
         }
 
-        public string GenerateMigration()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.LitiumGraphqlModel
 {
-    public class Assortment
+    public class Assortment : GraphQlObject
     {
-        public string Id { get; set; }
         public Guid SystemId { get; set; }
 
     }

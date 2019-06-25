@@ -1,7 +1,6 @@
 ﻿namespace Distancify.Migrations.Litium.LitiumGraphqlModel
 {
-    public class WebsiteFieldTemplate
+    public class WebsiteFieldTemplate : GraphQlObject
     {
-        public string Id { get; set; }
     }
 }

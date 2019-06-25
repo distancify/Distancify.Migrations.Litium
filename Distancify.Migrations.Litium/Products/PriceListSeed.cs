@@ -2,10 +2,7 @@
 using Litium.Globalization;
 using Litium.Products;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Products
 {
@@ -72,11 +69,6 @@ namespace Distancify.Migrations.Litium.Products
         {
             priceList.Active = isActive;
             return this;
-        }
-
-        public string GenerateMigration()
-        {
-            throw new NotImplementedException();
         }
 
 

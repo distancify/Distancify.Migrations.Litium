@@ -33,7 +33,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
             // Assert
             Assert.Contains("AssortmentSeed.Ensure(\"assortment1\")", res.Content);
-            Assert.Contains(".Commit();", res.Content);
+            Assert.Contains("\t.Commit();", res.Content);
 
         }
     }

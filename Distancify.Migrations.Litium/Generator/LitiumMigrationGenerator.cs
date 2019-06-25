@@ -60,10 +60,11 @@ namespace Distancify.Migrations.Litium.Generator
                 throw new NullReferenceException("Data object from GraphQL is null, something might be wrong with the query");
             }
 
-            List<ISeed> seeds = new List<ISeed>();
-            responseContainer.Data.PopulateSeedsWithData(seeds);
+            SeedRepository seedRepository = new SeedRepository();
+            //List<ISeed> seeds = new List<ISeed>();
+            seedRepository.PopulateSeedsWithData(responseContainer.Data);
 
-            if (seeds.Count == 0)
+            if (seedRepository.NumberOfSeeds == 0)
             {
                 return null;
             }
@@ -77,10 +78,8 @@ namespace Distancify.Migrations.Litium.Generator
             builder.AppendLine("\t{");
             builder.AppendLine("\t\tpublic override void Apply()");
             builder.AppendLine("\t\t{");
-            foreach (var seed in seeds)
-            {
-                builder.Append(seed.GenerateMigration());
-            }
+
+                builder.Append(seedRepository.GenerateMigration());
 
             builder.AppendLine("\t\t}");
             builder.AppendLine("\t}");
