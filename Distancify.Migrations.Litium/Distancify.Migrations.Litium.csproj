@@ -377,6 +377,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Countries.cs" />
     <Compile Include="Currencies.cs" />
+    <Compile Include="FieldTemplateSeed.cs" />
     <Compile Include="Generator\GeneratedFile.cs" />
     <Compile Include="Generator\GraphqlClient.cs" />
     <Compile Include="Generator\IGraphqlClient.cs" />
@@ -395,6 +396,7 @@
     <Compile Include="LitiumGraphqlModel\WebsiteFieldTemplate.cs" />
     <Compile Include="LitiumMigrationGeneratorCmdlet.cs" />
     <Compile Include="Generator\MigrationConfiguration.cs" />
+    <Compile Include="PaymentMethodNames.cs" />
     <Compile Include="Products\AssortmentCategorySeed.cs" />
     <Compile Include="Products\BaseProductSeed.cs" />
     <Compile Include="Products\InventorySeed.cs" />

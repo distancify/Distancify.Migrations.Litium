@@ -46,7 +46,11 @@ namespace Distancify.Migrations.Litium
 
         public FieldDefinitionSeed IsMultiCulture(bool on)
         {
-            FieldDefinition.MultiCulture = on;
+            if(FieldDefinition.SystemId == Guid.Empty)//Cannot change this value for existing fields
+            {
+                FieldDefinition.MultiCulture = on;
+            }
+            
             return this;
         }
 
@@ -89,11 +93,6 @@ namespace Distancify.Migrations.Litium
             }
 
             return this;
-        }
-
-        public string GenerateMigration()
-        {
-            throw new NotImplementedException();
         }
     }
 }
