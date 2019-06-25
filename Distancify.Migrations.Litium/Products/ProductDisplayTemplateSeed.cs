@@ -1,10 +1,6 @@
 using Litium;
 using Litium.Products;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Products
 {
@@ -41,11 +37,6 @@ namespace Distancify.Migrations.Litium.Products
                 return;
             }
             service.Update(productDisplayTemplate);
-        }
-
-        public string GenerateMigration()
-        {
-            throw new NotImplementedException();
         }
 
         // TODO: WithDisplayTemplate

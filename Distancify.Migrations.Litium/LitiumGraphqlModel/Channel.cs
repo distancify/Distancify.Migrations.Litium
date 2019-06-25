@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.LitiumGraphqlModel
 {
-    public class Channel
+    public class Channel : GraphQlObject
     {
-        public string Id { get; set; }
         public ChannelFieldTemplate FieldTemplate { get; set; }
         public IEnumerable<ChannelDomainProperties> Domains { get; set; }
+
+        public IEnumerable<Country> Countries { get; set; }
     }
 }

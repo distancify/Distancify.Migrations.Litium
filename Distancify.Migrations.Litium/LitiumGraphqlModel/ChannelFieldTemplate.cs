@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.LitiumGraphqlModel
 {
-    public class ChannelFieldTemplate
+    public class ChannelFieldTemplate : GraphQlObject
     {
 
         public string Id { get; set; }

@@ -60,10 +60,5 @@ namespace Distancify.Migrations.Litium.Websites
                 batch.Commit();
             }
         }
-
-        public string GenerateMigration()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -2,9 +2,8 @@
 
 namespace Distancify.Migrations.Litium.LitiumGraphqlModel
 {
-    public class DomainName
+    public class DomainName : GraphQlObject
     {
-        public string Id { get; set; }
         public Guid SystemId { get; set; }
         public string Robots { get; set; }
         public int? HttpStrictTransportSecurityMaxAge { get; set; }

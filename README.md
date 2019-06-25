@@ -1,16 +1,16 @@
 # Distancify.Migrations.Litium
 
-This project contains a fluid API to aid in generating data in Litium together with Distancify.Migrations.
+This project contains a fluid API to aid in generating data in Litium together with Distancify.Migrations. It also provides the possibility to generate migration seeds based on a Litium instance.
 
 ## Getting Started
 
 ### Install
 
-```
+```powershell
 Install-Package Distancify.Migrations.Litium
 ```
 
-### Using
+## Seeding a Litium installation
 
 The library revolves around a set of ISeed implementation. Each ISeed implementation provides a method called `Ensure`. This method __ensures__ that the given entity exists in Litium. If the entity already exist, nothing happens. A seed can also verify given properties of the entity.
 
@@ -60,9 +60,66 @@ public class MigrationsSetup : IStartupTask
 }
 ```
 
+## Generating migrations seeds
+
+### Configuration
+
+The seeds are based on the content of a yaml configuration, the configuration can contain several migrations, targeting different Litium instances and write to different files.
+
+```yaml
+--- 
+- id: Migration1
+  baseMigration: DevelopmentMigration
+  className: TestMigration1
+  host: http://localhost:56666
+  namespace: Eqquo.Litium.Migrations.Production.Development
+  output: c:\temp\migration\test1.cs
+  query: |
+      query{
+          channels{
+              id,
+              countries{
+                  id,
+                  currencies{
+                      id
+                  }
+              }
+          }
+      }
+- id: Migration2
+  baseMigration: DevelopmentMigration
+  className: TestMigration2
+  host: http://localhost:56666
+  namespace: Eqquo.Litium.Migrations.Production.Development
+  output: c:\temp\migration\test2.cs
+  query: |
+      query{
+          channels{
+              id
+          }
+      }
+```
+
+The source code project contains an example of this configuration file.
+
+### Generate seeds
+
+The generation is done by a powershell commandlet. You first need to import the module from the nuget package.
+
+After the import are you able to invoke the LitiumMigration commandlet.
+
+```powershell
+Import-Module .\packages\Distancify.Migrations.Litium1.0.0\Distancify.Migrations.Litium.dll
+Push-LitiumMigration -ConfigFileName C:\temp\migration\test.yml
+```
+
+
+
 ## Running the tests
 
 The tests are built using xUnit and does not require any setup in order to run inside Visual Studio's standard test runner.
+
+Currently is only the generation of seeds migration tested.
 
 ## Contributing
 

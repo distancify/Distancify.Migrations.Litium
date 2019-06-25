@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.LitiumGraphqlModel
 {
-    public class Website
+    public class Website : GraphQlObject
     {
-        public string Id { get; set; }
         public Guid SystemId { get; set; }
 
         public WebsiteFieldTemplate FieldTemplate { get; set; }

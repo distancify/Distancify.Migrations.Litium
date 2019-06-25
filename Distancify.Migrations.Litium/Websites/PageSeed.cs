@@ -93,10 +93,6 @@ namespace Distancify.Migrations.Litium.Websites
             service.Publish(draftPageClone);
         }
 
-        public string Generate()
-        {
-            throw new NotImplementedException();
-        }
 
         /*TODO
          * Blocks

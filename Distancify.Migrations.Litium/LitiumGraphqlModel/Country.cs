@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.LitiumGraphqlModel
 {
-    public class Country
+    public class Country : GraphQlObject
     {
-        public string Id { get; set; }
         public Guid SystemId { get; set; }
 
         public Currency Currency { get; set; }

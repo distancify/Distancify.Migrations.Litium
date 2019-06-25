@@ -1,10 +1,7 @@
 ﻿using Litium;
 using Litium.Products;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Products
 {
@@ -122,11 +119,6 @@ namespace Distancify.Migrations.Litium.Products
             priceItem.Price = price; 
 
             return this;
-        }
-
-        public string GenerateMigration()
-        {
-            throw new NotImplementedException();
         }
 
         //public VariantSeed WithInventoryItem(string inventoryId, string unitOfMeasurementId, decimal inStockQuantity = 0)

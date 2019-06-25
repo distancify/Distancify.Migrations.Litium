@@ -67,9 +67,9 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
             // Assert
             Assert.Contains("DomainNameSeed.Ensure(\"distancify.com\")", res.Content);
-            Assert.Contains(".WithRobots(\"Robot2\")", res.Content);
-            Assert.DoesNotContain(".WithHttpStrictTransportSecurityMaxAge(", res.Content);
-            Assert.Contains(".Commit();", res.Content);
+            Assert.Contains("\t.WithRobots(\"Robot2\")", res.Content);
+            Assert.DoesNotContain("\t.WithHttpStrictTransportSecurityMaxAge(", res.Content);
+            Assert.Contains("\t.Commit();", res.Content);
 
         }
 
@@ -102,9 +102,9 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
             // Assert
             Assert.Contains("DomainNameSeed.Ensure(\"distancify.com\")", res.Content);
-            Assert.Contains(".WithRobots(\"Robot2\")", res.Content);
-            Assert.Contains(".WithHttpStrictTransportSecurityMaxAge(98765)", res.Content);
-            Assert.Contains(".Commit();", res.Content);
+            Assert.Contains("\t.WithRobots(\"Robot2\")", res.Content);
+            Assert.Contains("\t.WithHttpStrictTransportSecurityMaxAge(98765)", res.Content);
+            Assert.Contains("\t.Commit();", res.Content);
 
         }
     }

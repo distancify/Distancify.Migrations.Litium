@@ -1,18 +1,13 @@
-﻿
-using Distancify.Migrations.Litium.BaseSeeds;
-using Litium;
+﻿using Litium;
 using Litium.FieldFramework;
 using Litium.Customers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Customers
 {
     public class PersonSeed : ISeed
-    {
+    { 
         private readonly Person person;
 
         protected PersonSeed(Person person)
@@ -128,11 +123,6 @@ namespace Distancify.Migrations.Litium.Customers
             person.LoginCredential.Username = username;
             person.LoginCredential.NewPassword = password;
             return this;
-        }
-
-        public string GenerateMigration()
-        {
-            throw new NotImplementedException();
         }
     }
 }
