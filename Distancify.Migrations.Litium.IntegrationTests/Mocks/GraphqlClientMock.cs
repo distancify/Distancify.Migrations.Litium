@@ -1,5 +1,5 @@
-﻿using Distancify.Migrations.Litium.Generator;
-using Distancify.Migrations.Litium.LitiumGraphqlModel;
+﻿using Distancify.Migrations.Litium.SeedBuilder;
+using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
 using Newtonsoft.Json;
 
 namespace Distancify.Migrations.Litium.IntegrationTests.Mocks

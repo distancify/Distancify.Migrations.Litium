@@ -1,5 +1,5 @@
-﻿using Distancify.Migrations.Litium.Generator;
-using Distancify.Migrations.Litium.IntegrationTests.Mocks;
+﻿using Distancify.Migrations.Litium.IntegrationTests.Mocks;
+using Distancify.Migrations.Litium.SeedBuilder;
 using System;
 using Xunit;
 

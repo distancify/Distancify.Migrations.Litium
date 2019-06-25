@@ -1,4 +1,4 @@
-﻿using Distancify.Migrations.Litium.Generator;
+﻿using Distancify.Migrations.Litium.SeedBuilder;
 using System.IO;
 using System.Management.Automation;
 

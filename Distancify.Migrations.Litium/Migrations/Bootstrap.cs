@@ -1,8 +1,8 @@
 ﻿using Distancify.Migrations.Litium.Data;
+using Distancify.Migrations.Litium.Seeds;
 using Litium.Media;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
 
 namespace Distancify.Migrations.Litium.Migrations
@@ -18,27 +18,27 @@ namespace Distancify.Migrations.Litium.Migrations
                 EnsureModules(connection);
             }
 
-            Websites.UrlRedirectSeed.EnsureBatch()
+            Seeds.WebsiteSeeds.UrlRedirectSeed.EnsureBatch()
                 .Add("/", "~/Litium/", true)
                 .Commit();
 
-            Customers.GroupFieldTemplateSeed.Ensure(Constants.DefaultSystemGroupTemplate)
+            Seeds.CustomerSeeds.GroupFieldTemplateSeed.Ensure(Constants.DefaultSystemGroupTemplate)
                 .Commit();
-            Customers.PersonFieldTemplateSeed.Ensure(Constants.DefaultSystemUserTemplate)
-                .Commit();
-
-            Customers.StaticGroupSeed.Ensure(Constants.Visitors, Constants.DefaultSystemGroupTemplate)
+            Seeds.CustomerSeeds.PersonFieldTemplateSeed.Ensure(Constants.DefaultSystemUserTemplate)
                 .Commit();
 
-            Customers.PersonSeed.EnsureSystem(Constants.DefaultSystemUserTemplate)
+            Seeds.CustomerSeeds.StaticGroupSeed.Ensure(Constants.Visitors, Constants.DefaultSystemGroupTemplate)
                 .Commit();
-            Customers.PersonSeed.EnsureEveryone(Constants.DefaultSystemUserTemplate)
+
+            Seeds.CustomerSeeds.PersonSeed.EnsureSystem(Constants.DefaultSystemUserTemplate)
+                .Commit();
+            Seeds.CustomerSeeds.PersonSeed.EnsureEveryone(Constants.DefaultSystemUserTemplate)
                 .WithGroupLink(Constants.Visitors)
                 .Commit();
 
-            Media.FolderFieldTemplateSeed.Ensure("DefaultFolderTemplate")
+            Seeds.MediaSeeds.FolderFieldTemplateSeed.Ensure("DefaultFolderTemplate")
                 .Commit();
-            Media.FileFieldTemplateSeed.Ensure("DefaultFileTemplate")
+            Seeds.MediaSeeds.FileFieldTemplateSeed.Ensure("DefaultFileTemplate")
                 .WithTemplateType(FileTemplateType.Other)
                 .Commit();
         }

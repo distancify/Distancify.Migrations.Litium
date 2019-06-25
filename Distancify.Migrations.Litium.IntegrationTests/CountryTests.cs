@@ -1,6 +1,6 @@
-﻿using Distancify.Migrations.Litium.Generator;
-using Distancify.Migrations.Litium.IntegrationTests.Asserts;
+﻿using Distancify.Migrations.Litium.IntegrationTests.Asserts;
 using Distancify.Migrations.Litium.IntegrationTests.Mocks;
+using Distancify.Migrations.Litium.SeedBuilder;
 using System.Linq;
 using Xunit;
 
