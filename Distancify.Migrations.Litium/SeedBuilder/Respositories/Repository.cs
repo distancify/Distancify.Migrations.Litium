@@ -1,42 +1,34 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
+using Distancify.Migrations.Litium.Seeds;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.Respositories
 {
-    public abstract class Repository<T>
+    public abstract class Repository<T, TSeedGenerator>
         where T : GraphQlObject
-
+        where TSeedGenerator : ISeedGenerator<T>
     {
-        protected readonly IDictionary<string, T> Items = new Dictionary<string, T>();
+        protected readonly IDictionary<string, TSeedGenerator> Items = new Dictionary<string, TSeedGenerator>();
 
         public void AddOrMerge(T graphQlItem)
         {
             if (Items.TryGetValue(graphQlItem.Id, out var existing))
             {
-                MergeGraphQlData(graphQlItem, existing);
+                existing.Update(graphQlItem);
             }
             else
             {
-                Items.Add(graphQlItem.Id, graphQlItem);
+                var seed = CreateFrom(graphQlItem);
+                Items.Add(graphQlItem.Id, seed);
             }
         }
 
-        private static void MergeGraphQlData(T source, T dest)
-        {
-            var props = typeof(T).GetProperties().Where(x => x.CanRead && x.CanWrite).ToList();
+        
 
-            foreach (var p in props)
-            {
-                if (p.GetValue(source) == null)
-                {
-                    continue;
-                }
+        protected abstract TSeedGenerator CreateFrom(T graphQlItem);
 
-                p.SetValue(dest, p.GetValue(source, null), null);
-            }
-        }
 
         public int NumberOfItems
         {
@@ -46,32 +38,12 @@ namespace Distancify.Migrations.Litium.SeedBuilder.Respositories
             }
         }
 
-        public abstract void AppendMigration(StringBuilder builder);
-
-        //protected void AppendFields(SeedWithFields source, StringBuilder builder)
-        //{
-        //    foreach (var f in source.Fields)
-        //    {
-        //        if (f.Value is JObject value)
-        //        {
-        //            var isLocalized = false;
-        //            foreach (var c in CultureInfo.GetCultures(CultureTypes.AllCultures))
-        //            {
-        //                if (value.TryGetValue(c.Name.Replace("-", "_"), out var localizedValue))
-        //                {
-        //                    builder.AppendLine($"\t\t\t\t.WithField(\"{f.Key}\", \"{c.Name}\", \"{localizedValue}\")");
-        //                    isLocalized = true;
-        //                }
-        //            }
-
-        //            if (isLocalized)
-        //            {
-        //                continue;
-        //            }
-        //        }
-
-        //        builder.AppendLine($"\t\t\t\t.WithField(\"{f.Key}\", \"{f.Value["value"]}\")");
-        //    }
-        //}
+        public void WriteMigration(StringBuilder builder)
+        {
+            foreach(var i in Items.Values)
+            {
+                i.WriteMigration(builder);
+            }
+        }
     }
 }

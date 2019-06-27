@@ -17,7 +17,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var configs = sut.ReadConfiguration(ExampleConfiguration);
+            var configs = ConfigurationReader.ReadConfiguration(ExampleConfiguration);
 
             // Act
             var res = sut.GenerateAllFiles(configs);

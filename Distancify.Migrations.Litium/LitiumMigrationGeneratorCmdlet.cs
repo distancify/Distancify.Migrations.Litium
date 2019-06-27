@@ -17,7 +17,7 @@ namespace Distancify.Migrations.Litium.MigrationGenerator
         {
             base.BeginProcessing();
             var generator = new LitiumMigrationGenerator(new GraphqlClient());
-            var files = generator.GenerateAllFiles(generator.ReadConfiguration(ConfigFileName));
+            var files = generator.GenerateAllFiles(ConfigurationReader.ReadConfiguration(ConfigFileName));
 
             foreach(var f in files)
             {

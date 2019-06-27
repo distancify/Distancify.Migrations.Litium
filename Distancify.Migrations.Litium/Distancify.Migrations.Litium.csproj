@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <TransformOnBuild>false</TransformOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -374,6 +375,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SeedBuilder\ConfigurationReader.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphqlModel\Block.cs" />
     <Compile Include="SeedBuilder\IGenerator.cs" />
     <Compile Include="Seeds\Constants.cs" />
     <Compile Include="Seeds\Countries.cs" />
@@ -388,9 +391,9 @@
     <Compile Include="SeedBuilder\IGraphqlClient.cs" />
     <Compile Include="SeedBuilder\Respositories\LanguageRepository.cs" />
     <Compile Include="SeedBuilder\LitiumMigrationGenerator.cs" />
-    <Compile Include="Seeds\GlobalizationSeeds\FieldDefinitionSeed.cs" />
+    <Compile Include="Seeds\Globalization\FieldDefinitionSeed.cs" />
     <Compile Include="SeedBuilder\Respositories\Repository.cs" />
-    <Compile Include="SeedBuilder\Respositories\SeedRepository.cs" />
+    <Compile Include="SeedBuilder\Generator.cs" />
     <Compile Include="SeedBuilder\Respositories\WebsiteRepository.cs" />
     <Compile Include="SeedBuilder\LitiumGraphqlModel\Assortment.cs" />
     <Compile Include="SeedBuilder\LitiumGraphqlModel\Channel.cs" />
@@ -407,49 +410,50 @@
     <Compile Include="SeedBuilder\LitiumGraphqlModel\WebsiteFieldTemplate.cs" />
     <Compile Include="LitiumMigrationGeneratorCmdlet.cs" />
     <Compile Include="SeedBuilder\MigrationConfiguration.cs" />
-    <Compile Include="Seeds\ProductSeeds\AssortmentCategorySeed.cs" />
-    <Compile Include="Seeds\ProductSeeds\BaseProductSeed.cs" />
-    <Compile Include="Seeds\ProductSeeds\InventorySeed.cs" />
-    <Compile Include="Seeds\ProductSeeds\PriceListSeed.cs" />
-    <Compile Include="Seeds\ProductSeeds\VariantSeed.cs" />
-    <Compile Include="Seeds\GlobalizationSeeds\CountrySeed.cs" />
+    <Compile Include="Seeds\ISeedGenerator.cs" />
+    <Compile Include="Seeds\Product\AssortmentCategorySeed.cs" />
+    <Compile Include="Seeds\Product\BaseProductSeed.cs" />
+    <Compile Include="Seeds\Product\InventorySeed.cs" />
+    <Compile Include="Seeds\Product\PriceListSeed.cs" />
+    <Compile Include="Seeds\Product\VariantSeed.cs" />
+    <Compile Include="Seeds\Globalization\CountrySeed.cs" />
     <Compile Include="Seeds\Cultures.cs" />
-    <Compile Include="Seeds\GlobalizationSeeds\CurrencySeed.cs" />
-    <Compile Include="Seeds\CustomerSeeds\PersonSeed.cs" />
-    <Compile Include="Seeds\CustomerSeeds\StaticGroupSeed.cs" />
-    <Compile Include="Seeds\CustomerSeeds\OrganizationFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\CustomerSeeds\PersonFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\CustomerSeeds\GroupFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Globalization\CurrencySeed.cs" />
+    <Compile Include="Seeds\Customer\PersonSeed.cs" />
+    <Compile Include="Seeds\Customer\StaticGroupSeed.cs" />
+    <Compile Include="Seeds\Customer\OrganizationFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Customer\PersonFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Customer\GroupFieldTemplateSeed.cs" />
     <Compile Include="Data\ConnectionProvider.cs" />
-    <Compile Include="Seeds\GlobalizationSeeds\ChannelSeed.cs" />
-    <Compile Include="Seeds\GlobalizationSeeds\DomainNameSeed.cs" />
-    <Compile Include="Seeds\GlobalizationSeeds\ChannelFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\GlobalizationSeeds\LanguageSeed.cs" />
-    <Compile Include="Seeds\GlobalizationSeeds\MarketFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\GlobalizationSeeds\TaxClassSeed.cs" />
+    <Compile Include="Seeds\Globalization\ChannelSeed.cs" />
+    <Compile Include="Seeds\Globalization\DomainNameSeed.cs" />
+    <Compile Include="Seeds\Globalization\ChannelFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Globalization\LanguageSeed.cs" />
+    <Compile Include="Seeds\Globalization\MarketFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Globalization\TaxClassSeed.cs" />
     <Compile Include="Seeds\ISeed.cs" />
     <Compile Include="Seeds\BaseSeeds\FieldTemplateSeed.cs" />
     <Compile Include="LitiumMigration.cs" />
-    <Compile Include="Seeds\GlobalizationSeeds\MarketSeed.cs" />
-    <Compile Include="Seeds\MediaSeeds\FolderFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\MediaSeeds\FileFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Globalization\MarketSeed.cs" />
+    <Compile Include="Seeds\Media\FolderFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Media\FileFieldTemplateSeed.cs" />
     <Compile Include="Migrations\Bootstrap.cs" />
-    <Compile Include="Seeds\GlobalizationSeeds\UnitOfMeasurementSeed.cs" />
-    <Compile Include="Seeds\ProductSeeds\AssortmentSeed.cs" />
-    <Compile Include="Seeds\ProductSeeds\CategoryDisplayTemplateSeed.cs" />
-    <Compile Include="Seeds\ProductSeeds\CategoryFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\ProductSeeds\ProductDisplayTemplateSeed.cs" />
-    <Compile Include="Seeds\ProductSeeds\ProductFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Globalization\UnitOfMeasurementSeed.cs" />
+    <Compile Include="Seeds\Product\AssortmentSeed.cs" />
+    <Compile Include="Seeds\Product\CategoryDisplayTemplateSeed.cs" />
+    <Compile Include="Seeds\Product\CategoryFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Product\ProductDisplayTemplateSeed.cs" />
+    <Compile Include="Seeds\Product\ProductFieldTemplateSeed.cs" />
     <Compile Include="Setup\MigrationsSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Seeds\WebsiteSeeds\BlockCategorySeed.cs" />
-    <Compile Include="Seeds\WebsiteSeeds\BlockSeed.cs" />
-    <Compile Include="Seeds\WebsiteSeeds\BlockFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\WebsiteSeeds\PageFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\WebsiteSeeds\PageSeed.cs" />
-    <Compile Include="Seeds\WebsiteSeeds\UrlRedirectSeed.cs" />
-    <Compile Include="Seeds\WebsiteSeeds\WebsiteSeed.cs" />
-    <Compile Include="Seeds\WebsiteSeeds\WebsiteFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Website\BlockCategorySeed.cs" />
+    <Compile Include="Seeds\Website\BlockSeed.cs" />
+    <Compile Include="Seeds\Website\BlockFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Website\PageFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Website\PageSeed.cs" />
+    <Compile Include="Seeds\Website\UrlRedirectSeed.cs" />
+    <Compile Include="Seeds\Website\WebsiteSeed.cs" />
+    <Compile Include="Seeds\Website\WebsiteFieldTemplateSeed.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -459,7 +463,20 @@
     <None Include="packages.config" />
     <None Include="migrationConfigration.yml.example" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="TextTemplate1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TextTemplate1.txt</LastGenOutput>
+    </Content>
+    <Content Include="TextTemplate1.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextTemplate1.tt</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="NuGetReferenceHintPathRewrite.targets" />
 </Project>

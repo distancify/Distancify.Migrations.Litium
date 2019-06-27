@@ -1,24 +1,14 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
-using System.Text;
-using Distancify.Migrations.Litium.Seeds.GlobalizationSeeds;
+using Distancify.Migrations.Litium.Seeds.Globalization;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.Respositories
 {
-    public class LanguageRepository : Repository<Language>
+    public class LanguageRepository : Repository<Language, LanguageSeed>
     {
-        public override void AppendMigration(StringBuilder builder)
+        protected override LanguageSeed CreateFrom(Language graphQlItem)
         {
-            foreach (var language in Items.Values)
-            {
+            return LanguageSeed.CreateFrom(graphQlItem);
 
-                builder.AppendLine($"\t\t\t{nameof(LanguageSeed)}.{nameof(LanguageSeed.Ensure)}(\"{language.Id}\")");
-                if (language.IsDefaultLanguage.HasValue)
-                {
-                    builder.AppendLine($"\t\t\t\t.{nameof(LanguageSeed.IsDefaultLanguage)}({language.IsDefaultLanguage.Value.ToString().ToLower()})");
-                }
-
-                builder.AppendLine("\t\t\t\t.Commit();");
-            }
         }
     }
 }

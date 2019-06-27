@@ -7,5 +7,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel
         public Guid SystemId { get; set; }
 
         public WebsiteFieldTemplate FieldTemplate { get; set; }
+
     }
 }

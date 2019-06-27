@@ -3,5 +3,6 @@
     public interface IGenerator
     {
         string GenerateMigration();
+        void PopulateSeedsWithData(LitiumGraphqlModel.Data data);
     }
 }

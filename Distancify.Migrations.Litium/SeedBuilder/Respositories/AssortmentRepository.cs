@@ -1,20 +1,14 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
 using System.Text;
-using Distancify.Migrations.Litium.Seeds.ProductSeeds;
+using Distancify.Migrations.Litium.Seeds.Product;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.Respositories
 {
-    public class AssortmentRepository : Repository<Assortment>
+    public class AssortmentRepository : Repository<Assortment, AssortmentSeed>
     {
-        public override void AppendMigration(StringBuilder builder)
+        protected override AssortmentSeed CreateFrom(Assortment graphQlItem)
         {
-            foreach (var assortment in Items.Values)
-            {
-
-                builder.AppendLine($"\t\t\t{nameof(AssortmentSeed)}.{nameof(AssortmentSeed.Ensure)}(\"{assortment.Id}\")");
-                builder.AppendLine("\t\t\t\t.Commit();");
-
-            }
+            return AssortmentSeed.CreateFrom(graphQlItem);
         }
     }
 }

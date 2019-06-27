@@ -8,5 +8,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel
         public IEnumerable<ChannelDomainProperties> Domains { get; set; }
 
         public IEnumerable<Country> Countries { get; set; }
+
     }
 }

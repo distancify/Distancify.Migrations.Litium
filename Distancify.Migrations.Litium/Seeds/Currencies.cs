@@ -2,7 +2,7 @@
 {
     public static class Currencies
     {
-        public const string SwedishKrona = "SEK";
-        public const string PoundSterling = "GBP";
+        public const string SEK = nameof(SEK);
+        public const string GBP = nameof(GBP);
     }
 }

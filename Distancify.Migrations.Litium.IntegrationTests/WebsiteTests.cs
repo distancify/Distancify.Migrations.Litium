@@ -28,11 +28,12 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 }"
             };
 
+            
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("WebsiteSeed.Ensure(\"website1\",\"website1template\")", res.Content);

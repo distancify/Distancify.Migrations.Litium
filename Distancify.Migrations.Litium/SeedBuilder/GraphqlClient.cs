@@ -2,20 +2,21 @@
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.SeedBuilder
 {
     public class GraphqlClient : IGraphqlClient
     {
-        public ResponseContainer FetchFromGraphql(MigrationConfiguration config)
+        public async Task<ResponseContainer> FetchFromGraphql(MigrationConfiguration config)
         {
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = client.PostAsync(config.Host + "/graphql", new StringContent(config.Query)).Result;
+                var response = await client.PostAsync(config.Host + "/graphql", new StringContent(config.Query));
 
-                return JsonConvert.DeserializeObject<ResponseContainer>(response.Content.ToString());
+                return JsonConvert.DeserializeObject<ResponseContainer>(await response.Content.ReadAsStringAsync());
             }
         }
     }

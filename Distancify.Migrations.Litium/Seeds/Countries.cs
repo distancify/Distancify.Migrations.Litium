@@ -2,7 +2,7 @@
 {
     public static class Countries
     {
-        public const string Sweden = "SE";
-        public const string UnitedKingdom = "GB";
+        public const string SE = nameof(SE);
+        public const string GB = nameof(GB);
     }
 }

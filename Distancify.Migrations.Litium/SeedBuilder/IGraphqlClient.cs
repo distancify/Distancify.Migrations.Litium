@@ -1,9 +1,10 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
+using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.SeedBuilder
 {
     public interface IGraphqlClient
     {
-        ResponseContainer FetchFromGraphql(MigrationConfiguration config);
+        Task<ResponseContainer> FetchFromGraphql(MigrationConfiguration config);
     }
 }

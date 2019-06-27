@@ -9,6 +9,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel
         public Currency Currency { get; set; }
 
         //taxclass
-        public double? StandardVatRate { get; set; }
+        public decimal? StandardVatRate { get; set; }
+
     }
 }

@@ -26,10 +26,10 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act + Assert
-            Assert.Throws<NullReferenceException>(() => sut.GenerateFile(config));
+            Assert.Throws<NullReferenceException>(() => sut.GenerateApplyCode(config));
         }
 
         [Fact]
@@ -55,10 +55,10 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("ChannelSeed.Ensure(\"sweden\", \"channelTemplate1\")", res.Content);
@@ -76,14 +76,17 @@ namespace Distancify.Migrations.Litium.IntegrationTests
     ""data"": {
         ""channels"": [
             {
-                ""id"": ""sweden"",
+                ""id"": ""sweden"",        
+                ""repositoryKey"": 123,
                 ""fieldTemplate"": {
-                    ""id"": ""channelTemplate1""
+                    ""id"": ""channelTemplate1"",
+                    ""systemId"": ""00000000-0000-0000-0000-000000000001""
                 },
                 ""domains"": [
                     {
                     ""domain"": {
-                      ""id"": ""distancify.com""
+                      ""id"": ""distancify.com"",
+                      ""systemId"": ""00000000-0000-0000-0000-000000000002""
                         },
                         ""redirect"": false,
                         ""urlPrefix"": null
@@ -96,10 +99,10 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("ChannelSeed.Ensure(\"sweden\", \"channelTemplate1\")", res.Content);
@@ -125,14 +128,16 @@ namespace Distancify.Migrations.Litium.IntegrationTests
                 ""domains"": [
                     {
                     ""domain"": {
-                      ""id"": ""distancify.com""
+                      ""id"": ""distancify.com"",
+                      ""systemId"": ""00000000-0000-0000-0000-000000000001""
                         },
                         ""redirect"": false,
                         ""urlPrefix"": null
                     },                    
                     {
                     ""domain"": {
-                      ""id"": ""distancify.se""
+                      ""id"": ""distancify.se"",
+                      ""systemId"": ""00000000-0000-0000-0000-000000000002""
                         },
                         ""redirect"": false,
                         ""urlPrefix"": null
@@ -145,10 +150,10 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("ChannelSeed.Ensure(\"sweden\", \"channelTemplate1\")", res.Content);

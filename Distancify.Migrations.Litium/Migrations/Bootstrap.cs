@@ -1,5 +1,8 @@
 ﻿using Distancify.Migrations.Litium.Data;
 using Distancify.Migrations.Litium.Seeds;
+using Distancify.Migrations.Litium.Seeds.Customer;
+using Distancify.Migrations.Litium.Seeds.Media;
+using Distancify.Migrations.Litium.Seeds.Website;
 using Litium.Media;
 using System;
 using System.Collections.Generic;
@@ -18,27 +21,27 @@ namespace Distancify.Migrations.Litium.Migrations
                 EnsureModules(connection);
             }
 
-            Seeds.WebsiteSeeds.UrlRedirectSeed.EnsureBatch()
+            UrlRedirectSeed.EnsureBatch()
                 .Add("/", "~/Litium/", true)
                 .Commit();
 
-            Seeds.CustomerSeeds.GroupFieldTemplateSeed.Ensure(Constants.DefaultSystemGroupTemplate)
+            GroupFieldTemplateSeed.Ensure(Constants.DefaultSystemGroupTemplate)
                 .Commit();
-            Seeds.CustomerSeeds.PersonFieldTemplateSeed.Ensure(Constants.DefaultSystemUserTemplate)
-                .Commit();
-
-            Seeds.CustomerSeeds.StaticGroupSeed.Ensure(Constants.Visitors, Constants.DefaultSystemGroupTemplate)
+            PersonFieldTemplateSeed.Ensure(Constants.DefaultSystemUserTemplate)
                 .Commit();
 
-            Seeds.CustomerSeeds.PersonSeed.EnsureSystem(Constants.DefaultSystemUserTemplate)
+            StaticGroupSeed.Ensure(Constants.Visitors, Constants.DefaultSystemGroupTemplate)
                 .Commit();
-            Seeds.CustomerSeeds.PersonSeed.EnsureEveryone(Constants.DefaultSystemUserTemplate)
+
+            PersonSeed.EnsureSystem(Constants.DefaultSystemUserTemplate)
+                .Commit();
+            PersonSeed.EnsureEveryone(Constants.DefaultSystemUserTemplate)
                 .WithGroupLink(Constants.Visitors)
                 .Commit();
 
-            Seeds.MediaSeeds.FolderFieldTemplateSeed.Ensure("DefaultFolderTemplate")
+            FolderFieldTemplateSeed.Ensure("DefaultFolderTemplate")
                 .Commit();
-            Seeds.MediaSeeds.FileFieldTemplateSeed.Ensure("DefaultFileTemplate")
+            FileFieldTemplateSeed.Ensure("DefaultFileTemplate")
                 .WithTemplateType(FileTemplateType.Other)
                 .Commit();
         }

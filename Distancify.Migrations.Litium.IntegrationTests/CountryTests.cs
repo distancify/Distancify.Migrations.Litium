@@ -31,10 +31,10 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("CountrySeed.Ensure(\"SE\",\"SEK\")", res.Content);
@@ -67,14 +67,14 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("CountrySeed.Ensure(\"SE\",\"SEK\")", res.Content);
-            Assert.Contains("\t.WithStandardVatRate(25)", res.Content);
+            Assert.Contains("\t.WithStandardVatRate(25.000000)", res.Content);
             Assert.Contains("\t.Commit();", res.Content);
 
         }
@@ -116,14 +116,14 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("CountrySeed.Ensure(\"SE\",\"SEK\")", res.Content);
-            Assert.Contains("\t.WithStandardVatRate(25)", res.Content);
+            Assert.Contains("\t.WithStandardVatRate(25.000000)", res.Content);
             Assert.Contains("\t.Commit();", res.Content);
             AssertExtentions.StringCount(1, "CountrySeed.Ensure(", res.Content);
 

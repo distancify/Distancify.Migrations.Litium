@@ -1,30 +1,16 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
 using System;
-using System.Text;
-using Distancify.Migrations.Litium.Seeds.GlobalizationSeeds;
+using Distancify.Migrations.Litium.Seeds.Globalization;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.Respositories
 {
-    public class CurrencyRepository : Repository<Currency>
+    public class CurrencyRepository : Repository<Currency, CurrencySeed>
     {
 
-        public override void AppendMigration(StringBuilder builder)
+          protected override CurrencySeed CreateFrom(Currency graphQlItem)
         {
-            foreach (var currency in Items.Values)
-            {
-                if (currency == null || string.IsNullOrEmpty(currency.Id))
-                {
-                    throw new NullReferenceException("At least one Currency with an ID obtained from the GraphQL endpoint is needed in order to ensure the Currencies");
-                }
+            return CurrencySeed.CreateFrom(graphQlItem);
 
-                builder.AppendLine($"\t\t\t{nameof(CurrencySeed)}.{nameof(CurrencySeed.Ensure)}(\"{currency.Id}\")");
-                if (currency.IsBaseCurrency.HasValue)
-                {
-                    builder.AppendLine($"\t\t\t\t.{nameof(CurrencySeed.IsBaseCurrency)}({currency.IsBaseCurrency.Value.ToString().ToLower()})");
-                }
-
-                builder.AppendLine("\t\t\t\t.Commit();");
-            }
         }
     }
 }

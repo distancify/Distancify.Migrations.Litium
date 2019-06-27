@@ -1,18 +1,14 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
-using Distancify.Migrations.Litium.Seeds.WebsiteSeeds;
+using Distancify.Migrations.Litium.Seeds.Website;
 using System.Text;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.Respositories
 {
-    public class WebsiteRepository : Repository<Website>
+    public class WebsiteRepository : Repository<Website, WebsiteSeed>
     {
-        public override void AppendMigration(StringBuilder builder)
+        protected override WebsiteSeed CreateFrom(Website graphQlItem)
         {
-            foreach (var website in Items.Values)
-            {
-                builder.AppendLine($"\t\t\t{nameof(WebsiteSeed)}.{nameof(WebsiteSeed.Ensure)}(\"{website.Id}\",\"{website.FieldTemplate.Id}\")");
-                builder.AppendLine("\t\t\t\t.Commit();");
-            }
+            return WebsiteSeed.CreateFrom(graphQlItem);
         }
     }
 }

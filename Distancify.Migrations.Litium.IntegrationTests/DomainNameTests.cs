@@ -26,10 +26,10 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("DomainNameSeed.Ensure(\"distancify.com\")", res.Content);
@@ -60,10 +60,10 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("DomainNameSeed.Ensure(\"distancify.com\")", res.Content);
@@ -95,10 +95,10 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("DomainNameSeed.Ensure(\"distancify.com\")", res.Content);

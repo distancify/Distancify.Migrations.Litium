@@ -1,6 +1,6 @@
 ﻿namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel
 {
-    public class GraphQlObject
+    public abstract class GraphQlObject
     {
         public string Id { get; set; }
     }

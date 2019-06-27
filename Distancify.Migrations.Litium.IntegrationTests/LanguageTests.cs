@@ -26,14 +26,13 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("LanguageSeed.Ensure(\"sv-SE\")", res.Content);
-            Assert.DoesNotContain("\t.IsDefaultLanguage(", res.Content);
             Assert.Contains("\t.Commit();", res.Content);
 
         }
@@ -59,10 +58,10 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("LanguageSeed.Ensure(\"sv-SE\")", res.Content);
@@ -92,10 +91,10 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("LanguageSeed.Ensure(\"sv-SE\")", res.Content);
@@ -130,10 +129,10 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             };
 
             var sut = new LitiumMigrationGenerator(client);
-            var config = sut.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateFile(config);
+            var res = sut.GenerateApplyCode(config);
 
             // Assert
             Assert.Contains("LanguageSeed.Ensure(\"da-DK\")", res.Content);
