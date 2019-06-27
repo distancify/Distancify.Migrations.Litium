@@ -10,8 +10,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         {
             if (!File.Exists(filePath))
             {
-                Console.WriteLine($"Could not find {filePath}");
-                return null;
+                throw new FileNotFoundException($"Migration configuration file located at {filePath} could not be found",filePath);
             }
 
             return ReadConfiguration(File.ReadAllText(filePath));

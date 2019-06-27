@@ -464,14 +464,14 @@
     <None Include="migrationConfigration.yml.example" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TextTemplate1.tt">
+    <Content Include="MigrationTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TextTemplate1.txt</LastGenOutput>
+      <LastGenOutput>MigrationTemplate.txt</LastGenOutput>
     </Content>
-    <Content Include="TextTemplate1.txt">
+    <Content Include="MigrationTemplate.txt">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TextTemplate1.tt</DependentUpon>
+      <DependentUpon>MigrationTemplate.tt</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>

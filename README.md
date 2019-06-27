@@ -66,6 +66,8 @@ public class MigrationsSetup : IStartupTask
 
 The seeds are based on the content of a yaml configuration, the configuration can contain several migrations, targeting different Litium instances and write to different files.
 
+The file configuration file should be named  ``migrationConfigration.yml`` and should be located in the same folder as the project file.
+
 ```yaml
 --- 
 - id: Migration1
@@ -104,16 +106,7 @@ The source code project contains an example of this configuration file.
 
 ### Generate seeds
 
-The generation is done by a powershell commandlet. You first need to import the module from the nuget package.
-
-After the import are you able to invoke the LitiumMigration commandlet.
-
-```powershell
-Import-Module .\packages\Distancify.Migrations.Litium1.0.0\Distancify.Migrations.Litium.dll
-Push-LitiumMigration -ConfigFileName C:\temp\migration\test.yml
-```
-
-
+As part of the Nuget package a T4-template called ``MigrationTemplate.tt`` added to the project. Right click the file at select "Run Custom Tool", this will run the template and generate the seed files.
 
 ## Running the tests
 
