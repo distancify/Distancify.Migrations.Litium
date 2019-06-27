@@ -6,12 +6,13 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.IO" #>
 
-<#@ assembly name="$(ProjectDir)\bin\Debug\Distancify.Migrations.Litium.Dll" #>
+<#@ assembly name="$(ProjectDir)$(OutDir)\Distancify.Migrations.Litium.Dll" #>
 <#@ import namespace="Distancify.Migrations.Litium.SeedBuilder" #>
 <#@ output extension=".txt" #>
 <#
             var generator = new LitiumMigrationGenerator(new GraphqlClient());
-			var configurations = ConfigurationReader.ReadConfigurationsFromFile("C:\\GitHub\\Distancify.Migrations.Litium\\Distancify.Migrations.Litium\\migrationConfigration.yml.example");
+			var projectPath = this.Host.ResolveAssemblyReference("$(ProjectDir)");
+			var configurations = ConfigurationReader.ReadConfigurationsFromFile(projectPath+"migrationConfigration.yml");
 
 			            foreach (var config in configurations)
             {
