@@ -408,7 +408,6 @@
     <Compile Include="SeedBuilder\LitiumGraphqlModel\ResponseContainer.cs" />
     <Compile Include="SeedBuilder\LitiumGraphqlModel\Website.cs" />
     <Compile Include="SeedBuilder\LitiumGraphqlModel\WebsiteFieldTemplate.cs" />
-    <Compile Include="LitiumMigrationGeneratorCmdlet.cs" />
     <Compile Include="SeedBuilder\MigrationConfiguration.cs" />
     <Compile Include="Seeds\ISeedGenerator.cs" />
     <Compile Include="Seeds\Product\AssortmentCategorySeed.cs" />
