@@ -104,15 +104,23 @@ The file configuration file should be named  ``migrationConfigration.yml`` and s
 
 The source code project contains an example of this configuration file.
 
-### Generate seeds
+### Generate Litium migration
 
-As part of the Nuget package a T4-template called ``MigrationTemplate.tt`` added to the project. Right click the file at select "Run Custom Tool", this will run the template and generate the seed files.
+The generation is done by a powershell commandlet. The module is imported by the init.ps1 in the nuget package.
+
+You can invoke the LitiumMigration commandlet in the Package Manager Console.
+
+```powershell
+Push-LitiumMigration -ConfigFileName C:\temp\migration\test.yml
+```
+
+The ``ConfigFileName`` is optional, and if not provided is the default value: *migrationConfigration.yml*
 
 ## Running the tests
 
 The tests are built using xUnit and does not require any setup in order to run inside Visual Studio's standard test runner.
 
-Currently is only the generation of seeds migration tested.
+Currently does the project only contain tests for the generation of migration seeds.
 
 ## Contributing
 
