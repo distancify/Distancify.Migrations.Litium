@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Scriban;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,7 +21,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             List<GeneratedFile> files = new List<GeneratedFile>();
             foreach (var config in configurations)
             {
-                var file = GenerateApplyCode(config);
+                var file = GenerateFile(config);
                 if (file == null)
                 {
                     continue;
@@ -32,7 +33,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             return files.ToArray();
         }
 
-        public GeneratedFile GenerateApplyCode(MigrationConfiguration configuration)
+        public GeneratedFile GenerateFile(MigrationConfiguration configuration)
         {
             var responseContainer = graphqlClient.FetchFromGraphql(configuration).GetAwaiter().GetResult();
             if (responseContainer == null)
@@ -49,13 +50,25 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             }
 
             var builder = new StringBuilder();
-
-
             builder.Append(seedRepository.GenerateMigration());
 
+            var template = Template.Parse(@"
+using Distancify.Migrations.Litium;
 
+namespace {{ config.namespace }}
+{
+	public class {{ config.class_name }} : {{ config.base_migration }}
+	{
+		public override void Apply()
+		{
+			{{ apply_code }}
+		}
+	}
+}");
 
-            return new GeneratedFile() { Filepath = configuration.Output, Content = builder.ToString() };
+            var content = template.Render(new { Config = configuration, ApplyCode = builder.ToString() });
+
+            return new GeneratedFile() { Filepath = configuration.Output, Content = content };
         }
 
     }

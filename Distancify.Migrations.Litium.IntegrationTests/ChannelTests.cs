@@ -29,7 +29,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act + Assert
-            Assert.Throws<NullReferenceException>(() => sut.GenerateApplyCode(config));
+            Assert.Throws<NullReferenceException>(() => sut.GenerateFile(config));
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateApplyCode(config);
+            var res = sut.GenerateFile(config);
 
             // Assert
             Assert.Contains("ChannelSeed.Ensure(\"sweden\", \"channelTemplate1\")", res.Content);
@@ -102,7 +102,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateApplyCode(config);
+            var res = sut.GenerateFile(config);
 
             // Assert
             Assert.Contains("ChannelSeed.Ensure(\"sweden\", \"channelTemplate1\")", res.Content);
@@ -153,7 +153,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateApplyCode(config);
+            var res = sut.GenerateFile(config);
 
             // Assert
             Assert.Contains("ChannelSeed.Ensure(\"sweden\", \"channelTemplate1\")", res.Content);

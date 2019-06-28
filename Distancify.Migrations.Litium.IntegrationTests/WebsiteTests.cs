@@ -33,7 +33,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             var sut = new LitiumMigrationGenerator(client);
 
             // Act
-            var res = sut.GenerateApplyCode(config);
+            var res = sut.GenerateFile(config);
 
             // Assert
             Assert.Contains("WebsiteSeed.Ensure(\"website1\",\"website1template\")", res.Content);

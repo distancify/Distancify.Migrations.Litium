@@ -27,6 +27,37 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
         }
 
+        [Fact]
+        public void GenerateFile_OneLanguage_NamespaceAndClassMatchConfig()
+        {
+            // Arrange
+
+            var client = new GraphqlClientMock()
+            {
+                GraphqlQueryResponse = @"
+{
+    ""data"": {
+        ""languages"": [
+            {
+                ""id"": ""sv-SE""
+            }
+        ]
+    }
+}"
+            };
+
+            var sut = new LitiumMigrationGenerator(client);
+            var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
+
+            // Act
+            var res = sut.GenerateFile(config);
+
+            // Assert
+            Assert.Contains("namespace Eqquo.Litium.Migrations.Production.Development", res.Content);
+            Assert.Contains("TestMigration1 : DevelopmentMigration", res.Content);
+
+        }
+
 
         public const string ExampleConfiguration = @"---
             - id: Migration1

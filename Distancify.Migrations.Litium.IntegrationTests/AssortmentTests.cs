@@ -29,7 +29,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
             var config = ConfigurationReader.ReadConfiguration(LitiumMigrationGeneratorTests.ExampleConfiguration)[0];
 
             // Act
-            var res = sut.GenerateApplyCode(config);
+            var res = sut.GenerateFile(config);
 
             // Assert
             Assert.Contains("AssortmentSeed.Ensure(\"assortment1\")", res.Content);
