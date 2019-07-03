@@ -114,7 +114,6 @@ namespace Distancify.Migrations.Litium.Seeds.Product
             return this;
         }
 
-
         public BaseProductSeed WithCategoryLink(string assortmentCategoryId)
         {
             var categorySystemGuid = IoC.Resolve<CategoryService>().Get(assortmentCategoryId).SystemId;

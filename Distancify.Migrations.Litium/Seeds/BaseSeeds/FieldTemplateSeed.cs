@@ -2,6 +2,7 @@
 using Litium;
 using Litium.FieldFramework;
 using Litium.Globalization;
+using Litium.Products;
 using Litium.Runtime;
 using Litium.Websites;
 using System;
@@ -10,8 +11,8 @@ using System.Linq;
 
 namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
 {
-    public abstract class FieldTemplateSeed<T> : ISeed  
-        where T: FieldTemplate
+    public abstract class FieldTemplateSeed<T> : ISeed
+        where T : FieldTemplate
     {
         protected readonly T fieldTemplate;
 
@@ -57,7 +58,13 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
 
         public FieldTemplateSeed<T> WithFieldGroup(string id, List<string> fieldIds, Dictionary<string, string> localizedNamesByCulture, bool collapsed = false)
         {
-            var fieldGroups = GetFieldGroups();
+            AddOrUpdateFieldGroup(GetFieldGroups(), id, fieldIds, localizedNamesByCulture, collapsed);
+            return this;
+        }
+
+        protected void AddOrUpdateFieldGroup(ICollection<FieldTemplateFieldGroup> fieldGroups, string id, List<string> fieldIds,
+            Dictionary<string, string> localizedNamesByCulture, bool collapsed = false)
+        {
             var fieldGroup = fieldGroups.FirstOrDefault(g => g.Id.Equals(id));
 
             if (fieldGroup == null)
@@ -88,8 +95,6 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
 
                 SetFieldGroupLocalizations(fieldGroup, localizedNamesByCulture);
             }
-
-            return this;
         }
 
         private void SetFieldGroupLocalizations(FieldTemplateFieldGroup fieldGroup, Dictionary<string, string> localizedNamesByCulture)
@@ -112,6 +117,7 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
                 case MarketFieldTemplate marketFieldTemplate: return marketFieldTemplate.FieldGroups;
                 case WebsiteFieldTemplate websiteFieldTemplate: return websiteFieldTemplate.FieldGroups;
                 case PageFieldTemplate pageFieldTemplate: return pageFieldTemplate.FieldGroups;
+                case ProductFieldTemplate productFieldTemplate: return productFieldTemplate.ProductFieldGroups;
                 default: return null;
             }
         }

@@ -3,6 +3,7 @@ using Litium;
 using Litium.FieldFramework;
 using Litium.Products;
 using System;
+using System.Collections.Generic;
 
 namespace Distancify.Migrations.Litium.Seeds.Product
 {
@@ -23,7 +24,14 @@ namespace Distancify.Migrations.Litium.Seeds.Product
             }
 
             return new ProductFieldTemplateSeed(productFieldTemplate);
+        }
 
+        public ProductFieldTemplateSeed WithVariantFieldGroup(string id, List<string> fieldIds, Dictionary<string, string> localizedNamesByCulture, bool collapsed = false)
+        {
+            var fieldGroups = (fieldTemplate as ProductFieldTemplate).VariantFieldGroups;
+            AddOrUpdateFieldGroup(fieldGroups, id, fieldIds, localizedNamesByCulture, collapsed);
+
+            return this;
         }
     }
 }

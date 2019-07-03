@@ -1,5 +1,6 @@
 using Litium;
 using Litium.FieldFramework;
+using Litium.FieldFramework.FieldTypes;
 using Litium.Runtime;
 using System;
 using System.Collections.Generic;
@@ -89,6 +90,43 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                     !item.Value.Equals(FieldDefinition.Localizations[item.Key].Description))
                 {
                     FieldDefinition.Localizations[item.Key].Description = item.Value;
+                }
+            }
+
+            return this;
+        }
+
+        public FieldDefinitionSeed WithTextOption(TextOption option)
+        {
+            if (!(FieldDefinition.Option is TextOption))
+            {
+                FieldDefinition.Option = new TextOption();
+            }
+
+            var textOption = FieldDefinition.Option as TextOption;
+            var fieldDefinitionItems = textOption.Items;
+
+            textOption.MultiSelect = option.MultiSelect;
+
+            foreach (var item in option.Items)
+            {
+                if (fieldDefinitionItems.FirstOrDefault(i => i.Value == item.Value) is TextOption.Item fieldDefinitionItem)
+                {
+                    foreach (var localization in item.Name.Keys)
+                    {
+                        if (!fieldDefinitionItem.Name.ContainsKey(localization))
+                        {
+                            fieldDefinitionItem.Name.Add(localization, item.Name[localization]);
+                        }
+                        else if (fieldDefinitionItem.Name[localization] != item.Name[localization])
+                        {
+                            fieldDefinitionItem.Name[localization] = item.Name[localization];
+                        }
+                    }
+                }
+                else
+                {
+                    fieldDefinitionItems.Add(item);
                 }
             }
 

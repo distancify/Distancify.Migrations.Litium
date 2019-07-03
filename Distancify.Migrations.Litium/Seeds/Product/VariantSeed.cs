@@ -1,6 +1,8 @@
 using Litium;
+using Litium.Globalization;
 using Litium.Products;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Distancify.Migrations.Litium.Seeds.Product
@@ -47,6 +49,23 @@ namespace Distancify.Migrations.Litium.Seeds.Product
             {
                 variant.Localizations[culture].Name = name;
             }
+
+            return this;
+        }
+
+        public VariantSeed WithField(string fieldName, Dictionary<string, object> values)
+        {
+            foreach (var localization in values.Keys)
+            {
+                variant.Fields.AddOrUpdateValue(fieldName, localization, values[localization]);
+            }
+
+            return this;
+        }
+
+        public VariantSeed WithField(string fieldName, object value)
+        {
+            variant.Fields.AddOrUpdateValue(fieldName, value);
 
             return this;
         }
@@ -120,6 +139,49 @@ namespace Distancify.Migrations.Litium.Seeds.Product
 
             return this;
         }
+
+        public VariantSeed WithChannelLink(string channelId)
+        {
+            var channelSystemId = IoC.Resolve<ChannelService>().Get(channelId).SystemId;
+
+            if (!variant.ChannelLinks.Any(l => l.ChannelSystemId == channelSystemId))
+            {
+                variant.ChannelLinks.Add(new VariantToChannelLink(channelSystemId));
+            }
+
+            return this;
+        }
+
+        public VariantSeed WithUnitOfMeasurement(string unitOfMeasurementId)
+        {
+            var unitOfMeasurementSystemId = IoC.Resolve<UnitOfMeasurementService>().Get(unitOfMeasurementId).SystemId;
+
+            variant.UnitOfMeasurementSystemId = unitOfMeasurementSystemId;
+            return this;
+        }
+
+        //public VariantSeed WithInventoryItem(string inventoryId, decimal inStockQuantity)
+        //{
+        //    var inventoryItemService = IoC.Resolve<InventoryItemService>();
+
+        //    var inventorySystemId = IoC.Resolve<InventoryService>().Get(inventoryId).SystemId;
+        //    var inventoryItem = inventoryItemService.Get(variant.SystemId, inventorySystemId)?.MakeWritableClone();
+
+        //    if (inventoryItem == null)
+        //    {
+        //        inventoryItemService.Create(new InventoryItem(variant.SystemId, inventorySystemId)
+        //        {
+        //            InStockQuantity = inStockQuantity
+        //        });
+        //    }
+        //    else
+        //    {
+        //        inventoryItem.InStockQuantity = inStockQuantity;
+        //        inventoryItemService.Update(inventoryItem);
+        //    }
+
+        //    return this;
+        //}
 
         //public VariantSeed WithInventoryItem(string inventoryId, string unitOfMeasurementId, decimal inStockQuantity = 0)
         //{

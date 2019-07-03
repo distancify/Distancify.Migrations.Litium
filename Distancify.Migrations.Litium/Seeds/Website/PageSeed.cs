@@ -55,7 +55,13 @@ namespace Distancify.Migrations.Litium.Seeds.Website
             return new PageSeed(pageClone);
         }
 
-        public PageSeed WithParrentPage(string parrentPageId)
+        public PageSeed IsParentPage()
+        {
+            page.ParentPageSystemId = Guid.Empty;
+            return this;
+        }
+
+        public PageSeed WithParentPage(string parrentPageId)
         {
             page.ParentPageSystemId = IoC.Resolve<PageService>().Get(parrentPageId).SystemId;
             return this;

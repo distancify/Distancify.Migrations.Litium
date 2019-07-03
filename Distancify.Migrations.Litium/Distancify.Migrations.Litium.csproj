@@ -419,6 +419,7 @@
     <Compile Include="Seeds\ISeedGenerator.cs" />
     <Compile Include="Seeds\Product\AssortmentCategorySeed.cs" />
     <Compile Include="Seeds\Product\BaseProductSeed.cs" />
+    <Compile Include="Seeds\Product\InventoryItemSeed.cs" />
     <Compile Include="Seeds\Product\InventorySeed.cs" />
     <Compile Include="Seeds\Product\PriceListSeed.cs" />
     <Compile Include="Seeds\Product\VariantSeed.cs" />
