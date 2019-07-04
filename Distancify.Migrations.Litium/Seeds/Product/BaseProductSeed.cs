@@ -3,6 +3,7 @@ using Litium.FieldFramework;
 using Litium.Globalization;
 using Litium.Products;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Distancify.Migrations.Litium.Seeds.Product
@@ -131,6 +132,24 @@ namespace Distancify.Migrations.Litium.Seeds.Product
 
             return this;
         }
+
+        public BaseProductSeed WithField(string fieldName, Dictionary<string, object> values)
+        {
+            foreach (var localization in values.Keys)
+            {
+                baseProduct.Fields.AddOrUpdateValue(fieldName, localization, values[localization]);
+            }
+
+            return this;
+        }
+
+        public BaseProductSeed WithField(string fieldName, object value)
+        {
+            baseProduct.Fields.AddOrUpdateValue(fieldName, value);
+
+            return this;
+        }
+
 
         /*
 * TODO: Remove CategoryLinks
