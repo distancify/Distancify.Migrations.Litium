@@ -4,7 +4,7 @@ using Litium.Customers;
 using System;
 using Litium.Security;
 
-namespace Distancify.Migrations.Litium.Seeds.Customer
+namespace Distancify.Migrations.Litium.Seeds.Customers
 {
     public class StaticGroupSeed : ISeed
     {

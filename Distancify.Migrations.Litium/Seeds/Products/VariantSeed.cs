@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Distancify.Migrations.Litium.Seeds.Product
+namespace Distancify.Migrations.Litium.Seeds.Products
 {
     public class VariantSeed : ISeed
     {

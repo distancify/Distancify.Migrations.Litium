@@ -5,7 +5,7 @@ using Litium.Customers;
 using System;
 using System.Collections.Generic;
 
-namespace Distancify.Migrations.Litium.Seeds.Customer
+namespace Distancify.Migrations.Litium.Seeds.Customers
 {
     public class OrganizationFieldTemplateSeed : FieldTemplateSeed<OrganizationFieldTemplate>
     {

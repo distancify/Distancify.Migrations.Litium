@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace Distancify.Migrations.Litium.Seeds.Product
+namespace Distancify.Migrations.Litium.Seeds.Products
 {
     public class AssortmentSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Assortment>
     {

@@ -5,7 +5,7 @@ using Litium.Websites;
 using System;
 using System.Linq;
 
-namespace Distancify.Migrations.Litium.Seeds.Website
+namespace Distancify.Migrations.Litium.Seeds.Websites
 {
     public class PageFieldTemplateSeed : FieldTemplateSeed<PageFieldTemplate>
     {

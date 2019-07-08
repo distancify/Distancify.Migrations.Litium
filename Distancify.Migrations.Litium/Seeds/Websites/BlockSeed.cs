@@ -5,7 +5,7 @@ using Litium;
 using Litium.Blocks;
 using Litium.FieldFramework;
 
-namespace Distancify.Migrations.Litium.Seeds.Website
+namespace Distancify.Migrations.Litium.Seeds.Websites
 {
     public class BlockSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Block>
     {

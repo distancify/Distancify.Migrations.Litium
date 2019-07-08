@@ -4,7 +4,7 @@ using Litium.Blocks;
 using Litium.FieldFramework;
 using System;
 
-namespace Distancify.Migrations.Litium.Seeds.Website
+namespace Distancify.Migrations.Litium.Seeds.Websites
 {
     public class BlockFieldTemplateSeed : FieldTemplateSeed<BlockFieldTemplate>
     {

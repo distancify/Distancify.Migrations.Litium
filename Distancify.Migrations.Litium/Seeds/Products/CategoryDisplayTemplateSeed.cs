@@ -2,7 +2,7 @@ using Litium;
 using Litium.Products;
 using System;
 
-namespace Distancify.Migrations.Litium.Seeds.Product
+namespace Distancify.Migrations.Litium.Seeds.Products
 {
     public class CategoryDisplayTemplateSeed : ISeed
     {

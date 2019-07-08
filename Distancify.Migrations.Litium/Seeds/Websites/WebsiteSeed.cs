@@ -4,7 +4,7 @@ using LW = Litium.Websites;
 using System;
 using System.Text;
 
-namespace Distancify.Migrations.Litium.Seeds.Website
+namespace Distancify.Migrations.Litium.Seeds.Websites
 {
     public class WebsiteSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Website>
     {

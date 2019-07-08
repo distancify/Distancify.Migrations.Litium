@@ -3,7 +3,7 @@ using Litium.Products;
 using System;
 using System.Linq;
 
-namespace Distancify.Migrations.Litium.Seeds.Globalization
+namespace Distancify.Migrations.Litium.Seeds.Products
 {
     public class UnitOfMeasurementSeed : ISeed
     {
