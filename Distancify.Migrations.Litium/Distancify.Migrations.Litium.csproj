@@ -385,7 +385,7 @@
     <Compile Include="SeedBuilder\ConfigurationReader.cs" />
     <Compile Include="SeedBuilder\LitiumGraphqlModel\Block.cs" />
     <Compile Include="SeedBuilder\IGenerator.cs" />
-    <Compile Include="Seeds\Constants.cs" />
+    <Compile Include="Seeds\LitiumConstants.cs" />
     <Compile Include="Seeds\Countries.cs" />
     <Compile Include="Seeds\Currencies.cs" />
     <Compile Include="SeedBuilder\Respositories\AssortmentRepository.cs" />
