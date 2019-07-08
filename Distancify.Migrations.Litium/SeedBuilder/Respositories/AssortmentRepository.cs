@@ -1,6 +1,6 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
+using Distancify.Migrations.Litium.Seeds.Products;
 using System.Text;
-using Distancify.Migrations.Litium.Seeds.Product;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.Respositories
 {
