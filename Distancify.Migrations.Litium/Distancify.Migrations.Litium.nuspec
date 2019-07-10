@@ -16,6 +16,6 @@
   </metadata>
   <files>
     <file src="init.ps1" target="tools" />
-	<file src="migrationConfigration.yml.example" target="content" />
+	<file src="migrationConfiguration.yml.example" target="content" />
   </files>
 </package>

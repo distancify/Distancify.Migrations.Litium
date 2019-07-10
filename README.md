@@ -114,7 +114,7 @@ You can invoke the LitiumMigration commandlet in the Package Manager Console.
 Push-LitiumMigration -ConfigFileName C:\temp\migration\test.yml
 ```
 
-The ``ConfigFileName`` is optional, and if not provided is the default value: *migrationConfigration.yml*
+The ``ConfigFileName`` is optional, and if not provided is the default value: *migrationConfiguration.yml*
 
 ## Running the tests
 
