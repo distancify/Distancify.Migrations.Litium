@@ -1,6 +1,7 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
 using Distancify.Migrations.Litium.SeedBuilder.Respositories;
 using Distancify.Migrations.Litium.Seeds;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -88,87 +89,30 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             return migrationBuilder.ToString();
         }
 
-       
+
         public void PopulateSeedsWithData(LitiumGraphqlModel.Data data)
         {
-            //if (data.Globalization.DomainNames != null)
-            //{
-            //    foreach (var d in data.Globalization.DomainNames)
-            //    {
-            //        domainNameSeedRespository.AddOrMerge(d);
-            //    }
-            //}
-
             AddOrMerge(domainNameSeedRespository, data.Globalization.DomainNames);
-
-            //if (data.Globalization.Currencies != null)
-            //{
-            //    foreach (var c in data.Globalization.Currencies)
-            //    {
-            //        currencySeedRespository.AddOrMerge(c);
-            //    }
-            //}
 
             AddOrMerge(currencySeedRespository, data.Globalization.Currencies);
 
-            //if (data.Globalization.Countries != null)
-            //{
-            //    foreach (var c in data.Globalization.Countries)
-            //    {
-            //        countrySeedRespository.AddOrMerge(c);
-            //    }
-            //}
-
             AddOrMerge(countrySeedRespository, data.Globalization.Countries);
-
-            //if (data.Globalization.Languages != null)
-            //{
-            //    foreach (var l in data.Globalization.Languages)
-            //    {
-            //        languageSeedRespository.AddOrMerge(l);
-            //    }
-            //}
 
             AddOrMerge(languageSeedRespository, data.Globalization.Languages);
 
-            //if (data.Websites != null)
-            //{
-            //    foreach (var w in data.Websites)
-            //    {
-            //        websiteSeedRespository.AddOrMerge(w);
-            //    }
-            //}
-
             AddOrMerge(websiteSeedRespository, data.Websites);
-
-
-            //if (data.Assortments != null)
-            //{
-            //    foreach (var a in data.Assortments)
-            //    {
-            //        assortmentSeedRespository.AddOrMerge(a);
-            //    }
-            //}
 
             AddOrMerge(assortmentSeedRespository, data.Assortments);
 
-            if (data.Globalization.Channels != null)
-            {
-                foreach (var c in data.Globalization.Channels)
+            AddOrMerge(channelSeedRespository, data.Globalization.Channels,
+                channel =>
                 {
-                    channelSeedRespository.AddOrMerge(c);
-                    if (c.Countries != null)
-                    {
-                        foreach (var cc in c.Countries)
-                        {
-                            countrySeedRespository.AddOrMerge(cc);
-                        }
-                    }
-                }
-            }
+                    AddOrMerge(countrySeedRespository, channel.Countries);
+                    //AddOrMerge(null, channel.FieldTemplate);
+                });
         }
 
-        private void AddOrMerge<T, TSeedGenerator>(Repository<T, TSeedGenerator> repository, IEnumerable<T> values)
+        private void AddOrMerge<T, TSeedGenerator>(Repository<T, TSeedGenerator> repository, IEnumerable<T> values, Action<T> nestedPopulation = null)
             where T : GraphQlObject
             where TSeedGenerator : ISeedGenerator<T>
         {
@@ -177,6 +121,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 foreach (var value in values)
                 {
                     repository.AddOrMerge(value);
+                    nestedPopulation?.Invoke(value);
                 }
             }
         }
