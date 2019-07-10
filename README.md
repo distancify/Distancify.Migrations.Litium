@@ -66,7 +66,7 @@ public class MigrationsSetup : IStartupTask
 
 The seeds are based on the content of a yaml configuration, the configuration can contain several migrations, targeting different Litium instances and write to different files.
 
-The file configuration file should be named  ``migrationConfigration.yml`` and should be located in the same folder as the project file.
+The file configuration file should be named  ``migrationConfiguration.yml`` and should be located in the same folder as the project file.
 
 ```yaml
 --- 
@@ -114,7 +114,7 @@ You can invoke the LitiumMigration commandlet in the Package Manager Console.
 Push-LitiumMigration -ConfigFileName C:\temp\migration\test.yml
 ```
 
-The ``ConfigFileName`` is optional, and if not provided is the default value: *migrationConfigration.yml*
+The ``ConfigFileName`` is optional, and if not provided is the default value: *migrationConfiguration.yml*
 
 ## Running the tests
 

@@ -10,7 +10,7 @@ namespace Distancify.Migrations.Litium
     {
 
         //[Parameter]
-        public string ConfigFileName { get; set; } = "migrationConfigration.yml";
+        public string ConfigFileName { get; set; } = "migrationConfiguration.yml";
 
         public void ProcessRecord()
         {
