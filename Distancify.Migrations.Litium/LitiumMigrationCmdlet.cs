@@ -1,21 +1,20 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder;
 using System.IO;
-using System.Management.Automation;
 
 namespace Distancify.Migrations.Litium
 {
 
-    [Cmdlet(VerbsCommon.Push, "LitiumMigration")]
-    [OutputType(typeof(void))]
-    public class LitiumMigrationCmdlet : Cmdlet
+    //[Cmdlet(VerbsCommon.Push, "LitiumMigration")]
+    //[OutputType(typeof(void))]
+    public class LitiumMigrationCmdlet //: Cmdlet
     {
 
-        [Parameter]
+        //[Parameter]
         public string ConfigFileName { get; set; } = "migrationConfigration.yml";
 
-        protected override void ProcessRecord()
+        public void ProcessRecord()
         {
-            base.BeginProcessing();
+            //base.BeginProcessing();
             var generator = new LitiumMigrationGenerator(new GraphqlClient());
             var files = generator.GenerateAllFiles(ConfigurationReader.ReadConfigurationsFromFile(ConfigFileName));
 

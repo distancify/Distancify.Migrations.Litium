@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
-    public class ChannelSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Channel>
+    public class ChannelSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Globalization.Channel>
     {
         private readonly Channel channel;
         private string fieldTemplateId;
@@ -29,7 +29,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return Ensure(channel, fieldTemplateId);
         }
 
-        internal static ChannelSeed CreateFrom(SeedBuilder.LitiumGraphqlModel.Channel channel)
+        internal static ChannelSeed CreateFrom(SeedBuilder.LitiumGraphqlModel.Globalization.Channel channel)
         {
             var seed = new ChannelSeed(new Channel(Guid.Empty), string.Empty);
             return (ChannelSeed)seed.Update(channel);
@@ -69,8 +69,6 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 channel = channel.MakeWritableClone();
             }
 
-
-
             return new ChannelSeed(channel, fieldTemplateId);
         }
 
@@ -87,8 +85,6 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 service.Create(channel);
                 return;
             }
-
-
 
             service.Update(channel);
         }
@@ -230,7 +226,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         private Dictionary<Guid, string> domainNameIdDictionary;
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Channel> Update(SeedBuilder.LitiumGraphqlModel.Channel channel)
+        public ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Globalization.Channel> Update(SeedBuilder.LitiumGraphqlModel.Globalization.Channel channel)
         {
             if (channel.FieldTemplate == null || string.IsNullOrEmpty(channel.FieldTemplate.Id))
             {
@@ -267,7 +263,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
 
             //builder.AppendLine($"\t\t\t{nameof(ChannelSeed)}.{nameof(ChannelSeed.Ensure)}(\"{channel.Id}\", \"\")");
-            builder.AppendLine($"\t\t\t{nameof(ChannelSeed)}.{nameof(ChannelSeed.Ensure)}(\"{channel.Id}\", \"{fieldTemplateId}\")");
+            builder.AppendLine($"\r\n\t\t\t{nameof(ChannelSeed)}.{nameof(ChannelSeed.Ensure)}(\"{channel.Id}\", \"{fieldTemplateId}\")");
             // WithField
             // WithField
 

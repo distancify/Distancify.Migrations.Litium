@@ -1,0 +1,18 @@
+---
+- id: MigrationTest
+  baseMigration: DevelopmentMigration
+  className: TestMigration2
+  host: https://wholesale-beta.kidsconcept.com
+  namespace: Eqquo.Litium.Migrations.Production.Development
+  output: C:\Projects\Distancify.Migrations.Litium\Distancify.Migrations.Litium\test2.cs
+  query: |
+    query{
+        globalization{
+            channels{
+                id
+                fieldTemplate{
+                    id
+                }
+            }
+        }
+    }

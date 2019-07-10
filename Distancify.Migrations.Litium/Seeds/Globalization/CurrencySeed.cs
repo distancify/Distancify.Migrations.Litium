@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
-    public class CurrencySeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Currency>
+    public class CurrencySeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Globalization.Currency>
     {
         private readonly Currency currency;
 
@@ -39,7 +39,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return new CurrencySeed(currency);
         }
 
-        internal static CurrencySeed CreateFrom(SeedBuilder.LitiumGraphqlModel.Currency currency)
+        internal static CurrencySeed CreateFrom(SeedBuilder.LitiumGraphqlModel.Globalization.Currency currency)
         {
             var seed = new CurrencySeed(new Currency(currency.Id));
             return (CurrencySeed)seed.Update(currency);
@@ -64,7 +64,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             builder.AppendLine("\t\t\t\t.Commit();");
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Currency> Update(SeedBuilder.LitiumGraphqlModel.Currency data)
+        public ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Globalization.Currency> Update(SeedBuilder.LitiumGraphqlModel.Globalization.Currency data)
         {
             if (data.IsBaseCurrency.HasValue)
             {
