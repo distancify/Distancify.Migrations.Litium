@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Website
 {
-    public class WebsiteSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Website>
+    public class WebsiteSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Website>
     {
         private LW.Website website;
         private string fieldTemplateId;
@@ -49,7 +49,7 @@ namespace Distancify.Migrations.Litium.Seeds.Website
             return new WebsiteSeed(websiteClone, websiteTemplateName);
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Website> Update(SeedBuilder.LitiumGraphqlModel.Website data)
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Website> Update(SeedBuilder.LitiumGraphQlModel.Website data)
         {
             this.website.Id = data.Id;
             this.website.FieldTemplateSystemId = Guid.Empty;
@@ -63,7 +63,7 @@ namespace Distancify.Migrations.Litium.Seeds.Website
             builder.AppendLine("\t\t\t\t.Commit();");
         }
 
-        internal static WebsiteSeed CreateFrom(SeedBuilder.LitiumGraphqlModel.Website website)
+        internal static WebsiteSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Website website)
         {
             var seed = new WebsiteSeed(new LW.Website(Guid.Empty), string.Empty);
             return (WebsiteSeed)seed.Update(website);

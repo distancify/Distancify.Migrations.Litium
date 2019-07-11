@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel.Globalization
+namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Globalization
 {
     public class DomainName : GraphQlObject
     {

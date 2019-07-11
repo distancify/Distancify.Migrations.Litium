@@ -5,30 +5,31 @@ using Litium.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
-    public class FieldDefinitionSeed : ISeed
+    public class FieldDefinitionSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldDefinition>
     {
-        private readonly FieldDefinition FieldDefinition;
+        private readonly FieldDefinition fieldDefinition;
 
         private FieldDefinitionSeed(FieldDefinition fieldDefinition)
         {
-            FieldDefinition = fieldDefinition;
+            this.fieldDefinition = fieldDefinition;
         }
 
         public void Commit()
         {
             var fieldDefinitionService = IoC.Resolve<FieldDefinitionService>();
 
-            if (FieldDefinition.SystemId == Guid.Empty)
+            if (fieldDefinition.SystemId == Guid.Empty)
             {
-                FieldDefinition.SystemId = Guid.NewGuid();
-                fieldDefinitionService.Create(FieldDefinition);
+                fieldDefinition.SystemId = Guid.NewGuid();
+                fieldDefinitionService.Create(fieldDefinition);
             }
             else
             {
-                fieldDefinitionService.Update(FieldDefinition);
+                fieldDefinitionService.Update(fieldDefinition);
             }
         }
 
@@ -47,9 +48,9 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public FieldDefinitionSeed IsMultiCulture(bool on)
         {
-            if (FieldDefinition.SystemId == Guid.Empty)//Cannot change this value for existing fields
+            if (fieldDefinition.SystemId == Guid.Empty)//Cannot change this value for existing fields
             {
-                FieldDefinition.MultiCulture = on;
+                fieldDefinition.MultiCulture = on;
             }
 
             return this;
@@ -57,14 +58,14 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public FieldDefinitionSeed CanBeGridColumn(bool on)
         {
-            FieldDefinition.CanBeGridColumn = on;
+            fieldDefinition.CanBeGridColumn = on;
             return this;
         }
 
 
         public FieldDefinitionSeed CanBeGridFilter(bool on)
         {
-            FieldDefinition.CanBeGridFilter = on;
+            fieldDefinition.CanBeGridFilter = on;
             return this;
         }
 
@@ -72,10 +73,10 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         {
             foreach (var item in localizedNamesByCulture)
             {
-                if (!FieldDefinition.Localizations.Any(l => l.Key.Equals(item.Key)) ||
-                    !FieldDefinition.Localizations[item.Key].Name.Equals(item.Value))
+                if (!fieldDefinition.Localizations.Any(l => l.Key.Equals(item.Key)) ||
+                    !fieldDefinition.Localizations[item.Key].Name.Equals(item.Value))
                 {
-                    FieldDefinition.Localizations[item.Key].Name = item.Value;
+                    fieldDefinition.Localizations[item.Key].Name = item.Value;
                 }
             }
 
@@ -86,10 +87,10 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         {
             foreach (var item in localizedDescriptionsByCulture)
             {
-                if (!FieldDefinition.Localizations.Any(l => l.Key.Equals(item.Key)) ||
-                    !item.Value.Equals(FieldDefinition.Localizations[item.Key].Description))
+                if (!fieldDefinition.Localizations.Any(l => l.Key.Equals(item.Key)) ||
+                    !item.Value.Equals(fieldDefinition.Localizations[item.Key].Description))
                 {
-                    FieldDefinition.Localizations[item.Key].Description = item.Value;
+                    fieldDefinition.Localizations[item.Key].Description = item.Value;
                 }
             }
 
@@ -98,12 +99,12 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public FieldDefinitionSeed WithTextOption(TextOption option)
         {
-            if (!(FieldDefinition.Option is TextOption))
+            if (!(fieldDefinition.Option is TextOption))
             {
-                FieldDefinition.Option = new TextOption();
+                fieldDefinition.Option = new TextOption();
             }
 
-            var textOption = FieldDefinition.Option as TextOption;
+            var textOption = fieldDefinition.Option as TextOption;
             var fieldDefinitionItems = textOption.Items;
 
             textOption.MultiSelect = option.MultiSelect;
@@ -132,5 +133,38 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
             return this;
         }
+
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.FieldDefinition graphQlFieldDefinition)
+        {
+            this.fieldDefinition.MultiCulture = graphQlFieldDefinition.MultiCulture;
+            this.fieldDefinition.CanBeGridColumn = graphQlFieldDefinition.CanBeGridColumn;
+            this.fieldDefinition.CanBeGridFilter = graphQlFieldDefinition.CanBeGridFilter;
+
+            return this;
+        }
+
+        public void WriteMigration(StringBuilder builder)
+        {
+            builder.AppendLine($"\t\t\t{nameof(FieldDefinitionSeed)}.{nameof(Ensure)}<{fieldDefinition.AreaType.Name}>(\"{fieldDefinition.Id}\", \"{fieldDefinition.FieldType}\")");
+            builder.AppendLine($"\t\t\t\t.{nameof(IsMultiCulture)}({fieldDefinition.MultiCulture.ToString().ToLower()})");
+            builder.AppendLine($"\t\t\t\t.{nameof(CanBeGridColumn)}({fieldDefinition.CanBeGridColumn.ToString().ToLower()})");
+            builder.AppendLine($"\t\t\t\t.{nameof(CanBeGridFilter)}({fieldDefinition.CanBeGridFilter.ToString().ToLower()})");
+            builder.AppendLine("\t\t\t\t.Commit();");
+        }
+
+        public static FieldDefinitionSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.FieldDefinition graphQlItem)
+        {
+            var areaType = AppDomain.CurrentDomain
+                .GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .FirstOrDefault(t => t.Name == graphQlItem.AreaType);
+
+            if(areaType == null)
+                throw new Exception($"Cannot find the type for the areaType {graphQlItem.AreaType}");
+
+            var seed = new FieldDefinitionSeed(new FieldDefinition(graphQlItem.Id, graphQlItem.FieldType, areaType));
+            return (FieldDefinitionSeed)seed.Update(graphQlItem);
+        }
+
     }
 }

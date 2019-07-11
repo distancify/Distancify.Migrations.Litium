@@ -60,8 +60,7 @@ namespace {{ config.namespace }}
 	public class {{ config.class_name }} : {{ config.base_migration }}
 	{
 		public override void Apply()
-		{
-			{{ apply_code }}
+		{ {{ apply_code }}
 		}
 	}
 }");

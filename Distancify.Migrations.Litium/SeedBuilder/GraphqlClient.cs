@@ -1,4 +1,4 @@
-﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
+﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;

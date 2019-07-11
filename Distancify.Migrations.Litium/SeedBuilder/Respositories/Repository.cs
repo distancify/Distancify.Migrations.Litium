@@ -1,4 +1,4 @@
-﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
+﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
 using Distancify.Migrations.Litium.Seeds;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,9 @@ using System.Text;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.Respositories
 {
-    public abstract class Repository<T, TSeedGenerator>
+    public interface IRepository { }
+
+    public abstract class Repository<T, TSeedGenerator> : IRepository
         where T : GraphQlObject
         where TSeedGenerator : ISeedGenerator<T>
     {

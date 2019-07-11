@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Distancify.Migrations.Litium.SeedBuilder;
-using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
+using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
 using Newtonsoft.Json;
 
 namespace Distancify.Migrations.Litium.IntegrationTests.Mocks

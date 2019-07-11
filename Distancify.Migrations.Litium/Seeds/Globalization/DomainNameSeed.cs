@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
-    public class DomainNameSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Globalization.DomainName>
+    public class DomainNameSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Globalization.DomainName>
     {
         private DomainName domainName;
 
@@ -39,7 +39,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             service.Update(domainName);
         }
 
-        internal static DomainNameSeed CreateFrom(SeedBuilder.LitiumGraphqlModel.Globalization.DomainName channel)
+        internal static DomainNameSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Globalization.DomainName channel)
         {
             var seed = new DomainNameSeed(new DomainName(channel.Id));
             return (DomainNameSeed)seed.Update(channel);
@@ -57,7 +57,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Globalization.DomainName> Update(SeedBuilder.LitiumGraphqlModel.Globalization.DomainName data)
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Globalization.DomainName> Update(SeedBuilder.LitiumGraphQlModel.Globalization.DomainName data)
         {
             this.domainName.Robots = data.Robots;
             this.domainName.HttpStrictTransportSecurityMaxAge = data.HttpStrictTransportSecurityMaxAge;

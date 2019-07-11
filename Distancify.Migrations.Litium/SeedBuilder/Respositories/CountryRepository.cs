@@ -1,7 +1,7 @@
-﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
+﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
 using System;
 using Distancify.Migrations.Litium.Seeds.Globalization;
-using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel.Globalization;
+using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Globalization;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.Respositories
 {

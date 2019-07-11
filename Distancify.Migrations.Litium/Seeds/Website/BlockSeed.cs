@@ -7,7 +7,7 @@ using Litium.FieldFramework;
 
 namespace Distancify.Migrations.Litium.Seeds.Website
 {
-    public class BlockSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Block>
+    public class BlockSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Block>
     {
         private readonly Block block;
 
@@ -71,7 +71,7 @@ namespace Distancify.Migrations.Litium.Seeds.Website
         }
 
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Block> Update(SeedBuilder.LitiumGraphqlModel.Block data)
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Block> Update(SeedBuilder.LitiumGraphQlModel.Block data)
         {
             throw new NotImplementedException();
         }

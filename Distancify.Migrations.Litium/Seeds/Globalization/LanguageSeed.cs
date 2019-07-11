@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
-    public class LanguageSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Globalization.Language>
+    public class LanguageSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Globalization.Language>
     {
         private readonly Language language;
 
@@ -39,7 +39,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             service.Update(language);
         }
 
-        internal static LanguageSeed CreateFrom(SeedBuilder.LitiumGraphqlModel.Globalization.Language language)
+        internal static LanguageSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Globalization.Language language)
         {
             var seed = new LanguageSeed(new Language(language.Id));
             return (LanguageSeed)seed.Update(language);
@@ -52,7 +52,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Globalization.Language> Update(SeedBuilder.LitiumGraphqlModel.Globalization.Language data)
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Globalization.Language> Update(SeedBuilder.LitiumGraphQlModel.Globalization.Language data)
         {
             if (data.IsDefaultLanguage.HasValue)
             {
