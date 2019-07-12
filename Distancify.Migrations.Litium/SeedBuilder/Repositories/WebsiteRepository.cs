@@ -1,8 +1,7 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
 using Distancify.Migrations.Litium.Seeds.Website;
-using System.Text;
 
-namespace Distancify.Migrations.Litium.SeedBuilder.Respositories
+namespace Distancify.Migrations.Litium.SeedBuilder.Repositories
 {
     public class WebsiteRepository : Repository<Website, WebsiteSeed>
     {

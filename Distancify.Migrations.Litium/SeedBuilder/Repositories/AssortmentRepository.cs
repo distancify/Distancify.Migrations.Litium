@@ -1,8 +1,7 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
-using System.Text;
 using Distancify.Migrations.Litium.Seeds.Product;
 
-namespace Distancify.Migrations.Litium.SeedBuilder.Respositories
+namespace Distancify.Migrations.Litium.SeedBuilder.Repositories
 {
     public class AssortmentRepository : Repository<Assortment, AssortmentSeed>
     {

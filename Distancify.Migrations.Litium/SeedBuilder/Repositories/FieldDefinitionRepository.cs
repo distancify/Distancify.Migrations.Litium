@@ -1,7 +1,7 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
 using Distancify.Migrations.Litium.Seeds.Globalization;
 
-namespace Distancify.Migrations.Litium.SeedBuilder.Respositories
+namespace Distancify.Migrations.Litium.SeedBuilder.Repositories
 {
     public class FieldDefinitionRepository : Repository<FieldDefinition, FieldDefinitionSeed>
     {

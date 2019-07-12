@@ -1,10 +1,10 @@
-﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
-using Distancify.Migrations.Litium.Seeds;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
+using Distancify.Migrations.Litium.Seeds;
 
-namespace Distancify.Migrations.Litium.SeedBuilder.Respositories
+namespace Distancify.Migrations.Litium.SeedBuilder.Repositories
 {
     public interface IRepository { }
 

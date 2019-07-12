@@ -1,9 +1,9 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
-using Distancify.Migrations.Litium.SeedBuilder.Respositories;
 using Distancify.Migrations.Litium.Seeds;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Distancify.Migrations.Litium.SeedBuilder.Repositories;
 using Microsoft.EntityFrameworkCore.Internal;
 
 
