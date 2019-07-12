@@ -78,7 +78,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
             foreach (var localization in data.Localizations)
             {
-                if (!string.IsNullOrWhiteSpace(localization.Culture) && !string.IsNullOrWhiteSpace(localization.Name))
+                if (!string.IsNullOrEmpty(localization.Culture) && !string.IsNullOrEmpty(localization.Name))
                     _unitOfMeasurement.Localizations[localization.Culture].Name = localization.Name;
                 else 
                     this.Log().Warn("The UnitOfMeasurement {UnitOfMeasurementId} contains a localization with an empty culture and/or name!", data.Id);
