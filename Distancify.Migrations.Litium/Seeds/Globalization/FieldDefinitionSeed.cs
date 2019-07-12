@@ -11,25 +11,25 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
     public class FieldDefinitionSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldDefinition>
     {
-        private readonly FieldDefinition fieldDefinition;
+        private readonly FieldDefinition _fieldDefinition;
 
         private FieldDefinitionSeed(FieldDefinition fieldDefinition)
         {
-            this.fieldDefinition = fieldDefinition;
+            _fieldDefinition = fieldDefinition;
         }
 
         public void Commit()
         {
             var fieldDefinitionService = IoC.Resolve<FieldDefinitionService>();
 
-            if (fieldDefinition.SystemId == Guid.Empty)
+            if (_fieldDefinition.SystemId == Guid.Empty)
             {
-                fieldDefinition.SystemId = Guid.NewGuid();
-                fieldDefinitionService.Create(fieldDefinition);
+                _fieldDefinition.SystemId = Guid.NewGuid();
+                fieldDefinitionService.Create(_fieldDefinition);
             }
             else
             {
-                fieldDefinitionService.Update(fieldDefinition);
+                fieldDefinitionService.Update(_fieldDefinition);
             }
         }
 
@@ -48,9 +48,9 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public FieldDefinitionSeed IsMultiCulture(bool on)
         {
-            if (fieldDefinition.SystemId == Guid.Empty)//Cannot change this value for existing fields
+            if (_fieldDefinition.SystemId == Guid.Empty)//Cannot change this value for existing fields
             {
-                fieldDefinition.MultiCulture = on;
+                _fieldDefinition.MultiCulture = on;
             }
 
             return this;
@@ -58,14 +58,14 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public FieldDefinitionSeed CanBeGridColumn(bool on)
         {
-            fieldDefinition.CanBeGridColumn = on;
+            _fieldDefinition.CanBeGridColumn = on;
             return this;
         }
 
 
         public FieldDefinitionSeed CanBeGridFilter(bool on)
         {
-            fieldDefinition.CanBeGridFilter = on;
+            _fieldDefinition.CanBeGridFilter = on;
             return this;
         }
 
@@ -73,10 +73,10 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         {
             foreach (var item in localizedNamesByCulture)
             {
-                if (!fieldDefinition.Localizations.Any(l => l.Key.Equals(item.Key)) ||
-                    !fieldDefinition.Localizations[item.Key].Name.Equals(item.Value))
+                if (!_fieldDefinition.Localizations.Any(l => l.Key.Equals(item.Key)) ||
+                    !_fieldDefinition.Localizations[item.Key].Name.Equals(item.Value))
                 {
-                    fieldDefinition.Localizations[item.Key].Name = item.Value;
+                    _fieldDefinition.Localizations[item.Key].Name = item.Value;
                 }
             }
 
@@ -87,10 +87,10 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         {
             foreach (var item in localizedDescriptionsByCulture)
             {
-                if (!fieldDefinition.Localizations.Any(l => l.Key.Equals(item.Key)) ||
-                    !item.Value.Equals(fieldDefinition.Localizations[item.Key].Description))
+                if (!_fieldDefinition.Localizations.Any(l => l.Key.Equals(item.Key)) ||
+                    !item.Value.Equals(_fieldDefinition.Localizations[item.Key].Description))
                 {
-                    fieldDefinition.Localizations[item.Key].Description = item.Value;
+                    _fieldDefinition.Localizations[item.Key].Description = item.Value;
                 }
             }
 
@@ -99,12 +99,12 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public FieldDefinitionSeed WithTextOption(TextOption option)
         {
-            if (!(fieldDefinition.Option is TextOption))
+            if (!(_fieldDefinition.Option is TextOption))
             {
-                fieldDefinition.Option = new TextOption();
+                _fieldDefinition.Option = new TextOption();
             }
 
-            var textOption = fieldDefinition.Option as TextOption;
+            var textOption = _fieldDefinition.Option as TextOption;
             var fieldDefinitionItems = textOption.Items;
 
             textOption.MultiSelect = option.MultiSelect;
@@ -149,19 +149,19 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         }
         public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.FieldDefinition graphQlFieldDefinition)
         {
-            this.fieldDefinition.MultiCulture = graphQlFieldDefinition.MultiCulture;
-            this.fieldDefinition.CanBeGridColumn = graphQlFieldDefinition.CanBeGridColumn;
-            this.fieldDefinition.CanBeGridFilter = graphQlFieldDefinition.CanBeGridFilter;
+            _fieldDefinition.MultiCulture = graphQlFieldDefinition.MultiCulture;
+            _fieldDefinition.CanBeGridColumn = graphQlFieldDefinition.CanBeGridColumn;
+            _fieldDefinition.CanBeGridFilter = graphQlFieldDefinition.CanBeGridFilter;
 
             return this;
         }
 
         public void WriteMigration(StringBuilder builder)
         {
-            builder.AppendLine($"\t\t\t{nameof(FieldDefinitionSeed)}.{nameof(Ensure)}<{fieldDefinition.AreaType.Name}>(\"{fieldDefinition.Id}\", \"{fieldDefinition.FieldType}\")");
-            builder.AppendLine($"\t\t\t\t.{nameof(IsMultiCulture)}({fieldDefinition.MultiCulture.ToString().ToLower()})");
-            builder.AppendLine($"\t\t\t\t.{nameof(CanBeGridColumn)}({fieldDefinition.CanBeGridColumn.ToString().ToLower()})");
-            builder.AppendLine($"\t\t\t\t.{nameof(CanBeGridFilter)}({fieldDefinition.CanBeGridFilter.ToString().ToLower()})");
+            builder.AppendLine($"\t\t\t{nameof(FieldDefinitionSeed)}.{nameof(Ensure)}<{_fieldDefinition.AreaType.Name}>(\"{_fieldDefinition.Id}\", \"{_fieldDefinition.FieldType}\")");
+            builder.AppendLine($"\t\t\t\t.{nameof(IsMultiCulture)}({_fieldDefinition.MultiCulture.ToString().ToLower()})");
+            builder.AppendLine($"\t\t\t\t.{nameof(CanBeGridColumn)}({_fieldDefinition.CanBeGridColumn.ToString().ToLower()})");
+            builder.AppendLine($"\t\t\t\t.{nameof(CanBeGridFilter)}({_fieldDefinition.CanBeGridFilter.ToString().ToLower()})");
             builder.AppendLine("\t\t\t\t.Commit();");
         }
     }

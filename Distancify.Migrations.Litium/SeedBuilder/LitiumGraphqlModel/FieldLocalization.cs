@@ -10,6 +10,5 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
     {
         public string Culture { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
     }
 }

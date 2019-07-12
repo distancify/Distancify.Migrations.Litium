@@ -6,6 +6,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Globalizat
     {
         public IEnumerable<FieldDefinition> FieldDefinitions { get; set; }
         public IEnumerable<Channel> Channels { get; set; }
+        public IEnumerable<Market> Markets { get; set; }
         public IEnumerable<DomainName> DomainNames { get; set; }
         public IEnumerable<Currency> Currencies { get; set; }
         public IEnumerable<Country> Countries { get; set; }

@@ -2,6 +2,6 @@
 {
     public abstract class GraphQlObject
     {
-        public string Id { get; set; }
+        public virtual string Id { get; set; }
     }
 }

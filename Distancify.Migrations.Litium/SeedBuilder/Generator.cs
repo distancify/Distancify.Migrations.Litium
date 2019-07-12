@@ -15,6 +15,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private FieldDefinitionRepository fieldDefinitionRepository  = new FieldDefinitionRepository();
         private UnitOfMeasurementRepository unitOfMeasurementRepository = new UnitOfMeasurementRepository();
         private InventoryRepository inventoryRepository = new InventoryRepository();
+        private MarketRepository marketRepository =  new MarketRepository();
         private ChannelRepository channelSeedRespository = new ChannelRepository();
         private CountryRepository countrySeedRespository = new CountryRepository();
         private DomainNameRepository domainNameSeedRespository = new DomainNameRepository();
@@ -32,6 +33,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 seedsCount += fieldDefinitionRepository.NumberOfItems;
                 seedsCount += unitOfMeasurementRepository.NumberOfItems;
                 seedsCount += inventoryRepository.NumberOfItems;
+                seedsCount += marketRepository.NumberOfItems;
                 seedsCount += channelSeedRespository.NumberOfItems;
                 seedsCount += countrySeedRespository.NumberOfItems;
                 seedsCount += domainNameSeedRespository.NumberOfItems;
@@ -86,19 +88,19 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             var migrationBuilder = new StringBuilder("\n");
 
-            if (this.data.Globalization?.Languages != null)
+            if (data.Globalization?.Languages != null)
             {
                 languageSeedRespository.WriteMigration(migrationBuilder);
                 migrationBuilder.AppendLine();
             }
 
-            if (this.data.Products?.UnitOfMeasurements != null)
+            if (data.Products?.UnitOfMeasurements != null)
             {
                 unitOfMeasurementRepository.WriteMigration(migrationBuilder);
                 migrationBuilder.AppendLine();
             }
 
-            if (this.data.Products?.Inventories != null)
+            if (data.Products?.Inventories != null)
             {
                 inventoryRepository.WriteMigration(migrationBuilder);
             }
@@ -115,11 +117,16 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 migrationBuilder.AppendLine();
             }
 
-            if (this.data.Globalization?.Countries != null)
+            if (data.Globalization?.Countries != null)
             {
                 countrySeedRespository.WriteMigration(migrationBuilder);
             }
 
+            if (data.Globalization?.Markets != null)
+            {
+                marketRepository.WriteMigration(migrationBuilder);
+                migrationBuilder.AppendLine();
+            }
 
             if (this.data.Globalization?.FieldDefinitions != null)
             {
@@ -127,11 +134,14 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 migrationBuilder.AppendLine();
             }
 
+            if (data.Globalization?.DomainNames != null)
+            {
+                domainNameSeedRespository.WriteMigration(migrationBuilder);
+                migrationBuilder.AppendLine();
+            }
 
             return migrationBuilder.ToString();
 
-            domainNameSeedRespository.WriteMigration(migrationBuilder);
-            migrationBuilder.AppendLine();
             websiteSeedRespository.WriteMigration(migrationBuilder);
             migrationBuilder.AppendLine();
             channelSeedRespository.WriteMigration(migrationBuilder);
@@ -158,6 +168,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 AddOrMerge(fieldDefinitionRepository, data.Globalization.FieldDefinitions);
                 AddOrMerge(domainNameSeedRespository, data.Globalization.DomainNames);
                 AddOrMerge(currencySeedRespository, data.Globalization.Currencies);
+                AddOrMerge(marketRepository, data.Globalization.Markets);
                 AddOrMerge(countrySeedRespository, data.Globalization.Countries);
                 AddOrMerge(languageSeedRespository, data.Globalization.Languages);
                 AddOrMerge(channelSeedRespository, data.Globalization.Channels,
