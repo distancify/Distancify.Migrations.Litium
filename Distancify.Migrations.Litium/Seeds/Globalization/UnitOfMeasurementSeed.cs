@@ -1,17 +1,14 @@
 using Litium;
 using Litium.Products;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
-using Litium.FieldFramework;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
-    public class UnitOfMeasurementSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.UnitOfMeasurement>
+    public class UnitOfMeasurementSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.UnitOfMeasurement>
     {
-        private UnitOfMeasurement _unitOfMeasurement;
+        private readonly UnitOfMeasurement _unitOfMeasurement;
 
         protected UnitOfMeasurementSeed(UnitOfMeasurement unitOfMeasurement)
         {
@@ -66,13 +63,13 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         //TODO: Fields
 
-        internal static UnitOfMeasurementSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.UnitOfMeasurement graphQlItem)
+        internal static UnitOfMeasurementSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Products.UnitOfMeasurement graphQlItem)
         {
             var seed = new UnitOfMeasurementSeed(new UnitOfMeasurement(graphQlItem.Id));
             return (UnitOfMeasurementSeed)seed.Update(graphQlItem);
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.UnitOfMeasurement> Update(SeedBuilder.LitiumGraphQlModel.UnitOfMeasurement data)
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.UnitOfMeasurement> Update(SeedBuilder.LitiumGraphQlModel.Products.UnitOfMeasurement data)
         {
             if (Guid.TryParse(data.SystemId, out var systemId))
                 _unitOfMeasurement.SystemId = systemId;

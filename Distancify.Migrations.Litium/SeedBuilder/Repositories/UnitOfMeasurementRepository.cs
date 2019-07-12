@@ -1,4 +1,4 @@
-﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
+﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Products;
 using Distancify.Migrations.Litium.Seeds.Globalization;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.Repositories
