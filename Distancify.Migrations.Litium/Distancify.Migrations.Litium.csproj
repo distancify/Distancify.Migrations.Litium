@@ -388,6 +388,7 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldDefinition.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Globalization.cs" />
     <Compile Include="SeedBuilder\Respositories\FieldDefinitionRepository.cs" />
+    <Compile Include="SeedBuilder\Respositories\UnitOfMeasurementRepository.cs" />
     <Compile Include="Seeds\Constants.cs" />
     <Compile Include="Seeds\Countries.cs" />
     <Compile Include="Seeds\Currencies.cs" />

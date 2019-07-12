@@ -4,6 +4,7 @@ using Distancify.Migrations.Litium.Seeds;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.EntityFrameworkCore.Internal;
 
 
 namespace Distancify.Migrations.Litium.SeedBuilder
@@ -19,6 +20,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private LanguageRepository languageSeedRespository = new LanguageRepository();
         private WebsiteRepository websiteSeedRespository = new WebsiteRepository();
         private AssortmentRepository assortmentSeedRespository = new AssortmentRepository();
+
+        private LitiumGraphQlModel.Data data;
 
         public int NumberOfSeeds
         {
@@ -79,14 +82,40 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             var migrationBuilder = new StringBuilder("\n");
 
-            fieldDefinitionRepository.WriteMigration(migrationBuilder);
+            if (this.data.Globalization.Languages != null)
+            {
+                languageSeedRespository.WriteMigration(migrationBuilder);
+                migrationBuilder.AppendLine();
+            }
+            if (this.data.Globalization.Countries != null)
+            {
+                currencySeedRespository.WriteMigration(migrationBuilder);
+                migrationBuilder.AppendLine();
+            }
+
+            if (this.data.Globalization.Countries != null)
+            {
+                countrySeedRespository.WriteMigration(migrationBuilder);
+            }
+
+
+            if (this.data.Globalization.FieldDefinitions != null)
+            {
+                fieldDefinitionRepository.WriteMigration(migrationBuilder);
+                migrationBuilder.AppendLine();
+            }
+
+
+            return migrationBuilder.ToString();
+
             domainNameSeedRespository.WriteMigration(migrationBuilder);
-            currencySeedRespository.WriteMigration(migrationBuilder);
-            countrySeedRespository.WriteMigration(migrationBuilder);
-            languageSeedRespository.WriteMigration(migrationBuilder);
+            migrationBuilder.AppendLine();
             assortmentSeedRespository.WriteMigration(migrationBuilder);
+            migrationBuilder.AppendLine();
             websiteSeedRespository.WriteMigration(migrationBuilder);
+            migrationBuilder.AppendLine();
             channelSeedRespository.WriteMigration(migrationBuilder);
+
 
             return migrationBuilder.ToString();
         }
@@ -94,6 +123,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
        
         public void PopulateSeedsWithData(LitiumGraphQlModel.Data data)
         {
+            this.data = data;
+
             //if (data.Globalization.DomainNames != null)
             //{
             //    foreach (var d in data.Globalization.DomainNames)

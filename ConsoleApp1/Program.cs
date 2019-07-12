@@ -13,7 +13,7 @@ namespace ConsoleApp1
         {
             new LitiumMigrationCmdlet()
             {
-                ConfigFileName = @"C:\Projects\Distancify.Migrations.Litium\Distancify.Migrations.Litium\first.yml"
+                ConfigFileName = @"T:\migrations\test.yml"
             }.ProcessRecord();
 
             Console.WriteLine("Done");
