@@ -28,16 +28,16 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             service.Update(_unitOfMeasurement);
         }
 
-        public static UnitOfMeasurementSeed Ensure(string unitOfMeasurementId)
+        public static UnitOfMeasurementSeed Ensure(string id)
         {
-            var unitOfMeasurementClone =
-                IoC.Resolve<UnitOfMeasurementService>().Get(unitOfMeasurementId)?.MakeWritableClone() ??
-                new UnitOfMeasurement(unitOfMeasurementId)
+            var unitOfMeasurement =
+                IoC.Resolve<UnitOfMeasurementService>().Get(id)?.MakeWritableClone() ??
+                new UnitOfMeasurement(id)
                 {
                     SystemId = Guid.Empty
                 };
 
-            return new UnitOfMeasurementSeed(unitOfMeasurementClone);
+            return new UnitOfMeasurementSeed(unitOfMeasurement);
         }
 
         public UnitOfMeasurementSeed WithName(string culture, string name)
