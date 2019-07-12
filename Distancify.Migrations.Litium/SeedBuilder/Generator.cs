@@ -13,6 +13,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
     {
         //public List<ISeed> seeds;
         private FieldDefinitionRepository fieldDefinitionRepository  = new FieldDefinitionRepository();
+        private UnitOfMeasurementRepository unitOfMeasurementRepository = new UnitOfMeasurementRepository();
         private ChannelRepository channelSeedRespository = new ChannelRepository();
         private CountryRepository countrySeedRespository = new CountryRepository();
         private DomainNameRepository domainNameSeedRespository = new DomainNameRepository();
@@ -28,6 +29,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             get {
                 int seedsCount = 0;
                 seedsCount += fieldDefinitionRepository.NumberOfItems;
+                seedsCount += unitOfMeasurementRepository.NumberOfItems;
                 seedsCount += channelSeedRespository.NumberOfItems;
                 seedsCount += countrySeedRespository.NumberOfItems;
                 seedsCount += domainNameSeedRespository.NumberOfItems;
@@ -82,24 +84,30 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             var migrationBuilder = new StringBuilder("\n");
 
-            if (this.data.Globalization.Languages != null)
+            if (this.data.Globalization?.Languages != null)
             {
                 languageSeedRespository.WriteMigration(migrationBuilder);
                 migrationBuilder.AppendLine();
             }
-            if (this.data.Globalization.Countries != null)
+
+            if (this.data.Products?.UnitOfMeasurements != null)
+            {
+                unitOfMeasurementRepository.WriteMigration(migrationBuilder);
+                migrationBuilder.AppendLine();
+            }
+            if (data.Globalization?.Countries != null)
             {
                 currencySeedRespository.WriteMigration(migrationBuilder);
                 migrationBuilder.AppendLine();
             }
 
-            if (this.data.Globalization.Countries != null)
+            if (this.data.Globalization?.Countries != null)
             {
                 countrySeedRespository.WriteMigration(migrationBuilder);
             }
 
 
-            if (this.data.Globalization.FieldDefinitions != null)
+            if (this.data.Globalization?.FieldDefinitions != null)
             {
                 fieldDefinitionRepository.WriteMigration(migrationBuilder);
                 migrationBuilder.AppendLine();
@@ -134,6 +142,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             //}
 
             AddOrMerge(fieldDefinitionRepository, data.Globalization.FieldDefinitions);
+            AddOrMerge(unitOfMeasurementRepository, data.Products.UnitOfMeasurements);
+
             AddOrMerge(domainNameSeedRespository, data.Globalization.DomainNames);
 
             AddOrMerge(currencySeedRespository, data.Globalization.Currencies);

@@ -134,6 +134,19 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
         }
 
+        public static FieldDefinitionSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.FieldDefinition graphQlItem)
+        {
+            var areaType = AppDomain.CurrentDomain
+                .GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .FirstOrDefault(t => t.Name == graphQlItem.AreaType);
+
+            if (areaType == null)
+                throw new Exception($"Cannot find the type for the areaType {graphQlItem.AreaType}");
+
+            var seed = new FieldDefinitionSeed(new FieldDefinition(graphQlItem.Id, graphQlItem.FieldType, areaType));
+            return (FieldDefinitionSeed)seed.Update(graphQlItem);
+        }
         public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.FieldDefinition graphQlFieldDefinition)
         {
             this.fieldDefinition.MultiCulture = graphQlFieldDefinition.MultiCulture;
@@ -151,20 +164,5 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             builder.AppendLine($"\t\t\t\t.{nameof(CanBeGridFilter)}({fieldDefinition.CanBeGridFilter.ToString().ToLower()})");
             builder.AppendLine("\t\t\t\t.Commit();");
         }
-
-        public static FieldDefinitionSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.FieldDefinition graphQlItem)
-        {
-            var areaType = AppDomain.CurrentDomain
-                .GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .FirstOrDefault(t => t.Name == graphQlItem.AreaType);
-
-            if(areaType == null)
-                throw new Exception($"Cannot find the type for the areaType {graphQlItem.AreaType}");
-
-            var seed = new FieldDefinitionSeed(new FieldDefinition(graphQlItem.Id, graphQlItem.FieldType, areaType));
-            return (FieldDefinitionSeed)seed.Update(graphQlItem);
-        }
-
     }
 }

@@ -1,36 +1,40 @@
 using Litium;
 using Litium.Products;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
+using Litium.FieldFramework;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
-    public class UnitOfMeasurementSeed : ISeed
+    public class UnitOfMeasurementSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.UnitOfMeasurement>
     {
-        private readonly UnitOfMeasurement unitOfMeasurement;
+        private UnitOfMeasurement _unitOfMeasurement;
 
         protected UnitOfMeasurementSeed(UnitOfMeasurement unitOfMeasurement)
         {
-            this.unitOfMeasurement = unitOfMeasurement;
+            _unitOfMeasurement = unitOfMeasurement;
         }
 
         public void Commit()
         {
             var service = IoC.Resolve<UnitOfMeasurementService>();
-
-            if (unitOfMeasurement.SystemId == null || unitOfMeasurement.SystemId == Guid.Empty)
+            if (_unitOfMeasurement.SystemId == Guid.Empty)
             {
-                unitOfMeasurement.SystemId = Guid.NewGuid();
-                service.Create(unitOfMeasurement);
+                _unitOfMeasurement.SystemId = Guid.NewGuid();
+                service.Create(_unitOfMeasurement);
                 return;
             }
 
-            service.Update(unitOfMeasurement);
+            service.Update(_unitOfMeasurement);
         }
 
         public static UnitOfMeasurementSeed Ensure(string unitOfMeasurementId)
         {
-            var unitOfMeasurementClone = IoC.Resolve<UnitOfMeasurementService>().Get(unitOfMeasurementId)?.MakeWritableClone() ??
+            var unitOfMeasurementClone =
+                IoC.Resolve<UnitOfMeasurementService>().Get(unitOfMeasurementId)?.MakeWritableClone() ??
                 new UnitOfMeasurement(unitOfMeasurementId)
                 {
                     SystemId = Guid.Empty
@@ -41,17 +45,61 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public UnitOfMeasurementSeed WithName(string culture, string name)
         {
-            if (!unitOfMeasurement.Localizations.Any(l => l.Key.Equals(culture)) ||
-                string.IsNullOrEmpty(unitOfMeasurement.Localizations[culture].Name) ||
-                !unitOfMeasurement.Localizations[culture].Name.Equals(name))
+            if (!_unitOfMeasurement.Localizations.Any(l => l.Key.Equals(culture)) ||
+                string.IsNullOrEmpty(_unitOfMeasurement.Localizations[culture].Name) ||
+                !_unitOfMeasurement.Localizations[culture].Name.Equals(name))
             {
-                unitOfMeasurement.Localizations[culture].Name = name;
+                _unitOfMeasurement.Localizations[culture].Name = name;
             }
 
             return this;
         }
 
-        //TODO: DecimalDigits
+        public UnitOfMeasurementSeed WithDecimalDigits(int decimalDigits)
+        {
+            if (decimalDigits < 0 || decimalDigits > 4)
+                throw new ArgumentOutOfRangeException(nameof(decimalDigits), "The value must be a number from the interval 0-4");
+
+            _unitOfMeasurement.DecimalDigits = decimalDigits;
+            return this;
+        }
+
         //TODO: Fields
+
+        internal static UnitOfMeasurementSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.UnitOfMeasurement graphQlItem)
+        {
+            var seed = new UnitOfMeasurementSeed(new UnitOfMeasurement(graphQlItem.Id));
+            return (UnitOfMeasurementSeed)seed.Update(graphQlItem);
+        }
+
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.UnitOfMeasurement> Update(SeedBuilder.LitiumGraphQlModel.UnitOfMeasurement data)
+        {
+            if (Guid.TryParse(data.SystemId, out var systemId))
+                _unitOfMeasurement.SystemId = systemId;
+
+            _unitOfMeasurement.DecimalDigits = data.DecimalDigits;
+
+            foreach (var localization in data.Localizations)
+            {
+                if (!string.IsNullOrWhiteSpace(localization.Culture) && !string.IsNullOrWhiteSpace(localization.Name))
+                    _unitOfMeasurement.Localizations[localization.Culture].Name = localization.Name;
+                else 
+                    this.Log().Warn("The UnitOfMeasurement {UnitOfMeasurementId} contains a localization with an empty culture and/or name!", data.Id);
+            }
+
+            return this;
+        }
+
+        public void WriteMigration(StringBuilder builder)
+        {
+            builder.AppendLine($"\t\t\t{nameof(UnitOfMeasurementSeed)}.{nameof(Ensure)}(\"{_unitOfMeasurement.Id}\")");
+            foreach (var localization in _unitOfMeasurement.Localizations)
+                builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
+
+            if(_unitOfMeasurement.DecimalDigits > 0)
+                builder.AppendLine($"\t\t\t\t.{nameof(WithDecimalDigits)}({_unitOfMeasurement.DecimalDigits})");
+
+            builder.AppendLine("\t\t\t\t.Commit();");
+        }
     }
 }
