@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text;
 using Litium;
 using Litium.Blocks;
 using Litium.FieldFramework;
@@ -7,40 +8,41 @@ using Litium.Websites;
 
 namespace Distancify.Migrations.Litium.Seeds.Websites
 {
-    public class PageSeed : ISeed
+    public class PageSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Websites.Page>
     {
-        private readonly Page page;
+        private readonly Page _page;
+        private string _fieldTemplateId;
         private bool isPublished;
 
-        protected PageSeed(Page page)
+        protected PageSeed(Page page, string fieldTemplateId)
         {
-            this.page = page;
+            _page = page;
+            _fieldTemplateId = fieldTemplateId;
         }
 
         public void Commit()
         {
             var service = IoC.Resolve<PageService>();
 
-            if (page.SystemId == null || page.SystemId == Guid.Empty)
+            if (_page.SystemId == null || _page.SystemId == Guid.Empty)
             {
-                page.SystemId = Guid.NewGuid();
-                service.Create(page);
+                _page.SystemId = Guid.NewGuid();
+                service.Create(_page);
             }
 
-            service.Update(page);
+            service.Update(_page);
             if (isPublished)
             {
                 var dS = IoC.Resolve<DraftPageService>();
-                var draftPageClone = dS.Get(page.SystemId).MakeWritableClone();
+                var draftPageClone = dS.Get(_page.SystemId).MakeWritableClone();
                 dS.Update(draftPageClone);
                 dS.Publish(draftPageClone);
             }
         }
 
-        public static PageSeed Ensure(string pageId, string websiteName, string pageTemplateName)
+        public static PageSeed Ensure(string pageId, string pageFieldTemplateId)
         {
-            var websiteSystemGuid = IoC.Resolve<WebsiteService>().Get(websiteName).SystemId;
-            var pageFieldTemplateSystemGuid = IoC.Resolve<FieldTemplateService>().Get<PageFieldTemplate>(pageTemplateName).SystemId;
+            var pageFieldTemplateSystemGuid = IoC.Resolve<FieldTemplateService>().Get<PageFieldTemplate>(pageFieldTemplateId).SystemId;
 
             var pageClone = IoC.Resolve<PageService>().Get(pageId)?.MakeWritableClone();
             if (pageClone is null)
@@ -48,22 +50,97 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 pageClone = new Page(pageFieldTemplateSystemGuid, Guid.Empty);
                 pageClone.Id = pageId;
                 pageClone.SystemId = Guid.Empty;
-                pageClone.Localizations["en-US"].Name = pageId;
-                pageClone.WebsiteSystemId = websiteSystemGuid;
             }
 
-            return new PageSeed(pageClone);
+            return new PageSeed(pageClone, pageFieldTemplateId);
+        }
+
+        public static PageSeed Ensure(Guid pageSystemId, string pageFieldTemplateId)
+        {
+            var pageFieldTemplateSystemId = IoC.Resolve<FieldTemplateService>().Get<PageFieldTemplate>(pageFieldTemplateId).SystemId;
+            var pageClone = IoC.Resolve<PageService>().Get(pageSystemId)?.MakeWritableClone();
+
+            if (pageClone != null)
+            {
+                pageClone.FieldTemplateSystemId = pageFieldTemplateSystemId;
+                return new PageSeed(pageClone, pageFieldTemplateId);
+            }
+
+            return new PageSeed(new Page(pageFieldTemplateSystemId, Guid.Empty), pageFieldTemplateId);
+        }
+
+        public static PageSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Websites.Page page)
+        {
+            var seed = new PageSeed(new Page(page.FieldTemplate.SystemId, page.ParentPageSystemId), page.FieldTemplate.Id);
+            return (PageSeed)seed.Update(page);
+        }
+
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Websites.Page> Update(SeedBuilder.LitiumGraphQlModel.Websites.Page data)
+        {
+            _page.SystemId = data.SystemId;
+            _page.WebsiteSystemId = data.WebsiteSystemId;
+            _fieldTemplateId = data.FieldTemplate.Id;
+
+            foreach (var localization in data.Localizations)
+            {
+                if (!string.IsNullOrEmpty(localization.Culture) && !string.IsNullOrEmpty(localization.Name))
+                {
+                    _page.Localizations[localization.Culture].Name = localization.Name;
+                }
+                else
+                {
+                    this.Log().Warn("The page with system id {PageSystemId} contains a localization with an empty culture and/or name!", data.SystemId.ToString());
+                }
+            }
+            return this;
+        }
+
+        public void WriteMigration(StringBuilder builder)
+        {
+            builder.AppendLine($"\t\t\t{nameof(PageSeed)}.{nameof(Ensure)}(Guid.Parse(\"{_page.SystemId.ToString()}\"), \"{_fieldTemplateId}\")");
+            builder.AppendLine($"\t\t\t\t.{nameof(WithWebsite)}(Guid.Parse(\"{_page.WebsiteSystemId}\"))");
+            builder.AppendLine($"\t\t\t\t.{nameof(WithParentPage)}(Guid.Parse(\"{_page.ParentPageSystemId}\"))");
+
+            foreach (var localization in _page.Localizations)
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
+            }
+
+            builder.AppendLine("\t\t\t\t.Commit();");
         }
 
         public PageSeed IsParentPage()
         {
-            page.ParentPageSystemId = Guid.Empty;
+            _page.ParentPageSystemId = Guid.Empty;
             return this;
         }
 
         public PageSeed WithParentPage(string parrentPageId)
         {
-            page.ParentPageSystemId = IoC.Resolve<PageService>().Get(parrentPageId).SystemId;
+            _page.ParentPageSystemId = IoC.Resolve<PageService>().Get(parrentPageId).SystemId;
+            return this;
+        }
+
+        public PageSeed WithParentPage(Guid parentPageSystemId)
+        {
+            _page.ParentPageSystemId = parentPageSystemId;
+            return this;
+        }
+
+        public PageSeed WithName(string culture, string name)
+        {
+            if (!_page.Localizations.Any(l => l.Key.Equals(culture)) ||
+                !_page.Localizations[culture].Name.Equals(name))
+            {
+                _page.Localizations[culture].Name = name;
+            }
+
+            return this;
+        }
+
+        public PageSeed WithWebsite(Guid websiteSystemId)
+        {
+            _page.WebsiteSystemId = websiteSystemId;
             return this;
         }
 
@@ -71,11 +148,11 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         {
             //BUG: For some reason is blocks not added to the page.. why???
 
-            var blockItemContainerItem = page.Blocks.FirstOrDefault(c => c.Id == containerId);
+            var blockItemContainerItem = _page.Blocks.FirstOrDefault(c => c.Id == containerId);
             if (blockItemContainerItem == null)
             {
                 blockItemContainerItem = new BlockItemContainer(containerId);
-                page.Blocks.Add(blockItemContainerItem);
+                _page.Blocks.Add(blockItemContainerItem);
             }
 
 

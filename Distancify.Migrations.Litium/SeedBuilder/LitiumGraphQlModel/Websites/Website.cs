@@ -12,5 +12,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Websites
         public WebsiteFieldTemplate FieldTemplate { get; set; }
         public List<FieldLocalization> Localizations { get; set; }
 
+        public List<Page> Pages { get; set; }
     }
 }

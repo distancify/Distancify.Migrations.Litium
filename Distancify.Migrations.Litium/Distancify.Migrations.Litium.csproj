@@ -398,6 +398,7 @@
     <Compile Include="SeedBuilder\Repositories\FieldDefinitionRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\InventoryRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\PageRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\UnitOfMeasurementRepository.cs" />
     <Compile Include="Seeds\Constants.cs" />
     <Compile Include="Seeds\Countries.cs" />
