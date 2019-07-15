@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Litium;
 using Litium.Data;
 using Litium.Data.Batching;
 using Litium.Websites;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace Distancify.Migrations.Litium.Seeds.Website
+namespace Distancify.Migrations.Litium.Seeds.Websites
 {
     public class UrlRedirectSeed : ISeed
     {

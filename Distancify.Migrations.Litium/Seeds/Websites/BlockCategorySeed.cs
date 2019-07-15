@@ -1,8 +1,8 @@
+using System;
 using Litium;
 using Litium.Blocks;
-using System;
 
-namespace Distancify.Migrations.Litium.Seeds.Website
+namespace Distancify.Migrations.Litium.Seeds.Websites
 {
     public class BlockCategorySeed : ISeed
     {

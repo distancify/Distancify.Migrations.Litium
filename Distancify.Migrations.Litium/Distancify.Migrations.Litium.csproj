@@ -464,14 +464,14 @@
     <Compile Include="Seeds\Product\ProductFieldTemplateSeed.cs" />
     <Compile Include="Setup\MigrationsSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Seeds\Website\BlockCategorySeed.cs" />
-    <Compile Include="Seeds\Website\BlockSeed.cs" />
-    <Compile Include="Seeds\Website\BlockFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\Website\PageFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\Website\PageSeed.cs" />
-    <Compile Include="Seeds\Website\UrlRedirectSeed.cs" />
-    <Compile Include="Seeds\Website\WebsiteSeed.cs" />
-    <Compile Include="Seeds\Website\WebsiteFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Websites\BlockCategorySeed.cs" />
+    <Compile Include="Seeds\Websites\BlockSeed.cs" />
+    <Compile Include="Seeds\Websites\BlockFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Websites\PageFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Websites\PageSeed.cs" />
+    <Compile Include="Seeds\Websites\UrlRedirectSeed.cs" />
+    <Compile Include="Seeds\Websites\WebsiteSeed.cs" />
+    <Compile Include="Seeds\Websites\WebsiteFieldTemplateSeed.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
