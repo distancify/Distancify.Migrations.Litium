@@ -157,14 +157,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         {
             this.data = data;
 
-            //if (data.Globalization.DomainNames != null)
-            //{
-            //    foreach (var d in data.Globalization.DomainNames)
-            //    {
-            //        domainNameSeedRepository.AddOrMerge(d);
-            //    }
-            //}
-
             if (data.Globalization != null)
             {
                 AddOrMerge(_fieldDefinitionRepository, data.Globalization.FieldDefinitions);
