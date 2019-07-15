@@ -1,0 +1,222 @@
+--- 
+- id: FieldDefinitions
+  baseMigration: Migration
+  className: FieldDefinitions
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\FieldDefinitions.cs
+  query: |
+    query every_field_definition{
+        globalization{
+            fieldDefinitions{
+                id,
+                fieldType,
+                areaType,
+                multiCulture,
+                canBeGridColumn,
+                canBeGridFilter
+                systemId,
+                localizations{
+                    culture,
+                    name,
+                    description
+                },
+                option{
+                    multiSelect,
+                    items{
+                        localizations{
+                            culture,
+                            name
+                        },
+                        value
+                    },
+                    entityType
+                }
+            }
+        },
+        websites{
+            websiteFieldDefinitions{
+                id,
+                fieldType,
+                areaType,
+                multiCulture,
+                canBeGridColumn,
+                canBeGridFilter
+                systemId,
+                localizations{
+                    culture,
+                    name,
+                    description
+                },
+                option{
+                    multiSelect,
+                    items{
+                        localizations{
+                            culture,
+                            name
+                        },
+                        value
+                    },
+                    entityType
+                }
+            }
+        }
+    }
+
+- id: Globalization
+  baseMigration: Migration
+  className: Globalization
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\Globalization.cs
+  query: |
+    query migration_production_globalization{
+        globalization{
+            languages{
+                id,
+                isDefaultLanguage
+            },
+            currencies{
+                id,
+                isBaseCurrency
+            },
+            countries{
+                id,
+                standardVatRate,
+                currency{
+                    id
+                }
+            }
+        },
+        products{
+            unitOfMeasurements{
+                id,
+                decimalDigits,
+                systemId,
+                localizations{
+                    culture,
+                    name
+                }
+            }        
+        }
+    }
+
+- id: Inventories
+  baseMigration: Migration
+  className: Inventories
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\Inventories.cs
+  query: |
+    query migration_production_inventories{
+        products{
+            inventories{
+                id,
+                systemId
+            } 
+        }
+    }
+
+- id: Website
+  baseMigration: Migration
+  className: Website
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\Website.cs
+  query: |
+    query migration_production_website{
+        globalization{
+            channels{
+                id,
+                systemId,
+                localizations{
+                    culture,
+                    name
+                },
+                productLanguage{
+                    id
+                },
+                websiteLanguage{
+                    id
+                },
+                website{
+                    id,
+                    systemId
+                },
+                fieldTemplate{
+                    id 
+                },
+                market{
+                    systemId
+                },
+                domains{                
+                    redirect,
+                    urlPrefix,
+                    domain{
+                        id,
+                        systemId
+                    }
+                },
+                countries{
+                    id,
+                    systemId
+                }
+            },
+            markets{
+                systemId,
+                fieldTemplateId,
+                fieldTemplateSystemId,
+                assortmentId,
+                localizations{
+                    culture,
+                    name
+                }
+            },
+            domainNames{
+                id,
+                systemId,
+                robots,
+                httpStrictTransportSecurityMaxAge
+            }
+        }
+        products{
+            assortments{
+                id,
+                localizations{
+                    culture,
+                    name
+                }
+            }
+        },
+        websites{
+            websites{
+                id,
+                systemId,
+                fieldTemplate{
+                    id
+                },
+                localizations{
+                    culture,
+                    name
+                },
+                pages{
+                    systemId,
+                    isStartPage,
+                    status,
+                    parentPageSystemId,
+                    websiteSystemId,
+                    fieldTemplate{
+                        systemId,
+                        id
+                    },
+                    localizations{
+                        culture,
+                        name
+                    },
+                    channelLinks {
+                        channelSystemId
+                    }
+                }
+            }
+        }
+    }
