@@ -97,7 +97,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
         }
 
-        internal static MarketSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Globalization.Market graphQlItem)
+        public static MarketSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Globalization.Market graphQlItem)
         {
             var seed =  new MarketSeed(new Market(graphQlItem.FieldTemplateSystemId));
             return (MarketSeed)seed.Update(graphQlItem);
@@ -114,11 +114,14 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             foreach (var localization in data.Localizations)
             {
                 if (!string.IsNullOrEmpty(localization.Culture) && !string.IsNullOrEmpty(localization.Name))
+                {
                     _market.Localizations[localization.Culture].Name = localization.Name;
+                }
                 else
+                {
                     this.Log().Warn("The Market with system id {MarketSystemId} contains a localization with an empty culture and/or name!", data.SystemId.ToString());
+                }
             }
-
             return this;
         }
 
@@ -127,12 +130,20 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             builder.AppendLine($"\t\t\t{nameof(MarketSeed)}.{nameof(Ensure)}(Guid.Parse(\"{_market.SystemId.ToString()}\"), \"{_fieldTemplateId}\")");
 
             foreach (var localization in _market.Localizations)
+            {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
+            }
 
             if (!string.IsNullOrEmpty(_assortmentId))
+            {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithAssortment)}(\"{_assortmentId}\")");
-            else if(_market.AssortmentSystemId != Guid.Empty)
+            }
+
+            else if (_market.AssortmentSystemId != Guid.Empty)
+            {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithAssortment)}(Guid.Parse({_market.AssortmentSystemId}))");
+            }
+            
             builder.AppendLine("\t\t\t\t.Commit();");
         }
     }
