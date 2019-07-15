@@ -12,17 +12,17 @@ namespace Distancify.Migrations.Litium.SeedBuilder
     public class Generator : IGenerator
     {
         //public List<ISeed> seeds;
-        private FieldDefinitionRepository fieldDefinitionRepository  = new FieldDefinitionRepository();
-        private UnitOfMeasurementRepository unitOfMeasurementRepository = new UnitOfMeasurementRepository();
-        private InventoryRepository inventoryRepository = new InventoryRepository();
-        private MarketRepository marketRepository =  new MarketRepository();
-        private ChannelRepository channelSeedRespository = new ChannelRepository();
-        private CountryRepository countrySeedRespository = new CountryRepository();
-        private DomainNameRepository domainNameSeedRespository = new DomainNameRepository();
-        private CurrencyRepository currencySeedRespository = new CurrencyRepository();
-        private LanguageRepository languageSeedRespository = new LanguageRepository();
-        private WebsiteRepository websiteSeedRespository = new WebsiteRepository();
-        private AssortmentRepository assortmentSeedRespository = new AssortmentRepository();
+        private readonly FieldDefinitionRepository _fieldDefinitionRepository  = new FieldDefinitionRepository();
+        private readonly UnitOfMeasurementRepository _unitOfMeasurementRepository = new UnitOfMeasurementRepository();
+        private readonly InventoryRepository _inventoryRepository = new InventoryRepository();
+        private readonly MarketRepository _marketRepository =  new MarketRepository();
+        private readonly ChannelRepository _channelSeedRepository = new ChannelRepository();
+        private readonly CountryRepository _countrySeedRepository = new CountryRepository();
+        private readonly DomainNameRepository _domainNameSeedRepository = new DomainNameRepository();
+        private readonly CurrencyRepository _currencySeedRepository = new CurrencyRepository();
+        private readonly LanguageRepository _languageSeedRepository = new LanguageRepository();
+        private readonly WebsiteRepository _websiteSeedRepository = new WebsiteRepository();
+        private readonly AssortmentRepository _assortmentSeedRepository = new AssortmentRepository();
 
         private LitiumGraphQlModel.Data data;
 
@@ -30,17 +30,17 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         {
             get {
                 int seedsCount = 0;
-                seedsCount += fieldDefinitionRepository.NumberOfItems;
-                seedsCount += unitOfMeasurementRepository.NumberOfItems;
-                seedsCount += inventoryRepository.NumberOfItems;
-                seedsCount += marketRepository.NumberOfItems;
-                seedsCount += channelSeedRespository.NumberOfItems;
-                seedsCount += countrySeedRespository.NumberOfItems;
-                seedsCount += domainNameSeedRespository.NumberOfItems;
-                seedsCount += currencySeedRespository.NumberOfItems;
-                seedsCount += languageSeedRespository.NumberOfItems;
-                seedsCount += websiteSeedRespository.NumberOfItems;
-                seedsCount += assortmentSeedRespository.NumberOfItems;
+                seedsCount += _fieldDefinitionRepository.NumberOfItems;
+                seedsCount += _unitOfMeasurementRepository.NumberOfItems;
+                seedsCount += _inventoryRepository.NumberOfItems;
+                seedsCount += _marketRepository.NumberOfItems;
+                seedsCount += _channelSeedRepository.NumberOfItems;
+                seedsCount += _countrySeedRepository.NumberOfItems;
+                seedsCount += _domainNameSeedRepository.NumberOfItems;
+                seedsCount += _currencySeedRepository.NumberOfItems;
+                seedsCount += _languageSeedRepository.NumberOfItems;
+                seedsCount += _websiteSeedRepository.NumberOfItems;
+                seedsCount += _assortmentSeedRepository.NumberOfItems;
                 return seedsCount;
             }
         }
@@ -90,61 +90,63 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             if (data.Globalization?.Languages != null)
             {
-                languageSeedRespository.WriteMigration(migrationBuilder);
+                _languageSeedRepository.WriteMigration(migrationBuilder);
                 migrationBuilder.AppendLine();
             }
 
             if (data.Products?.UnitOfMeasurements != null)
             {
-                unitOfMeasurementRepository.WriteMigration(migrationBuilder);
+                _unitOfMeasurementRepository.WriteMigration(migrationBuilder);
                 migrationBuilder.AppendLine();
             }
 
             if (data.Products?.Inventories != null)
             {
-                inventoryRepository.WriteMigration(migrationBuilder);
+                _inventoryRepository.WriteMigration(migrationBuilder);
             }
 
             if (data.Products?.Assortments != null)
             {
-                assortmentSeedRespository.WriteMigration(migrationBuilder);
+                _assortmentSeedRepository.WriteMigration(migrationBuilder);
+                migrationBuilder.AppendLine();
+            }
+
+            if (data.Globalization?.Currencies != null)
+            {
+                _currencySeedRepository.WriteMigration(migrationBuilder);
                 migrationBuilder.AppendLine();
             }
 
             if (data.Globalization?.Countries != null)
             {
-                currencySeedRespository.WriteMigration(migrationBuilder);
-                migrationBuilder.AppendLine();
-            }
-
-            if (data.Globalization?.Countries != null)
-            {
-                countrySeedRespository.WriteMigration(migrationBuilder);
-            }
-
-            if (data.Globalization?.Markets != null)
-            {
-                marketRepository.WriteMigration(migrationBuilder);
-                migrationBuilder.AppendLine();
-            }
-
-            if (this.data.Globalization?.FieldDefinitions != null)
-            {
-                fieldDefinitionRepository.WriteMigration(migrationBuilder);
-                migrationBuilder.AppendLine();
+                _countrySeedRepository.WriteMigration(migrationBuilder);
             }
 
             if (data.Globalization?.DomainNames != null)
             {
-                domainNameSeedRespository.WriteMigration(migrationBuilder);
+                _domainNameSeedRepository.WriteMigration(migrationBuilder);
                 migrationBuilder.AppendLine();
             }
 
-            return migrationBuilder.ToString();
+            if (data.Globalization?.Markets != null)
+            {
+                _marketRepository.WriteMigration(migrationBuilder);
+                migrationBuilder.AppendLine();
+            }
 
-            websiteSeedRespository.WriteMigration(migrationBuilder);
+            _websiteSeedRepository.WriteMigration(migrationBuilder);
             migrationBuilder.AppendLine();
-            channelSeedRespository.WriteMigration(migrationBuilder);
+
+            //TODO: This is tied to a channel, but it probably must be seeded first.
+            if (data.Globalization?.FieldDefinitions != null)
+            {
+                _fieldDefinitionRepository.WriteMigration(migrationBuilder);
+                migrationBuilder.AppendLine();
+            }
+
+
+            return migrationBuilder.ToString();
+            _channelSeedRepository.WriteMigration(migrationBuilder);
 
 
             return migrationBuilder.ToString();
@@ -159,35 +161,37 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             //{
             //    foreach (var d in data.Globalization.DomainNames)
             //    {
-            //        domainNameSeedRespository.AddOrMerge(d);
+            //        domainNameSeedRepository.AddOrMerge(d);
             //    }
             //}
 
             if (data.Globalization != null)
             {
-                AddOrMerge(fieldDefinitionRepository, data.Globalization.FieldDefinitions);
-                AddOrMerge(domainNameSeedRespository, data.Globalization.DomainNames);
-                AddOrMerge(currencySeedRespository, data.Globalization.Currencies);
-                AddOrMerge(marketRepository, data.Globalization.Markets);
-                AddOrMerge(countrySeedRespository, data.Globalization.Countries);
-                AddOrMerge(languageSeedRespository, data.Globalization.Languages);
-                AddOrMerge(channelSeedRespository, data.Globalization.Channels,
+                AddOrMerge(_fieldDefinitionRepository, data.Globalization.FieldDefinitions);
+                AddOrMerge(_domainNameSeedRepository, data.Globalization.DomainNames);
+                AddOrMerge(_currencySeedRepository, data.Globalization.Currencies);
+                AddOrMerge(_marketRepository, data.Globalization.Markets);
+                AddOrMerge(_countrySeedRepository, data.Globalization.Countries);
+                AddOrMerge(_languageSeedRepository, data.Globalization.Languages);
+                AddOrMerge(_channelSeedRepository, data.Globalization.Channels,
                     channel =>
                     {
-                        AddOrMerge(countrySeedRespository, channel.Countries);
+                        AddOrMerge(_countrySeedRepository, channel.Countries);
                         //AddOrMerge(null, channel.FieldTemplate);
                     });
             }
 
             if (data.Products != null)
             {
-                AddOrMerge(assortmentSeedRespository, data.Products.Assortments);
-                AddOrMerge(unitOfMeasurementRepository, data.Products.UnitOfMeasurements);
-                AddOrMerge(inventoryRepository, data.Products.Inventories);
+                AddOrMerge(_assortmentSeedRepository, data.Products.Assortments);
+                AddOrMerge(_unitOfMeasurementRepository, data.Products.UnitOfMeasurements);
+                AddOrMerge(_inventoryRepository, data.Products.Inventories);
             }
 
-            
-            AddOrMerge(websiteSeedRespository, data.Websites);
+            if (data.Websites != null)
+            {
+                AddOrMerge(_websiteSeedRepository, data.Websites);
+            }
         }
 
         private void AddOrMerge<T, TSeedGenerator>(Repository<T, TSeedGenerator> repository, IEnumerable<T> values, Action<T> nestedPopulation = null)
