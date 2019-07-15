@@ -83,7 +83,6 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return this;
         }
 
-
         public static WebsiteSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Websites.Website website)
         {
             var seed = new WebsiteSeed(new Website(website.SystemId), website.FieldTemplate.Id);

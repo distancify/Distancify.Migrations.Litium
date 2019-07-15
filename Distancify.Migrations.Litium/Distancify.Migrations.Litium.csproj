@@ -395,6 +395,7 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\UnitOfMeasurement.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Page.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\PageFieldTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\PageToChannelLink.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Websites.cs" />
     <Compile Include="SeedBuilder\Repositories\FieldDefinitionRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\InventoryRepository.cs" />

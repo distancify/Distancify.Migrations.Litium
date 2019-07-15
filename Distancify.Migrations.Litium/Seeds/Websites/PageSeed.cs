@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Litium;
 using Litium.Blocks;
+using Litium.Common;
 using Litium.FieldFramework;
 using Litium.Websites;
 
@@ -79,6 +81,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         {
             _page.SystemId = data.SystemId;
             _page.WebsiteSystemId = data.WebsiteSystemId;
+            _page.Status = (ContentStatus)data.Status;
             _fieldTemplateId = data.FieldTemplate.Id;
 
             foreach (var localization in data.Localizations)
@@ -92,18 +95,51 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                     this.Log().Warn("The page with system id {PageSystemId} contains a localization with an empty culture and/or name!", data.SystemId.ToString());
                 }
             }
+
+            if (data.ChannelLinks != null)
+            {
+                _page.ChannelLinks = data.ChannelLinks.Select(c => new PageToChannelLink(c.ChannelSystemId)).ToList();
+            }
+            else
+            {
+                _page.ChannelLinks = new List<PageToChannelLink>();
+            }
+
             return this;
         }
 
         public void WriteMigration(StringBuilder builder)
         {
             builder.AppendLine($"\t\t\t{nameof(PageSeed)}.{nameof(Ensure)}(Guid.Parse(\"{_page.SystemId.ToString()}\"), \"{_fieldTemplateId}\")");
-            builder.AppendLine($"\t\t\t\t.{nameof(WithWebsite)}(Guid.Parse(\"{_page.WebsiteSystemId}\"))");
-            builder.AppendLine($"\t\t\t\t.{nameof(WithParentPage)}(Guid.Parse(\"{_page.ParentPageSystemId}\"))");
 
             foreach (var localization in _page.Localizations)
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
+            }
+
+            builder.AppendLine($"\t\t\t\t.{nameof(WithWebsite)}(Guid.Parse(\"{_page.WebsiteSystemId}\"))");
+
+            if (_page.ParentPageSystemId == Guid.Empty)
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(IsParentPage)}()");
+            }
+            else
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithParentPage)}(Guid.Parse(\"{_page.ParentPageSystemId}\"))");
+            }
+
+            if (_page.Status.Equals(ContentStatus.Published))
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(IsPublished)}()");
+            }
+            else
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithStatus)}({(short)_page.Status})");
+            }
+
+            foreach (var channelLink in _page.ChannelLinks)
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithChannelLink)}(Guid.Parse(\"{channelLink.ChannelSystemId}\"))");
             }
 
             builder.AppendLine("\t\t\t\t.Commit();");
@@ -138,9 +174,35 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return this;
         }
 
+        public PageSeed WithStatus(ContentStatus contentStatus)
+        {
+            _page.Status = contentStatus;
+
+            return this;
+        }
+
+        public PageSeed WithStatus(short contentStatus)
+        {
+            _page.Status = (ContentStatus)contentStatus;
+
+            return this;
+        }
+
         public PageSeed WithWebsite(Guid websiteSystemId)
         {
             _page.WebsiteSystemId = websiteSystemId;
+            return this;
+        }
+
+        public PageSeed WithChannelLink(Guid channelSystemId)
+        {
+            if (_page.ChannelLinks == null)
+            {
+                _page.ChannelLinks = new List<PageToChannelLink>();
+            }
+
+            _page.ChannelLinks.Add(new PageToChannelLink(channelSystemId));
+
             return this;
         }
 
@@ -183,14 +245,11 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
         /*TODO
          * Blocks
-         * Localizations
-         * ChannelLinks
          * Fields
          * AccessControlList
          * Status
          * PublishedAtUtc
          * PublishedBySystemId
-         * WebsiteSystemId
          * SortIndex
          */
     }
