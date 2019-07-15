@@ -48,13 +48,16 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public static MarketSeed Ensure(Guid systemId, string fieldTemplateId)
         {
-            if(IoC.Resolve<MarketService>().Get(systemId)?.MakeWritableClone() is Market market)
+            var marketService = IoC.Resolve<MarketService>();
+            var market = marketService.Get(systemId)?.MakeWritableClone();
+
+            if (!(market is null))
                 return new MarketSeed(market);
 
-            var fieldTemplateSystemId = IoC.Resolve<FieldTemplateService>().Get<MarketFieldTemplate>(fieldTemplateId).SystemId;
-            return new MarketSeed(new Market(fieldTemplateSystemId)
+            var fieldTemplateService = IoC.Resolve<FieldTemplateService>();
+            var fieldTemplate = fieldTemplateService.Get<MarketFieldTemplate>(fieldTemplateId);
+            return new MarketSeed(new Market(fieldTemplate.SystemId)
             {
-                Id = Guid.NewGuid().ToString(),
                 SystemId = Guid.Empty
             });
         }
