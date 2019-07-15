@@ -10,10 +10,10 @@ namespace Distancify.Migrations.Litium.SeedBuilder
     public class Generator : IGenerator
     {
         //public List<ISeed> seeds;
-        private readonly FieldDefinitionRepository _fieldDefinitionRepository  = new FieldDefinitionRepository();
+        private readonly FieldDefinitionRepository _fieldDefinitionRepository = new FieldDefinitionRepository();
         private readonly UnitOfMeasurementRepository _unitOfMeasurementRepository = new UnitOfMeasurementRepository();
         private readonly InventoryRepository _inventoryRepository = new InventoryRepository();
-        private readonly MarketRepository _marketRepository =  new MarketRepository();
+        private readonly MarketRepository _marketRepository = new MarketRepository();
         private readonly ChannelRepository _channelSeedRepository = new ChannelRepository();
         private readonly CountryRepository _countrySeedRepository = new CountryRepository();
         private readonly DomainNameRepository _domainNameSeedRepository = new DomainNameRepository();
@@ -153,7 +153,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             return migrationBuilder.ToString();
         }
 
-       
+
         public void PopulateSeedsWithData(LitiumGraphQlModel.Data data)
         {
             this.data = data;
@@ -183,9 +183,14 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             if (data.Websites != null)
             {
-                AddOrMerge(_websiteSeedRepository, data.Websites.Websites, 
+                AddOrMerge(_websiteSeedRepository, data.Websites.Websites,
                     website => AddOrMerge(_pageSeedRepository, website.Pages));
                 AddOrMerge(_fieldDefinitionRepository, data.Websites.FieldDefinitions);
+            }
+
+            if (data.Blocks?.FieldDefinitions != null)
+            {
+                AddOrMerge(_fieldDefinitionRepository, data.Blocks.FieldDefinitions);
             }
         }
 
