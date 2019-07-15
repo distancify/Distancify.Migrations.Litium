@@ -23,6 +23,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private readonly LanguageRepository _languageSeedRepository = new LanguageRepository();
         private readonly WebsiteRepository _websiteSeedRepository = new WebsiteRepository();
         private readonly AssortmentRepository _assortmentSeedRepository = new AssortmentRepository();
+        private readonly PageRepository _pageSeedRepository = new PageRepository();
+
 
         private LitiumGraphQlModel.Data data;
 
@@ -41,6 +43,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 seedsCount += _languageSeedRepository.NumberOfItems;
                 seedsCount += _websiteSeedRepository.NumberOfItems;
                 seedsCount += _assortmentSeedRepository.NumberOfItems;
+                seedsCount += _pageSeedRepository.NumberOfItems;
                 return seedsCount;
             }
         }
@@ -138,6 +141,9 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             {
                 _websiteSeedRepository.WriteMigration(migrationBuilder);
                 migrationBuilder.AppendLine();
+
+                _pageSeedRepository.WriteMigration(migrationBuilder);
+                migrationBuilder.AppendLine();
             }
 
             //TODO: This is tied to a channel, but it probably must be seeded first.
@@ -185,7 +191,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             if (data.Websites != null)
             {
-                AddOrMerge(_websiteSeedRepository, data.Websites.Websites);
+                AddOrMerge(_websiteSeedRepository, data.Websites.Websites, 
+                    website => AddOrMerge(_pageSeedRepository, website.Pages));
             }
         }
 
