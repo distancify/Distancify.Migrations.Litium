@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Distancify.Migrations.Litium.SeedBuilder.Repositories;
-using Microsoft.EntityFrameworkCore.Internal;
-
 
 namespace Distancify.Migrations.Litium.SeedBuilder
 {
@@ -137,7 +135,11 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             if (data.Websites?.Websites != null)
             {
                 _websiteSeedRepository.WriteMigration(migrationBuilder);
-                migrationBuilder.AppendLine();
+            }
+
+            if (data.Globalization?.Channels != null)
+            {
+                _channelSeedRepository.WriteMigration(migrationBuilder);
             }
 
             //TODO: This is tied to a channel, but it probably must be seeded first.
@@ -146,11 +148,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 _fieldDefinitionRepository.WriteMigration(migrationBuilder);
                 migrationBuilder.AppendLine();
             }
-
-
-            return migrationBuilder.ToString();
-            _channelSeedRepository.WriteMigration(migrationBuilder);
-
 
             return migrationBuilder.ToString();
         }
