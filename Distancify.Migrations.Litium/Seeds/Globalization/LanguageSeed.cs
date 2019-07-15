@@ -63,7 +63,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public void WriteMigration(StringBuilder builder)
         {
-            builder.AppendLine($"\t\t\t{nameof(LanguageSeed)}.{nameof(LanguageSeed.Ensure)}(\"{language.Id}\")");
+            builder.AppendLine($"\r\n\t\t\t{nameof(LanguageSeed)}.{nameof(LanguageSeed.Ensure)}(\"{language.Id}\")");
             builder.AppendLine($"\t\t\t\t.{nameof(LanguageSeed.IsDefaultLanguage)}({language.IsDefaultLanguage.ToString().ToLower()})");
 
             builder.AppendLine("\t\t\t\t.Commit();");

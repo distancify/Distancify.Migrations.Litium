@@ -89,7 +89,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public void WriteMigration(StringBuilder builder)
         {
-            builder.AppendLine($"\t\t\t{nameof(UnitOfMeasurementSeed)}.{nameof(Ensure)}(\"{_unitOfMeasurement.Id}\")");
+            builder.AppendLine($"\r\n\t\t\t{nameof(UnitOfMeasurementSeed)}.{nameof(Ensure)}(\"{_unitOfMeasurement.Id}\")");
             foreach (var localization in _unitOfMeasurement.Localizations)
                 builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
 

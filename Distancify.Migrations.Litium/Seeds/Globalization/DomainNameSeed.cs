@@ -71,16 +71,15 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 throw new NullReferenceException("A DomainName with an ID obtained from the GraphQL endpoint is needed in order to ensure the DomainName");
             }
 
-
-            builder.AppendLine($"\t\t\t{nameof(DomainNameSeed)}.{nameof(DomainNameSeed.Ensure)}(\"{domainName.Id}\")");
+            builder.AppendLine($"\r\n\t\t\t{nameof(DomainNameSeed)}.{nameof(Ensure)}(\"{domainName.Id}\")");
             if (!string.IsNullOrEmpty(domainName.Robots))
             {
-                builder.AppendLine($"\t\t\t\t.{nameof(DomainNameSeed.WithRobots)}(\"{domainName.Robots}\")");
+                builder.AppendLine($"\t\t\t\t.{nameof(WithRobots)}(\"{domainName.Robots}\")");
             }
 
             if (domainName.HttpStrictTransportSecurityMaxAge.HasValue)
             {
-                builder.AppendLine($"\t\t\t\t.{nameof(DomainNameSeed.WithHttpStrictTransportSecurityMaxAge)}({domainName.HttpStrictTransportSecurityMaxAge.Value})");
+                builder.AppendLine($"\t\t\t\t.{nameof(WithHttpStrictTransportSecurityMaxAge)}({domainName.HttpStrictTransportSecurityMaxAge.Value})");
             }
 
             builder.AppendLine("\t\t\t\t.Commit();");

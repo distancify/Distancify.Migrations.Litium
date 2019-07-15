@@ -58,7 +58,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 throw new NullReferenceException("At least one Currency with an ID obtained from the GraphQL endpoint is needed in order to ensure the Currencies");
             }
 
-            builder.AppendLine($"\t\t\t{nameof(CurrencySeed)}.{nameof(CurrencySeed.Ensure)}(\"{currency.Id}\")");
+            builder.AppendLine($"\r\n\t\t\t{nameof(CurrencySeed)}.{nameof(CurrencySeed.Ensure)}(\"{currency.Id}\")");
             builder.AppendLine($"\t\t\t\t.{nameof(CurrencySeed.IsBaseCurrency)}({currency.IsBaseCurrency.ToString().ToLower()})");
 
             builder.AppendLine("\t\t\t\t.Commit();");
