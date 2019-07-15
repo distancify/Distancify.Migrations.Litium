@@ -385,6 +385,7 @@
     <Compile Include="SeedBuilder\ConfigurationReader.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Block.cs" />
     <Compile Include="SeedBuilder\IGenerator.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\CompositeFieldOption.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldDefinition.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldLocalization.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Globalization.cs" />
@@ -392,6 +393,7 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Inventory.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Products.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\UnitOfMeasurement.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\TextOptionItem.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Page.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\PageFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\PageToChannelLink.cs" />
