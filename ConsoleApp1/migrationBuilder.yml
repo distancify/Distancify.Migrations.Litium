@@ -35,7 +35,7 @@
             }
         },
         websites{
-            websiteFieldDefinitions{
+            fieldDefinitions{
                 id,
                 fieldType,
                 areaType,
@@ -60,6 +60,33 @@
                     entityType
                 }
             }
+        },
+        blocks{
+            fieldDefinitions{
+                id,
+                fieldType,
+                areaType,
+                multiCulture,
+                canBeGridColumn,
+                canBeGridFilter
+                systemId,
+                localizations{
+                    culture,
+                    name,
+                    description
+                },
+                option{
+                    multiSelect,
+                    items{
+                        localizations{
+                            culture,
+                            name
+                        },
+                        value
+                    },
+                    entityType
+                }
+            }       
         }
     }
 
