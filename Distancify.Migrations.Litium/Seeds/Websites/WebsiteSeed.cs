@@ -8,7 +8,7 @@ using Litium.Websites;
 
 namespace Distancify.Migrations.Litium.Seeds.Websites
 {
-    public class WebsiteSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Website>
+    public class WebsiteSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Websites.Website>
     {
         private readonly Website _website;
         private string _fieldTemplateId;
@@ -84,13 +84,13 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         }
 
 
-        public static WebsiteSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Website website)
+        public static WebsiteSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Websites.Website website)
         {
             var seed = new WebsiteSeed(new Website(website.SystemId), website.FieldTemplate.Id);
             return (WebsiteSeed)seed.Update(website);
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Website> Update(SeedBuilder.LitiumGraphQlModel.Website data)
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Websites.Website> Update(SeedBuilder.LitiumGraphQlModel.Websites.Website data)
         {
             _website.SystemId = data.SystemId;
             _fieldTemplateId = data.FieldTemplate.Id;

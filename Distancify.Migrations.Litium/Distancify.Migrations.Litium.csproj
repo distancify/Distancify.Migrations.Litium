@@ -381,6 +381,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Distancify\Migrations\Litium\SeedBuilder\LitiumGraphQlModel\Website.cs" />
     <Compile Include="LitiumMigrationCmdlet.cs" />
     <Compile Include="SeedBuilder\ConfigurationReader.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Block.cs" />
@@ -392,7 +393,9 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Inventory.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Products.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\UnitOfMeasurement.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Page.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\PageFieldTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Websites.cs" />
     <Compile Include="SeedBuilder\Repositories\FieldDefinitionRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\InventoryRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketRepository.cs" />
@@ -425,8 +428,8 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\GraphQlObject.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Language.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\ResponseContainer.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Website.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\WebsiteFieldTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Website.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\WebsiteFieldTemplate.cs" />
     <Compile Include="SeedBuilder\MigrationConfiguration.cs" />
     <Compile Include="Seeds\ISeedGenerator.cs" />
     <Compile Include="Seeds\Product\AssortmentCategorySeed.cs" />

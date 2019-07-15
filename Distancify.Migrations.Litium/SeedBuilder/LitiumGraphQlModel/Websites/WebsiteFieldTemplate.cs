@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
+namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Websites
 {
     public class WebsiteFieldTemplate : GraphQlObject
     {

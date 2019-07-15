@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Litium.FieldFramework;
-using Litium.Websites;
 
-namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
+namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Websites
 {
     public class Website : GraphQlObject
     {

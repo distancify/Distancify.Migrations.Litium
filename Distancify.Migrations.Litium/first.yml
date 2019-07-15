@@ -1,17 +1,22 @@
 ---
-- id: MigrationTest
+- id: Pages
   baseMigration: DevelopmentMigration
-  className: TestMigration2
-  host: https://wholesale-beta.kidsconcept.com
-  namespace: Eqquo.Litium.Migrations.Production.Development
-  output: C:\Projects\Distancify.Migrations.Litium\Distancify.Migrations.Litium\test2.cs
+  className: Pages
+  host: https://localhost/
+  namespace: kidsconcept.Web.Migrations.Production
+  output: C:\Projects\Distancify.Migrations.Litium\Distancify.Migrations.Litium\Pages.cs
   query: |
-    query{
-        globalization{
-            channels{
-                id
-                fieldTemplate{
-                    id
+    query pages {
+        websites{
+            websites{
+                pages{
+                    systemId,
+                    isStartPage,
+                    parentPageSystemId,
+                    fieldTemplate{
+                        systemId,
+                        id
+                    }
                 }
             }
         }
