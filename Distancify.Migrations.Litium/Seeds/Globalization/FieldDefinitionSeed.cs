@@ -147,11 +147,45 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             var seed = new FieldDefinitionSeed(new FieldDefinition(graphQlItem.Id, graphQlItem.FieldType, areaType));
             return (FieldDefinitionSeed)seed.Update(graphQlItem);
         }
-        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.FieldDefinition graphQlFieldDefinition)
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.FieldDefinition data)
         {
-            _fieldDefinition.MultiCulture = graphQlFieldDefinition.MultiCulture;
-            _fieldDefinition.CanBeGridColumn = graphQlFieldDefinition.CanBeGridColumn;
-            _fieldDefinition.CanBeGridFilter = graphQlFieldDefinition.CanBeGridFilter;
+            _fieldDefinition.MultiCulture = data.MultiCulture;
+            _fieldDefinition.CanBeGridColumn = data.CanBeGridColumn;
+            _fieldDefinition.CanBeGridFilter = data.CanBeGridFilter;
+            _fieldDefinition.FieldType = data.FieldType;
+
+            if (data.FieldType.Equals(SystemFieldTypeConstants.TextOption))
+            {
+                _fieldDefinition.Option = new TextOption()
+                {
+                    MultiSelect = data.Option.MultiSelect,
+                    Items = data.Option.Items.Select(i => new TextOption.Item
+                    {
+                        Name = i.Localizations.ToDictionary(k => k.Culture, v => v.Name),
+                        Value = i.Value
+                    }).ToList()
+                };
+            }
+            else if (data.FieldType.Equals(SystemFieldTypeConstants.Pointer))
+            {
+                _fieldDefinition.Option = new PointerOption()
+                {
+                    MultiSelect = data.Option.MultiSelect,
+                    EntityType = data.Option.EntityType
+                };
+            }
+
+            foreach (var localization in data.Localizations)
+            {
+                if (!string.IsNullOrEmpty(localization.Culture) && !string.IsNullOrEmpty(localization.Name))
+                {
+                    _fieldDefinition.Localizations[localization.Culture].Name = localization.Name;
+                }
+                else
+                {
+                    this.Log().Warn("The field definition with system id {FieldDefinitionSystemId} contains a localization with an empty culture and/or name!", data.SystemId.ToString());
+                }
+            }
 
             return this;
         }
@@ -159,10 +193,39 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         public void WriteMigration(StringBuilder builder)
         {
             builder.AppendLine($"\r\n\t\t\t{nameof(FieldDefinitionSeed)}.{nameof(Ensure)}<{_fieldDefinition.AreaType.Name}>(\"{_fieldDefinition.Id}\", \"{_fieldDefinition.FieldType}\")");
+
+            if (_fieldDefinition.Localizations.Any())
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithNames)}({GetDictionary(_fieldDefinition.Localizations.ToDictionary(k => k.Key, v => v.Value.Name), 4)})");
+            }
+
+            if (_fieldDefinition.FieldType.Equals(SystemFieldTypeConstants.TextOption))
+            {
+                var textOption = _fieldDefinition.Option as TextOption;
+                builder.AppendLine($"\t\t\t\t.{nameof(WithTextOption)}(new TextOption()\r\n\t\t\t\t{{\r\n\t\t\t\t\t{nameof(TextOption.MultiSelect)} = {textOption.MultiSelect.ToString().ToLower()}," +
+                                   $"\r\n\t\t\t\t\t{nameof(TextOption.Items)} = new List<TextOption.Item>\r\n\t\t\t\t\t{{\r\n\t\t\t\t\t\t{GetTextOptions(textOption)}" +
+                                    "\r\n\t\t\t\t\t}\r\n\t\t\t\t})");
+            }
+            else if (_fieldDefinition.FieldType.Equals(SystemFieldTypeConstants.Pointer))
+            {
+
+            }
+
             builder.AppendLine($"\t\t\t\t.{nameof(IsMultiCulture)}({_fieldDefinition.MultiCulture.ToString().ToLower()})");
             builder.AppendLine($"\t\t\t\t.{nameof(CanBeGridColumn)}({_fieldDefinition.CanBeGridColumn.ToString().ToLower()})");
             builder.AppendLine($"\t\t\t\t.{nameof(CanBeGridFilter)}({_fieldDefinition.CanBeGridFilter.ToString().ToLower()})");
             builder.AppendLine("\t\t\t\t.Commit();");
+
+            string GetTextOptions(TextOption textOption)
+                => string.Join(",\r\n\t\t\t\t\t\t", textOption.Items.Select(i => "new TextOption.Item\r\n\t\t\t\t\t\t{" +
+                                                                                 $"\r\n\t\t\t\t\t\t\tValue = \"{i.Value}\"," +
+                                                                                 $"\r\n\t\t\t\t\t\t\tName = {GetDictionary(i.Name, 7)}" +
+                                                                                 "\r\n\t\t\t\t\t\t}"));
+
+            string GetDictionary(IDictionary<string, string> dictionary, int spacing)
+                => $"new Dictionary<string, string> \r\n {new string('\t', spacing)}{{\r\n{new string('\t', spacing + 1)}" +
+                   string.Join($",\r\n{new string('\t', spacing + 1)}", dictionary.Select(e => $"{{\"{e.Key}\", \"{e.Value}\"}}")) +
+                   $"\r\n{new string('\t', spacing)}}}";
         }
     }
 }

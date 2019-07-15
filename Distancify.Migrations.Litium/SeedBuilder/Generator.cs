@@ -185,6 +185,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             {
                 AddOrMerge(_websiteSeedRepository, data.Websites.Websites, 
                     website => AddOrMerge(_pageSeedRepository, website.Pages));
+                AddOrMerge(_fieldDefinitionRepository, data.Websites.FieldDefinitions);
             }
         }
 
