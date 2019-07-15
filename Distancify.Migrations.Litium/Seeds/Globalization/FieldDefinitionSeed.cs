@@ -134,6 +134,13 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
         }
 
+        public FieldDefinitionSeed WithPointerOption(PointerOption pointerOption)
+        {
+            _fieldDefinition.Option = pointerOption;
+
+            return this;
+        }
+
         public static FieldDefinitionSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.FieldDefinition graphQlItem)
         {
             var areaType = AppDomain.CurrentDomain
@@ -208,7 +215,11 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             }
             else if (_fieldDefinition.FieldType.Equals(SystemFieldTypeConstants.Pointer))
             {
-
+                var pointerOption = _fieldDefinition.Option as PointerOption;
+                builder.AppendLine($"\t\t\t\t.{nameof(WithPointerOption)}(new PointerOption\r\n\t\t\t\t{{" + 
+                                   $"\r\n\t\t\t\t\tEntityType = \"{pointerOption.EntityType}\"," + 
+                                   $"\r\n\t\t\t\t\tMultiSelect = {pointerOption.MultiSelect.ToString().ToLower()}" + 
+                                    "\r\n\t\t\t\t})");
             }
 
             builder.AppendLine($"\t\t\t\t.{nameof(IsMultiCulture)}({_fieldDefinition.MultiCulture.ToString().ToLower()})");
