@@ -7,7 +7,7 @@
   output: C:\KidsMigrations\FieldDefinitions.cs
   query: |
     query every_field_definition{
-        globalization{
+        common{
             fieldDefinitions{
                 id,
                 fieldType,
@@ -33,60 +33,6 @@
                     entityType
                 }
             }
-        },
-        websites{
-            fieldDefinitions{
-                id,
-                fieldType,
-                areaType,
-                multiCulture,
-                canBeGridColumn,
-                canBeGridFilter
-                systemId,
-                localizations{
-                    culture,
-                    name,
-                    description
-                },
-                option{
-                    multiSelect,
-                    items{
-                        localizations{
-                            culture,
-                            name
-                        },
-                        value
-                    },
-                    entityType
-                }
-            }
-        },
-        blocks{
-            fieldDefinitions{
-                id,
-                fieldType,
-                areaType,
-                multiCulture,
-                canBeGridColumn,
-                canBeGridFilter
-                systemId,
-                localizations{
-                    culture,
-                    name,
-                    description
-                },
-                option{
-                    multiSelect,
-                    items{
-                        localizations{
-                            culture,
-                            name
-                        },
-                        value
-                    },
-                    entityType
-                }
-            }       
         }
     }
 
