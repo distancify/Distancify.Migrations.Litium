@@ -108,7 +108,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             }
 
 
-            builder.AppendLine($"\t\t\t{nameof(CountrySeed)}.{nameof(CountrySeed.Ensure)}(\"{country.Id}\",\"{currencyId}\")");
+            builder.AppendLine($"\r\n\t\t\t{nameof(CountrySeed)}.{nameof(CountrySeed.Ensure)}(\"{country.Id}\",\"{currencyId}\")");
             if (country.StandardVatRate != 0)
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(CountrySeed.WithStandardVatRate)}({country.StandardVatRate.ToString(CultureInfo.InvariantCulture)})");

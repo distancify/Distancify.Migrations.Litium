@@ -111,7 +111,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
         public void WriteMigration(StringBuilder builder)
         {
-            builder.AppendLine($"\t\t\t{nameof(WebsiteSeed)}.{nameof(Ensure)}(Guid.Parse(\"{_website.SystemId.ToString()}\"), \"{_fieldTemplateId}\")");
+            builder.AppendLine($"\r\n\t\t\t{nameof(WebsiteSeed)}.{nameof(Ensure)}(Guid.Parse(\"{_website.SystemId.ToString()}\"), \"{_fieldTemplateId}\")");
 
             foreach (var localization in _website.Localizations)
             {

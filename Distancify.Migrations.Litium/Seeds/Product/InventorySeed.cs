@@ -118,7 +118,7 @@ namespace Distancify.Migrations.Litium.Seeds.Product
 
         public void WriteMigration(StringBuilder builder)
         {
-            builder.AppendLine($"\t\t\t{nameof(InventorySeed)}.{nameof(Ensure)}(\"{_inventory.Id}\")");
+            builder.AppendLine($"\r\n\t\t\t{nameof(InventorySeed)}.{nameof(Ensure)}(\"{_inventory.Id}\")");
             builder.AppendLine("\t\t\t\t.Commit();");
         }
     }

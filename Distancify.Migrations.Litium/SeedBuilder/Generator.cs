@@ -87,18 +87,16 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             //TODO: BlockSeed (graphql)
             //TODO: PageSeed (graphql)
 
-            var migrationBuilder = new StringBuilder("\n");
+            var migrationBuilder = new StringBuilder();
 
             if (data.Globalization?.Languages != null)
             {
                 _languageSeedRepository.WriteMigration(migrationBuilder);
-                migrationBuilder.AppendLine();
             }
 
             if (data.Products?.UnitOfMeasurements != null)
             {
                 _unitOfMeasurementRepository.WriteMigration(migrationBuilder);
-                migrationBuilder.AppendLine();
             }
 
             if (data.Products?.Inventories != null)
@@ -109,13 +107,11 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             if (data.Products?.Assortments != null)
             {
                 _assortmentSeedRepository.WriteMigration(migrationBuilder);
-                migrationBuilder.AppendLine();
             }
 
             if (data.Globalization?.Currencies != null)
             {
                 _currencySeedRepository.WriteMigration(migrationBuilder);
-                migrationBuilder.AppendLine();
             }
 
             if (data.Globalization?.Countries != null)
@@ -126,22 +122,17 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             if (data.Globalization?.DomainNames != null)
             {
                 _domainNameSeedRepository.WriteMigration(migrationBuilder);
-                migrationBuilder.AppendLine();
             }
 
             if (data.Globalization?.Markets != null)
             {
                 _marketRepository.WriteMigration(migrationBuilder);
-                migrationBuilder.AppendLine();
             }
 
             if (data.Websites?.Websites != null)
             {
                 _websiteSeedRepository.WriteMigration(migrationBuilder);
-                migrationBuilder.AppendLine();
-
                 _pageSeedRepository.WriteMigration(migrationBuilder);
-                migrationBuilder.AppendLine();
             }
 
             if (data.Globalization?.Channels != null)
@@ -153,7 +144,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             if (data.Globalization?.FieldDefinitions != null)
             {
                 _fieldDefinitionRepository.WriteMigration(migrationBuilder);
-                migrationBuilder.AppendLine();
             }
 
             return migrationBuilder.ToString();

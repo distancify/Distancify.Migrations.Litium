@@ -75,7 +75,7 @@ namespace Distancify.Migrations.Litium.Seeds.Product
 
         public void WriteMigration(StringBuilder builder)
         {
-            builder.AppendLine($"\t\t\t{nameof(AssortmentSeed)}.{nameof(AssortmentSeed.Ensure)}(\"{_assortment.Id}\")");
+            builder.AppendLine($"\r\n\t\t\t{nameof(AssortmentSeed)}.{nameof(AssortmentSeed.Ensure)}(\"{_assortment.Id}\")");
             foreach (var localization in _assortment.Localizations)
                 builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
             builder.AppendLine("\t\t\t\t.Commit();");

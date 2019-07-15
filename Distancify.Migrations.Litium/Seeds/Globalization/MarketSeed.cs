@@ -127,7 +127,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public void WriteMigration(StringBuilder builder)
         {
-            builder.AppendLine($"\t\t\t{nameof(MarketSeed)}.{nameof(Ensure)}(Guid.Parse(\"{_market.SystemId.ToString()}\"), \"{_fieldTemplateId}\")");
+            builder.AppendLine($"\r\n\t\t\t{nameof(MarketSeed)}.{nameof(Ensure)}(Guid.Parse(\"{_market.SystemId.ToString()}\"), \"{_fieldTemplateId}\")");
 
             foreach (var localization in _market.Localizations)
             {
