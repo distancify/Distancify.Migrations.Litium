@@ -6,6 +6,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
     {
         public Globalization.Globalization Globalization { get; set; }
         public Products.Products Products { get; set; }
-        public IEnumerable<Website> Websites { get; set; }
+        public RootWebsite Websites { get; set; }
     }
 }

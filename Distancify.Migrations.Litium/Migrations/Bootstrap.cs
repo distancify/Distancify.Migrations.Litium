@@ -2,11 +2,11 @@
 using Distancify.Migrations.Litium.Seeds;
 using Distancify.Migrations.Litium.Seeds.Customer;
 using Distancify.Migrations.Litium.Seeds.Media;
-using Distancify.Migrations.Litium.Seeds.Website;
 using Litium.Media;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using Distancify.Migrations.Litium.Seeds.Websites;
 
 namespace Distancify.Migrations.Litium.Migrations
 {

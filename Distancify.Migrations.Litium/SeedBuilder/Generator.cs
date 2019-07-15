@@ -134,8 +134,11 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 migrationBuilder.AppendLine();
             }
 
-            _websiteSeedRepository.WriteMigration(migrationBuilder);
-            migrationBuilder.AppendLine();
+            if (data.Websites?.Websites != null)
+            {
+                _websiteSeedRepository.WriteMigration(migrationBuilder);
+                migrationBuilder.AppendLine();
+            }
 
             //TODO: This is tied to a channel, but it probably must be seeded first.
             if (data.Globalization?.FieldDefinitions != null)
@@ -190,7 +193,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             if (data.Websites != null)
             {
-                AddOrMerge(_websiteSeedRepository, data.Websites);
+                AddOrMerge(_websiteSeedRepository, data.Websites.Websites);
             }
         }
 
