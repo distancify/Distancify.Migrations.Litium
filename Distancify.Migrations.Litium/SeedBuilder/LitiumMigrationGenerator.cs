@@ -53,6 +53,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             builder.Append(seedRepository.GenerateMigration());
 
             var template = Template.Parse(@"
+using System;
 using Distancify.Migrations.Litium;
 
 namespace {{ config.namespace }}
