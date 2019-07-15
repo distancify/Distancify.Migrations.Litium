@@ -386,6 +386,7 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Block.cs" />
     <Compile Include="SeedBuilder\IGenerator.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\Blocks.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\Common.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\CompositeFieldOption.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldDefinition.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldLocalization.cs" />

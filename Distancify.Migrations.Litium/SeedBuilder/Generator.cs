@@ -89,6 +89,11 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             var migrationBuilder = new StringBuilder();
 
+            if (data.Common?.FieldDefinitions != null)
+            {
+                _fieldDefinitionRepository.WriteMigration(migrationBuilder);
+            }
+
             if (data.Globalization?.Languages != null)
             {
                 _languageSeedRepository.WriteMigration(migrationBuilder);
@@ -144,12 +149,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 _pageSeedRepository.WriteMigration(migrationBuilder);
             }
 
-            //TODO: This is tied to a channel, but it probably must be seeded first.
-            if (data.Globalization?.FieldDefinitions != null)
-            {
-                _fieldDefinitionRepository.WriteMigration(migrationBuilder);
-            }
-
             return migrationBuilder.ToString();
         }
 
@@ -158,9 +157,13 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         {
             this.data = data;
 
+            if (data.Common != null)
+            {
+                AddOrMerge(_fieldDefinitionRepository, data.Common.FieldDefinitions);
+            }
+
             if (data.Globalization != null)
             {
-                AddOrMerge(_fieldDefinitionRepository, data.Globalization.FieldDefinitions);
                 AddOrMerge(_domainNameSeedRepository, data.Globalization.DomainNames);
                 AddOrMerge(_currencySeedRepository, data.Globalization.Currencies);
                 AddOrMerge(_marketRepository, data.Globalization.Markets);
@@ -185,12 +188,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             {
                 AddOrMerge(_websiteSeedRepository, data.Websites.Websites,
                     website => AddOrMerge(_pageSeedRepository, website.Pages));
-                AddOrMerge(_fieldDefinitionRepository, data.Websites.FieldDefinitions);
-            }
-
-            if (data.Blocks?.FieldDefinitions != null)
-            {
-                AddOrMerge(_fieldDefinitionRepository, data.Blocks.FieldDefinitions);
             }
         }
 
