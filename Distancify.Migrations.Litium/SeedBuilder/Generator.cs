@@ -132,12 +132,16 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             if (data.Websites?.Websites != null)
             {
                 _websiteSeedRepository.WriteMigration(migrationBuilder);
-                _pageSeedRepository.WriteMigration(migrationBuilder);
             }
 
             if (data.Globalization?.Channels != null)
             {
                 _channelSeedRepository.WriteMigration(migrationBuilder);
+            }
+
+            if (data.Websites?.Websites != null)
+            {
+                _pageSeedRepository.WriteMigration(migrationBuilder);
             }
 
             //TODO: This is tied to a channel, but it probably must be seeded first.
