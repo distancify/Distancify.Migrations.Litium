@@ -4,6 +4,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
 {
     public class Data
     {
+        public Common.Common Common { get; set; }
         public Globalization.Globalization Globalization { get; set; }
         public Blocks.Blocks Blocks { get; set; }
         public Products.Products Products { get; set; }
