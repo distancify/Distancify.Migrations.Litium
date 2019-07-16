@@ -1,9 +1,10 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Websites
 {
-    public class PageFieldTemplate : GraphQlObject
+    public class PageFieldTemplate : FieldTemplate
     {
-        public Guid SystemId { get; set; }
+        public string TemplatePath { get; set; }
+        public List<FieldTemplateFieldGroup> FieldGroups { get; set; }
     }
 }

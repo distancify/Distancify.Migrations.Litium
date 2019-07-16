@@ -415,8 +415,9 @@
     <Compile Include="SeedBuilder\Repositories\InventoryRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\PageRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\Websites\PageRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\UnitOfMeasurementRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\Websites\PageFieldTemplateRepository.cs" />
     <Compile Include="Seeds\BaseSeeds\DisplayTemplateSeed.cs" />
     <Compile Include="Seeds\Constants.cs" />
     <Compile Include="Seeds\Countries.cs" />
@@ -434,7 +435,7 @@
     <Compile Include="Seeds\Globalization\FieldDefinitionSeed.cs" />
     <Compile Include="SeedBuilder\Repositories\Repository.cs" />
     <Compile Include="SeedBuilder\Generator.cs" />
-    <Compile Include="SeedBuilder\Repositories\WebsiteRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\Websites\WebsiteRepository.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Assortment.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Channel.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\ChannelDomainLink.cs" />
