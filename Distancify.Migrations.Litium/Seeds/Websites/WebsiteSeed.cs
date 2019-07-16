@@ -39,7 +39,6 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
         public static WebsiteSeed Ensure(string websiteName, string websiteTemplateName)
         {
-
             var websiteClone = IoC.Resolve<WebsiteService>().Get(websiteName)?.MakeWritableClone();
             if (websiteClone is null)
             {

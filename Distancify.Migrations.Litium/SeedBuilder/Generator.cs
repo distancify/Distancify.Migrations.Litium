@@ -27,6 +27,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private readonly BlockFieldTemplateRepository _blockFieldTemplateSeedRepository = new BlockFieldTemplateRepository();
         private readonly MarketFieldTemplateRepository _marketFieldTemplateSeedRepository = new MarketFieldTemplateRepository();
         private readonly PageFieldTemplateRepository _pageFieldTemplateSeedRepository = new PageFieldTemplateRepository();
+        private readonly WebsiteFieldTemplateRepository _websiteFieldTemplateSeedRepository = new WebsiteFieldTemplateRepository();
+
 
         private LitiumGraphQlModel.Data data;
 
@@ -50,6 +52,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 seedsCount += _blockFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _marketFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _pageFieldTemplateSeedRepository.NumberOfItems;
+                seedsCount += _websiteFieldTemplateSeedRepository.NumberOfItems;
                 return seedsCount;
             }
         }
@@ -107,6 +110,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             _fieldDefinitionRepository.WriteMigration(migrationBuilder);
 
+            _websiteFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
 
             _languageSeedRepository.WriteMigration(migrationBuilder);
 
@@ -164,6 +168,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             if (data.Websites != null)
             {
+                AddOrMerge(_websiteFieldTemplateSeedRepository, data.Websites.WebsiteFieldTemplates);
                 AddOrMerge(_pageFieldTemplateSeedRepository, data.Websites.PageFieldTemplates);
                 AddOrMerge(_websiteSeedRepository, data.Websites.Websites,
                     website => AddOrMerge(_pageSeedRepository, website.Pages));

@@ -418,6 +418,7 @@
     <Compile Include="SeedBuilder\Repositories\Websites\PageRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\UnitOfMeasurementRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\Websites\PageFieldTemplateRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\Websites\WebsiteFieldTemplateRepository.cs" />
     <Compile Include="Seeds\BaseSeeds\DisplayTemplateSeed.cs" />
     <Compile Include="Seeds\Constants.cs" />
     <Compile Include="Seeds\Countries.cs" />
