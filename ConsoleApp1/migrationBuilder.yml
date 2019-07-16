@@ -182,6 +182,7 @@
             pageFieldTemplates{
                 id,
                 systemId,
+                templatePath,
                 areaType{
                     name,
                     fullName
