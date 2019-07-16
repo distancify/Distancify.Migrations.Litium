@@ -21,8 +21,11 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public void Commit()
         {
-            var fieldDefinitionService = IoC.Resolve<FieldDefinitionService>();
+            //TODO: Log, don't change system defined fields, they can't be changed
+            if(_fieldDefinition.SystemDefined)
+                return;
 
+            var fieldDefinitionService = IoC.Resolve<FieldDefinitionService>();
             if (_fieldDefinition.SystemId == Guid.Empty)
             {
                 _fieldDefinition.SystemId = Guid.NewGuid();
