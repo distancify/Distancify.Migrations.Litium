@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Litium.Validations;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
@@ -21,19 +22,23 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public void Commit()
         {
-            //TODO: Log, don't change system defined fields, they can't be changed
-            if(_fieldDefinition.SystemDefined)
-                return;
-
-            var fieldDefinitionService = IoC.Resolve<FieldDefinitionService>();
-            if (_fieldDefinition.SystemId == Guid.Empty)
+            //TODO: Figure out why we get validation errors even if some fields are not marked as system defined (even though they are)
+            try
             {
-                _fieldDefinition.SystemId = Guid.NewGuid();
-                fieldDefinitionService.Create(_fieldDefinition);
+                var fieldDefinitionService = IoC.Resolve<FieldDefinitionService>();
+                if (_fieldDefinition.SystemId == Guid.Empty)
+                {
+                    _fieldDefinition.SystemId = Guid.NewGuid();
+                    fieldDefinitionService.Create(_fieldDefinition);
+                }
+                else
+                {
+                    fieldDefinitionService.Update(_fieldDefinition);
+                }
             }
-            else
+            catch (ValidationException ex)
             {
-                fieldDefinitionService.Update(_fieldDefinition);
+                this.Log().Error(ex.Message, ex);
             }
         }
 
