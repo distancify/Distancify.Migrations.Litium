@@ -21,8 +21,11 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             var pageFieldTemplate = (PageFieldTemplate)IoC.Resolve<FieldTemplateService>().Get<PageFieldTemplate>(pageFieldTemplateId)?.MakeWritableClone();
             if (pageFieldTemplate is null)
             {
-                pageFieldTemplate = new PageFieldTemplate(pageFieldTemplateId);
-                pageFieldTemplate.SystemId = Guid.Empty;
+                pageFieldTemplate = new PageFieldTemplate(pageFieldTemplateId)
+                {
+                    SystemId = Guid.Empty,
+                    FieldGroups = new List<FieldTemplateFieldGroup>()
+                };
             }
 
             return new PageFieldTemplateSeed(pageFieldTemplate);

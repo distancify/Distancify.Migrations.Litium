@@ -21,8 +21,12 @@ namespace Distancify.Migrations.Litium.Seeds.Product
             var productFieldTemplate = IoC.Resolve<FieldTemplateService>().Get<ProductFieldTemplate>(id)?.MakeWritableClone();
             if (productFieldTemplate is null)
             {
-                productFieldTemplate = new ProductFieldTemplate(id, productDisplayTemplateSystemGuid);
-                productFieldTemplate.SystemId = Guid.Empty;
+                productFieldTemplate = new ProductFieldTemplate(id, productDisplayTemplateSystemGuid)
+                {
+                    SystemId = Guid.Empty,
+                    ProductFieldGroups = new List<FieldTemplateFieldGroup>(),
+                    VariantFieldGroups = new List<FieldTemplateFieldGroup>()
+                };
             }
 
             return new ProductFieldTemplateSeed(productFieldTemplate);
@@ -33,8 +37,12 @@ namespace Distancify.Migrations.Litium.Seeds.Product
             var productFieldTemplate = IoC.Resolve<FieldTemplateService>().Get<ProductFieldTemplate>(id)?.MakeWritableClone();
             if (productFieldTemplate is null)
             {
-                productFieldTemplate = new ProductFieldTemplate(id, productDisplayTemplateSystemId);
-                productFieldTemplate.SystemId = Guid.Empty;
+                productFieldTemplate = new ProductFieldTemplate(id, productDisplayTemplateSystemId)
+                {
+                    SystemId = Guid.Empty,
+                    ProductFieldGroups = new List<FieldTemplateFieldGroup>(),
+                    VariantFieldGroups = new List<FieldTemplateFieldGroup>()
+                };
             }
 
             return new ProductFieldTemplateSeed(productFieldTemplate);
