@@ -1,6 +1,8 @@
 ﻿using Distancify.Migrations.Litium.Extensions;
 using Distancify.Migrations.Litium.Seeds;
 using Litium;
+using Litium.Blocks;
+using Litium.Customers;
 using Litium.FieldFramework;
 using Litium.Globalization;
 using Litium.Products;
@@ -126,12 +128,77 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
         {
             switch (fieldTemplate)
             {
-                case ChannelFieldTemplate channelFieldTemplate: return channelFieldTemplate.FieldGroups;
-                case MarketFieldTemplate marketFieldTemplate: return marketFieldTemplate.FieldGroups;
-                case WebsiteFieldTemplate websiteFieldTemplate: return websiteFieldTemplate.FieldGroups;
-                case PageFieldTemplate pageFieldTemplate: return pageFieldTemplate.FieldGroups;
-                case ProductFieldTemplate productFieldTemplate: return productFieldTemplate.ProductFieldGroups;
-                default: return null;
+                case BlockFieldTemplate blockFieldTemplate:
+                    if (blockFieldTemplate.FieldGroups == null)
+                    {
+                        blockFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
+                    }
+                    return blockFieldTemplate.FieldGroups;
+
+                case CategoryFieldTemplate categoryFieldTemplate:
+                    if (categoryFieldTemplate.CategoryFieldGroups == null)
+                    {
+                        categoryFieldTemplate.CategoryFieldGroups = new List<FieldTemplateFieldGroup>();
+                    }
+                    return categoryFieldTemplate.CategoryFieldGroups;
+
+                case ChannelFieldTemplate channelFieldTemplate:
+                    if (channelFieldTemplate.FieldGroups == null)
+                    {
+                        channelFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
+                    }
+                    return channelFieldTemplate.FieldGroups;
+
+                case MarketFieldTemplate marketFieldTemplate:
+                    if (marketFieldTemplate.FieldGroups == null)
+                    {
+                        marketFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
+                    }
+
+                    return marketFieldTemplate.FieldGroups;
+
+                case OrganizationFieldTemplate organizationFieldTemplate:
+                    if (organizationFieldTemplate.FieldGroups == null)
+                    {
+                        organizationFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
+                    }
+
+                    return organizationFieldTemplate.FieldGroups;
+
+                case PageFieldTemplate pageFieldTemplate:
+                    if (pageFieldTemplate.FieldGroups == null)
+                    {
+                        pageFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
+                    }
+
+                    return pageFieldTemplate.FieldGroups;
+
+                case PersonFieldTemplate personFieldTemplate:
+                    if (personFieldTemplate.FieldGroups == null)
+                    {
+                        personFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
+                    }
+                    return personFieldTemplate.FieldGroups;
+
+
+                case ProductFieldTemplate productFieldTemplate:
+                    if (productFieldTemplate.ProductFieldGroups == null)
+                    {
+                        productFieldTemplate.ProductFieldGroups = new List<FieldTemplateFieldGroup>();
+                    }
+
+                    return productFieldTemplate.ProductFieldGroups;
+
+                case WebsiteFieldTemplate websiteFieldTemplate:
+                    if (websiteFieldTemplate.FieldGroups == null)
+                    {
+                        websiteFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
+                    }
+
+                    return websiteFieldTemplate.FieldGroups;
+
+                default:
+                    throw new NotSupportedException("Unknown field template type when building field groups");
             }
         }
     }

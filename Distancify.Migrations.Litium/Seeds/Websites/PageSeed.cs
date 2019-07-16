@@ -135,7 +135,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return this;
         }
 
-        public PageSeed WithBlock(string containerId, string blockId)
+        public PageSeed WithBlock(string containerId, Guid blockSystemId)
         {
             //BUG: For some reason is blocks not added to the page.. why???
 
@@ -145,8 +145,6 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 blockItemContainerItem = new BlockItemContainer(containerId);
                 _page.Blocks.Add(blockItemContainerItem);
             }
-
-            var blockSystemId = IoC.Resolve<BlockService>().Get(blockId).SystemId;
 
             if (blockItemContainerItem.Items.Any(i => i is BlockItemLink && ((BlockItemLink)i).BlockSystemId == blockSystemId))
             {

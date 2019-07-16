@@ -98,12 +98,12 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
             if (!string.IsNullOrEmpty(fieldTemplate.TemplatePath))
             {
-                builder.Append($"\t\t\t\t.{nameof(WithTemplatePath)}(\"{fieldTemplate.TemplatePath}\")");
+                builder.AppendLine($"\t\t\t\t.{nameof(WithTemplatePath)}(\"{fieldTemplate.TemplatePath}\")");
             }
 
             if (fieldTemplate.CategorySystemId != Guid.Empty)
             {
-                builder.Append($"\t\t\t\t.{nameof(WithCategory)}(Guid.Parse(\"{fieldTemplate.CategorySystemId.ToString()}\"))");
+                builder.AppendLine($"\t\t\t\t.{nameof(WithCategory)}(Guid.Parse(\"{fieldTemplate.CategorySystemId.ToString()}\"))");
             }
 
             foreach (var localization in fieldTemplate.Localizations)

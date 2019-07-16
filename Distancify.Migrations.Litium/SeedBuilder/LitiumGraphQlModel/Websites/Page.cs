@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Blocks;
+using System;
 using System.Collections.Generic;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Websites
@@ -16,5 +17,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Websites
         public List<PageToChannelLink> ChannelLinks { get; set; }
         public List<FieldLocalization> Localizations { get; set; }
         public PageFieldTemplate FieldTemplate { get; set; }
+
+        public List<BlockContainer> BlockContainers { get; set; }
     }
 }

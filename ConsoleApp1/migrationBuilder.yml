@@ -550,6 +550,18 @@
                     },
                     channelLinks {
                         channelSystemId
+                    },
+                    blockContainers{
+                        id,
+                        blocks{
+                            systemId,
+                            status,
+                            global,
+                            fieldTemplateSystemId,
+                            channelLinks{
+                                channelSystemId
+                            }
+                        }
                     }
                 }
             }

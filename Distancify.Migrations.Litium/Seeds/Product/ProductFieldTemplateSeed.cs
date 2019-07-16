@@ -50,8 +50,12 @@ namespace Distancify.Migrations.Litium.Seeds.Product
 
         public ProductFieldTemplateSeed WithVariantFieldGroup(string id, List<string> fieldIds, Dictionary<string, string> localizedNamesByCulture, bool collapsed = false)
         {
-            var fieldGroups = (fieldTemplate as ProductFieldTemplate).VariantFieldGroups;
-            AddOrUpdateFieldGroup(fieldGroups, id, fieldIds, localizedNamesByCulture, collapsed);
+            if (fieldTemplate.VariantFieldGroups == null)
+            {
+                fieldTemplate.VariantFieldGroups = new List<FieldTemplateFieldGroup>();
+            }
+
+            AddOrUpdateFieldGroup(fieldTemplate.VariantFieldGroups, id, fieldIds, localizedNamesByCulture, collapsed);
 
             return this;
         }
@@ -103,7 +107,7 @@ namespace Distancify.Migrations.Litium.Seeds.Product
                 throw new NullReferenceException("At least one Product Field Template with an ID obtained from the GraphQL endpoint is needed in order to ensure the Product Field Template");
             }
 
-            builder.AppendLine($"\r\n\t\t\t{nameof(ProductFieldTemplateSeed)}.{nameof(ProductFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\", "+ 
+            builder.AppendLine($"\r\n\t\t\t{nameof(ProductFieldTemplateSeed)}.{nameof(ProductFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\", " +
                                $"Guid.Parse(\"{fieldTemplate.DisplayTemplateSystemId.ToString()}\"))");
 
             WriteFieldGroups(fieldTemplate.VariantFieldGroups, builder, nameof(WithVariantFieldGroup));

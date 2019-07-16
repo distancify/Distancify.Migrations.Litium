@@ -387,8 +387,11 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\AreaType.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Block.cs" />
     <Compile Include="SeedBuilder\IGenerator.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\Block.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\BlockContainer.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\BlockFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\Blocks.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\BlockToChannelLink.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\Common.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\CompositeFieldOption.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\Customers.cs" />
