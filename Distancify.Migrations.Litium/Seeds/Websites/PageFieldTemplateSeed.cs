@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Distancify.Migrations.Litium.Extensions;
 using Distancify.Migrations.Litium.Seeds.BaseSeeds;
 using Litium;
 using Litium.FieldFramework;
@@ -33,12 +34,27 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return (PageFieldTemplateSeed)seed.Update(pageFieldTemplate);
         }
 
-        public PageFieldTemplateSeed WithContainer(string containerId)
+        public PageFieldTemplateSeed WithContainer(string containerId, Dictionary<string, string> localizedNamesByCulture)
         {
-            if (fieldTemplate.Containers.FirstOrDefault(c => c.Id == containerId) == null)
+            if (fieldTemplate.Containers == null)
             {
-                fieldTemplate.Containers.Add(new BlockContainerDefinition() { Id = containerId });
-                //TODO Name
+                fieldTemplate.Containers = new List<BlockContainerDefinition>();
+            }
+
+            if (fieldTemplate.Containers.FirstOrDefault(c => c.Id == containerId) is BlockContainerDefinition blockContainer)
+            {
+                foreach (var item in localizedNamesByCulture)
+                {
+                    if (!blockContainer.Name.Any(l => l.Key.Equals(item.Key)) ||
+                        !blockContainer.Name[item.Key].Equals(item.Value))
+                    {
+                        blockContainer.Name[item.Key] = item.Value;
+                    }
+                }
+            }
+            else
+            {
+                fieldTemplate.Containers.Add(new BlockContainerDefinition() { Id = containerId, Name = localizedNamesByCulture });
             }
 
             return this;
@@ -55,6 +71,13 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             fieldTemplate.SystemId = data.SystemId;
             fieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
             fieldTemplate.TemplatePath = data.TemplatePath;
+
+            fieldTemplate.Containers = data.Containers?.Select(c => new BlockContainerDefinition
+            {
+                Id = c.Id,
+                Name = c.Localizations.ToDictionary(k => k.Culture, v => v.Name)
+            })
+            .ToList() ?? new List<BlockContainerDefinition>();
 
             foreach (var fieldGroup in data.FieldGroups)
             {
@@ -95,6 +118,11 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             foreach (var localization in fieldTemplate.Localizations)
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
+            }
+
+            foreach (var container in fieldTemplate.Containers)
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithContainer)}(\"{container.Id}\", {container.Name.GetMigration(4)})");
             }
 
             WriteFieldGroups(fieldTemplate.FieldGroups, builder);

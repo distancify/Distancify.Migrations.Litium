@@ -28,6 +28,18 @@ namespace Distancify.Migrations.Litium.Seeds.Product
             return new ProductFieldTemplateSeed(productFieldTemplate);
         }
 
+        public static ProductFieldTemplateSeed Ensure(string id, Guid productDisplayTemplateSystemId)
+        {
+            var productFieldTemplate = IoC.Resolve<FieldTemplateService>().Get<ProductFieldTemplate>(id)?.MakeWritableClone();
+            if (productFieldTemplate is null)
+            {
+                productFieldTemplate = new ProductFieldTemplate(id, productDisplayTemplateSystemId);
+                productFieldTemplate.SystemId = Guid.Empty;
+            }
+
+            return new ProductFieldTemplateSeed(productFieldTemplate);
+        }
+
         public ProductFieldTemplateSeed WithVariantFieldGroup(string id, List<string> fieldIds, Dictionary<string, string> localizedNamesByCulture, bool collapsed = false)
         {
             var fieldGroups = (fieldTemplate as ProductFieldTemplate).VariantFieldGroups;

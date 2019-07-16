@@ -31,6 +31,21 @@ namespace Distancify.Migrations.Litium.Seeds.Product
             return new CategoryFieldTemplateSeed(categoryFieldTemplate);
         }
 
+        public static CategoryFieldTemplateSeed Ensure(string id, Guid categoryDisplayTemplateSystemId)
+        {
+            var categoryFieldTemplate = IoC.Resolve<FieldTemplateService>().Get<CategoryFieldTemplate>(id)?.MakeWritableClone();
+            if (categoryFieldTemplate is null)
+            {
+                categoryFieldTemplate = new CategoryFieldTemplate(id, categoryDisplayTemplateSystemId)
+                {
+                    SystemId = Guid.Empty,
+                    CategoryFieldGroups = new List<FieldTemplateFieldGroup>()
+                };
+            }
+
+            return new CategoryFieldTemplateSeed(categoryFieldTemplate);
+        }
+
         public static CategoryFieldTemplateSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Products.CategoryFieldTemplate categoryFieldTemplate)
         {
             var seed = new CategoryFieldTemplateSeed(new CategoryFieldTemplate(categoryFieldTemplate.Id, categoryFieldTemplate.DisplayTemplateSystemId));
@@ -71,7 +86,7 @@ namespace Distancify.Migrations.Litium.Seeds.Product
                 throw new NullReferenceException("At least one Category Field Template with an ID obtained from the GraphQL endpoint is needed in order to ensure the Category Field Template");
             }
 
-            builder.AppendLine($"\r\n\t\t\t{nameof(CategoryDisplayTemplateSeed)}.{nameof(CategoryDisplayTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\", " +
+            builder.AppendLine($"\r\n\t\t\t{nameof(CategoryFieldTemplateSeed)}.{nameof(CategoryFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\", " +
                                $"Guid.Parse(\"{fieldTemplate.DisplayTemplateSystemId.ToString()}\"))");
 
             foreach (var localization in fieldTemplate.Localizations)

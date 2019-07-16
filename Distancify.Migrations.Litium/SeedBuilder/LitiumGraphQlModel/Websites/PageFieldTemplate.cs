@@ -6,5 +6,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Websites
     {
         public string TemplatePath { get; set; }
         public List<FieldTemplateFieldGroup> FieldGroups { get; set; }
+        public List<BlockContainerDefinition> Containers { get; set; }
     }
 }
