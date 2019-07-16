@@ -89,7 +89,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
             if (!string.IsNullOrEmpty(fieldTemplate.TemplatePath))
             {
-                builder.AppendLine($"\r\n\t\t\t\t{nameof(WithTemplatePath)}(\"{fieldTemplate.TemplatePath}\")");
+                builder.AppendLine($"\t\t\t\t.{nameof(WithTemplatePath)}(\"{fieldTemplate.TemplatePath}\")");
             }
 
             foreach (var localization in fieldTemplate.Localizations)
