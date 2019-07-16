@@ -264,6 +264,13 @@
                     culture,
                     name             
                 },
+                containers{
+                    id,
+                    localizations{
+                        name,
+                        culture
+                    }
+                },
                 fieldGroups{
                     id,
                     collapsed,
