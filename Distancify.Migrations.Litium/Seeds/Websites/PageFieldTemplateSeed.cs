@@ -113,6 +113,11 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
             builder.AppendLine($"\r\n\t\t\t{nameof(PageFieldTemplateSeed)}.{nameof(PageFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\")");
 
+            foreach (var container in fieldTemplate.Containers)
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithContainer)}(\"{container.Id}\", {container.Name.GetMigration(4)})");
+            }
+
             if (!string.IsNullOrEmpty(fieldTemplate.TemplatePath))
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithTemplatePath)}(\"{fieldTemplate.TemplatePath}\")");
@@ -121,11 +126,6 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             foreach (var localization in fieldTemplate.Localizations)
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
-            }
-
-            foreach (var container in fieldTemplate.Containers)
-            {
-                builder.AppendLine($"\t\t\t\t.{nameof(WithContainer)}(\"{container.Id}\", {container.Name.GetMigration(4)})");
             }
 
             WriteFieldGroups(fieldTemplate.FieldGroups, builder);

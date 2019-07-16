@@ -385,7 +385,6 @@
     <Compile Include="LitiumMigrationCmdlet.cs" />
     <Compile Include="SeedBuilder\ConfigurationReader.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\AreaType.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Block.cs" />
     <Compile Include="SeedBuilder\IGenerator.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\Block.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\BlockContainer.cs" />

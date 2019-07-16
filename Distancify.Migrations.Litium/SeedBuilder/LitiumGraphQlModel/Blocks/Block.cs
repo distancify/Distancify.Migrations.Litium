@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Blocks
 {
@@ -17,5 +14,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Blocks
         public bool Global { get; set; }
 
         public List<BlockToChannelLink> ChannelLinks { get; set; }
+
+        public BlockFieldTemplate FieldTemplate { get; set; }
     }
 }

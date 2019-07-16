@@ -1,67 +1,125 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Litium;
 using Litium.Blocks;
+using Litium.Common;
 using Litium.FieldFramework;
 
 namespace Distancify.Migrations.Litium.Seeds.Websites
 {
-    public class BlockSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Block>
+    public class BlockSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Blocks.Block>
     {
-        private readonly Block block;
+        private readonly Block _block;
+        private bool _isPublished = false;
+        private string _fieldTemplateId;
 
-        protected BlockSeed(Block block)
+        protected BlockSeed(Block block, string fieldTemplateId)
         {
-            this.block = block;
+            _block = block;
+            _fieldTemplateId = fieldTemplateId;
         }
 
         public void Commit()
         {
             var service = IoC.Resolve<BlockService>();
 
-            if (block.SystemId == null || block.SystemId == Guid.Empty)
+            if (_block.SystemId == Guid.Empty)
             {
-                block.SystemId = Guid.NewGuid();
-                service.Create(block);
+                _block.SystemId = Guid.NewGuid();
+                service.Create(_block);
             }
 
-            service.Update(block);
+            service.Update(_block);
+
+            if (_isPublished)
+            {
+                var draftService = IoC.Resolve<DraftBlockService>();
+                var draftBlockClone = draftService.Get(_block.SystemId).MakeWritableClone();
+
+                draftService.Update(draftBlockClone);
+                draftService.Publish(draftBlockClone);
+            }
         }
 
-        public static BlockSeed Ensure(string blockId, string blockTemplateId)
+        public static BlockSeed Ensure(Guid blockSystemId, string blockTemplateId)
         {
             var blockFieldTemplateSystemGuid = IoC.Resolve<FieldTemplateService>().Get<BlockFieldTemplate>(blockTemplateId).SystemId;
 
-            var blockClone = IoC.Resolve<BlockService>().Get(blockId)?.MakeWritableClone();
+            var blockClone = IoC.Resolve<BlockService>().Get(blockSystemId)?.MakeWritableClone();
+
             if (blockClone is null)
             {
-                blockClone = new Block(blockFieldTemplateSystemGuid);
-                blockClone.Id = blockId;
-                blockClone.SystemId = Guid.Empty;
-                blockClone.Localizations["en-US"].Name = blockId;
+                blockClone = new Block(blockFieldTemplateSystemGuid)
+                {
+                    SystemId = Guid.Empty
+                };
             }
 
-            return new BlockSeed(blockClone);
+            return new BlockSeed(blockClone, blockTemplateId);
         }
 
         public BlockSeed IsGlobal(bool isGlobal)
         {
-            block.Global = isGlobal;
+            _block.Global = isGlobal;
             return this;
         }
 
-        public void Publish()
+        public BlockSeed IsPublished()
         {
-            var service = IoC.Resolve<DraftBlockService>();
-            var draftBlockClone = service.Get(block.SystemId).MakeWritableClone();
+            _isPublished = true;
 
-            service.Update(draftBlockClone);
-            service.Publish(draftBlockClone);
+            return this;
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Block> Update(SeedBuilder.LitiumGraphQlModel.Block data)
+        public BlockSeed WithStatus(ContentStatus status)
         {
-            throw new NotImplementedException();
+            _block.Status = status;
+
+            return this;
+        }
+
+        public BlockSeed WithStatus(short status)
+        {
+            _block.Status = (ContentStatus)status;
+
+            return this;
+        }
+
+        public BlockSeed WithChannelLink(Guid channelSystemId)
+        {
+            if (_block.ChannelLinks == null)
+            {
+                _block.ChannelLinks = new List<BlockToChannelLink>();
+            }
+
+            if (!_block.ChannelLinks.Any(c => c.ChannelSystemId == channelSystemId))
+            {
+                _block.ChannelLinks.Add(new BlockToChannelLink(channelSystemId));
+            }
+
+            return this;
+        }
+
+        public static BlockSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Blocks.Block block)
+        {
+            var seed = new BlockSeed(new Block(block.SystemId), block.FieldTemplate.Id);
+            return (BlockSeed)seed.Update(block);
+        }
+
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Blocks.Block> Update(SeedBuilder.LitiumGraphQlModel.Blocks.Block data)
+        {
+            _block.SystemId = data.SystemId;
+            _block.Status = (ContentStatus)data.Status;
+            _block.Global = data.Global;
+
+            _block.ChannelLinks = data.ChannelLinks?.Select(c => new BlockToChannelLink(c.ChannelSystemId)).ToList()
+                ?? new List<BlockToChannelLink>();
+
+            _fieldTemplateId = data.FieldTemplate.Id;
+
+            return this;
         }
 
         public void WriteMigration(StringBuilder builder)

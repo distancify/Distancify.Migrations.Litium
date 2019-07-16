@@ -560,6 +560,9 @@
                             fieldTemplateSystemId,
                             channelLinks{
                                 channelSystemId
+                            },
+                            fieldTemplate{
+                                id
                             }
                         }
                     }

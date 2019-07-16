@@ -139,19 +139,19 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         {
             //BUG: For some reason is blocks not added to the page.. why???
 
-            var blockItemContainerItem = _page.Blocks.FirstOrDefault(c => c.Id == containerId);
-            if (blockItemContainerItem == null)
+            var blockContainer = _page.Blocks.FirstOrDefault(c => c.Id == containerId);
+            if (blockContainer == null)
             {
-                blockItemContainerItem = new BlockItemContainer(containerId);
-                _page.Blocks.Add(blockItemContainerItem);
+                blockContainer = new BlockItemContainer(containerId);
+                _page.Blocks.Add(blockContainer);
             }
 
-            if (blockItemContainerItem.Items.Any(i => i is BlockItemLink && ((BlockItemLink)i).BlockSystemId == blockSystemId))
+            if (blockContainer.Items.Any(i => i is BlockItemLink && ((BlockItemLink)i).BlockSystemId == blockSystemId))
             {
                 return this;
             }
 
-            blockItemContainerItem.Items.Add(new BlockItemLink(blockSystemId));
+            blockContainer.Items.Add(new BlockItemLink(blockSystemId));
             return this;
         }
 
@@ -188,6 +188,14 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
             _page.ChannelLinks = data.ChannelLinks?.Select(c => new PageToChannelLink(c.ChannelSystemId)).ToList() ?? new List<PageToChannelLink>();
 
+            foreach (var blockContainer in data.BlockContainers)
+            {
+                _page.Blocks.Add(new BlockItemContainer(blockContainer.Id)
+                {
+                    Items = blockContainer.Blocks.Select(b => (BlockItem)new BlockItemLink(b.SystemId)).ToList()
+                });
+            }
+
             return this;
         }
 
@@ -205,6 +213,14 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             foreach (var channelLink in _page.ChannelLinks)
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithChannelLink)}(Guid.Parse(\"{channelLink.ChannelSystemId}\"))");
+            }
+
+            foreach (var block in _page.Blocks)
+            {
+                foreach (var item in block.Items.OfType<BlockItemLink>())
+                {
+                    builder.AppendLine($"\t\t\t\t.{nameof(WithBlock)}(\"{block.Id}\", Guid.Parse(\"{item.BlockSystemId.ToString()}\"))");
+                }
             }
 
             if (_page.ParentPageSystemId == Guid.Empty)
