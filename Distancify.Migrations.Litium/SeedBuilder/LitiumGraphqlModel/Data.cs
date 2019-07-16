@@ -9,5 +9,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
         public Blocks.Blocks Blocks { get; set; }
         public Products.Products Products { get; set; }
         public Websites.RootWebsite Websites { get; set; }
+        public Customers.Customers Customers { get; set; }
     }
 }

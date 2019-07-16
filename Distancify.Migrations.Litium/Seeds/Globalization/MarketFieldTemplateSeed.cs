@@ -67,7 +67,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         {
             if (fieldTemplate == null || string.IsNullOrEmpty(fieldTemplate.Id))
             {
-                throw new NullReferenceException("At least one Channel Field Template with an ID obtained from the GraphQL endpoint is needed in order to ensure the Channel Field Template");
+                throw new NullReferenceException("At least one Market Field Template with an ID obtained from the GraphQL endpoint is needed in order to ensure the Market Field Template");
             }
 
             builder.AppendLine($"\r\n\t\t\t{nameof(MarketFieldTemplateSeed)}.{nameof(MarketFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\")");

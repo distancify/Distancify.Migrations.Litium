@@ -185,6 +185,64 @@
         }
     }
 
+- id: PersonFieldTemplates
+  baseMigration: Migration
+  className: PersonFieldTemplates
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\PersonFieldTemplates.cs
+  query: |
+    query{
+        customers{
+            personFieldTemplates{
+                id,
+                systemId,
+                localizations{
+                    culture,
+                    name             
+                },
+                fieldGroups{
+                    id,
+                    collapsed,
+                    localizations{
+                        culture,
+                        name
+                    },
+                    fields
+                }
+            }
+        }
+    }
+
+- id: OrganizationFieldTemplates
+  baseMigration: Migration
+  className: OrganizationFieldTemplates
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\OrganizationFieldTemplates.cs
+  query: |
+    query{
+        customers{
+            organizationFieldTemplates{
+                id,
+                systemId,
+                localizations{
+                    culture,
+                    name             
+                },
+                fieldGroups{
+                    id,
+                    collapsed,
+                    localizations{
+                        culture,
+                        name
+                    },
+                    fields
+                }
+            }
+        }
+    }
+
 - id: PageFieldTemplates
   baseMigration: Migration
   className: PageFieldTemplates

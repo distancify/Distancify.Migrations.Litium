@@ -80,7 +80,7 @@ namespace Distancify.Migrations.Litium.Seeds.Product
         {
             if (fieldTemplate == null || string.IsNullOrEmpty(fieldTemplate.Id))
             {
-                throw new NullReferenceException("At least one Channel Field Template with an ID obtained from the GraphQL endpoint is needed in order to ensure the Channel Field Template");
+                throw new NullReferenceException("At least one Product Field Template with an ID obtained from the GraphQL endpoint is needed in order to ensure the Product Field Template");
             }
 
             builder.AppendLine($"\r\n\t\t\t{nameof(ProductFieldTemplateSeed)}.{nameof(ProductFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\", "+ 

@@ -391,6 +391,9 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\Blocks.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\Common.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\CompositeFieldOption.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\Customers.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\OrganizationFieldTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\PersonFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\DisplayTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\DisplayTemplateToWebsiteLink.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldDefinition.cs" />
@@ -420,6 +423,8 @@
     <Compile Include="SeedBuilder\Repositories\InventoryRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\OrganizationFieldTemplateRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\PersonFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\ProductDisplayTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\ProductFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\Websites\PageRepository.cs" />

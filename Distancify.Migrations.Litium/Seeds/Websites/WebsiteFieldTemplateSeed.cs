@@ -66,7 +66,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         {
             if (fieldTemplate == null || string.IsNullOrEmpty(fieldTemplate.Id))
             {
-                throw new NullReferenceException("At least one Channel Field Template with an ID obtained from the GraphQL endpoint is needed in order to ensure the Channel Field Template");
+                throw new NullReferenceException("At least one Website Field Template with an ID obtained from the GraphQL endpoint is needed in order to ensure the Website Field Template");
             }
 
             builder.AppendLine($"\r\n\t\t\t{nameof(WebsiteFieldTemplateSeed)}.{nameof(WebsiteFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\")");

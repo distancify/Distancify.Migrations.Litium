@@ -32,6 +32,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private readonly CategoryFieldTemplateRepository _categoryFieldTemplateSeedRepository = new CategoryFieldTemplateRepository();
         private readonly CategoryDisplayTemplateRepository _categoryDisplayTemplateSeedRepository = new CategoryDisplayTemplateRepository();
         private readonly ProductDisplayTemplateRepository _productDisplayTemplateRepository = new ProductDisplayTemplateRepository();
+        private readonly PersonFieldTemplateRepository _personFieldTemplateSeedRepository = new PersonFieldTemplateRepository();
+        private readonly OrganizationFieldTemplateRepository _organizationFieldTemplateSeedRepository = new OrganizationFieldTemplateRepository();
 
         private LitiumGraphQlModel.Data data;
 
@@ -60,6 +62,9 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 seedsCount += _categoryFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _categoryDisplayTemplateSeedRepository.NumberOfItems;
                 seedsCount += _productDisplayTemplateRepository.NumberOfItems;
+                seedsCount += _personFieldTemplateSeedRepository.NumberOfItems;
+                seedsCount += _organizationFieldTemplateSeedRepository.NumberOfItems;
+
                 return seedsCount;
             }
         }
@@ -124,10 +129,15 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             _categoryFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
 
+            _personFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
 
-            _fieldDefinitionRepository.WriteMigration(migrationBuilder);
+            _organizationFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
 
             _websiteFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
+
+
+
+            _fieldDefinitionRepository.WriteMigration(migrationBuilder);
 
             _languageSeedRepository.WriteMigration(migrationBuilder);
 
@@ -198,6 +208,12 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             if (data.Blocks != null)
             {
                 AddOrMerge(_blockFieldTemplateSeedRepository, data.Blocks.BlockFieldTemplates);
+            }
+
+            if (data.Customers != null)
+            {
+                AddOrMerge(_personFieldTemplateSeedRepository, data.Customers.PersonFieldTemplates);
+                AddOrMerge(_organizationFieldTemplateSeedRepository, data.Customers.OrganizationFieldTemplates);
             }
         }
 
