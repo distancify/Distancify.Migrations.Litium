@@ -3,6 +3,7 @@ using Litium.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
 {
@@ -63,6 +64,16 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
             }
 
             return this;
+        }
+
+        public void WritePropertiesMigration(StringBuilder builder)
+        {
+            builder.AppendLine($"\t\t\t\t.{nameof(WithTemplatePath)}(\"{displayTemplate.TemplatePath}\")");
+
+            foreach (var template in displayTemplate.Templates)
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithTemplate)}(Guid.Parse(\"{template.WebSiteSystemId.ToString()}\"), \"{template.Path}\")");
+            }
         }
     }
 }
