@@ -71,7 +71,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return new PageSeed(new Page(pageFieldTemplateSystemId, Guid.Empty), pageFieldTemplateId);
         }
 
-        public PageSeed IsParentPage()
+        public PageSeed IsRootPage()
         {
             _page.ParentPageSystemId = Guid.Empty;
             return this;
@@ -127,7 +127,10 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 _page.ChannelLinks = new List<PageToChannelLink>();
             }
 
-            _page.ChannelLinks.Add(new PageToChannelLink(channelSystemId));
+            if (!_page.ChannelLinks.Any(cl => cl.ChannelSystemId == channelSystemId))
+            {
+                _page.ChannelLinks.Add(new PageToChannelLink(channelSystemId));
+            }
 
             return this;
         }
@@ -143,24 +146,16 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 _page.Blocks.Add(blockItemContainerItem);
             }
 
+            var blockSystemId = IoC.Resolve<BlockService>().Get(blockId).SystemId;
 
-            var blockGuid = IoC.Resolve<BlockService>().Get(blockId).SystemId;
-
-            foreach (var i in blockItemContainerItem.Items)
+            if (blockItemContainerItem.Items.Any(i => i is BlockItemLink && ((BlockItemLink)i).BlockSystemId == blockSystemId))
             {
-                if (i is BlockItemLink && ((BlockItemLink)i).BlockSystemId == blockGuid)
-                {
-                    return this;
-                }
-
-                continue;
+                return this;
             }
 
-            blockItemContainerItem.Items.Add(new BlockItemLink(blockGuid));
-
+            blockItemContainerItem.Items.Add(new BlockItemLink(blockSystemId));
             return this;
         }
-
 
         public PageSeed IsPublished()
         {
@@ -223,7 +218,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
             if (_page.ParentPageSystemId == Guid.Empty)
             {
-                builder.AppendLine($"\t\t\t\t.{nameof(IsParentPage)}()");
+                builder.AppendLine($"\t\t\t\t.{nameof(IsRootPage)}()");
             }
             else
             {
@@ -247,7 +242,6 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
          * Blocks
          * Fields
          * AccessControlList
-         * Status
          * PublishedAtUtc
          * PublishedBySystemId
          * SortIndex
