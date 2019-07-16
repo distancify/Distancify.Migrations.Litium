@@ -38,6 +38,12 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
 
         public DisplayTemplateSeed<T> WithTemplate(Guid websiteSystemId, string path)
         {
+            //TODO: Figure out a better place to fix this
+            if (string.IsNullOrEmpty(path))
+            {
+                path = displayTemplate.TemplatePath;
+            }
+
             if (displayTemplate.Templates == null)
             {
                 displayTemplate.Templates = new List<DisplayTemplateToWebSiteLink>();

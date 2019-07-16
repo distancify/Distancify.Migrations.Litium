@@ -1,12 +1,10 @@
 ﻿using Distancify.Migrations.Litium.Extensions;
-using Distancify.Migrations.Litium.Seeds;
 using Litium;
 using Litium.Blocks;
 using Litium.Customers;
 using Litium.FieldFramework;
 using Litium.Globalization;
 using Litium.Products;
-using Litium.Runtime;
 using Litium.Websites;
 using System;
 using System.Collections.Generic;
@@ -29,7 +27,7 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
         {
             var fieldTemplateService = IoC.Resolve<FieldTemplateService>();
 
-            if (fieldTemplate.SystemId == null || fieldTemplate.SystemId == Guid.Empty)
+            if (fieldTemplate.SystemId == Guid.Empty)
             {
                 fieldTemplate.SystemId = Guid.NewGuid();
                 fieldTemplateService.Create(fieldTemplate);
