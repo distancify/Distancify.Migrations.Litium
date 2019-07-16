@@ -99,11 +99,11 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
             }
         }
 
-        protected void WriteFieldGroups(ICollection<FieldTemplateFieldGroup> fieldGroups, StringBuilder builder)
+        protected void WriteFieldGroups(ICollection<FieldTemplateFieldGroup> fieldGroups, StringBuilder builder, string methodName = nameof(WithFieldGroup))
         {
             foreach (var fieldGroup in fieldGroups)
             {
-                builder.AppendLine($"\t\t\t\t.{nameof(WithFieldGroup)}(\"{fieldGroup.Id}\", " +
+                builder.AppendLine($"\t\t\t\t.{methodName}(\"{fieldGroup.Id}\", " +
                                    $"\r\n\t\t\t\t\tnew List<string>{{{string.Join(", ", fieldGroup.Fields.Select(f => $"\"{f}\""))}}}," +
                                    $"\r\n\t\t\t\t\t{fieldGroup.Localizations.ToDictionary(k => k.Key, v => v.Value.Name).GetMigration(5)}" +
                                    $", {fieldGroup.Collapsed.ToString().ToLower()})");

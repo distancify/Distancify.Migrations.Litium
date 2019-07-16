@@ -1,4 +1,55 @@
 --- 
+- id: CategoryDisplayTemplates
+  baseMigration: Migration
+  className: CategoryDisplayTemplates
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\CategoryDisplayTemplates.cs
+  query: |
+    query{
+        products{
+            categoryDisplayTemplates{
+                id,
+                templatePath,
+                systemId,
+                localizations{
+                    culture,
+                    name
+                },
+                templates{
+                    path,
+                    webSiteSystemId 
+                }
+            }
+        }
+    }
+
+- id: ProductDisplayTemplates
+  baseMigration: Migration
+  className: ProductDisplayTemplates
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\ProductDisplayTemplates.cs
+  query: |
+    query{
+        products{
+            productDisplayTemplates{
+                id,
+                templatePath,
+                systemId,
+                useVariantUrl,
+                localizations{
+                    culture,
+                    name
+                },
+                templates{
+                    path,
+                    webSiteSystemId 
+                }
+            }       
+        }      
+    }
+
 - id: ChannelFieldTemplates
   baseMigration: Migration
   className: ChannelFieldTemplates
@@ -168,66 +219,19 @@
         }
     }
 
-- id: FieldTemplates
+- id: ProductFieldTemplates
   baseMigration: Migration
-  className: FieldTemplates
+  className: ProductFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\FieldTemplates.cs
+  output: C:\KidsMigrations\ProductFieldTemplates.cs
   query: |
-    query field_templates_and_display_templates{
+    query{
         products{
-            categoryDisplayTemplates{
-                id,
-                templatePath,
-                systemId,
-                localizations{
-                    culture,
-                    name
-                },
-                templates{
-                    path,
-                    webSiteSystemId 
-                }
-            },
-            productDisplayTemplates{
-                id,
-                templatePath,
-                systemId,
-                useVariantUrl,
-                localizations{
-                    culture,
-                    name
-                },
-                templates{
-                    path,
-                    webSiteSystemId 
-                }
-            },        
-            categoryFieldTemplates{
-                id,
-                systemId,
-                areaType{
-                    name,
-                    fullName
-                },
-                localizations{
-                    culture,
-                    name             
-                },
-                fieldGroups{
-                    id,
-                    collapsed,
-                    localizations{
-                        culture,
-                        name
-                    },
-                    fields
-                }
-            },
             productFieldTemplates{
                 id,
                 systemId,
+                displayTemplateSystemId,
                 areaType{
                     name,
                     fullName
@@ -254,8 +258,42 @@
                     },
                     fields
                 }
-            }       
-        }      
+            }   
+        }
+    }
+
+- id: CategoryFieldTemplates
+  baseMigration: Migration
+  className: CategoryFieldTemplates
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\CategoryFieldTemplates.cs
+  query: |
+    query{
+        products{
+            categoryFieldTemplates{
+                id,
+                systemId,
+                displayTemplateSystemId,
+                areaType{
+                    name,
+                    fullName
+                },
+                localizations{
+                    culture,
+                    name             
+                },
+                fieldGroups{
+                    id,
+                    collapsed,
+                    localizations{
+                        culture,
+                        name
+                    },
+                    fields
+                }
+            }           
+        }
     }
 
 - id: FieldDefinitions

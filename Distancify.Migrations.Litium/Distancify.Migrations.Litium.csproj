@@ -401,7 +401,10 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Market.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\MarketFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\CategoryDisplayTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\CategoryFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Inventory.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\ProductDisplayTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\ProductFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Products.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\UnitOfMeasurement.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\TextOptionItem.cs" />
@@ -410,11 +413,15 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\PageToChannelLink.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Websites.cs" />
     <Compile Include="SeedBuilder\Repositories\BlockFieldTemplateRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\CategoryDisplayTemplateRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\CategoryFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\ChannelFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\FieldDefinitionRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\InventoryRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\ProductDisplayTemplateRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\ProductFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\Websites\PageRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\UnitOfMeasurementRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\Websites\PageFieldTemplateRepository.cs" />
