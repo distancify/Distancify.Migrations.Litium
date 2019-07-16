@@ -1,11 +1,12 @@
 ﻿using Litium;
 using Litium.Products;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
 {
-    class DisplayTemplateSeed<T> : ISeed
+    public abstract class DisplayTemplateSeed<T> : ISeed
         where T : DisplayTemplate
     {
         protected readonly T displayTemplate;
@@ -26,6 +27,31 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
                 return;
             }
             service.Update(displayTemplate);
+        }
+
+        public DisplayTemplateSeed<T> WithTemplatePath(string templatePath)
+        {
+            displayTemplate.TemplatePath = templatePath;
+            return this;
+        }
+
+        public DisplayTemplateSeed<T> WithTemplate(Guid websiteSystemId, string path)
+        {
+            if (displayTemplate.Templates == null)
+            {
+                displayTemplate.Templates = new List<DisplayTemplateToWebSiteLink>();
+            }
+
+            if (displayTemplate.Templates.FirstOrDefault(t => t.WebSiteSystemId == websiteSystemId) is DisplayTemplateToWebSiteLink link)
+            {
+                link.Path = path;
+            }
+            else
+            {
+                displayTemplate.Templates.Add(new DisplayTemplateToWebSiteLink() { Path = path, WebSiteSystemId = websiteSystemId });
+            }
+
+            return this;
         }
 
         public DisplayTemplateSeed<T> WithName(string culture, string name)

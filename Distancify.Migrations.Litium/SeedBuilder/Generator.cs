@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Distancify.Migrations.Litium.SeedBuilder.Repositories;
+using Distancify.Migrations.Litium.SeedBuilder.Repositories.Websites;
 
 namespace Distancify.Migrations.Litium.SeedBuilder
 {
@@ -25,6 +26,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private readonly ChannelFieldTemplateRepository _channelFieldTemplateSeedRepository = new ChannelFieldTemplateRepository();
         private readonly BlockFieldTemplateRepository _blockFieldTemplateSeedRepository = new BlockFieldTemplateRepository();
         private readonly MarketFieldTemplateRepository _marketFieldTemplateSeedRepository = new MarketFieldTemplateRepository();
+        private readonly PageFieldTemplateRepository _pageFieldTemplateSeedRepository = new PageFieldTemplateRepository();
 
         private LitiumGraphQlModel.Data data;
 
@@ -47,6 +49,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 seedsCount += _channelFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _blockFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _marketFieldTemplateSeedRepository.NumberOfItems;
+                seedsCount += _pageFieldTemplateSeedRepository.NumberOfItems;
                 return seedsCount;
             }
         }
@@ -94,77 +97,38 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             var migrationBuilder = new StringBuilder();
 
-            if (data.Globalization?.ChannelFieldTemplates != null)
-            {
-                _channelFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
-            }
+            _channelFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
 
             _marketFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
 
-            if (data.Blocks?.BlockFieldTemplates != null)
-            {
-                _blockFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
-            }
+            _blockFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
 
-            if (data.Common?.FieldDefinitions != null)
-            {
-                _fieldDefinitionRepository.WriteMigration(migrationBuilder);
-            }
+            _pageFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
 
-            if (data.Globalization?.Languages != null)
-            {
-                _languageSeedRepository.WriteMigration(migrationBuilder);
-            }
+            _fieldDefinitionRepository.WriteMigration(migrationBuilder);
 
-            if (data.Products?.UnitOfMeasurements != null)
-            {
-                _unitOfMeasurementRepository.WriteMigration(migrationBuilder);
-            }
 
-            if (data.Products?.Inventories != null)
-            {
-                _inventoryRepository.WriteMigration(migrationBuilder);
-            }
+            _languageSeedRepository.WriteMigration(migrationBuilder);
 
-            if (data.Products?.Assortments != null)
-            {
-                _assortmentSeedRepository.WriteMigration(migrationBuilder);
-            }
+            _unitOfMeasurementRepository.WriteMigration(migrationBuilder);
 
-            if (data.Globalization?.Currencies != null)
-            {
-                _currencySeedRepository.WriteMigration(migrationBuilder);
-            }
+            _inventoryRepository.WriteMigration(migrationBuilder);
 
-            if (data.Globalization?.Countries != null)
-            {
-                _countrySeedRepository.WriteMigration(migrationBuilder);
-            }
+            _assortmentSeedRepository.WriteMigration(migrationBuilder);
 
-            if (data.Globalization?.DomainNames != null)
-            {
-                _domainNameSeedRepository.WriteMigration(migrationBuilder);
-            }
+            _currencySeedRepository.WriteMigration(migrationBuilder);
 
-            if (data.Globalization?.Markets != null)
-            {
-                _marketRepository.WriteMigration(migrationBuilder);
-            }
+            _countrySeedRepository.WriteMigration(migrationBuilder);
 
-            if (data.Websites?.Websites != null)
-            {
-                _websiteSeedRepository.WriteMigration(migrationBuilder);
-            }
+            _domainNameSeedRepository.WriteMigration(migrationBuilder);
 
-            if (data.Globalization?.Channels != null)
-            {
-                _channelSeedRepository.WriteMigration(migrationBuilder);
-            }
+            _marketRepository.WriteMigration(migrationBuilder);
 
-            if (data.Websites?.Websites != null)
-            {
-                _pageSeedRepository.WriteMigration(migrationBuilder);
-            }
+            _websiteSeedRepository.WriteMigration(migrationBuilder);
+
+            _channelSeedRepository.WriteMigration(migrationBuilder);
+
+            _pageSeedRepository.WriteMigration(migrationBuilder);
 
             return migrationBuilder.ToString();
         }
@@ -188,12 +152,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 AddOrMerge(_marketFieldTemplateSeedRepository, data.Globalization.MarketFieldTemplates);
                 AddOrMerge(_countrySeedRepository, data.Globalization.Countries);
                 AddOrMerge(_languageSeedRepository, data.Globalization.Languages);
-                AddOrMerge(_channelSeedRepository, data.Globalization.Channels,
-                    channel =>
-                    {
-                        AddOrMerge(_countrySeedRepository, channel.Countries);
-                        //AddOrMerge(null, channel.FieldTemplate);
-                    });
+                AddOrMerge(_channelSeedRepository, data.Globalization.Channels);
             }
 
             if (data.Products != null)
@@ -205,6 +164,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             if (data.Websites != null)
             {
+                AddOrMerge(_pageFieldTemplateSeedRepository, data.Websites.PageFieldTemplates);
                 AddOrMerge(_websiteSeedRepository, data.Websites.Websites,
                     website => AddOrMerge(_pageSeedRepository, website.Pages));
             }

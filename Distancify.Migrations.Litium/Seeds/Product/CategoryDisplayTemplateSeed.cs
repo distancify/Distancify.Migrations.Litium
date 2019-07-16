@@ -1,16 +1,15 @@
+using Distancify.Migrations.Litium.Seeds.BaseSeeds;
 using Litium;
 using Litium.Products;
 using System;
+using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Product
 {
-    public class CategoryDisplayTemplateSeed : ISeed
+    public class CategoryDisplayTemplateSeed : DisplayTemplateSeed<CategoryDisplayTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.CategoryDisplayTemplate>
     {
-        private CategoryDisplayTemplate categoryDisplayTemplate;
-
-        public CategoryDisplayTemplateSeed(CategoryDisplayTemplate productDisplayTemplate)
+        public CategoryDisplayTemplateSeed(CategoryDisplayTemplate categoryDisplayTemplate):base(categoryDisplayTemplate)
         {
-            categoryDisplayTemplate = productDisplayTemplate;
         }
 
         public static CategoryDisplayTemplateSeed Ensure(string id)
@@ -18,25 +17,25 @@ namespace Distancify.Migrations.Litium.Seeds.Product
             var displayTemplateClone = IoC.Resolve<DisplayTemplateService>().Get<CategoryDisplayTemplate>(id)?.MakeWritableClone();
             if (displayTemplateClone is null)
             {
-                displayTemplateClone = new CategoryDisplayTemplate();
-                displayTemplateClone.Id = id;
-                displayTemplateClone.SystemId = Guid.Empty;
+                displayTemplateClone = new CategoryDisplayTemplate
+                {
+                    Id = id,
+                    SystemId = Guid.Empty
+                };
             }
 
             return new CategoryDisplayTemplateSeed(displayTemplateClone);
         }
 
-        public void Commit()
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.CategoryDisplayTemplate> Update(SeedBuilder.LitiumGraphQlModel.Products.CategoryDisplayTemplate data)
         {
-            var service = IoC.Resolve<DisplayTemplateService>();
 
-            if (categoryDisplayTemplate.SystemId == null || categoryDisplayTemplate.SystemId == Guid.Empty)
-            {
-                categoryDisplayTemplate.SystemId = Guid.NewGuid();
-                service.Create(categoryDisplayTemplate);
-                return;
-            }
-            service.Update(categoryDisplayTemplate);
+            return this;
+        }
+
+        public void WriteMigration(StringBuilder builder)
+        {
+            throw new NotImplementedException();
         }
     }
 }
