@@ -44,10 +44,17 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return this;
         }
 
+        public PageFieldTemplateSeed WithTemplatePath(string templatePath)
+        {
+            fieldTemplate.TemplatePath = templatePath;
+            return this;
+        }
+
         public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Websites.PageFieldTemplate> Update(SeedBuilder.LitiumGraphQlModel.Websites.PageFieldTemplate data)
         {
             fieldTemplate.SystemId = data.SystemId;
             fieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
+            fieldTemplate.TemplatePath = data.TemplatePath;
 
             foreach (var fieldGroup in data.FieldGroups)
             {
@@ -79,6 +86,11 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             }
 
             builder.AppendLine($"\r\n\t\t\t{nameof(PageFieldTemplateSeed)}.{nameof(PageFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\")");
+
+            if (!string.IsNullOrEmpty(fieldTemplate.TemplatePath))
+            {
+                builder.AppendLine($"\r\n\t\t\t\t{nameof(WithTemplatePath)}(\"{fieldTemplate.TemplatePath}\")");
+            }
 
             foreach (var localization in fieldTemplate.Localizations)
             {
