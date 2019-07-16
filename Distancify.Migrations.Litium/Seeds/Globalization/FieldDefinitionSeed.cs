@@ -25,6 +25,9 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             //TODO: Figure out why we get validation errors even if some fields are not marked as system defined (even though they are)
             try
             {
+                if(_fieldDefinition.SystemDefined)
+                    return;;
+
                 var fieldDefinitionService = IoC.Resolve<FieldDefinitionService>();
                 if (_fieldDefinition.SystemId == Guid.Empty)
                 {
