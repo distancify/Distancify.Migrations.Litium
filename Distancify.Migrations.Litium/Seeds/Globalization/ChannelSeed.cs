@@ -324,7 +324,6 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
             }
 
-
             builder.AppendLine($"\t\t\t\t.{nameof(ProductLanguage)}(\"{_productLanguageId}\")");
             builder.AppendLine($"\t\t\t\t.{nameof(WebsiteLanguage)}(\"{_websiteLanguageId}\")");
 

@@ -3,11 +3,13 @@ using Litium;
 using Litium.FieldFramework;
 using Litium.Globalization;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
-    public class ChannelFieldTemplateSeed : FieldTemplateSeed<ChannelFieldTemplate>
+    public class ChannelFieldTemplateSeed : FieldTemplateSeed<ChannelFieldTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Globalization.ChannelFieldTemplate>
     {
         protected ChannelFieldTemplateSeed(ChannelFieldTemplate fieldTemplate) : base(fieldTemplate)
         {
@@ -18,11 +20,47 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             var channelFieldTemplate = (ChannelFieldTemplate)IoC.Resolve<FieldTemplateService>().Get<ChannelFieldTemplate>(channelFieldTemplateId)?.MakeWritableClone();
             if (channelFieldTemplate is null)
             {
-                channelFieldTemplate = new ChannelFieldTemplate(channelFieldTemplateId);
-                channelFieldTemplate.SystemId = Guid.Empty;
+                channelFieldTemplate = new ChannelFieldTemplate(channelFieldTemplateId)
+                {
+                    SystemId = Guid.Empty,
+                    FieldGroups = new List<FieldTemplateFieldGroup>()
+                };
             }
 
             return new ChannelFieldTemplateSeed(channelFieldTemplate);
+        }
+
+        public static ChannelFieldTemplateSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Globalization.ChannelFieldTemplate channelFieldTemplate)
+        {
+            var seed = new ChannelFieldTemplateSeed(new ChannelFieldTemplate(channelFieldTemplate.Id));
+            return (ChannelFieldTemplateSeed)seed.Update(channelFieldTemplate);
+        }
+
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Globalization.ChannelFieldTemplate> Update(SeedBuilder.LitiumGraphQlModel.Globalization.ChannelFieldTemplate data)
+        {
+            fieldTemplate.SystemId = data.SystemId;
+            fieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
+
+            foreach (var fieldGroup in data.FieldGroups)
+            {
+                AddOrUpdateFieldGroup(fieldTemplate.FieldGroups, fieldGroup.Id, fieldGroup.Fields, 
+                    fieldGroup.Localizations.ToDictionary(k => k.Culture, v => v.Name), fieldGroup.Collapsed);
+            }
+
+            foreach (var localization in data.Localizations)
+            {
+                if (!string.IsNullOrEmpty(localization.Culture) && !string.IsNullOrEmpty(localization.Name))
+                {
+                    fieldTemplate.Localizations[localization.Culture].Name = localization.Name;
+                }
+                else
+                {
+                    this.Log().Warn("The Field Template with system id {FieldTemplateSystemId} contains a localization with an empty culture and/or name!",
+                        data.SystemId.ToString());
+                }
+            }
+
+            return this;
         }
 
         public void WriteMigration(StringBuilder builder)
@@ -33,6 +71,14 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             }
 
             builder.AppendLine($"\r\n\t\t\t{nameof(ChannelFieldTemplateSeed)}.{nameof(ChannelFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\")");
+
+            foreach (var localization in fieldTemplate.Localizations)
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
+            }
+
+            WriteFieldGroups(fieldTemplate.FieldGroups, builder);
+
             builder.AppendLine("\t\t\t\t.Commit();");
         }
 

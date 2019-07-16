@@ -1,4 +1,5 @@
-﻿using Distancify.Migrations.Litium.Seeds;
+﻿using Distancify.Migrations.Litium.Extensions;
+using Distancify.Migrations.Litium.Seeds;
 using Litium;
 using Litium.FieldFramework;
 using Litium.Globalization;
@@ -8,6 +9,7 @@ using Litium.Websites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
 {
@@ -94,6 +96,17 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
                 }
 
                 SetFieldGroupLocalizations(fieldGroup, localizedNamesByCulture);
+            }
+        }
+
+        protected void WriteFieldGroups(ICollection<FieldTemplateFieldGroup> fieldGroups, StringBuilder builder)
+        {
+            foreach (var fieldGroup in fieldGroups)
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithFieldGroup)}(\"{fieldGroup.Id}\", " +
+                                   $"\r\n\t\t\t\t\tnew List<string>{{{string.Join(", ", fieldGroup.Fields.Select(f => $"\"{f}\""))}}}," +
+                                   $"\r\n\t\t\t\t\t{fieldGroup.Localizations.ToDictionary(k => k.Key, v => v.Value.Name).GetMigration(5)}" +
+                                   $", {fieldGroup.Collapsed.ToString().ToLower()})");
             }
         }
 

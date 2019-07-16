@@ -9,5 +9,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Blocks
     public class Blocks
     {
         public IEnumerable<FieldDefinition> FieldDefinitions { get; set; }
+        public IEnumerable<BlockFieldTemplate> BlockFieldTemplates { get; set; }
+
     }
 }

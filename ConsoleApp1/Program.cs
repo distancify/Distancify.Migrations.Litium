@@ -1,9 +1,5 @@
 ﻿using Distancify.Migrations.Litium;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
@@ -13,7 +9,7 @@ namespace ConsoleApp1
         {
             new LitiumMigrationCmdlet()
             {
-                ConfigFileName = @"T:\migrations\test.yml"
+                ConfigFileName = @"C:\Projects\Distancify.Migrations.Litium\ConsoleApp1\migrationBuilder.yml"
             }.ProcessRecord();
 
             Console.WriteLine("Done");

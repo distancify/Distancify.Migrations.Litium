@@ -22,7 +22,9 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private readonly WebsiteRepository _websiteSeedRepository = new WebsiteRepository();
         private readonly AssortmentRepository _assortmentSeedRepository = new AssortmentRepository();
         private readonly PageRepository _pageSeedRepository = new PageRepository();
-
+        private readonly ChannelFieldTemplateRepository _channelFieldTemplateSeedRepository = new ChannelFieldTemplateRepository();
+        private readonly BlockFieldTemplateRepository _blockFieldTemplateSeedRepository = new BlockFieldTemplateRepository();
+        private readonly MarketFieldTemplateRepository _marketFieldTemplateSeedRepository = new MarketFieldTemplateRepository();
 
         private LitiumGraphQlModel.Data data;
 
@@ -42,6 +44,9 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 seedsCount += _websiteSeedRepository.NumberOfItems;
                 seedsCount += _assortmentSeedRepository.NumberOfItems;
                 seedsCount += _pageSeedRepository.NumberOfItems;
+                seedsCount += _channelFieldTemplateSeedRepository.NumberOfItems;
+                seedsCount += _blockFieldTemplateSeedRepository.NumberOfItems;
+                seedsCount += _marketFieldTemplateSeedRepository.NumberOfItems;
                 return seedsCount;
             }
         }
@@ -88,6 +93,18 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             //TODO: PageSeed (graphql)
 
             var migrationBuilder = new StringBuilder();
+
+            if (data.Globalization?.ChannelFieldTemplates != null)
+            {
+                _channelFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
+            }
+
+            _marketFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
+
+            if (data.Blocks?.BlockFieldTemplates != null)
+            {
+                _blockFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
+            }
 
             if (data.Common?.FieldDefinitions != null)
             {
@@ -164,9 +181,11 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             if (data.Globalization != null)
             {
+                AddOrMerge(_channelFieldTemplateSeedRepository, data.Globalization.ChannelFieldTemplates);
                 AddOrMerge(_domainNameSeedRepository, data.Globalization.DomainNames);
                 AddOrMerge(_currencySeedRepository, data.Globalization.Currencies);
                 AddOrMerge(_marketRepository, data.Globalization.Markets);
+                AddOrMerge(_marketFieldTemplateSeedRepository, data.Globalization.MarketFieldTemplates);
                 AddOrMerge(_countrySeedRepository, data.Globalization.Countries);
                 AddOrMerge(_languageSeedRepository, data.Globalization.Languages);
                 AddOrMerge(_channelSeedRepository, data.Globalization.Channels,
@@ -188,6 +207,11 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             {
                 AddOrMerge(_websiteSeedRepository, data.Websites.Websites,
                     website => AddOrMerge(_pageSeedRepository, website.Pages));
+            }
+
+            if (data.Blocks != null)
+            {
+                AddOrMerge(_blockFieldTemplateSeedRepository, data.Blocks.BlockFieldTemplates);
             }
         }
 

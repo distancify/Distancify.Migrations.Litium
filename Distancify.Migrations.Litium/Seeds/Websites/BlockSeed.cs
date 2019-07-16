@@ -23,13 +23,10 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             {
                 block.SystemId = Guid.NewGuid();
                 service.Create(block);
-                //return this;
             }
 
             service.Update(block);
-            //return this;
         }
-
 
         public static BlockSeed Ensure(string blockId, string blockTemplateId)
         {
@@ -55,27 +52,22 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
         public void Publish()
         {
-
             var service = IoC.Resolve<DraftBlockService>();
             var draftBlockClone = service.Get(block.SystemId).MakeWritableClone();
+
             service.Update(draftBlockClone);
             service.Publish(draftBlockClone);
         }
-
-
-
-        public void WriteMigration(StringBuilder builder)
-        {
-            throw new NotImplementedException();
-        }
-
 
         public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Block> Update(SeedBuilder.LitiumGraphQlModel.Block data)
         {
             throw new NotImplementedException();
         }
 
-
+        public void WriteMigration(StringBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
 
         /* TODO
          * AccessControlList

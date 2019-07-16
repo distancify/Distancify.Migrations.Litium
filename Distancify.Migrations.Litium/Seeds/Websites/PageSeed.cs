@@ -188,14 +188,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 }
             }
 
-            if (data.ChannelLinks != null)
-            {
-                _page.ChannelLinks = data.ChannelLinks.Select(c => new PageToChannelLink(c.ChannelSystemId)).ToList();
-            }
-            else
-            {
-                _page.ChannelLinks = new List<PageToChannelLink>();
-            }
+            _page.ChannelLinks = data.ChannelLinks?.Select(c => new PageToChannelLink(c.ChannelSystemId)).ToList() ?? new List<PageToChannelLink>();
 
             return this;
         }

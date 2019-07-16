@@ -1,3 +1,4 @@
+using Distancify.Migrations.Litium.Extensions;
 using Litium;
 using Litium.FieldFramework;
 using Litium.FieldFramework.FieldTypes;
@@ -203,7 +204,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
             if (_fieldDefinition.Localizations.Any())
             {
-                builder.AppendLine($"\t\t\t\t.{nameof(WithNames)}({GetDictionary(_fieldDefinition.Localizations.ToDictionary(k => k.Key, v => v.Value.Name), 4)})");
+                builder.AppendLine($"\t\t\t\t.{nameof(WithNames)}({_fieldDefinition.Localizations.ToDictionary(k => k.Key, v => v.Value.Name).GetMigration(4)})");
             }
 
             if (_fieldDefinition.FieldType.Equals(SystemFieldTypeConstants.TextOption))
@@ -230,13 +231,9 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             string GetTextOptions(TextOption textOption)
                 => string.Join(",\r\n\t\t\t\t\t\t", textOption.Items.Select(i => "new TextOption.Item\r\n\t\t\t\t\t\t{" +
                                                                                  $"\r\n\t\t\t\t\t\t\tValue = \"{i.Value}\"," +
-                                                                                 $"\r\n\t\t\t\t\t\t\tName = {GetDictionary(i.Name, 7)}" +
+                                                                                 $"\r\n\t\t\t\t\t\t\tName = {i.Name.GetMigration(7)}" +
                                                                                  "\r\n\t\t\t\t\t\t}"));
 
-            string GetDictionary(IDictionary<string, string> dictionary, int spacing)
-                => $"new Dictionary<string, string> \r\n {new string('\t', spacing)}{{\r\n{new string('\t', spacing + 1)}" +
-                   string.Join($",\r\n{new string('\t', spacing + 1)}", dictionary.Select(e => $"{{\"{e.Key}\", \"{e.Value}\"}}")) +
-                   $"\r\n{new string('\t', spacing)}}}";
         }
     }
 }

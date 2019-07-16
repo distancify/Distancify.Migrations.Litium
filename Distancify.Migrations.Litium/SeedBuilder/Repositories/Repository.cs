@@ -27,8 +27,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder.Repositories
             }
         }
 
-        
-
         protected abstract TSeedGenerator CreateFrom(T graphQlItem);
 
 

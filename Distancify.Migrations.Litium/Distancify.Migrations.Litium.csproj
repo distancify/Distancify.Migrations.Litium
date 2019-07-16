@@ -381,17 +381,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="LitiumMigrationCmdlet.cs" />
     <Compile Include="SeedBuilder\ConfigurationReader.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\AreaType.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Block.cs" />
     <Compile Include="SeedBuilder\IGenerator.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\BlockFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\Blocks.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\Common.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\CompositeFieldOption.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\DisplayTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\DisplayTemplateToWebsiteLink.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldDefinition.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldLocalization.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldTemplateFieldGroup.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Globalization.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Market.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\MarketFieldTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\CategoryDisplayTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Inventory.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Products.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\UnitOfMeasurement.cs" />
@@ -400,11 +409,15 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\PageFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\PageToChannelLink.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Websites.cs" />
+    <Compile Include="SeedBuilder\Repositories\BlockFieldTemplateRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\ChannelFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\FieldDefinitionRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\InventoryRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\MarketFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\PageRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\UnitOfMeasurementRepository.cs" />
+    <Compile Include="Seeds\BaseSeeds\DisplayTemplateSeed.cs" />
     <Compile Include="Seeds\Constants.cs" />
     <Compile Include="Seeds\Countries.cs" />
     <Compile Include="Seeds\Currencies.cs" />

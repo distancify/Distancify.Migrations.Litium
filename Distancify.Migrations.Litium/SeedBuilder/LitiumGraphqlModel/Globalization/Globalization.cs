@@ -11,5 +11,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Globalizat
         public IEnumerable<Currency> Currencies { get; set; }
         public IEnumerable<Country> Countries { get; set; }
         public IEnumerable<Language> Languages { get; set; }
+
+        public IEnumerable<ChannelFieldTemplate> ChannelFieldTemplates { get; set; }
+        public IEnumerable<MarketFieldTemplate> MarketFieldTemplates { get; set; }
     }
 }
