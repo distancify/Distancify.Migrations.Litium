@@ -31,6 +31,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private readonly ProductFieldTemplateRepository _productFieldTemplateSeedRepository = new ProductFieldTemplateRepository();
         private readonly CategoryFieldTemplateRepository _categoryFieldTemplateSeedRepository = new CategoryFieldTemplateRepository();
         private readonly CategoryDisplayTemplateRepository _categoryDisplayTemplateSeedRepository = new CategoryDisplayTemplateRepository();
+        private readonly ProductDisplayTemplateRepository _productDisplayTemplateRepository = new ProductDisplayTemplateRepository();
 
         private LitiumGraphQlModel.Data data;
 
@@ -58,6 +59,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 seedsCount += _productFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _categoryFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _categoryDisplayTemplateSeedRepository.NumberOfItems;
+                seedsCount += _productDisplayTemplateRepository.NumberOfItems;
                 return seedsCount;
             }
         }
@@ -106,6 +108,9 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             var migrationBuilder = new StringBuilder();
 
             _categoryDisplayTemplateSeedRepository.WriteMigration(migrationBuilder);
+
+            _productDisplayTemplateRepository.WriteMigration(migrationBuilder);
+
 
             _channelFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
 
@@ -173,6 +178,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             if (data.Products != null)
             {
+                AddOrMerge(_productDisplayTemplateRepository, data.Products.ProductDisplayTemplates);
                 AddOrMerge(_categoryDisplayTemplateSeedRepository, data.Products.CategoryDisplayTemplates);
                 AddOrMerge(_productFieldTemplateSeedRepository, data.Products.ProductFieldTemplates);
                 AddOrMerge(_categoryFieldTemplateSeedRepository, data.Products.CategoryFieldTemplates);

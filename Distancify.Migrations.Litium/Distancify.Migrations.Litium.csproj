@@ -420,6 +420,7 @@
     <Compile Include="SeedBuilder\Repositories\InventoryRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\ProductDisplayTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\ProductFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\Websites\PageRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\UnitOfMeasurementRepository.cs" />

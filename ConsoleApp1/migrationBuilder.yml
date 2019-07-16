@@ -24,6 +24,32 @@
         }
     }
 
+- id: ProductDisplayTemplates
+  baseMigration: Migration
+  className: ProductDisplayTemplates
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\ProductDisplayTemplates.cs
+  query: |
+    query{
+        products{
+            productDisplayTemplates{
+                id,
+                templatePath,
+                systemId,
+                useVariantUrl,
+                localizations{
+                    culture,
+                    name
+                },
+                templates{
+                    path,
+                    webSiteSystemId 
+                }
+            }       
+        }      
+    }
+
 - id: ChannelFieldTemplates
   baseMigration: Migration
   className: ChannelFieldTemplates
@@ -268,34 +294,6 @@
                 }
             }           
         }
-    }
-
-
-- id: FieldTemplates
-  baseMigration: Migration
-  className: FieldTemplates
-  host: http://localhost
-  namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\FieldTemplates.cs
-  query: |
-    query field_templates_and_display_templates{
-        products{
-            productDisplayTemplates{
-                id,
-                templatePath,
-                systemId,
-                useVariantUrl,
-                localizations{
-                    culture,
-                    name
-                },
-                templates{
-                    path,
-                    webSiteSystemId 
-                }
-            }       
-            
-        }      
     }
 
 - id: FieldDefinitions
