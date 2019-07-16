@@ -6,6 +6,7 @@ using Litium;
 using Litium.Blocks;
 using Litium.Common;
 using Litium.FieldFramework;
+using Litium.Globalization;
 using Litium.Websites;
 
 namespace Distancify.Migrations.Litium.Seeds.Websites
@@ -14,47 +15,83 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
     {
         private readonly Page _page;
         private string _fieldTemplateId;
-        private bool isPublished;
+        private bool _isPublished;
+        private bool _isNewPage;
 
-        protected PageSeed(Page page, string fieldTemplateId)
+        private List<string> _channelLinksIds;
+
+        protected PageSeed(Page page, string fieldTemplateId, bool isNewPage = false)
         {
             _page = page;
             _fieldTemplateId = fieldTemplateId;
+            _isNewPage = isNewPage;
         }
 
         public void Commit()
         {
             var service = IoC.Resolve<PageService>();
 
-            if (_page.SystemId == null || _page.SystemId == Guid.Empty)
+            if (_isNewPage)
             {
-                _page.SystemId = Guid.NewGuid();
                 service.Create(_page);
             }
+            else
+            {
+                service.Update(_page);
+            }
 
-            service.Update(_page);
-            if (isPublished)
+            if (_isPublished)
             {
                 var dS = IoC.Resolve<DraftPageService>();
                 var draftPageClone = dS.Get(_page.SystemId).MakeWritableClone();
+
+                UpdateDraftPageWithBlocks(draftPageClone);
+
                 dS.Update(draftPageClone);
                 dS.Publish(draftPageClone);
+            }
+
+            void UpdateDraftPageWithBlocks(DraftPage draftPage)
+            {
+                foreach (var block in _page.Blocks)
+                {
+                    var blockContainer = draftPage.Blocks.FirstOrDefault(b => b.Id == block.Id);
+
+                    if (blockContainer == null)
+                    {
+                        blockContainer = new BlockItemContainer(block.Id);
+                        draftPage.Blocks.Add(blockContainer);
+                    }
+
+                    foreach (var blockLink in block.Items.OfType<BlockItemLink>())
+                    {
+                        if (!blockContainer.Items.Any(i => i is BlockItemLink && ((BlockItemLink)i).BlockSystemId == blockLink.BlockSystemId))
+                        {
+                            blockContainer.Items.Add(new BlockItemLink(blockLink.BlockSystemId));
+                        }
+                    }
+
+                }
             }
         }
 
         public static PageSeed Ensure(string pageId, string pageFieldTemplateId)
         {
             var pageFieldTemplateSystemGuid = IoC.Resolve<FieldTemplateService>().Get<PageFieldTemplate>(pageFieldTemplateId).SystemId;
-
             var pageClone = IoC.Resolve<PageService>().Get(pageId)?.MakeWritableClone();
+            var isNewPage = false;
+
             if (pageClone is null)
             {
-                pageClone = new Page(pageFieldTemplateSystemGuid, Guid.Empty);
-                pageClone.Id = pageId;
-                pageClone.SystemId = Guid.Empty;
+                pageClone = new Page(pageFieldTemplateSystemGuid, Guid.Empty)
+                {
+                    Id = pageId,
+                    SystemId = Guid.NewGuid()
+                };
+                isNewPage = true;
             }
 
-            return new PageSeed(pageClone, pageFieldTemplateId);
+            return new PageSeed(pageClone, pageFieldTemplateId, isNewPage);
         }
 
         public static PageSeed Ensure(Guid pageSystemId, string pageFieldTemplateId)
@@ -68,7 +105,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 return new PageSeed(pageClone, pageFieldTemplateId);
             }
 
-            return new PageSeed(new Page(pageFieldTemplateSystemId, Guid.Empty), pageFieldTemplateId);
+            return new PageSeed(new Page(pageFieldTemplateSystemId, Guid.Empty) { SystemId = pageSystemId }, pageFieldTemplateId, true);
         }
 
         public PageSeed IsRootPage()
@@ -135,10 +172,16 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return this;
         }
 
+        public PageSeed WithChannelLink(string channelId)
+        {
+            var channelSystemId = IoC.Resolve<ChannelService>().Get(channelId).SystemId;
+
+            return this.WithChannelLink(channelSystemId);
+        }
+
         public PageSeed WithBlock(string containerId, Guid blockSystemId)
         {
             //BUG: For some reason is blocks not added to the page.. why???
-
             var blockContainer = _page.Blocks.FirstOrDefault(c => c.Id == containerId);
             if (blockContainer == null)
             {
@@ -157,7 +200,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
         public PageSeed IsPublished()
         {
-            isPublished = true;
+            _isPublished = true;
             return this;
         }
 
@@ -186,7 +229,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 }
             }
 
-            _page.ChannelLinks = data.ChannelLinks?.Select(c => new PageToChannelLink(c.ChannelSystemId)).ToList() ?? new List<PageToChannelLink>();
+            _channelLinksIds = data.ChannelLinks?.Select(c => c.Channel.Id).ToList() ?? new List<string>();
 
             foreach (var blockContainer in data.BlockContainers)
             {
@@ -210,9 +253,9 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
             builder.AppendLine($"\t\t\t\t.{nameof(WithWebsite)}(Guid.Parse(\"{_page.WebsiteSystemId}\"))");
 
-            foreach (var channelLink in _page.ChannelLinks)
+            foreach (var channelLink in _channelLinksIds)
             {
-                builder.AppendLine($"\t\t\t\t.{nameof(WithChannelLink)}(Guid.Parse(\"{channelLink.ChannelSystemId}\"))");
+                builder.AppendLine($"\t\t\t\t.{nameof(WithChannelLink)}(\"{channelLink}\")");
             }
 
             foreach (var block in _page.Blocks)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Distancify.Migrations.Litium.SeedBuilder.Repositories;
 using Distancify.Migrations.Litium.SeedBuilder.Repositories.Websites;
+using System.Linq;
 
 namespace Distancify.Migrations.Litium.SeedBuilder
 {
@@ -34,6 +35,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private readonly ProductDisplayTemplateRepository _productDisplayTemplateRepository = new ProductDisplayTemplateRepository();
         private readonly PersonFieldTemplateRepository _personFieldTemplateSeedRepository = new PersonFieldTemplateRepository();
         private readonly OrganizationFieldTemplateRepository _organizationFieldTemplateSeedRepository = new OrganizationFieldTemplateRepository();
+        private readonly GroupFieldTemplateRepository _groupFieldTemplateSeedRepository = new GroupFieldTemplateRepository();
+        private readonly BlockRepository _blockSeedRepository = new BlockRepository();
 
         private LitiumGraphQlModel.Data data;
 
@@ -64,6 +67,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 seedsCount += _productDisplayTemplateRepository.NumberOfItems;
                 seedsCount += _personFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _organizationFieldTemplateSeedRepository.NumberOfItems;
+                seedsCount += _groupFieldTemplateSeedRepository.NumberOfItems;
+                seedsCount += _blockSeedRepository.NumberOfItems;
 
                 return seedsCount;
             }
@@ -135,6 +140,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             _websiteFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
 
+            _groupFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
 
 
             _fieldDefinitionRepository.WriteMigration(migrationBuilder);
@@ -158,6 +164,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             _websiteSeedRepository.WriteMigration(migrationBuilder);
 
             _channelSeedRepository.WriteMigration(migrationBuilder);
+
+            _blockSeedRepository.WriteMigration(migrationBuilder);
 
             _pageSeedRepository.WriteMigration(migrationBuilder);
 
@@ -202,7 +210,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 AddOrMerge(_websiteFieldTemplateSeedRepository, data.Websites.WebsiteFieldTemplates);
                 AddOrMerge(_pageFieldTemplateSeedRepository, data.Websites.PageFieldTemplates);
                 AddOrMerge(_websiteSeedRepository, data.Websites.Websites,
-                    website => AddOrMerge(_pageSeedRepository, website.Pages));
+                    website => AddOrMerge(_pageSeedRepository, website.Pages,
+                        page => AddOrMerge(_blockSeedRepository, page.BlockContainers.SelectMany(b => b.Blocks))));
             }
 
             if (data.Blocks != null)
@@ -212,6 +221,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             if (data.Customers != null)
             {
+                AddOrMerge(_groupFieldTemplateSeedRepository, data.Customers.GroupFieldTemplates);
                 AddOrMerge(_personFieldTemplateSeedRepository, data.Customers.PersonFieldTemplates);
                 AddOrMerge(_organizationFieldTemplateSeedRepository, data.Customers.OrganizationFieldTemplates);
             }

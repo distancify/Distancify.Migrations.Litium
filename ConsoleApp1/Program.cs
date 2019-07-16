@@ -10,7 +10,7 @@ namespace ConsoleApp1
         {
             new LitiumMigrationCmdlet()
             {
-                ConfigFileName = Directory.GetCurrentDirectory() + @"\migrationBuilder.yml"
+                ConfigFileName = Directory.GetCurrentDirectory() + @"\orderedMigration.yml"
             }.ProcessRecord();
 
             Console.WriteLine("Done");

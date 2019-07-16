@@ -33,7 +33,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public static ChannelSeed Ensure(string channelId, string channelFieldTemplateId)
         {
-            var channel = IoC.Resolve<ChannelService>().Get(channelId);
+            var channel = IoC.Resolve<ChannelService>().Get(channelId)?.MakeWritableClone();
             if (channel is null)
             {
                 channel = new Channel(Guid.Empty)
@@ -41,7 +41,6 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                     Id = channelId,
                     SystemId = Guid.Empty
                 };
-                channel.Localizations["en-US"].Name = channelId;
             }
 
             return Ensure(channel, channelFieldTemplateId);
@@ -71,7 +70,13 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 return;
             }
 
-            service.Update(_channel);
+            try
+            {
+                service.Update(_channel);
+            }
+            catch (Exception e)
+            {
+            }
         }
 
 
@@ -105,6 +110,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 Redirect = redirect,
                 UrlPrefix = urlPrefix
             });
+
             return this;
         }
 
@@ -339,7 +345,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                         throw new NullReferenceException("Can't ensure with country link if no Country is returned from GraphQL endpoint as part of Channel");
                     }
 
-                    builder.AppendLine($"\t\t\t\t.{nameof(WithoutCountryLink)}(\"{_countryNameIdDictionary[c.CountrySystemId]}\")");
+                    builder.AppendLine($"\t\t\t\t.{nameof(WithCountryLink)}(\"{_countryNameIdDictionary[c.CountrySystemId]}\")");
                 }
             }
 
@@ -361,12 +367,12 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
             if (_channel.MarketSystemId != null)
             {
-                builder.AppendLine($"\t\t\t\t.{nameof(WithMarket)}(Guid.Parse({_channel.MarketSystemId}))");
+                builder.AppendLine($"\t\t\t\t.{nameof(WithMarket)}(Guid.Parse(\"{_channel.MarketSystemId}\"))");
             }
 
             if (_channel.WebsiteSystemId != null)
             {
-                builder.AppendLine($"\t\t\t\t.{nameof(WithWebsite)}(Guid.Parse({_channel.WebsiteSystemId}))");
+                builder.AppendLine($"\t\t\t\t.{nameof(WithWebsite)}(Guid.Parse(\"{_channel.WebsiteSystemId}\"))");
             }
 
             // WithoutDomainNameLink

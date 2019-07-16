@@ -6,6 +6,7 @@ using Litium;
 using Litium.Blocks;
 using Litium.Common;
 using Litium.FieldFramework;
+using Litium.Globalization;
 
 namespace Distancify.Migrations.Litium.Seeds.Websites
 {
@@ -13,25 +14,30 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
     {
         private readonly Block _block;
         private bool _isPublished = false;
+        private bool _isNewBlock = false;
         private string _fieldTemplateId;
 
-        protected BlockSeed(Block block, string fieldTemplateId)
+        private List<string> _channelLinksIds;
+
+        protected BlockSeed(Block block, string fieldTemplateId, bool isNewBlock = false)
         {
             _block = block;
             _fieldTemplateId = fieldTemplateId;
+            _isNewBlock = isNewBlock;
         }
 
         public void Commit()
         {
             var service = IoC.Resolve<BlockService>();
 
-            if (_block.SystemId == Guid.Empty)
+            if (_isNewBlock)
             {
-                _block.SystemId = Guid.NewGuid();
                 service.Create(_block);
             }
-
-            service.Update(_block);
+            else
+            {
+                service.Update(_block);
+            }
 
             if (_isPublished)
             {
@@ -46,18 +52,19 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         public static BlockSeed Ensure(Guid blockSystemId, string blockTemplateId)
         {
             var blockFieldTemplateSystemGuid = IoC.Resolve<FieldTemplateService>().Get<BlockFieldTemplate>(blockTemplateId).SystemId;
-
             var blockClone = IoC.Resolve<BlockService>().Get(blockSystemId)?.MakeWritableClone();
+            var isNewBlock = false;
 
             if (blockClone is null)
             {
                 blockClone = new Block(blockFieldTemplateSystemGuid)
                 {
-                    SystemId = Guid.Empty
+                    SystemId = blockSystemId
                 };
+                isNewBlock = true;
             }
 
-            return new BlockSeed(blockClone, blockTemplateId);
+            return new BlockSeed(blockClone, blockTemplateId, isNewBlock);
         }
 
         public BlockSeed IsGlobal(bool isGlobal)
@@ -102,6 +109,14 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return this;
         }
 
+
+        public BlockSeed WithChannelLink(string channelId)
+        {
+            var channelSystemId = IoC.Resolve<ChannelService>().Get(channelId).SystemId;
+
+            return this.WithChannelLink(channelSystemId);
+        }
+
         public static BlockSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Blocks.Block block)
         {
             var seed = new BlockSeed(new Block(block.SystemId), block.FieldTemplate.Id);
@@ -114,8 +129,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             _block.Status = (ContentStatus)data.Status;
             _block.Global = data.Global;
 
-            _block.ChannelLinks = data.ChannelLinks?.Select(c => new BlockToChannelLink(c.ChannelSystemId)).ToList()
-                ?? new List<BlockToChannelLink>();
+            _channelLinksIds = data.ChannelLinks?.Select(c => c.Channel.Id).ToList() ?? new List<string>();
 
             _fieldTemplateId = data.FieldTemplate.Id;
 
@@ -124,17 +138,30 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
         public void WriteMigration(StringBuilder builder)
         {
-            throw new NotImplementedException();
+            builder.AppendLine($"\r\n\t\t\t{nameof(BlockSeed)}.{nameof(BlockSeed.Ensure)}(Guid.Parse(\"{_block.SystemId.ToString()}\"), \"{_fieldTemplateId}\")");
+
+            foreach (var channelLink in _channelLinksIds)
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithChannelLink)}(\"{channelLink}\")");
+            }
+
+            if (_block.Status.Equals(ContentStatus.Published))
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(IsPublished)}()");
+            }
+            else
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithStatus)}({(short)_block.Status})");
+            }
+
+            builder.AppendLine("\t\t\t\t.Commit();");
         }
 
         /* TODO
          * AccessControlList
-         * ChannelLinks
          * Fields
-         * FieldTemplateSystemId
          * Global
          * Localizations
-         * Status
          */
     }
 }

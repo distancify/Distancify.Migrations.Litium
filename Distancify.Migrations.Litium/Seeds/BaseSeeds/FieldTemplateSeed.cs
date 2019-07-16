@@ -173,6 +173,14 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
 
                     return pageFieldTemplate.FieldGroups;
 
+                case GroupFieldTemplate groupFieldTemplate:
+                    if (groupFieldTemplate.FieldGroups == null)
+                    {
+                        groupFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
+                    }
+
+                    return groupFieldTemplate.FieldGroups;
+
                 case PersonFieldTemplate personFieldTemplate:
                     if (personFieldTemplate.FieldGroups == null)
                     {

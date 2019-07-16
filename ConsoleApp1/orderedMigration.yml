@@ -1,61 +1,101 @@
 --- 
-- id: CategoryDisplayTemplates
-  baseMigration: Migration
-  className: CategoryDisplayTemplates
+- id: _01_Globalization
+  baseMigration: ProductionMigration
+  className: Globalization
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\CategoryDisplayTemplates.cs
+  output: C:\KidsMigrations\_01_Globalization.cs
   query: |
-    query{
-        products{
-            categoryDisplayTemplates{
+    query migration_production_globalization{
+        globalization{
+            languages{
                 id,
-                templatePath,
+                isDefaultLanguage
+            },
+            currencies{
+                id,
+                isBaseCurrency
+            },
+            countries{
+                id,
+                standardVatRate,
+                currency{
+                    id
+                }
+            }
+        },
+        products{
+            unitOfMeasurements{
+                id,
+                decimalDigits,
                 systemId,
                 localizations{
                     culture,
                     name
+                }
+            }        
+        }
+    }
+
+- id: _02_Inventories
+  baseMigration: ProductionMigration
+  className: Inventories
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\_02_Inventories.cs
+  query: |
+    query migration_production_inventories{
+        products{
+            inventories{
+                id,
+                systemId
+            } 
+        }
+    }
+
+- id: _03_FieldDefinitions
+  baseMigration: ProductionMigration
+  className: FieldDefinitions
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\_03_FieldDefinitions.cs
+  query: |
+    query every_field_definition{
+        common{
+            fieldDefinitions{
+                id,
+                fieldType,
+                areaType,
+                multiCulture,
+                canBeGridColumn,
+                canBeGridFilter
+                systemId,
+                localizations{
+                    culture,
+                    name,
+                    description
                 },
-                templates{
-                    path,
-                    webSiteSystemId 
+                option{
+                    multiSelect,
+                    items{
+                        localizations{
+                            culture,
+                            name
+                        },
+                        value
+                    },
+                    entityType
                 }
             }
         }
     }
 
-- id: ProductDisplayTemplates
-  baseMigration: Migration
-  className: ProductDisplayTemplates
-  host: http://localhost
-  namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\ProductDisplayTemplates.cs
-  query: |
-    query{
-        products{
-            productDisplayTemplates{
-                id,
-                templatePath,
-                systemId,
-                useVariantUrl,
-                localizations{
-                    culture,
-                    name
-                },
-                templates{
-                    path,
-                    webSiteSystemId 
-                }
-            }       
-        }      
-    }
-
-- id: ChannelFieldTemplates
-  baseMigration: Migration
+- id: _04_ChannelFieldTemplates
+  baseMigration: ProductionMigration
   className: ChannelFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\ChannelFieldTemplates.cs
+  output: C:\KidsMigrations\_04_ChannelFieldTemplates.cs
   query: |
       query {
             globalization{
@@ -83,12 +123,12 @@
             }
       }
 
-- id: MarketFieldTemplates
-  baseMigration: Migration
+- id: _05_MarketFieldTemplates
+  baseMigration: ProductionMigration
   className: MarketFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\MarketFieldTemplates.cs
+  output: C:\KidsMigrations\_05_MarketFieldTemplates.cs
   query: |
     query {
         globalization{
@@ -116,48 +156,12 @@
         }
     }
 
-- id: BlockFieldTemplates
-  baseMigration: Migration
-  className: BlockFieldTemplates
-  host: http://localhost
-  namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\BlockFieldTemplates.cs
-  query: |
-    query{
-        blocks{
-              blockFieldTemplates{
-                id,
-                systemId,
-                icon,
-                templatePath,
-                categorySystemId,
-                areaType{
-                    name,
-                    fullName
-                },
-                localizations{
-                    culture,
-                    name             
-                },
-                fieldGroups{
-                    id,
-                    collapsed,
-                    localizations{
-                        culture,
-                        name
-                    },
-                    fields
-                },
-            }      
-        }
-    }
-
-- id: WebsitesFieldTemplates
-  baseMigration: Migration
+- id: _06_WebsitesFieldTemplates
+  baseMigration: ProductionMigration
   className: WebsitesFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\WebsitesFieldTemplates.cs
+  output: C:\KidsMigrations\_06_WebsitesFieldTemplates.cs
   query: |
     query{
         websites{
@@ -185,70 +189,12 @@
         }
     }
 
-- id: PersonFieldTemplates
-  baseMigration: Migration
-  className: PersonFieldTemplates
-  host: http://localhost
-  namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\PersonFieldTemplates.cs
-  query: |
-    query{
-        customers{
-            personFieldTemplates{
-                id,
-                systemId,
-                localizations{
-                    culture,
-                    name             
-                },
-                fieldGroups{
-                    id,
-                    collapsed,
-                    localizations{
-                        culture,
-                        name
-                    },
-                    fields
-                }
-            }
-        }
-    }
-
-- id: OrganizationFieldTemplates
-  baseMigration: Migration
-  className: OrganizationFieldTemplates
-  host: http://localhost
-  namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\OrganizationFieldTemplates.cs
-  query: |
-    query{
-        customers{
-            organizationFieldTemplates{
-                id,
-                systemId,
-                localizations{
-                    culture,
-                    name             
-                },
-                fieldGroups{
-                    id,
-                    collapsed,
-                    localizations{
-                        culture,
-                        name
-                    },
-                    fields
-                }
-            }
-        }
-    }
-
-- id: PageFieldTemplates
-  baseMigration: Migration
+- id: _07_PageFieldTemplates
+  baseMigration: ProductionMigration
   className: PageFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\PageFieldTemplates.cs
+  output: C:\KidsMigrations\_07_PageFieldTemplates.cs
   query: |
     query{
         websites{
@@ -284,37 +230,23 @@
         }
     }
 
-- id: ProductFieldTemplates
-  baseMigration: Migration
-  className: ProductFieldTemplates
+- id: _08_PersonFieldTemplates
+  baseMigration: ProductionMigration
+  className: PersonFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\ProductFieldTemplates.cs
+  output: C:\KidsMigrations\_08_PersonFieldTemplates.cs
   query: |
     query{
-        products{
-            productFieldTemplates{
+        customers{
+            personFieldTemplates{
                 id,
                 systemId,
-                displayTemplateSystemId,
-                areaType{
-                    name,
-                    fullName
-                },
                 localizations{
                     culture,
                     name             
                 },
-                productFieldGroups{
-                    id,
-                    collapsed,
-                    localizations{
-                        culture,
-                        name
-                    },
-                    fields
-                },
-                variantFieldGroups{
+                fieldGroups{
                     id,
                     collapsed,
                     localizations{
@@ -323,23 +255,83 @@
                     },
                     fields
                 }
-            }   
+            }
         }
     }
 
-- id: CategoryFieldTemplates
-  baseMigration: Migration
-  className: CategoryFieldTemplates
+- id: _09_OrganizationFieldTemplates
+  baseMigration: ProductionMigration
+  className: OrganizationFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\CategoryFieldTemplates.cs
+  output: C:\KidsMigrations\_09_OrganizationFieldTemplates.cs
   query: |
     query{
-        products{
-            categoryFieldTemplates{
+        customers{
+            organizationFieldTemplates{
                 id,
                 systemId,
-                displayTemplateSystemId,
+                localizations{
+                    culture,
+                    name             
+                },
+                fieldGroups{
+                    id,
+                    collapsed,
+                    localizations{
+                        culture,
+                        name
+                    },
+                    fields
+                }
+            }
+        }
+    }
+
+- id: _10_GroupFieldTemplates
+  baseMigration: ProductionMigration
+  className: GroupFieldTemplates
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\_10_GroupFieldTemplates.cs
+  query: |
+    query{
+        customers{
+            groupFieldTemplates{
+                id,
+                systemId,
+                localizations{
+                    culture,
+                    name             
+                },
+                fieldGroups{
+                    id,
+                    collapsed,
+                    localizations{
+                        culture,
+                        name
+                    },
+                    fields
+                }
+            }
+        }
+    }
+
+- id: _11_BlockFieldTemplates
+  baseMigration: ProductionMigration
+  className: BlockFieldTemplates
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\_11_BlockFieldTemplates.cs
+  query: |
+    query{
+        blocks{
+              blockFieldTemplates{
+                id,
+                systemId,
+                icon,
+                templatePath,
+                categorySystemId,
                 areaType{
                     name,
                     fullName
@@ -356,108 +348,18 @@
                         name
                     },
                     fields
-                }
-            }           
-        }
-    }
-
-- id: FieldDefinitions
-  baseMigration: Migration
-  className: FieldDefinitions
-  host: http://localhost
-  namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\FieldDefinitions.cs
-  query: |
-    query every_field_definition{
-        common{
-            fieldDefinitions{
-                id,
-                fieldType,
-                areaType,
-                multiCulture,
-                canBeGridColumn,
-                canBeGridFilter
-                systemId,
-                localizations{
-                    culture,
-                    name,
-                    description
                 },
-                option{
-                    multiSelect,
-                    items{
-                        localizations{
-                            culture,
-                            name
-                        },
-                        value
-                    },
-                    entityType
-                }
-            }
+            }      
         }
     }
 
-- id: Globalization
-  baseMigration: Migration
-  className: Globalization
-  host: http://localhost
-  namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\Globalization.cs
-  query: |
-    query migration_production_globalization{
-        globalization{
-            languages{
-                id,
-                isDefaultLanguage
-            },
-            currencies{
-                id,
-                isBaseCurrency
-            },
-            countries{
-                id,
-                standardVatRate,
-                currency{
-                    id
-                }
-            }
-        },
-        products{
-            unitOfMeasurements{
-                id,
-                decimalDigits,
-                systemId,
-                localizations{
-                    culture,
-                    name
-                }
-            }        
-        }
-    }
 
-- id: Inventories
-  baseMigration: Migration
-  className: Inventories
-  host: http://localhost
-  namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\Inventories.cs
-  query: |
-    query migration_production_inventories{
-        products{
-            inventories{
-                id,
-                systemId
-            } 
-        }
-    }
-
-- id: Website
-  baseMigration: Migration
+- id: _12_Website
+  baseMigration: ProductionMigration
   className: Website
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\Website.cs
+  output: C:\KidsMigrations\_12_Website.cs
   query: |
     query migration_production_website{
         globalization{
@@ -549,10 +451,21 @@
                         name
                     },
                     channelLinks {
-                        channelSystemId
+                        channel {
+                            id
+                        }
                     },
                     accessControlList{
-                        groupSystemId,
+                        group{
+                            id,
+                            fieldTemplate{
+                                id,
+                                systemId
+                            },
+                            accessControlOperationList{
+                                operation
+                            }
+                        }
                         operation
                     },
                     blockContainers{
@@ -563,7 +476,9 @@
                             global,
                             fieldTemplateSystemId,
                             channelLinks{
-                                channelSystemId
+                                channel{
+                                    id
+                                }
                             },
                             fieldTemplate{
                                 id

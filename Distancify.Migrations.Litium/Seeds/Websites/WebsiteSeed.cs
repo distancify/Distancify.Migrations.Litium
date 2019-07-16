@@ -12,11 +12,13 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
     {
         private readonly Website _website;
         private string _fieldTemplateId;
+        private bool _isNewWebsite;
 
-        private WebsiteSeed(Website website, string fieldTemplateId)
+        private WebsiteSeed(Website website, string fieldTemplateId, bool isNewWebsite = false)
         {
             _website = website;
             _fieldTemplateId = fieldTemplateId;
+            _isNewWebsite = isNewWebsite;
         }
 
         public void Commit()
@@ -27,9 +29,9 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 .Get<WebsiteFieldTemplate>(_fieldTemplateId).SystemId;
 
             _website.FieldTemplateSystemId = websiteFieldTemplateSystemId;
-            if (_website.SystemId == Guid.Empty)
+
+            if (_isNewWebsite)
             {
-                _website.SystemId = Guid.NewGuid();
                 service.Create(_website);
                 return;
             }
@@ -40,18 +42,19 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         public static WebsiteSeed Ensure(string websiteName, string websiteTemplateName)
         {
             var websiteClone = IoC.Resolve<WebsiteService>().Get(websiteName)?.MakeWritableClone();
+            var isNewWebsite = false;
+
             if (websiteClone is null)
             {
                 websiteClone = new Website(Guid.Empty)
                 {
                     Id = websiteName,
-                    SystemId = Guid.Empty
+                    SystemId = Guid.NewGuid()
                 };
-                //TODO: Fix this
-                websiteClone.Localizations["en-US"].Name = websiteName;
+                isNewWebsite = true;
             }
 
-            return new WebsiteSeed(websiteClone, websiteTemplateName);
+            return new WebsiteSeed(websiteClone, websiteTemplateName, isNewWebsite);
         }
 
         public static WebsiteSeed Ensure(Guid systemId, string websiteTemplateName)
@@ -68,7 +71,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 return new WebsiteSeed(website, websiteTemplateName);
             }
 
-            return new WebsiteSeed(new Website(websiteFieldTemplate.SystemId), websiteTemplateName);
+            return new WebsiteSeed(new Website(websiteFieldTemplate.SystemId) { SystemId = systemId }, websiteTemplateName, true);
         }
 
         public WebsiteSeed WithName(string culture, string name)

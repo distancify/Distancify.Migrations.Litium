@@ -58,6 +58,7 @@ using Distancify.Migrations.Litium;
 
 namespace {{ config.namespace }}
 {
+    [Distancify.Migrations.MigrationOrder(""{{ config.id }}"")]
 	public class {{ config.class_name }} : {{ config.base_migration }}
 	{
 		public override void Apply()

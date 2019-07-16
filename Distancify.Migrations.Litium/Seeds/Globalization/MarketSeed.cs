@@ -13,19 +13,20 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         private readonly Market _market;
         private string _assortmentId;
         private string _fieldTemplateId;
+        private bool _isNewMarket;
 
-        private MarketSeed(Market market)
+        private MarketSeed(Market market, bool isNewMarket = false)
         {
             _market = market;
+            _isNewMarket = isNewMarket;
         }
 
         public void Commit()
         {
             var marketService = IoC.Resolve<MarketService>();
 
-            if (_market.SystemId == Guid.Empty)
+            if (_isNewMarket)
             {
-                _market.SystemId = Guid.NewGuid();
                 marketService.Create(_market);
                 return;
             }
@@ -36,14 +37,18 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         public static MarketSeed Ensure(string id, string fieldTemplateId)
         {
             var fieldTemplateSystemId = IoC.Resolve<FieldTemplateService>().Get<MarketFieldTemplate>(fieldTemplateId).SystemId;
-            var market = IoC.Resolve<MarketService>().Get(id)?.MakeWritableClone() ??
-                new Market(fieldTemplateSystemId)
-                {
-                    Id = id,
-                    SystemId = Guid.Empty
-                };
+            var market = IoC.Resolve<MarketService>().Get(id)?.MakeWritableClone();
 
-            return new MarketSeed(market);
+            if (market != null)
+            {
+                return new MarketSeed(market);
+            }
+
+            return new MarketSeed(new Market(fieldTemplateSystemId)
+            {
+                Id = id,
+                SystemId = Guid.NewGuid()
+            }, true);
         }
 
         public static MarketSeed Ensure(Guid systemId, string fieldTemplateId)
@@ -56,10 +61,8 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
             var fieldTemplateService = IoC.Resolve<FieldTemplateService>();
             var fieldTemplate = fieldTemplateService.Get<MarketFieldTemplate>(fieldTemplateId);
-            return new MarketSeed(new Market(fieldTemplate.SystemId)
-            {
-                SystemId = Guid.Empty
-            });
+
+            return new MarketSeed(new Market(fieldTemplate.SystemId) { SystemId = systemId }, true);
         }
 
         public MarketSeed WithField(string id, object value)
@@ -99,7 +102,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public static MarketSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Globalization.Market graphQlItem)
         {
-            var seed =  new MarketSeed(new Market(graphQlItem.FieldTemplateSystemId));
+            var seed = new MarketSeed(new Market(graphQlItem.FieldTemplateSystemId));
             return (MarketSeed)seed.Update(graphQlItem);
         }
 
@@ -143,7 +146,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithAssortment)}(Guid.Parse({_market.AssortmentSystemId}))");
             }
-            
+
             builder.AppendLine("\t\t\t\t.Commit();");
         }
     }

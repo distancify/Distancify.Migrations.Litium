@@ -384,6 +384,7 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="LitiumMigrationCmdlet.cs" />
     <Compile Include="SeedBuilder\ConfigurationReader.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\AccessControlEntry.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\AreaType.cs" />
     <Compile Include="SeedBuilder\IGenerator.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\Block.cs" />
@@ -393,9 +394,12 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\BlockToChannelLink.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\Common.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\CompositeFieldOption.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\AccessControlOperationEntry.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\Customers.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\GroupFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\OrganizationFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\PersonFieldTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\StaticGroup.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\DisplayTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\DisplayTemplateToWebsiteLink.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldDefinition.cs" />
@@ -419,10 +423,12 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\PageToChannelLink.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Websites.cs" />
     <Compile Include="SeedBuilder\Repositories\BlockFieldTemplateRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\BlockRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\CategoryDisplayTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\CategoryFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\ChannelFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\FieldDefinitionRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\GroupFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\InventoryRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketRepository.cs" />

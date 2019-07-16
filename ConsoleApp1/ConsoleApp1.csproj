@@ -51,6 +51,9 @@
     <None Include="migrationBuilder.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="orderedMigration.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Distancify.Migrations.Litium\Distancify.Migrations.Litium.csproj">

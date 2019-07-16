@@ -19,5 +19,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Websites
         public PageFieldTemplate FieldTemplate { get; set; }
 
         public List<BlockContainer> BlockContainers { get; set; }
+
+        public List<AccessControlEntry> AccessControlList { get; set; }
     }
 }

@@ -3,16 +3,19 @@ using Litium.FieldFramework;
 using Litium.Customers;
 using System;
 using Litium.Security;
+using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Customer
 {
-    public class StaticGroupSeed : ISeed
+    public class StaticGroupSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Customers.StaticGroup>
     {
-        private readonly StaticGroup group;
+        private readonly StaticGroup _group;
+        private readonly string _fieldTemplateId;
 
-        protected StaticGroupSeed(StaticGroup group)
+        protected StaticGroupSeed(StaticGroup group, string fieldTemplateId)
         {
-            this.group = group;
+            _group = group;
+            _fieldTemplateId = fieldTemplateId;
         }
 
         public static StaticGroupSeed Ensure(string name, string fieldTemplateId)
@@ -28,106 +31,112 @@ namespace Distancify.Migrations.Litium.Seeds.Customer
                 group.Fields[SystemFieldDefinitionConstants.NameInvariantCulture] = name;
             }
 
-            return new StaticGroupSeed(group);
+            return new StaticGroupSeed(group, fieldTemplateId);
+        }
+
+        public static StaticGroupSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Customers.StaticGroup staticGroup)
+        {
+            var seed = new StaticGroupSeed(new StaticGroup(staticGroup.FieldTemplate.SystemId, staticGroup.Id), staticGroup.FieldTemplate.Id);
+            return (StaticGroupSeed)seed.Update(staticGroup);
         }
 
         public void Commit()
         {
             var service = IoC.Resolve<GroupService>();
 
-            if (group.SystemId == Guid.Empty)
+            if (_group.SystemId == Guid.Empty)
             {
-                group.SystemId = Guid.NewGuid();
+                _group.SystemId = Guid.NewGuid();
 
-                service.Create(group);
+                service.Create(_group);
             }
             else
             {
-                service.Update(group);
+                service.Update(_group);
             }
         }
 
         public StaticGroupSeed WithProductsContentAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Products.Content));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Products.Content));
             return this;
         }
 
         public StaticGroupSeed WithProductsSettingsAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Products.Settings));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Products.Settings));
             return this;
         }
 
         public StaticGroupSeed WithProductsUIAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Products.UI));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Products.UI));
             return this;
         }
         public StaticGroupSeed WithWebsitesContentAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Websites.Content));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Websites.Content));
             return this;
         }
         public StaticGroupSeed WithWebsitesSettingsAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Websites.Settings));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Websites.Settings));
             return this;
         }
         public StaticGroupSeed WithWebsitesUIAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Websites.UI));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Websites.UI));
             return this;
         }
 
         public StaticGroupSeed WithCustomersUIAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Customers.UI));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Customers.UI));
             return this;
         }
         public StaticGroupSeed WithCustomersSettingsAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Customers.Settings));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Customers.Settings));
             return this;
         }
         public StaticGroupSeed WithCustomersContentAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Customers.Content));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Customers.Content));
             return this;
         }
         public StaticGroupSeed WithSalesContentAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Sales.Content));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Sales.Content));
             return this;
         }
         public StaticGroupSeed WithSalesSettingsAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Sales.Settings));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Sales.Settings));
             return this;
         }
         public StaticGroupSeed WithSalesUIAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Sales.UI));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Sales.UI));
             return this;
         }
         public StaticGroupSeed WithMediaUIAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Media.UI));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Media.UI));
             return this;
         }
         public StaticGroupSeed WithMediaSettingsAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Media.Settings));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Media.Settings));
             return this;
         }
         public StaticGroupSeed WithMediaContentAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Media.Content));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.Media.Content));
             return this;
         }
         public StaticGroupSeed WithSystemSettingsAccess()
         {
-            group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.SystemSettings));
+            _group.AccessControlOperationList.Add(new AccessControlOperationEntry(Operations.Function.SystemSettings));
             return this;
         }
 
@@ -152,5 +161,18 @@ namespace Distancify.Migrations.Litium.Seeds.Customer
             return this;
         }
 
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Customers.StaticGroup> Update(SeedBuilder.LitiumGraphQlModel.Customers.StaticGroup data)
+        {
+            //TODO: Add access
+
+            return this;
+        }
+
+        public void WriteMigration(StringBuilder builder)
+        {
+            builder.AppendLine($"\r\n\t\t\t{nameof(StaticGroupSeed)}.{nameof(StaticGroupSeed.Ensure)}(\"{_group.Id}\", \"{_fieldTemplateId}\"");
+
+            builder.AppendLine("\t\t\t\t.Commit();");
+        }
     }
 }
