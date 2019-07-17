@@ -464,7 +464,7 @@
     <Compile Include="Seeds\BaseSeeds\MultiFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\BaseSeeds\PointerFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\BaseSeeds\TextOptionFieldDefinitionSeed.cs" />
-    <Compile Include="Seeds\Constants.cs" />
+    <Compile Include="Seeds\LitiumConstants.cs" />
     <Compile Include="Seeds\Countries.cs" />
     <Compile Include="Seeds\Currencies.cs" />
     <Compile Include="SeedBuilder\Repositories\AssortmentRepository.cs" />
@@ -544,7 +544,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Distancify.Migrations.Litium.nuspec" />
-    <None Include="migrationConfigration.yml.example" />
+    <None Include="migrationConfiguration.yml.example" />
     <None Include="NLog.config" />
     <None Include="NuGetReferenceHintPathRewrite.targets" />
     <None Include="packages.config" />
