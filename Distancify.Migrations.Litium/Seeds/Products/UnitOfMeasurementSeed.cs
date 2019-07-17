@@ -1,10 +1,10 @@
-using Litium;
-using Litium.Products;
 using System;
 using System.Linq;
 using System.Text;
+using Litium;
+using Litium.Products;
 
-namespace Distancify.Migrations.Litium.Seeds.Globalization
+namespace Distancify.Migrations.Litium.Seeds.Products
 {
     public class UnitOfMeasurementSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.UnitOfMeasurement>
     {

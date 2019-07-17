@@ -524,7 +524,7 @@
     <Compile Include="Seeds\Media\FolderFieldTemplateSeed.cs" />
     <Compile Include="Seeds\Media\FileFieldTemplateSeed.cs" />
     <Compile Include="Migrations\Bootstrap.cs" />
-    <Compile Include="Seeds\Globalization\UnitOfMeasurementSeed.cs" />
+    <Compile Include="Seeds\Products\UnitOfMeasurementSeed.cs" />
     <Compile Include="Seeds\Products\AssortmentSeed.cs" />
     <Compile Include="Seeds\Products\CategoryDisplayTemplateSeed.cs" />
     <Compile Include="Seeds\Products\CategoryFieldTemplateSeed.cs" />
