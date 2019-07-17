@@ -1,11 +1,11 @@
-using Litium;
-using Litium.Globalization;
 using System;
 using System.Linq;
 using System.Text;
+using Litium;
+using Litium.Globalization;
 using Litium.Products;
 
-namespace Distancify.Migrations.Litium.Seeds.Product
+namespace Distancify.Migrations.Litium.Seeds.Products
 {
     public class InventorySeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.Inventory>
     {

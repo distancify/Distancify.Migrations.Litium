@@ -1,13 +1,13 @@
-using Distancify.Migrations.Litium.Seeds.BaseSeeds;
-using Litium;
-using Litium.FieldFramework;
-using Litium.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Distancify.Migrations.Litium.Seeds.BaseSeeds;
+using Litium;
+using Litium.FieldFramework;
+using Litium.Products;
 
-namespace Distancify.Migrations.Litium.Seeds.Product
+namespace Distancify.Migrations.Litium.Seeds.Products
 {
     public class CategoryFieldTemplateSeed : FieldTemplateSeed<CategoryFieldTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.CategoryFieldTemplate>
     {

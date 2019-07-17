@@ -1,10 +1,10 @@
+using System;
+using System.Linq;
 using Litium;
 using Litium.Globalization;
 using Litium.Products;
-using System;
-using System.Linq;
 
-namespace Distancify.Migrations.Litium.Seeds.Product
+namespace Distancify.Migrations.Litium.Seeds.Products
 {
     public class PriceListSeed : ISeed
     {
