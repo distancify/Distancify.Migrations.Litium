@@ -153,38 +153,6 @@
         }
     }
 
-- id: _03_MultiFieldDefinitions
-  baseMigration: ProductionMigration
-  className: MultiFieldDefinitions
-  host: http://localhost
-  namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\_03_MultiFieldDefinitions.cs
-  query: |
-    query{
-        common{
-            fieldDefinitions{
-                multiFields{
-                    fieldType,
-                    areaType,
-                    id,
-                    multiCulture,
-                    canBeGridColumn,
-                    canBeGridFilter,
-                    systemDefined,
-                    hidden,
-                    localizations{
-                        culture,
-                        name
-                    },
-                    option{
-                        isArray,
-                        fields
-                    }       
-                }
-            }
-        }
-    }
-
 - id: _03_DecimalOptionFieldDefinitions
   baseMigration: ProductionMigration
   className: DecimalOptionFieldDefinitions
@@ -263,13 +231,44 @@
         }
     }
 
+- id: _04_MultiFieldDefinitions
+  baseMigration: ProductionMigration
+  className: MultiFieldDefinitions
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\_04_MultiFieldDefinitions.cs
+  query: |
+    query{
+        common{
+            fieldDefinitions{
+                multiFields{
+                    fieldType,
+                    areaType,
+                    id,
+                    multiCulture,
+                    canBeGridColumn,
+                    canBeGridFilter,
+                    systemDefined,
+                    hidden,
+                    localizations{
+                        culture,
+                        name
+                    },
+                    option{
+                        isArray,
+                        fields
+                    }       
+                }
+            }
+        }
+    }
 
-- id: _04_ChannelFieldTemplates
+- id: _05_ChannelFieldTemplates
   baseMigration: ProductionMigration
   className: ChannelFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\_04_ChannelFieldTemplates.cs
+  output: C:\KidsMigrations\_05_ChannelFieldTemplates.cs
   query: |
       query {
             globalization{
@@ -297,12 +296,12 @@
             }
       }
 
-- id: _05_MarketFieldTemplates
+- id: _06_MarketFieldTemplates
   baseMigration: ProductionMigration
   className: MarketFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\_05_MarketFieldTemplates.cs
+  output: C:\KidsMigrations\_06_MarketFieldTemplates.cs
   query: |
     query {
         globalization{
@@ -330,12 +329,12 @@
         }
     }
 
-- id: _06_WebsitesFieldTemplates
+- id: _07_WebsitesFieldTemplates
   baseMigration: ProductionMigration
   className: WebsitesFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\_06_WebsitesFieldTemplates.cs
+  output: C:\KidsMigrations\_07_WebsitesFieldTemplates.cs
   query: |
     query{
         websites{
@@ -363,12 +362,12 @@
         }
     }
 
-- id: _07_PageFieldTemplates
+- id: _08_PageFieldTemplates
   baseMigration: ProductionMigration
   className: PageFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\_07_PageFieldTemplates.cs
+  output: C:\KidsMigrations\_08_PageFieldTemplates.cs
   query: |
     query{
         websites{
@@ -404,12 +403,12 @@
         }
     }
 
-- id: _08_PersonFieldTemplates
+- id: _09_PersonFieldTemplates
   baseMigration: ProductionMigration
   className: PersonFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\_08_PersonFieldTemplates.cs
+  output: C:\KidsMigrations\_09_PersonFieldTemplates.cs
   query: |
     query{
         customers{
@@ -433,12 +432,12 @@
         }
     }
 
-- id: _09_OrganizationFieldTemplates
+- id: _10_OrganizationFieldTemplates
   baseMigration: ProductionMigration
   className: OrganizationFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\_09_OrganizationFieldTemplates.cs
+  output: C:\KidsMigrations\_10_OrganizationFieldTemplates.cs
   query: |
     query{
         customers{
@@ -462,12 +461,12 @@
         }
     }
 
-- id: _10_GroupFieldTemplates
+- id: _11_GroupFieldTemplates
   baseMigration: ProductionMigration
   className: GroupFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\_10_GroupFieldTemplates.cs
+  output: C:\KidsMigrations\_11_GroupFieldTemplates.cs
   query: |
     query{
         customers{
@@ -491,12 +490,12 @@
         }
     }
 
-- id: _11_BlockFieldTemplates
+- id: _12_BlockFieldTemplates
   baseMigration: ProductionMigration
   className: BlockFieldTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\_11_BlockFieldTemplates.cs
+  output: C:\KidsMigrations\_12_BlockFieldTemplates.cs
   query: |
     query{
         blocks{
@@ -528,12 +527,12 @@
     }
 
 
-- id: _12_Website
+- id: _13_Website
   baseMigration: ProductionMigration
   className: Website
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\_12_Website.cs
+  output: C:\KidsMigrations\_13_Website.cs
   query: |
     query migration_production_website{
         globalization{
@@ -664,12 +663,12 @@
         }
     }
 
-- id: _13_CategoryDisplayTemplates
+- id: _14_CategoryDisplayTemplates
   baseMigration: ProductionMigration
   className: CategoryDisplayTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\_13_CategoryDisplayTemplates.cs
+  output: C:\KidsMigrations\_14_CategoryDisplayTemplates.cs
   query: |
     query{
         products{
@@ -689,12 +688,12 @@
         }
     }
 
-- id: _14_ProductDisplayTemplates
+- id: _15_ProductDisplayTemplates
   baseMigration: ProductionMigration
   className: ProductDisplayTemplates
   host: http://localhost
   namespace: KidsConcept.Web.Migrations.Production
-  output: C:\KidsMigrations\_14_ProductDisplayTemplates.cs
+  output: C:\KidsMigrations\_15_ProductDisplayTemplates.cs
   query: |
     query{
         products{
