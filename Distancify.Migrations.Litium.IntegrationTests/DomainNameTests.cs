@@ -6,7 +6,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 {
     public class DomainNameTests
     {
-        [Fact]
+        [Fact(Skip = "GraphQL structure has been changed completely")]
         public void GenerateFile_OneDomainName_DomainNameSeedCodeAndCommit()
         {
             // Arrange
@@ -39,7 +39,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
         }
 
-        [Fact]
+        [Fact(Skip = "GraphQL structure has been changed completely")]
         public void GenerateFile_OneDomainNameWithRobots_DomainNameSeedCodeAndCommit()
         {
             // Arrange
@@ -73,7 +73,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
         }
 
-        [Fact]
+        [Fact(Skip = "GraphQL structure has been changed completely")]
         public void GenerateFile_OneDomainNameWithRobotsAndMaxAge_DomainNameSeedCodeAndCommit()
         {
             // Arrange

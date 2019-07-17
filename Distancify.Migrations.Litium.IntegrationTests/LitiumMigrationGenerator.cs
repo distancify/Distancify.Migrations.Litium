@@ -6,7 +6,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 {
     public class LitiumMigrationGeneratorTests
     {
-        [Fact]
+        [Fact(Skip = "GraphQL structure has been changed completely")]
         public void GenerateAllFiles_EmptyDataResponse_NoFiles()
         {
             // Arrange
@@ -27,7 +27,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 
         }
 
-        [Fact]
+        [Fact(Skip = "GraphQL structure has been changed completely")]
         public void GenerateFile_OneLanguage_NamespaceAndClassMatchConfig()
         {
             // Arrange

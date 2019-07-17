@@ -6,7 +6,7 @@ namespace Distancify.Migrations.Litium.IntegrationTests
 {
     public class AssortmentTests
     {
-        [Fact]
+        [Fact(Skip = "GraphQL structure has been changed completely")]
         public void GenerateFile_OneAssortment_AssortmentSeedCodeAndCommit()
         {
             // Arrange
@@ -16,11 +16,13 @@ namespace Distancify.Migrations.Litium.IntegrationTests
                 GraphqlQueryResponse = @"
 {
     ""data"": {
-        ""assortments"": [
-            {
-                ""id"": ""assortment1""
-            }
-        ]
+        ""globalization"": {
+            ""assortments"": [
+                {
+                    ""id"": ""assortment1""
+                }
+            ]
+        }
     }
 }"
             };
