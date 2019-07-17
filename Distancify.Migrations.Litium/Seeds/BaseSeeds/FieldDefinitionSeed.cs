@@ -13,9 +13,9 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
     public class FieldDefinitionSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldDefinition>
     {
-        private readonly FieldDefinition _fieldDefinition;
+        protected readonly FieldDefinition _fieldDefinition;
 
-        private FieldDefinitionSeed(FieldDefinition fieldDefinition)
+        protected FieldDefinitionSeed(FieldDefinition fieldDefinition)
         {
             _fieldDefinition = fieldDefinition;
         }
@@ -25,8 +25,8 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             //TODO: Figure out why we get validation errors even if some fields are not marked as system defined (even though they are)
             try
             {
-                if(_fieldDefinition.SystemDefined)
-                    return;;
+                if (_fieldDefinition.SystemDefined)
+                    return; ;
 
                 var fieldDefinitionService = IoC.Resolve<FieldDefinitionService>();
                 if (_fieldDefinition.SystemId == Guid.Empty)
@@ -109,50 +109,6 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
         }
 
-        public FieldDefinitionSeed WithTextOption(TextOption option)
-        {
-            if (!(_fieldDefinition.Option is TextOption))
-            {
-                _fieldDefinition.Option = new TextOption();
-            }
-
-            var textOption = _fieldDefinition.Option as TextOption;
-            var fieldDefinitionItems = textOption.Items;
-
-            textOption.MultiSelect = option.MultiSelect;
-
-            foreach (var item in option.Items)
-            {
-                if (fieldDefinitionItems.FirstOrDefault(i => i.Value == item.Value) is TextOption.Item fieldDefinitionItem)
-                {
-                    foreach (var localization in item.Name.Keys)
-                    {
-                        if (!fieldDefinitionItem.Name.ContainsKey(localization))
-                        {
-                            fieldDefinitionItem.Name.Add(localization, item.Name[localization]);
-                        }
-                        else if (fieldDefinitionItem.Name[localization] != item.Name[localization])
-                        {
-                            fieldDefinitionItem.Name[localization] = item.Name[localization];
-                        }
-                    }
-                }
-                else
-                {
-                    fieldDefinitionItems.Add(item);
-                }
-            }
-
-            return this;
-        }
-
-        public FieldDefinitionSeed WithPointerOption(PointerOption pointerOption)
-        {
-            _fieldDefinition.Option = pointerOption;
-
-            return this;
-        }
-
         public static FieldDefinitionSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.FieldDefinition graphQlItem)
         {
             var areaType = AppDomain.CurrentDomain
@@ -166,33 +122,13 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             var seed = new FieldDefinitionSeed(new FieldDefinition(graphQlItem.Id, graphQlItem.FieldType, areaType));
             return (FieldDefinitionSeed)seed.Update(graphQlItem);
         }
+
         public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.FieldDefinition data)
         {
             _fieldDefinition.MultiCulture = data.MultiCulture;
             _fieldDefinition.CanBeGridColumn = data.CanBeGridColumn;
             _fieldDefinition.CanBeGridFilter = data.CanBeGridFilter;
             _fieldDefinition.FieldType = data.FieldType;
-
-            if (data.FieldType.Equals(SystemFieldTypeConstants.TextOption))
-            {
-                _fieldDefinition.Option = new TextOption()
-                {
-                    MultiSelect = data.Option.MultiSelect,
-                    Items = data.Option.Items.Select(i => new TextOption.Item
-                    {
-                        Name = i.Localizations.ToDictionary(k => k.Culture, v => v.Name),
-                        Value = i.Value
-                    }).ToList()
-                };
-            }
-            else if (data.FieldType.Equals(SystemFieldTypeConstants.Pointer))
-            {
-                _fieldDefinition.Option = new PointerOption()
-                {
-                    MultiSelect = data.Option.MultiSelect,
-                    EntityType = data.Option.EntityType
-                };
-            }
 
             foreach (var localization in data.Localizations)
             {
@@ -213,38 +149,21 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         {
             builder.AppendLine($"\r\n\t\t\t{nameof(FieldDefinitionSeed)}.{nameof(Ensure)}<{_fieldDefinition.AreaType.Name}>(\"{_fieldDefinition.Id}\", \"{_fieldDefinition.FieldType}\")");
 
+            WritePropertiesMigration(builder);
+
+            builder.AppendLine("\t\t\t\t.Commit();");
+        }
+
+        protected void WritePropertiesMigration(StringBuilder builder)
+        {
             if (_fieldDefinition.Localizations.Any())
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithNames)}({_fieldDefinition.Localizations.ToDictionary(k => k.Key, v => v.Value.Name).GetMigration(4)})");
             }
 
-            if (_fieldDefinition.FieldType.Equals(SystemFieldTypeConstants.TextOption))
-            {
-                var textOption = _fieldDefinition.Option as TextOption;
-                builder.AppendLine($"\t\t\t\t.{nameof(WithTextOption)}(new TextOption()\r\n\t\t\t\t{{\r\n\t\t\t\t\t{nameof(TextOption.MultiSelect)} = {textOption.MultiSelect.ToString().ToLower()}," +
-                                   $"\r\n\t\t\t\t\t{nameof(TextOption.Items)} = new List<TextOption.Item>\r\n\t\t\t\t\t{{\r\n\t\t\t\t\t\t{GetTextOptions(textOption)}" +
-                                    "\r\n\t\t\t\t\t}\r\n\t\t\t\t})");
-            }
-            else if (_fieldDefinition.FieldType.Equals(SystemFieldTypeConstants.Pointer))
-            {
-                var pointerOption = _fieldDefinition.Option as PointerOption;
-                builder.AppendLine($"\t\t\t\t.{nameof(WithPointerOption)}(new PointerOption\r\n\t\t\t\t{{" + 
-                                   $"\r\n\t\t\t\t\tEntityType = \"{pointerOption.EntityType}\"," + 
-                                   $"\r\n\t\t\t\t\tMultiSelect = {pointerOption.MultiSelect.ToString().ToLower()}" + 
-                                    "\r\n\t\t\t\t})");
-            }
-
             builder.AppendLine($"\t\t\t\t.{nameof(IsMultiCulture)}({_fieldDefinition.MultiCulture.ToString().ToLower()})");
             builder.AppendLine($"\t\t\t\t.{nameof(CanBeGridColumn)}({_fieldDefinition.CanBeGridColumn.ToString().ToLower()})");
             builder.AppendLine($"\t\t\t\t.{nameof(CanBeGridFilter)}({_fieldDefinition.CanBeGridFilter.ToString().ToLower()})");
-            builder.AppendLine("\t\t\t\t.Commit();");
-
-            string GetTextOptions(TextOption textOption)
-                => string.Join(",\r\n\t\t\t\t\t\t", textOption.Items.Select(i => "new TextOption.Item\r\n\t\t\t\t\t\t{" +
-                                                                                 $"\r\n\t\t\t\t\t\t\tValue = \"{i.Value}\"," +
-                                                                                 $"\r\n\t\t\t\t\t\t\tName = {i.Name.GetMigration(7)}" +
-                                                                                 "\r\n\t\t\t\t\t\t}"));
-
         }
     }
 }

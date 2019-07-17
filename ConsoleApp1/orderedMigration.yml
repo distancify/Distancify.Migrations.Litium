@@ -37,6 +37,7 @@
         }
     }
 
+
 - id: _02_Inventories
   baseMigration: ProductionMigration
   className: Inventories
@@ -63,28 +64,90 @@
     query every_field_definition{
         common{
             fieldDefinitions{
-                id,
-                fieldType,
-                areaType,
-                multiCulture,
-                canBeGridColumn,
-                canBeGridFilter
-                systemId,
-                localizations{
-                    culture,
-                    name,
-                    description
-                },
-                option{
-                    multiSelect,
-                    items{
-                        localizations{
-                            culture,
-                            name
-                        },
-                        value
+                primitives{
+                    id,
+                    fieldType,
+                    areaType,
+                    multiCulture,
+                    canBeGridColumn,
+                    canBeGridFilter
+                    systemId,
+                    localizations{
+                        culture,
+                        name,
+                        description
+                    }
+                }
+            }
+        }
+    }
+
+- id: _03_TextOptionFieldDefinitions
+  baseMigration: ProductionMigration
+  className: TextOptionFieldDefinitions
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\_03_TextOptionFieldDefinitions.cs
+  query: |
+    query{
+        common{
+            fieldDefinitions{
+                textOptions{
+                    fieldType,
+                    areaType,
+                    id,
+                    multiCulture,
+                    canBeGridColumn,
+                    canBeGridFilter,
+                    systemDefined,
+                    hidden,
+                    localizations{
+                        culture,
+                        name
                     },
-                    entityType
+                    option{
+                        multiSelect,
+                        manualSort,
+                        items{
+                            localizations{
+                                culture,
+                                name
+                            },
+                            value 
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+- id: _03_PointerFieldDefinitions
+  baseMigration: ProductionMigration
+  className: PointerFieldDefinitions
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\_03_PointerFieldDefinitions.cs
+  query: |
+    query{
+        common{
+            fieldDefinitions{
+                pointers{
+                    fieldType,
+                    areaType,
+                    id,
+                    multiCulture,
+                    canBeGridColumn,
+                    canBeGridFilter,
+                    systemDefined,
+                    hidden,
+                    localizations{
+                        culture,
+                        name
+                    },
+                    option{
+                        multiSelect,
+                        entityType
+                    }                                   
                 }
             }
         }
@@ -488,4 +551,55 @@
                 }
             }
         }
+    }
+
+- id: _13_CategoryDisplayTemplates
+  baseMigration: ProductionMigration
+  className: CategoryDisplayTemplates
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\_13_CategoryDisplayTemplates.cs
+  query: |
+    query{
+        products{
+            categoryDisplayTemplates{
+                id,
+                templatePath,
+                systemId,
+                localizations{
+                    culture,
+                    name
+                },
+                templates{
+                    path,
+                    webSiteSystemId 
+                }
+            }
+        }
+    }
+
+- id: _14_ProductDisplayTemplates
+  baseMigration: ProductionMigration
+  className: ProductDisplayTemplates
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\_14_ProductDisplayTemplates.cs
+  query: |
+    query{
+        products{
+            productDisplayTemplates{
+                id,
+                templatePath,
+                systemId,
+                useVariantUrl,
+                localizations{
+                    culture,
+                    name
+                },
+                templates{
+                    path,
+                    webSiteSystemId 
+                }
+            }       
+        }      
     }

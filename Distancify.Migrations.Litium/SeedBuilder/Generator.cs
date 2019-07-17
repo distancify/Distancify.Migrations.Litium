@@ -37,6 +37,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private readonly OrganizationFieldTemplateRepository _organizationFieldTemplateSeedRepository = new OrganizationFieldTemplateRepository();
         private readonly GroupFieldTemplateRepository _groupFieldTemplateSeedRepository = new GroupFieldTemplateRepository();
         private readonly BlockRepository _blockSeedRepository = new BlockRepository();
+        private readonly TextOptionFieldDefinitionsRepository _textOptionFieldDefinitionsRepository = new TextOptionFieldDefinitionsRepository();
+        private readonly PointerFieldDefinitionRepository _pointerFieldDefinitionRepository = new PointerFieldDefinitionRepository();
 
         private LitiumGraphQlModel.Data data;
 
@@ -69,6 +71,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 seedsCount += _organizationFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _groupFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _blockSeedRepository.NumberOfItems;
+                seedsCount += _textOptionFieldDefinitionsRepository.NumberOfItems;
+                seedsCount += _pointerFieldDefinitionRepository.NumberOfItems;
 
                 return seedsCount;
             }
@@ -117,6 +121,13 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             var migrationBuilder = new StringBuilder();
 
+            _fieldDefinitionRepository.WriteMigration(migrationBuilder);
+
+            _textOptionFieldDefinitionsRepository.WriteMigration(migrationBuilder);
+
+            _pointerFieldDefinitionRepository.WriteMigration(migrationBuilder);
+
+
             _categoryDisplayTemplateSeedRepository.WriteMigration(migrationBuilder);
 
             _productDisplayTemplateRepository.WriteMigration(migrationBuilder);
@@ -142,8 +153,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             _groupFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
 
-
-            _fieldDefinitionRepository.WriteMigration(migrationBuilder);
 
             _languageSeedRepository.WriteMigration(migrationBuilder);
 
@@ -179,7 +188,9 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             if (data.Common != null)
             {
-                AddOrMerge(_fieldDefinitionRepository, data.Common.FieldDefinitions);
+                AddOrMerge(_textOptionFieldDefinitionsRepository, data.Common.FieldDefinitions.TextOptions);
+                AddOrMerge(_fieldDefinitionRepository, data.Common.FieldDefinitions.Primitives);
+                AddOrMerge(_pointerFieldDefinitionRepository, data.Common.FieldDefinitions.Pointers);
             }
 
             if (data.Globalization != null)

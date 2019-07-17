@@ -8,6 +8,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Common
 {
     public class Common
     {
-        public IEnumerable<FieldDefinition> FieldDefinitions { get; set; }
+        public FieldDefinitions FieldDefinitions { get; set; }
     }
 }

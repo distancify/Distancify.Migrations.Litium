@@ -73,13 +73,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 return;
             }
 
-            try
-            {
-                service.Update(_channel);
-            }
-            catch (Exception e)
-            {
-            }
+            service.Update(_channel);
         }
 
 
@@ -127,13 +121,13 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public ChannelSeed WithMarket(string marketId)
         {
-            _channel.MarketSystemId = IoC.Resolve<MarketService>().Get(marketId).SystemId;
+            _channel.MarketSystemId = IoC.Resolve<MarketService>().Get(marketId)?.SystemId;
             return this;
         }
 
         public ChannelSeed WithMarket(Guid marketId)
         {
-            _channel.MarketSystemId = IoC.Resolve<MarketService>().Get(marketId).SystemId;
+            _channel.MarketSystemId = marketId;
             return this;
         }
 

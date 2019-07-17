@@ -393,6 +393,7 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\Blocks.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\BlockToChannelLink.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\Common.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\FieldDefinitions.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\CompositeFieldOption.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\AccessControlOperationEntry.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\Customers.cs" />
@@ -409,6 +410,7 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Globalization.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Market.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\MarketFieldTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\PointerFieldDefinition.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\CategoryDisplayTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\CategoryFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Inventory.cs" />
@@ -416,6 +418,8 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\ProductFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Products.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\UnitOfMeasurement.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\TextOption.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\TextOptionFieldDefinition.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\TextOptionItem.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\BlockContainerDefinition.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Page.cs" />
@@ -434,13 +438,17 @@
     <Compile Include="SeedBuilder\Repositories\MarketRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\OrganizationFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\PersonFieldTemplateRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\PointerFieldDefinitionRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\ProductDisplayTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\ProductFieldTemplateRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\TextOptionFieldDefinitionsRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\Websites\PageRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\UnitOfMeasurementRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\Websites\PageFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\Websites\WebsiteFieldTemplateRepository.cs" />
     <Compile Include="Seeds\BaseSeeds\DisplayTemplateSeed.cs" />
+    <Compile Include="Seeds\BaseSeeds\PointerFieldDefinitionSeed.cs" />
+    <Compile Include="Seeds\BaseSeeds\TextOptionFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\Constants.cs" />
     <Compile Include="Seeds\Countries.cs" />
     <Compile Include="Seeds\Currencies.cs" />
@@ -454,7 +462,7 @@
     <Compile Include="SeedBuilder\IGraphqlClient.cs" />
     <Compile Include="SeedBuilder\Repositories\LanguageRepository.cs" />
     <Compile Include="SeedBuilder\LitiumMigrationGenerator.cs" />
-    <Compile Include="Seeds\Globalization\FieldDefinitionSeed.cs" />
+    <Compile Include="Seeds\BaseSeeds\FieldDefinitionSeed.cs" />
     <Compile Include="SeedBuilder\Repositories\Repository.cs" />
     <Compile Include="SeedBuilder\Generator.cs" />
     <Compile Include="SeedBuilder\Repositories\Websites\WebsiteRepository.cs" />

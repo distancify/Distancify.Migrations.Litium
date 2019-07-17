@@ -67,9 +67,9 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return new BlockSeed(blockClone, blockTemplateId, isNewBlock);
         }
 
-        public BlockSeed IsGlobal(bool isGlobal)
+        public BlockSeed IsGlobal()
         {
-            _block.Global = isGlobal;
+            _block.Global = true;
             return this;
         }
 
@@ -154,13 +154,17 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 builder.AppendLine($"\t\t\t\t.{nameof(WithStatus)}({(short)_block.Status})");
             }
 
+            if (_block.Global)
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(IsGlobal)}()");
+            }
+
             builder.AppendLine("\t\t\t\t.Commit();");
         }
 
         /* TODO
          * AccessControlList
          * Fields
-         * Global
          * Localizations
          */
     }
