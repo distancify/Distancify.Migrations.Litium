@@ -5,7 +5,7 @@ using System;
 using Litium.Security;
 using System.Text;
 
-namespace Distancify.Migrations.Litium.Seeds.Customer
+namespace Distancify.Migrations.Litium.Seeds.Customers
 {
     public class StaticGroupSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Customers.StaticGroup>
     {

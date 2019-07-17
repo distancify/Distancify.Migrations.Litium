@@ -505,11 +505,11 @@
     <Compile Include="Seeds\Globalization\CountrySeed.cs" />
     <Compile Include="Seeds\Cultures.cs" />
     <Compile Include="Seeds\Globalization\CurrencySeed.cs" />
-    <Compile Include="Seeds\Customer\PersonSeed.cs" />
-    <Compile Include="Seeds\Customer\StaticGroupSeed.cs" />
-    <Compile Include="Seeds\Customer\OrganizationFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\Customer\PersonFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\Customer\GroupFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Customers\PersonSeed.cs" />
+    <Compile Include="Seeds\Customers\StaticGroupSeed.cs" />
+    <Compile Include="Seeds\Customers\OrganizationFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Customers\PersonFieldTemplateSeed.cs" />
+    <Compile Include="Seeds\Customers\GroupFieldTemplateSeed.cs" />
     <Compile Include="Data\ConnectionProvider.cs" />
     <Compile Include="Seeds\Globalization\ChannelSeed.cs" />
     <Compile Include="Seeds\Globalization\DomainNameSeed.cs" />

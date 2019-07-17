@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace Distancify.Migrations.Litium.Seeds.Customer
+namespace Distancify.Migrations.Litium.Seeds.Customers
 {
     public class PersonFieldTemplateSeed : FieldTemplateSeed<PersonFieldTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Customers.PersonFieldTemplate>
     {

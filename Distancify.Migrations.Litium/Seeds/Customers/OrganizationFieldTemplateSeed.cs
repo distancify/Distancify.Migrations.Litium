@@ -7,37 +7,37 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace Distancify.Migrations.Litium.Seeds.Customer
+namespace Distancify.Migrations.Litium.Seeds.Customers
 {
-    public class GroupFieldTemplateSeed : FieldTemplateSeed<GroupFieldTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Customers.GroupFieldTemplate>
+    public class OrganizationFieldTemplateSeed : FieldTemplateSeed<OrganizationFieldTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Customers.OrganizationFieldTemplate>
     {
 
-        protected GroupFieldTemplateSeed(GroupFieldTemplate fieldTemplate)
+        protected OrganizationFieldTemplateSeed(OrganizationFieldTemplate fieldTemplate)
             : base(fieldTemplate)
         {
         }
 
-        public static GroupFieldTemplateSeed Ensure(string id)
+        public static OrganizationFieldTemplateSeed Ensure(string id)
         {
-            var fieldTemplate = IoC.Resolve<FieldTemplateService>().Get<GroupFieldTemplate>(id)?.MakeWritableClone();
+            var fieldTemplate = IoC.Resolve<FieldTemplateService>().Get<OrganizationFieldTemplate>(id)?.MakeWritableClone();
 
             if (fieldTemplate is null)
             {
-                fieldTemplate = new GroupFieldTemplate(id);
+                fieldTemplate = new OrganizationFieldTemplate(id);
                 fieldTemplate.SystemId = Guid.Empty;
                 fieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
             }
 
-            return new GroupFieldTemplateSeed(fieldTemplate);
+            return new OrganizationFieldTemplateSeed(fieldTemplate);
         }
 
-        public static GroupFieldTemplateSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Customers.GroupFieldTemplate groupFieldTemplate)
+        public static OrganizationFieldTemplateSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Customers.OrganizationFieldTemplate organizationFieldTemplate)
         {
-            var seed = new GroupFieldTemplateSeed(new GroupFieldTemplate(groupFieldTemplate.Id));
-            return (GroupFieldTemplateSeed)seed.Update(groupFieldTemplate);
+            var seed = new OrganizationFieldTemplateSeed(new OrganizationFieldTemplate(organizationFieldTemplate.Id));
+            return (OrganizationFieldTemplateSeed)seed.Update(organizationFieldTemplate);
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Customers.GroupFieldTemplate> Update(SeedBuilder.LitiumGraphQlModel.Customers.GroupFieldTemplate data)
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Customers.OrganizationFieldTemplate> Update(SeedBuilder.LitiumGraphQlModel.Customers.OrganizationFieldTemplate data)
         {
             fieldTemplate.SystemId = data.SystemId;
             fieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
@@ -68,10 +68,10 @@ namespace Distancify.Migrations.Litium.Seeds.Customer
         {
             if (fieldTemplate == null || string.IsNullOrEmpty(fieldTemplate.Id))
             {
-                throw new NullReferenceException("At least one Group Field Template with an ID obtained from the GraphQL endpoint is needed in order to ensure the Group Field Template");
+                throw new NullReferenceException("At least one Organization Field Template with an ID obtained from the GraphQL endpoint is needed in order to ensure the Organization Field Template");
             }
 
-            builder.AppendLine($"\r\n\t\t\t{nameof(GroupFieldTemplateSeed)}.{nameof(GroupFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\")");
+            builder.AppendLine($"\r\n\t\t\t{nameof(OrganizationFieldTemplateSeed)}.{nameof(OrganizationFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\")");
 
             foreach (var localization in fieldTemplate.Localizations)
             {

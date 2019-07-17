@@ -1,6 +1,6 @@
 ﻿using Distancify.Migrations.Litium.Data;
 using Distancify.Migrations.Litium.Seeds;
-using Distancify.Migrations.Litium.Seeds.Customer;
+using Distancify.Migrations.Litium.Seeds.Customers;
 using Distancify.Migrations.Litium.Seeds.Media;
 using Litium.Media;
 using System;

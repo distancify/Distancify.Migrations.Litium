@@ -1,5 +1,5 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Customers;
-using Distancify.Migrations.Litium.Seeds.Customer;
+using Distancify.Migrations.Litium.Seeds.Customers;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.Repositories
 {
