@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel
+namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
 {
     public class Language : GraphQlObject
     {

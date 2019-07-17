@@ -1,4 +1,4 @@
-﻿namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel
+﻿namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
 {
     public class Block : GraphQlObject
     {

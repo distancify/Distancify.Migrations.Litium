@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
-    public class ChannelSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Channel>
+    public class ChannelSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Channel>
     {
         private readonly Channel channel;
         private string fieldTemplateId;
@@ -29,7 +29,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return Ensure(channel, fieldTemplateId);
         }
 
-        internal static ChannelSeed CreateFrom(SeedBuilder.LitiumGraphqlModel.Channel channel)
+        internal static ChannelSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Channel channel)
         {
             var seed = new ChannelSeed(new Channel(Guid.Empty), string.Empty);
             return (ChannelSeed)seed.Update(channel);
@@ -230,7 +230,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         private Dictionary<Guid, string> domainNameIdDictionary;
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Channel> Update(SeedBuilder.LitiumGraphqlModel.Channel channel)
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Channel> Update(SeedBuilder.LitiumGraphQlModel.Channel channel)
         {
             if (channel.FieldTemplate == null || string.IsNullOrEmpty(channel.FieldTemplate.Id))
             {

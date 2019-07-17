@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Products
 {
-    public class AssortmentSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Assortment>
+    public class AssortmentSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Assortment>
     {
         private readonly Assortment assortment;
 
@@ -41,7 +41,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return new AssortmentSeed(assortmentClone);
         }
 
-        internal static AssortmentSeed CreateFrom(SeedBuilder.LitiumGraphqlModel.Assortment assortment)
+        internal static AssortmentSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Assortment assortment)
         {
             var seed = new AssortmentSeed(new Assortment());
             return (AssortmentSeed)seed.Update(assortment);
@@ -58,7 +58,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return this;
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Assortment> Update(SeedBuilder.LitiumGraphqlModel.Assortment data)
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Assortment> Update(SeedBuilder.LitiumGraphQlModel.Assortment data)
         {
             this.assortment.Id = data.Id;
             return this;

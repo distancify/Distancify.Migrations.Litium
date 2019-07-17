@@ -1,4 +1,4 @@
-﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphqlModel;
+﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
 using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds

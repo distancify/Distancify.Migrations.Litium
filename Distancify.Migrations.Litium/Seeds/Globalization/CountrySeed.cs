@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
-    public class CountrySeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Country>
+    public class CountrySeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Country>
     {
         private readonly Country country;
         private string currencyId;
@@ -49,7 +49,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return new CountrySeed(country, currencyId);
         }
 
-        internal static CountrySeed CreateFrom(SeedBuilder.LitiumGraphqlModel.Country country)
+        internal static CountrySeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Country country)
         {
             var seed = new CountrySeed(new Country(Guid.Empty), string.Empty);
             return (CountrySeed)seed.Update(country);
@@ -81,7 +81,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphqlModel.Country> Update(SeedBuilder.LitiumGraphqlModel.Country data)
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Country> Update(SeedBuilder.LitiumGraphQlModel.Country data)
         {
             this.country.Id = data.Id;
             if (data.Currency != null)

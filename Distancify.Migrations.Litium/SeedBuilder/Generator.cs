@@ -85,7 +85,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             return migrationBuilder.ToString();
         }
 
-        public void PopulateSeedsWithData(LitiumGraphqlModel.Data data)
+        public void PopulateSeedsWithData(LitiumGraphQlModel.Data data)
         {
 
 
