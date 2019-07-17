@@ -15,7 +15,5 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
         public bool CanBeGridFilter { get; set; }
 
         public List<FieldLocalization> Localizations { get; set; }
-
-        public CompositeFieldOption Option { get; set; }
     }
 }

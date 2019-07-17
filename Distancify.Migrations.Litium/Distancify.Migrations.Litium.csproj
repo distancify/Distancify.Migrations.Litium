@@ -401,6 +401,9 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\OrganizationFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\PersonFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\StaticGroup.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\DecimalOption.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\DecimalOptionFieldDefinition.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\DecimalOptionItem.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\DisplayTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\DisplayTemplateToWebsiteLink.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldDefinition.cs" />
@@ -410,7 +413,10 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Globalization.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Market.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\MarketFieldTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\MultiFieldDefinition.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\MultiFieldOption.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\PointerFieldDefinition.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\PointerOption.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\CategoryDisplayTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\CategoryFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Inventory.cs" />
@@ -431,11 +437,13 @@
     <Compile Include="SeedBuilder\Repositories\CategoryDisplayTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\CategoryFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\ChannelFieldTemplateRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\DecimalOptionFieldDefintionRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\FieldDefinitionRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\GroupFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\InventoryRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\MultiFieldDefinitionRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\OrganizationFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\PersonFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\PointerFieldDefinitionRepository.cs" />
@@ -446,7 +454,9 @@
     <Compile Include="SeedBuilder\Repositories\UnitOfMeasurementRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\Websites\PageFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\Websites\WebsiteFieldTemplateRepository.cs" />
+    <Compile Include="Seeds\BaseSeeds\DecimalOptionFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\BaseSeeds\DisplayTemplateSeed.cs" />
+    <Compile Include="Seeds\BaseSeeds\MultiFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\BaseSeeds\PointerFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\BaseSeeds\TextOptionFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\Constants.cs" />

@@ -37,8 +37,10 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private readonly OrganizationFieldTemplateRepository _organizationFieldTemplateSeedRepository = new OrganizationFieldTemplateRepository();
         private readonly GroupFieldTemplateRepository _groupFieldTemplateSeedRepository = new GroupFieldTemplateRepository();
         private readonly BlockRepository _blockSeedRepository = new BlockRepository();
-        private readonly TextOptionFieldDefinitionsRepository _textOptionFieldDefinitionsRepository = new TextOptionFieldDefinitionsRepository();
-        private readonly PointerFieldDefinitionRepository _pointerFieldDefinitionRepository = new PointerFieldDefinitionRepository();
+        private readonly TextOptionFieldDefinitionsRepository _textOptionFieldDefinitionsSeedRepository = new TextOptionFieldDefinitionsRepository();
+        private readonly PointerFieldDefinitionRepository _pointerFieldDefinitionSeedRepository = new PointerFieldDefinitionRepository();
+        private readonly MultiFieldDefinitionRepository _multiFieldDefinitionSeedRepository = new MultiFieldDefinitionRepository();
+        private readonly DecimalOptionFieldDefintionRepository _decimalOptionFieldDefintionSeedRepository = new DecimalOptionFieldDefintionRepository();
 
         private LitiumGraphQlModel.Data data;
 
@@ -71,8 +73,10 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 seedsCount += _organizationFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _groupFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _blockSeedRepository.NumberOfItems;
-                seedsCount += _textOptionFieldDefinitionsRepository.NumberOfItems;
-                seedsCount += _pointerFieldDefinitionRepository.NumberOfItems;
+                seedsCount += _textOptionFieldDefinitionsSeedRepository.NumberOfItems;
+                seedsCount += _pointerFieldDefinitionSeedRepository.NumberOfItems;
+                seedsCount += _multiFieldDefinitionSeedRepository.NumberOfItems;
+                seedsCount += _decimalOptionFieldDefintionSeedRepository.NumberOfItems;
 
                 return seedsCount;
             }
@@ -123,9 +127,13 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             _fieldDefinitionRepository.WriteMigration(migrationBuilder);
 
-            _textOptionFieldDefinitionsRepository.WriteMigration(migrationBuilder);
+            _textOptionFieldDefinitionsSeedRepository.WriteMigration(migrationBuilder);
 
-            _pointerFieldDefinitionRepository.WriteMigration(migrationBuilder);
+            _pointerFieldDefinitionSeedRepository.WriteMigration(migrationBuilder);
+
+            _multiFieldDefinitionSeedRepository.WriteMigration(migrationBuilder);
+
+            _decimalOptionFieldDefintionSeedRepository.WriteMigration(migrationBuilder);
 
 
             _categoryDisplayTemplateSeedRepository.WriteMigration(migrationBuilder);
@@ -188,9 +196,11 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             if (data.Common != null)
             {
-                AddOrMerge(_textOptionFieldDefinitionsRepository, data.Common.FieldDefinitions.TextOptions);
+                AddOrMerge(_decimalOptionFieldDefintionSeedRepository, data.Common.FieldDefinitions.DecimalOptions);
+                AddOrMerge(_multiFieldDefinitionSeedRepository, data.Common.FieldDefinitions.MultiFields);
+                AddOrMerge(_textOptionFieldDefinitionsSeedRepository, data.Common.FieldDefinitions.TextOptions);
                 AddOrMerge(_fieldDefinitionRepository, data.Common.FieldDefinitions.Primitives);
-                AddOrMerge(_pointerFieldDefinitionRepository, data.Common.FieldDefinitions.Pointers);
+                AddOrMerge(_pointerFieldDefinitionSeedRepository, data.Common.FieldDefinitions.Pointers);
             }
 
             if (data.Globalization != null)

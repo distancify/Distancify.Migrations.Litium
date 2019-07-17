@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using Litium.Validations;
 
-namespace Distancify.Migrations.Litium.Seeds.Globalization
+namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
 {
     public class FieldDefinitionSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldDefinition>
     {

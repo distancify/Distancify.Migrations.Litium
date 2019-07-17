@@ -2,7 +2,6 @@
 {
     public class PointerFieldDefinition : FieldDefinition
     {
-        public string EntityType { get; set; }
-        public bool MultiSelect { get; set; }
+        public PointerOption Option { get; set; }
     }
 }

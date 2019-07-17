@@ -153,6 +153,78 @@
         }
     }
 
+- id: _03_MultiFieldDefinitions
+  baseMigration: ProductionMigration
+  className: MultiFieldDefinitions
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\_03_MultiFieldDefinitions.cs
+  query: |
+    query{
+        common{
+            fieldDefinitions{
+                multiFields{
+                    fieldType,
+                    areaType,
+                    id,
+                    multiCulture,
+                    canBeGridColumn,
+                    canBeGridFilter,
+                    systemDefined,
+                    hidden,
+                    localizations{
+                        culture,
+                        name
+                    },
+                    option{
+                        isArray,
+                        fields
+                    }       
+                }
+            }
+        }
+    }
+
+- id: _03_DecimalOptionFieldDefinitions
+  baseMigration: ProductionMigration
+  className: DecimalOptionFieldDefinitions
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\_03_DecimalOptionFieldDefinitions.cs
+  query: |
+    query{
+        common{
+            fieldDefinitions{
+                decimalOptions{
+                    fieldType,
+                    areaType,
+                    id,
+                    multiCulture,
+                    canBeGridColumn,
+                    canBeGridFilter,
+                    systemDefined,
+                    hidden,
+                    localizations{
+                        culture,
+                        name
+                    },
+                    option{
+                        multiSelect,
+                        manualSort,
+                        items{
+                            localizations{
+                                culture,
+                                name
+                            },
+                            value 
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
 - id: _04_ChannelFieldTemplates
   baseMigration: ProductionMigration
   className: ChannelFieldTemplates

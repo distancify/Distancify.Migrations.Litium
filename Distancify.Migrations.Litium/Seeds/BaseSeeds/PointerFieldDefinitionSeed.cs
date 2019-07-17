@@ -58,7 +58,7 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
         }
 
 
-        public FieldDefinitionSeed WithPointerOption(PointerOption pointerOption)
+        public PointerFieldDefinitionSeed WithPointerOption(PointerOption pointerOption)
         {
             _fieldDefinition.Option = pointerOption;
 
