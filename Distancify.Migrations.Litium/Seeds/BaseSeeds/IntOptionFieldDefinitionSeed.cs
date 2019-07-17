@@ -106,13 +106,13 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
             var decimalOption = _fieldDefinition.Option as IntOption;
             builder.AppendLine($"\t\t\t\t.{nameof(WithIntOption)}(new IntOption()\r\n\t\t\t\t{{" +
                                $"\r\n\t\t\t\t\t{nameof(TextOption.MultiSelect)} = {decimalOption.MultiSelect.ToString().ToLower()}," +
-                               $"\r\n\t\t\t\t\t{nameof(TextOption.Items)} = new List<IntOption.Item>\r\n\t\t\t\t\t{{\r\n\t\t\t\t\t\t{GetDecimalOptions()}" +
+                               $"\r\n\t\t\t\t\t{nameof(TextOption.Items)} = new List<IntOption.Item>\r\n\t\t\t\t\t{{\r\n\t\t\t\t\t\t{GetIntOptions()}" +
                                 "\r\n\t\t\t\t\t}\r\n\t\t\t\t})");
 
             WritePropertiesMigration(builder);
             builder.AppendLine("\t\t\t\t.Commit();");
 
-            string GetDecimalOptions()
+            string GetIntOptions()
                 => string.Join(",\r\n\t\t\t\t\t\t", decimalOption.Items.Select(i => "new IntOption.Item\r\n\t\t\t\t\t\t{" +
                                                                                  $"\r\n\t\t\t\t\t\t\tValue = {i.Value.ToString()}," +
                                                                                  $"\r\n\t\t\t\t\t\t\tName = {i.Name.GetMigration(7)}" +
