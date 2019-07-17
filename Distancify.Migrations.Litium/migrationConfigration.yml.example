@@ -1,0 +1,37 @@
+--- 
+- id: Migration1
+  baseMigration: DevelopmentMigration
+  className: TestMigration1
+  host: http://localhost:56666
+  namespace: Eqquo.Litium.Migrations.Production.Development
+  output: c:\temp\migration\test1.cs
+  query: |
+    query{
+      channels{
+        id,
+        fieldTemplate{
+          id
+        },
+        countries{
+          id,
+          currency{
+            id
+          }
+        }
+      }
+    }
+- id: Migration2
+  baseMigration: DevelopmentMigration
+  className: TestMigration2
+  host: http://localhost:56666
+  namespace: Eqquo.Litium.Migrations.Production.Development
+  output: c:\temp\migration\test2.cs
+  query: |
+    query{
+      channels{
+        id,
+        fieldTemplate{
+          id
+        }
+      }
+    }

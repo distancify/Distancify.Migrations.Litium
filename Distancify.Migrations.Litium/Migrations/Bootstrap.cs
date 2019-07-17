@@ -25,18 +25,18 @@ namespace Distancify.Migrations.Litium.Migrations
                 .Add("/", "~/Litium/", true)
                 .Commit();
 
-            GroupFieldTemplateSeed.Ensure(LitiumConstants.DefaultSystemGroupTemplate)
+            GroupFieldTemplateSeed.Ensure(Constants.DefaultSystemGroupTemplate)
                 .Commit();
-            PersonFieldTemplateSeed.Ensure(LitiumConstants.DefaultSystemUserTemplate)
-                .Commit();
-
-            StaticGroupSeed.Ensure(LitiumConstants.Visitors, LitiumConstants.DefaultSystemGroupTemplate)
+            PersonFieldTemplateSeed.Ensure(Constants.DefaultSystemUserTemplate)
                 .Commit();
 
-            PersonSeed.EnsureSystem(LitiumConstants.DefaultSystemUserTemplate)
+            StaticGroupSeed.Ensure(Constants.Visitors, Constants.DefaultSystemGroupTemplate)
                 .Commit();
-            PersonSeed.EnsureEveryone(LitiumConstants.DefaultSystemUserTemplate)
-                .WithGroupLink(LitiumConstants.Visitors)
+
+            PersonSeed.EnsureSystem(Constants.DefaultSystemUserTemplate)
+                .Commit();
+            PersonSeed.EnsureEveryone(Constants.DefaultSystemUserTemplate)
+                .WithGroupLink(Constants.Visitors)
                 .Commit();
 
             FolderFieldTemplateSeed.Ensure("DefaultFolderTemplate")
