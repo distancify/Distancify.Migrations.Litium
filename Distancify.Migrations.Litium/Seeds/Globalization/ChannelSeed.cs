@@ -8,6 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Globalization;
+using Channel = Litium.Globalization.Channel;
+using ChannelFieldTemplate = Litium.Globalization.ChannelFieldTemplate;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
@@ -246,7 +249,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return (ChannelSeed)seed.Update(channel);
         }
 
-        private Dictionary<Guid, string> _domainNameIdDictionary;
+        private Dictionary<Guid, ChannelDomainLink> _domainNameIdDictionary;
         private Dictionary<Guid, string> _countryNameIdDictionary;
 
         public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Globalization.Channel> Update(SeedBuilder.LitiumGraphQlModel.Globalization.Channel channel)
@@ -289,11 +292,11 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
             if (channel.Domains != null)
             {
-                _domainNameIdDictionary = new Dictionary<Guid, string>();
+                _domainNameIdDictionary = new Dictionary<Guid, ChannelDomainLink>();
 
                 foreach (var d in channel.Domains)
                 {
-                    _domainNameIdDictionary.Add(d.Domain.SystemId, d.Domain.Id);
+                    _domainNameIdDictionary.Add(d.Domain.SystemId, d);
                     _channel.DomainNameLinks.Add(new ChannelToDomainNameLink(d.Domain.SystemId));
                 }
             }
@@ -357,10 +360,12 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                     {
                         throw new NullReferenceException("Can't ensure with domain link if no Domain is returned from GraphQL endpoint as part of Channel");
                     }
-                    builder.Append($"\t\t\t\t.{nameof(WithDomainNameLink)}(\"{_domainNameIdDictionary[d.DomainNameSystemId]}\"");
-
-                    //d.Redirect //redirect
-                    //d.UrlPrefix //urlPrefix
+                    builder.Append($"\t\t\t\t.{nameof(WithDomainNameLink)}(\"{_domainNameIdDictionary[d.DomainNameSystemId].Domain.Id}\"");
+                    builder.Append($", {_domainNameIdDictionary[d.DomainNameSystemId].Redirect.ToString().ToLower()}");
+                    if (!string.IsNullOrEmpty(_domainNameIdDictionary[d.DomainNameSystemId].UrlPrefix))
+                    {
+                        builder.Append($", \"{_domainNameIdDictionary[d.DomainNameSystemId].UrlPrefix}\"");
+                    }
                     builder.AppendLine(")");
                 }
             }
