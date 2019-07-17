@@ -78,13 +78,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Distancify.Migrations.Litium\Distancify.Migrations.Litium.csproj">
       <Project>{ab6964f2-ebfa-4775-bddd-c1860ea66a47}</Project>
       <Name>Distancify.Migrations.Litium</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
