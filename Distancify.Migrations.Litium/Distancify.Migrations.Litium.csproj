@@ -413,6 +413,9 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Globalization.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Market.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\MarketFieldTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\IntOption.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\IntOptionFieldDefinition.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\IntOptionItem.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\MultiFieldDefinition.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\MultiFieldOption.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\PointerFieldDefinition.cs" />
@@ -440,6 +443,7 @@
     <Compile Include="SeedBuilder\Repositories\DecimalOptionFieldDefintionRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\FieldDefinitionRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\GroupFieldTemplateRepository.cs" />
+    <Compile Include="SeedBuilder\Repositories\IntOptionFieldDefinitionRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\InventoryRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketFieldTemplateRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\MarketRepository.cs" />
@@ -456,6 +460,7 @@
     <Compile Include="SeedBuilder\Repositories\Websites\WebsiteFieldTemplateRepository.cs" />
     <Compile Include="Seeds\BaseSeeds\DecimalOptionFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\BaseSeeds\DisplayTemplateSeed.cs" />
+    <Compile Include="Seeds\BaseSeeds\IntOptionFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\BaseSeeds\MultiFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\BaseSeeds\PointerFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\BaseSeeds\TextOptionFieldDefinitionSeed.cs" />

@@ -224,6 +224,45 @@
         }
     }
 
+- id: _03_IntOptionFieldDefinitions
+  baseMigration: ProductionMigration
+  className: IntOptionFieldDefinitions
+  host: http://localhost
+  namespace: KidsConcept.Web.Migrations.Production
+  output: C:\KidsMigrations\_03_IntOptionFieldDefinitions.cs
+  query: |
+    query{
+        common{
+            fieldDefinitions{
+                intOptions{
+                    fieldType,
+                    areaType,
+                    id,
+                    multiCulture,
+                    canBeGridColumn,
+                    canBeGridFilter,
+                    systemDefined,
+                    hidden,
+                    localizations{
+                        culture,
+                        name
+                    },
+                    option{
+                        multiSelect,
+                        manualSort,
+                        items{
+                            localizations{
+                                culture,
+                                name
+                            },
+                            value 
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
 - id: _04_ChannelFieldTemplates
   baseMigration: ProductionMigration

@@ -9,6 +9,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
     public class IntOptionItem
     {
         public int Value { get; set; }
-        public List<FieldDefinition> Localizations { get; set; }
+        public List<FieldLocalization> Localizations { get; set; }
     }
 }

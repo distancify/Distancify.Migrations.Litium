@@ -9,5 +9,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Common
         public IEnumerable<PointerFieldDefinition> Pointers { get; set; }
         public IEnumerable<MultiFieldDefinition> MultiFields { get; set; }
         public IEnumerable<DecimalOptionFieldDefinition> DecimalOptions { get; set; }
+        public IEnumerable<IntOptionFieldDefinition> IntOptions { get; set; }
     }
 }

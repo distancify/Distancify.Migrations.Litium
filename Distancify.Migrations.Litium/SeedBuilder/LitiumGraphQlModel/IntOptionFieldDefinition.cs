@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
 {
-    public class IntOptionFieldDefintion : FieldDefinition
+    public class IntOptionFieldDefinition : FieldDefinition
     {
+        public IntOption Option { get; set; }
     }
 }

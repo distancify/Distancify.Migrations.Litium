@@ -41,6 +41,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private readonly PointerFieldDefinitionRepository _pointerFieldDefinitionSeedRepository = new PointerFieldDefinitionRepository();
         private readonly MultiFieldDefinitionRepository _multiFieldDefinitionSeedRepository = new MultiFieldDefinitionRepository();
         private readonly DecimalOptionFieldDefintionRepository _decimalOptionFieldDefintionSeedRepository = new DecimalOptionFieldDefintionRepository();
+        private readonly IntOptionFieldDefinitionRepository _intOptionFieldDefinitionSeedRepository = new IntOptionFieldDefinitionRepository();
 
         private LitiumGraphQlModel.Data data;
 
@@ -77,6 +78,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 seedsCount += _pointerFieldDefinitionSeedRepository.NumberOfItems;
                 seedsCount += _multiFieldDefinitionSeedRepository.NumberOfItems;
                 seedsCount += _decimalOptionFieldDefintionSeedRepository.NumberOfItems;
+                seedsCount += _intOptionFieldDefinitionSeedRepository.NumberOfItems;
 
                 return seedsCount;
             }
@@ -134,6 +136,8 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             _multiFieldDefinitionSeedRepository.WriteMigration(migrationBuilder);
 
             _decimalOptionFieldDefintionSeedRepository.WriteMigration(migrationBuilder);
+
+            _intOptionFieldDefinitionSeedRepository.WriteMigration(migrationBuilder);
 
 
             _categoryDisplayTemplateSeedRepository.WriteMigration(migrationBuilder);
@@ -196,6 +200,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             if (data.Common != null)
             {
+                AddOrMerge(_intOptionFieldDefinitionSeedRepository, data.Common.FieldDefinitions.IntOptions);
                 AddOrMerge(_decimalOptionFieldDefintionSeedRepository, data.Common.FieldDefinitions.DecimalOptions);
                 AddOrMerge(_multiFieldDefinitionSeedRepository, data.Common.FieldDefinitions.MultiFields);
                 AddOrMerge(_textOptionFieldDefinitionsSeedRepository, data.Common.FieldDefinitions.TextOptions);
