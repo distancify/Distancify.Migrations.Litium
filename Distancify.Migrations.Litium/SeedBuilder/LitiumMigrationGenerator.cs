@@ -36,7 +36,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         public GeneratedFile GenerateFile(MigrationConfiguration configuration)
         {
             var responseContainer = graphqlClient.FetchFromGraphql(configuration).GetAwaiter().GetResult();
-            if (responseContainer == null)
+            if (responseContainer == null || responseContainer.Data == null)
             {
                 throw new NullReferenceException("Data object from GraphQL is null, something might be wrong with the query");
             }
@@ -54,11 +54,14 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             var template = Template.Parse(@"
 using System;
-using Distancify.Migrations.Litium;
+using Distancify.Migrations.Litium.Seeds.Globalization;
+using Distancify.Migrations.Litium.Seeds.Products;
+using Distancify.Migrations.Litium.Seeds.Websites;
+using Distancify.Migrations.Litium.Seeds.Customers;
+using Distancify.Migrations.Litium.Seeds.Media;
 
 namespace {{ config.namespace }}
 {
-    [Distancify.Migrations.MigrationOrder(""{{ config.id }}"")]
 	public class {{ config.class_name }} : {{ config.base_migration }}
 	{
 		public override void Apply()

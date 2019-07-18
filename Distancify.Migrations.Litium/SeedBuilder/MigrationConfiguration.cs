@@ -2,10 +2,6 @@
 {
     public class MigrationConfiguration
     {
-        /// <summary>
-        /// ID of the configuration
-        /// </summary>
-        public string Id { get; set; }
 
         /// <summary>
         /// Hostname including protocol for GraphQL server
