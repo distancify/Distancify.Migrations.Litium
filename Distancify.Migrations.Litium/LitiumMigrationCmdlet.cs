@@ -22,7 +22,15 @@ namespace Distancify.Migrations.Litium
             foreach (var f in files)
             {
                 if (File.Exists(f.Filepath))
+                {
                     File.Delete(f.Filepath);
+                }
+
+                if (!Directory.Exists(f.Filepath))
+                {
+                    Directory.CreateDirectory(f.Filepath);
+                }
+
                 File.WriteAllText(f.Filepath, f.Content);
             }
         }
