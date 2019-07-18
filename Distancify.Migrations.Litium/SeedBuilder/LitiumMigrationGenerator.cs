@@ -50,7 +50,11 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             var builder = new StringBuilder();
             builder.Append(seedRepository.GenerateMigration());
 
-            var template = Template.Parse(@"
+            var template = Template.Parse(@"/************************************************************
+ * This is a generated file by Distancify.Litium.Migrations *
+ * Do not attempt to edit it directly.                      *
+ ************************************************************/
+
 using System;
 using System.Collections.Generic;
 using Distancify.Migrations.Litium;
