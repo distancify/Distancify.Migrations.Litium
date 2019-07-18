@@ -36,7 +36,7 @@ of `Distancify.Migrations.Migration`, this will be automatically taken care of f
 If you have a set of migrations that you want to run on all environments, you can make sure these are applied everywhere by creating a startup task:
 
 ```csharp
-public class MigrationsSetup : IStartupTask
+public class MigrationsSetup : IPostSetupTask
 {
     private readonly MigrationService migrationService;
 
@@ -45,7 +45,7 @@ public class MigrationsSetup : IStartupTask
         this.migrationService = migrationService;
     }
 
-    public void Start()
+    public void PostSetup(IEnumerable<Assembly> assemblies)
     {
         using (Solution.Instance.SystemToken.Use())
         {
