@@ -69,20 +69,20 @@
     <Reference Include="iTextSharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
       <HintPath>..\packages\iTextSharp-LGPL.4.1.6\lib\iTextSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Abstractions, Version=7.2.2.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Abstractions.7.2.2\lib\netstandard2.0\Litium.Abstractions.dll</HintPath>
+    <Reference Include="Litium.Abstractions, Version=7.2.3.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Abstractions.7.2.3\lib\netstandard2.0\Litium.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Application, Version=7.2.2.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Application.7.2.2\lib\netstandard2.0\Litium.Application.dll</HintPath>
+    <Reference Include="Litium.Application, Version=7.2.3.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Application.7.2.3\lib\netstandard2.0\Litium.Application.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Application.Bootstrapper, Version=7.2.2.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Application.Bootstrapper.7.2.2\lib\net472\Litium.Application.Bootstrapper.dll</HintPath>
+    <Reference Include="Litium.Application.Bootstrapper, Version=7.2.3.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Application.Bootstrapper.7.2.3\lib\net472\Litium.Application.Bootstrapper.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Foundation, Version=7.2.2.0, Culture=neutral, PublicKeyToken=e47737e618208e4b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Foundation.7.2.2\lib\net472\Litium.Foundation.dll</HintPath>
+    <Reference Include="Litium.Foundation, Version=7.2.3.0, Culture=neutral, PublicKeyToken=e47737e618208e4b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Foundation.7.2.3\lib\net472\Litium.Foundation.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Foundation.GUI, Version=7.2.2.0, Culture=neutral, PublicKeyToken=a40357825b856809, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Foundation.GUI.7.2.2\lib\net472\Litium.Foundation.GUI.dll</HintPath>
+    <Reference Include="Litium.Foundation.GUI, Version=7.2.3.0, Culture=neutral, PublicKeyToken=a40357825b856809, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Foundation.GUI.7.2.3\lib\net472\Litium.Foundation.GUI.dll</HintPath>
     </Reference>
     <Reference Include="Litium.Framework.Search, Version=5.1.2.0, Culture=neutral, PublicKeyToken=8232cca59cf208c4, processorArchitecture=MSIL">
       <HintPath>..\packages\Litium.Framework.Search.5.1.2\lib\net472\Litium.Framework.Search.dll</HintPath>
@@ -96,32 +96,32 @@
     <Reference Include="Litium.Framework.Search.Lucene, Version=5.1.2.0, Culture=neutral, PublicKeyToken=680e140f5b6dd0c7, processorArchitecture=MSIL">
       <HintPath>..\packages\Litium.Framework.Search.Lucene.5.1.2\lib\net472\Litium.Framework.Search.Lucene.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Infrastructure.InversionOfControl, Version=7.2.2.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Infrastructure.InversionOfControl.7.2.2\lib\net472\Litium.Infrastructure.InversionOfControl.dll</HintPath>
+    <Reference Include="Litium.Infrastructure.InversionOfControl, Version=7.2.3.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Infrastructure.InversionOfControl.7.2.3\lib\net472\Litium.Infrastructure.InversionOfControl.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Infrastructure.Logging.NLog, Version=7.2.2.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Infrastructure.Logging.NLog.7.2.2\lib\net472\Litium.Infrastructure.Logging.NLog.dll</HintPath>
+    <Reference Include="Litium.Infrastructure.Logging.NLog, Version=7.2.3.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Infrastructure.Logging.NLog.7.2.3\lib\net472\Litium.Infrastructure.Logging.NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Infrastructure.Logging.NLog.Extensions, Version=7.2.2.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Infrastructure.Logging.NLog.Extensions.7.2.2\lib\net472\Litium.Infrastructure.Logging.NLog.Extensions.dll</HintPath>
+    <Reference Include="Litium.Infrastructure.Logging.NLog.Extensions, Version=7.2.3.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Infrastructure.Logging.NLog.Extensions.7.2.3\lib\net472\Litium.Infrastructure.Logging.NLog.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Infrastructure.Search.Lucene, Version=7.2.2.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Infrastructure.Search.Lucene.7.2.2\lib\net472\Litium.Infrastructure.Search.Lucene.dll</HintPath>
+    <Reference Include="Litium.Infrastructure.Search.Lucene, Version=7.2.3.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Infrastructure.Search.Lucene.7.2.3\lib\net472\Litium.Infrastructure.Search.Lucene.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Owin, Version=7.2.2.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Owin.7.2.2\lib\net472\Litium.Owin.dll</HintPath>
+    <Reference Include="Litium.Owin, Version=7.2.3.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Owin.7.2.3\lib\net472\Litium.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Studio, Version=7.2.2.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Studio.7.2.2\lib\net472\Litium.Studio.dll</HintPath>
+    <Reference Include="Litium.Studio, Version=7.2.3.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Studio.7.2.3\lib\net472\Litium.Studio.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Studio.Builders, Version=7.2.2.0, Culture=neutral, PublicKeyToken=e47737e618208e4b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Studio.Builders.7.2.2\lib\net472\Litium.Studio.Builders.dll</HintPath>
+    <Reference Include="Litium.Studio.Builders, Version=7.2.3.0, Culture=neutral, PublicKeyToken=e47737e618208e4b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Studio.Builders.7.2.3\lib\net472\Litium.Studio.Builders.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Studio.Packages, Version=7.2.2.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Studio.Packages.7.2.2\lib\net472\Litium.Studio.Packages.dll</HintPath>
+    <Reference Include="Litium.Studio.Packages, Version=7.2.3.0, Culture=neutral, PublicKeyToken=093d4a638630e7c5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Studio.Packages.7.2.3\lib\net472\Litium.Studio.Packages.dll</HintPath>
     </Reference>
-    <Reference Include="Litium.Utilities, Version=7.2.2.0, Culture=neutral, PublicKeyToken=640ada3058909375, processorArchitecture=MSIL">
-      <HintPath>..\packages\Litium.Utilities.7.2.2\lib\net472\Litium.Utilities.dll</HintPath>
+    <Reference Include="Litium.Utilities, Version=7.2.3.0, Culture=neutral, PublicKeyToken=640ada3058909375, processorArchitecture=MSIL">
+      <HintPath>..\packages\Litium.Utilities.7.2.3\lib\net472\Litium.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
       <HintPath>..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
