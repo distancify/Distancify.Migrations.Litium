@@ -11,6 +11,8 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 {
     public class CategoryFieldTemplateSeed : FieldTemplateSeed<CategoryFieldTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.CategoryFieldTemplate>
     {
+        private string _displayTemplateId;
+
         public CategoryFieldTemplateSeed(CategoryFieldTemplate fieldTemplate) : base(fieldTemplate)
         {
         }
@@ -55,7 +57,10 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.CategoryFieldTemplate> Update(SeedBuilder.LitiumGraphQlModel.Products.CategoryFieldTemplate data)
         {
             fieldTemplate.SystemId = data.SystemId;
+            fieldTemplate.DisplayTemplateSystemId = data.DisplayTemplate.SystemId;
             fieldTemplate.CategoryFieldGroups = new List<FieldTemplateFieldGroup>();
+
+            _displayTemplateId = data.DisplayTemplate.Id;
 
             foreach (var fieldGroup in data.FieldGroups)
             {
@@ -86,9 +91,17 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                 throw new NullReferenceException("At least one Category Field Template with an ID obtained from the GraphQL endpoint is needed in order to ensure the Category Field Template");
             }
 
-            builder.AppendLine($"\r\n\t\t\t{nameof(CategoryFieldTemplateSeed)}.{nameof(CategoryFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\", " +
-                               $"Guid.Parse(\"{fieldTemplate.DisplayTemplateSystemId.ToString()}\"))");
+            if (string.IsNullOrWhiteSpace(_displayTemplateId))
+            {
+                builder.AppendLine($"\r\n\t\t\t{nameof(CategoryFieldTemplateSeed)}.{nameof(CategoryFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\", " +
+                                   $"Guid.Parse(\"{fieldTemplate.DisplayTemplateSystemId.ToString()}\"))");
+            }
+            else
+            {
+                builder.AppendLine($"\r\n\t\t\t{nameof(CategoryFieldTemplateSeed)}.{nameof(CategoryFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\", " +
+                   $"\"{_displayTemplateId}\")");
 
+            }
             foreach (var localization in fieldTemplate.Localizations)
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");

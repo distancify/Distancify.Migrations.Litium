@@ -11,6 +11,8 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 {
     public class ProductFieldTemplateSeed : FieldTemplateSeed<ProductFieldTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.ProductFieldTemplate>
     {
+        private string _displayTemplateId;
+
         public ProductFieldTemplateSeed(ProductFieldTemplate fieldTemplate) : base(fieldTemplate)
         {
         }
@@ -69,8 +71,11 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.ProductFieldTemplate> Update(SeedBuilder.LitiumGraphQlModel.Products.ProductFieldTemplate data)
         {
             fieldTemplate.SystemId = data.SystemId;
+            fieldTemplate.DisplayTemplateSystemId = data.DisplayTemplate.SystemId;
             fieldTemplate.ProductFieldGroups = new List<FieldTemplateFieldGroup>();
             fieldTemplate.VariantFieldGroups = new List<FieldTemplateFieldGroup>();
+
+            _displayTemplateId = data.DisplayTemplate.Id;
 
             foreach (var fieldGroup in data.ProductFieldGroups)
             {
@@ -107,8 +112,16 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                 throw new NullReferenceException("At least one Product Field Template with an ID obtained from the GraphQL endpoint is needed in order to ensure the Product Field Template");
             }
 
-            builder.AppendLine($"\r\n\t\t\t{nameof(ProductFieldTemplateSeed)}.{nameof(ProductFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\", " +
-                               $"Guid.Parse(\"{fieldTemplate.DisplayTemplateSystemId.ToString()}\"))");
+            if (string.IsNullOrWhiteSpace(_displayTemplateId))
+            {
+                builder.AppendLine($"\r\n\t\t\t{nameof(ProductFieldTemplateSeed)}.{nameof(ProductFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\", " +
+                                   $"Guid.Parse(\"{fieldTemplate.DisplayTemplateSystemId.ToString()}\"))");
+            }
+            else
+            {
+                builder.AppendLine($"\r\n\t\t\t{nameof(ProductFieldTemplateSeed)}.{nameof(ProductFieldTemplateSeed.Ensure)}(\"{fieldTemplate.Id}\", " +
+                                                   $"\"{_displayTemplateId}\")");
+            }
 
             WriteFieldGroups(fieldTemplate.VariantFieldGroups, builder, nameof(WithVariantFieldGroup));
             WriteFieldGroups(fieldTemplate.ProductFieldGroups, builder);
