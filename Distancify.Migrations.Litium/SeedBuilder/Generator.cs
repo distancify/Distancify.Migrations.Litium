@@ -261,8 +261,11 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             {
                 foreach (var value in values)
                 {
-                    repository.AddOrMerge(value);
-                    nestedPopulation?.Invoke(value);
+                    if (value.Id != null)
+                    {
+                        repository.AddOrMerge(value);
+                        nestedPopulation?.Invoke(value);
+                    }
                 }
             }
         }

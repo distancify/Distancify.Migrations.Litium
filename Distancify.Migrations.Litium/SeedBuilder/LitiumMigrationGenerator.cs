@@ -14,8 +14,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             this.graphqlClient = graphqlClient;
         }
 
-
-
         public GeneratedFile[] GenerateAllFiles(MigrationConfiguration[] configurations)
         {
             List<GeneratedFile> files = new List<GeneratedFile>();
@@ -54,11 +52,20 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             var template = Template.Parse(@"
 using System;
-using Distancify.Migrations.Litium.Seeds.Globalization;
+using System.Collections.Generic;
+using Distancify.Migrations.Litium;
 using Distancify.Migrations.Litium.Seeds.Products;
+using Distancify.Migrations.Litium.Seeds.BaseSeeds;
 using Distancify.Migrations.Litium.Seeds.Websites;
+using Distancify.Migrations.Litium.Seeds.Globalization;
 using Distancify.Migrations.Litium.Seeds.Customers;
-using Distancify.Migrations.Litium.Seeds.Media;
+using Litium.FieldFramework.FieldTypes;
+using Litium.Products;
+using Litium.Websites;
+using Litium.Blocks;
+using Litium.Customers;
+using Litium.Globalization;
+using Litium.Media;
 
 namespace {{ config.namespace }}
 {

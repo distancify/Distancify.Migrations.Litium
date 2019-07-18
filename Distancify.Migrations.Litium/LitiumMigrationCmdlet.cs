@@ -9,7 +9,6 @@ namespace Distancify.Migrations.Litium
     [OutputType(typeof(void))]
     public class LitiumMigrationCmdlet : Cmdlet
     {
-
         [Parameter]
         public string ConfigFileName { get; set; } = "migrationConfiguration.yml";
 
@@ -21,8 +20,18 @@ namespace Distancify.Migrations.Litium
 
             foreach (var f in files)
             {
+                var directoryPath = Path.GetDirectoryName(f.Filepath);
+
                 if (File.Exists(f.Filepath))
+                {
                     File.Delete(f.Filepath);
+                }
+
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
                 File.WriteAllText(f.Filepath, f.Content);
             }
         }
