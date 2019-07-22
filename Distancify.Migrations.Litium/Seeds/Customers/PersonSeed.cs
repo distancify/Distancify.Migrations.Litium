@@ -124,5 +124,12 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
             person.LoginCredential.NewPassword = password;
             return this;
         }
+
+        public PersonSeed WithEmail(string email)
+        {
+            person.Email = email;
+
+            return this;
+        }
     }
 }

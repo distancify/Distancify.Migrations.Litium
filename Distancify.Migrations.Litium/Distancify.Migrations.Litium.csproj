@@ -464,6 +464,9 @@
     <Compile Include="Seeds\BaseSeeds\MultiFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\BaseSeeds\PointerFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\BaseSeeds\TextOptionFieldDefinitionSeed.cs" />
+    <Compile Include="Seeds\Customers\AddressTypeSeed.cs" />
+    <Compile Include="Seeds\Customers\OrganizationSeed.cs" />
+    <Compile Include="Seeds\Globalization\DeliveryMethodSeed.cs" />
     <Compile Include="Seeds\LitiumConstants.cs" />
     <Compile Include="Seeds\Countries.cs" />
     <Compile Include="Seeds\Currencies.cs" />
