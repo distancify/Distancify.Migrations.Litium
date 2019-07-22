@@ -5,8 +5,10 @@ using System.Text;
 using Litium;
 using Litium.Blocks;
 using Litium.Common;
+using Litium.Customers;
 using Litium.FieldFramework;
 using Litium.Globalization;
+using Litium.Security;
 using Litium.Websites;
 
 namespace Distancify.Migrations.Litium.Seeds.Websites
@@ -17,6 +19,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         private string _fieldTemplateId;
         private bool _isPublished;
         private bool _isNewPage;
+        private bool _visitorsReadPermission;
 
         private List<string> _channelLinksIds;
 
@@ -106,6 +109,12 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             }
 
             return new PageSeed(new Page(pageFieldTemplateSystemId, Guid.Empty) { SystemId = pageSystemId }, pageFieldTemplateId, true);
+        }
+
+        public static PageSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Websites.Page page)
+        {
+            var seed = new PageSeed(new Page(page.FieldTemplate.SystemId, page.ParentPageSystemId), page.FieldTemplate.Id);
+            return (PageSeed)seed.Update(page);
         }
 
         public PageSeed IsRootPage()
@@ -204,10 +213,16 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return this;
         }
 
-        public static PageSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Websites.Page page)
+        public PageSeed WithVisitorReadPermission()
         {
-            var seed = new PageSeed(new Page(page.FieldTemplate.SystemId, page.ParentPageSystemId), page.FieldTemplate.Id);
-            return (PageSeed)seed.Update(page);
+            var visitorGroupSystemId = IoC.Resolve<GroupService>().Get<StaticGroup>(LitiumConstants.Visitors).SystemId;
+
+            if (!_page.AccessControlList.Any(a => a.GroupSystemId == visitorGroupSystemId))
+            {
+                _page.AccessControlList.Add(new AccessControlEntry(Operations.Entity.Read, visitorGroupSystemId));
+            }
+
+            return this;
         }
 
         public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Websites.Page> Update(SeedBuilder.LitiumGraphQlModel.Websites.Page data)
@@ -231,6 +246,9 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
             _channelLinksIds = data.ChannelLinks?.Select(c => c.Channel.Id).ToList() ?? new List<string>();
 
+            _visitorsReadPermission = data.AccessControlList.Any(a => a.Group.Id.Equals(LitiumConstants.Visitors, StringComparison.OrdinalIgnoreCase) &&
+                                                                      a.Operation.Contains(Operations.Entity.Read.ToString()));
+
             foreach (var blockContainer in data.BlockContainers)
             {
                 _page.Blocks.Add(new BlockItemContainer(blockContainer.Id)
@@ -249,6 +267,11 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             foreach (var localization in _page.Localizations)
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
+            }
+
+            if (_visitorsReadPermission)
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithVisitorReadPermission)}()");
             }
 
             builder.AppendLine($"\t\t\t\t.{nameof(WithWebsite)}(Guid.Parse(\"{_page.WebsiteSystemId}\"))");

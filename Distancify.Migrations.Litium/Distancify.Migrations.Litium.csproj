@@ -499,6 +499,8 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\WebsiteFieldTemplate.cs" />
     <Compile Include="SeedBuilder\MigrationConfiguration.cs" />
     <Compile Include="Seeds\ISeedGenerator.cs" />
+    <Compile Include="Seeds\Media\FileSeed.cs" />
+    <Compile Include="Seeds\Media\FolderSeed.cs" />
     <Compile Include="Seeds\Products\AssortmentCategorySeed.cs" />
     <Compile Include="Seeds\Products\BaseProductSeed.cs" />
     <Compile Include="Seeds\Products\InventoryItemSeed.cs" />

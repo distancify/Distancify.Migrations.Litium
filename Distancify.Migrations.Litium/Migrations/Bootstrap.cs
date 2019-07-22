@@ -39,10 +39,14 @@ namespace Distancify.Migrations.Litium.Migrations
                 .WithGroupLink(LitiumConstants.Visitors)
                 .Commit();
 
-            FolderFieldTemplateSeed.Ensure("DefaultFolderTemplate")
+            FolderFieldTemplateSeed.Ensure(LitiumConstants.DefaultFolderTemplate)
                 .Commit();
-            FileFieldTemplateSeed.Ensure("DefaultFileTemplate")
+            FileFieldTemplateSeed.Ensure(LitiumConstants.DefaultFileTemplate)
                 .WithTemplateType(FileTemplateType.Other)
+                .Commit();
+
+            FolderSeed.Ensure("RootFolder", LitiumConstants.DefaultFolderTemplate)
+                .WithVisitorReadPermission()
                 .Commit();
         }
 
