@@ -55,7 +55,8 @@
       <HintPath>..\packages\Dapper.StrongName.1.60.1\lib\net451\Dapper.StrongName.dll</HintPath>
     </Reference>
     <Reference Include="Distancify.Migrations, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Distancify.Migrations.1.0.5\lib\netstandard2.0\Distancify.Migrations.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Distancify.Migrations\Distancify.Migrations\bin\Debug\netstandard2.0\Distancify.Migrations.dll</HintPath>
     </Reference>
     <Reference Include="GraphQlClientGenerator, Version=0.1.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GraphQlClientGenerator.0.1.12\lib\net45\GraphQlClientGenerator.dll</HintPath>
