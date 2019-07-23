@@ -62,6 +62,9 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         public void Commit()
         {
             var service = IoC.Resolve<ChannelService>();
+            var template = IoC.Resolve<FieldTemplateService>().Get<ChannelFieldTemplate>(_fieldTemplateId);
+            if (template is null)
+                throw new Exception("ChannelFieldTemplate with ID '" + _fieldTemplateId + "' not found.");
 
             var templateSystemId = IoC.Resolve<FieldTemplateService>().Get<ChannelFieldTemplate>(_fieldTemplateId).SystemId;
             _channel.FieldTemplateSystemId = templateSystemId;

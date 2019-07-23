@@ -36,9 +36,6 @@
     <OutputPath>bin\Kristoffer\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="aspNetEmail, Version=3.6.1.8, Culture=neutral, PublicKeyToken=bc571e8da1c1f543">
-      <HintPath>..\packages\Litium.Studio.ThirdParty.AspNetEmail.1.0.0\lib\net45\aspNetEmail.dll</HintPath>
-    </Reference>
     <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
