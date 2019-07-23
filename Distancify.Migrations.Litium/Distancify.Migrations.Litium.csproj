@@ -36,9 +36,6 @@
     <OutputPath>bin\Kristoffer\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="aspNetEmail, Version=3.6.1.8, Culture=neutral, PublicKeyToken=bc571e8da1c1f543">
-      <HintPath>..\packages\Litium.Studio.ThirdParty.AspNetEmail.1.0.0\lib\net45\aspNetEmail.dll</HintPath>
-    </Reference>
     <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
@@ -55,8 +52,7 @@
       <HintPath>..\packages\Dapper.StrongName.1.60.1\lib\net451\Dapper.StrongName.dll</HintPath>
     </Reference>
     <Reference Include="Distancify.Migrations, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Distancify.Migrations\Distancify.Migrations\bin\Debug\netstandard2.0\Distancify.Migrations.dll</HintPath>
+      <HintPath>..\packages\Distancify.Migrations.1.0.5\lib\netstandard2.0\Distancify.Migrations.dll</HintPath>
     </Reference>
     <Reference Include="GraphQlClientGenerator, Version=0.1.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GraphQlClientGenerator.0.1.12\lib\net45\GraphQlClientGenerator.dll</HintPath>
