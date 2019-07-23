@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Litium;
 using Litium.Blocks;
 
@@ -6,25 +7,25 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 {
     public class BlockCategorySeed : ISeed
     {
-        private readonly Category blockCategory;
+        private readonly Category _blockCategory;
 
         protected BlockCategorySeed(Category blockCategory)
         {
-            this.blockCategory = blockCategory;
+            _blockCategory = blockCategory;
         }
 
         public void Commit()
         {
             var service = IoC.Resolve<CategoryService>();
 
-            if (blockCategory.SystemId == null || blockCategory.SystemId == Guid.Empty)
+            if (_blockCategory.SystemId == null || _blockCategory.SystemId == Guid.Empty)
             {
-                blockCategory.SystemId = Guid.NewGuid();
-                service.Create(blockCategory);
+                _blockCategory.SystemId = Guid.NewGuid();
+                service.Create(_blockCategory);
                 return;
             }
 
-            service.Update(blockCategory);
+            service.Update(_blockCategory);
         }
 
         public static BlockCategorySeed Ensure(string blockCategoryId)
@@ -35,10 +36,20 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 blockCatagoryClone = new Category();
                 blockCatagoryClone.Id = blockCategoryId;
                 blockCatagoryClone.SystemId = Guid.Empty;
-                blockCatagoryClone.Localizations["en-US"].Name = blockCategoryId;
             }
 
             return new BlockCategorySeed(blockCatagoryClone);
+        }
+
+        public BlockCategorySeed WithName(string culture, string name)
+        {
+            if (!_blockCategory.Localizations.Any(l => l.Key.Equals(culture)) ||
+                !_blockCategory.Localizations[culture].Name.Equals(name))
+            {
+                _blockCategory.Localizations[culture].Name = name;
+            }
+
+            return this;
         }
 
         //Fields
