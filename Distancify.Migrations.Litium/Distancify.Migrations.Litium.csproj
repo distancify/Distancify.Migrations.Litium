@@ -379,6 +379,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\GuidExtensions.cs" />
     <Compile Include="LitiumMigrationCmdlet.cs" />
     <Compile Include="SeedBuilder\ConfigurationReader.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\AccessControlEntry.cs" />

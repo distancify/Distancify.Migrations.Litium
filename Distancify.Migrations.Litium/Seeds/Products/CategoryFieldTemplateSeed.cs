@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Distancify.Migrations.Litium.Extensions;
 using Distancify.Migrations.Litium.Seeds.BaseSeeds;
 using Litium;
 using Litium.FieldFramework;
@@ -57,11 +58,8 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.CategoryFieldTemplate> Update(SeedBuilder.LitiumGraphQlModel.Products.CategoryFieldTemplate data)
         {
             fieldTemplate.SystemId = data.SystemId;
-            if (data.DisplayTemplate != null)
-            {
-                fieldTemplate.DisplayTemplateSystemId = data.DisplayTemplate.SystemId;
-                _displayTemplateId = data.DisplayTemplate.Id;
-            }
+            fieldTemplate.DisplayTemplateSystemId = GuidUtils.NonNullOrEmpty(data.DisplayTemplateSystemId, data.DisplayTemplate?.SystemId);
+            _displayTemplateId = data.DisplayTemplate?.Id;
             fieldTemplate.CategoryFieldGroups = new List<FieldTemplateFieldGroup>();
 
             foreach (var fieldGroup in data.FieldGroups)
