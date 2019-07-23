@@ -12,7 +12,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
     {
 
         public ProductDisplayTemplateSeed(ProductDisplayTemplate productDisplayTemplate)
-            :base(productDisplayTemplate)
+            : base(productDisplayTemplate)
         {
 
         }
@@ -36,6 +36,12 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         {
             var seed = new ProductDisplayTemplateSeed(new ProductDisplayTemplate());
             return (ProductDisplayTemplateSeed)seed.Update(productDisplayTemplate);
+        }
+
+        public ProductDisplayTemplateSeed UseVariantUrl()
+        {
+            displayTemplate.UseVariantUrl = true;
+            return this;
         }
 
         public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.ProductDisplayTemplate> Update(SeedBuilder.LitiumGraphQlModel.Products.ProductDisplayTemplate data)

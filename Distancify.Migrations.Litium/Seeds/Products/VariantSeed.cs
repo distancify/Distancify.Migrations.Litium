@@ -12,36 +12,53 @@ namespace Distancify.Migrations.Litium.Seeds.Products
     public class VariantSeed : ISeed
     {
         private readonly Variant _variant;
+        private readonly BaseProduct _baseProduct;
+        private bool _isNewVariant;
+        private bool _baseProductUpdated = false;
 
-        protected VariantSeed(Variant variant)
+        protected VariantSeed(Variant variant, BaseProduct baseProduct, bool isNewVariant = false)
         {
             _variant = variant;
+            _baseProduct = baseProduct;
+            _isNewVariant = isNewVariant;
         }
 
         public void Commit()
         {
             var service = IoC.Resolve<VariantService>();
 
-            if (_variant.SystemId == null || _variant.SystemId == Guid.Empty)
+            if (_isNewVariant)
             {
-                _variant.SystemId = Guid.NewGuid();
                 service.Create(_variant);
-                return;
+            }
+            else
+            {
+                service.Update(_variant);
             }
 
-            service.Update(_variant);
+
+            if (_baseProductUpdated)
+            {
+                IoC.Resolve<BaseProductService>().Update(_baseProduct);
+            }
         }
 
         public static VariantSeed Ensure(string variantId, string baseProductId)
         {
-            var baseProductSystemGuid = IoC.Resolve<BaseProductService>().Get(baseProductId).SystemId;
-            var variantClone = IoC.Resolve<VariantService>().Get(variantId)?.MakeWritableClone() ??
-                new Variant(variantId, baseProductSystemGuid)
-                {
-                    SystemId = Guid.Empty
-                };
+            var baseProduct = IoC.Resolve<BaseProductService>().Get(baseProductId).MakeWritableClone();
+            var variantClone = IoC.Resolve<VariantService>().Get(variantId)?.MakeWritableClone();
+            var isNewVariant = false;
 
-            return new VariantSeed(variantClone);
+            if (variantClone is null)
+            {
+                variantClone = new Variant(variantId, baseProduct.SystemId)
+                {
+                    SystemId = Guid.NewGuid()
+                };
+                isNewVariant = true;
+            }
+
+            return new VariantSeed(variantClone, baseProduct, isNewVariant);
         }
         public VariantSeed WithName(string culture, string name)
         {
@@ -171,6 +188,28 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             {
                 images.Add(fileSystemId);
                 _variant.Fields.AddOrUpdateValue(SystemFieldDefinitionConstants.Images, images);
+            }
+
+            return this;
+        }
+
+        public VariantSeed WithCategoryLink(string categoryId)
+        {
+            var categorySystemId = IoC.Resolve<CategoryService>().Get(categoryId).SystemId;
+            var baseProductToCategoryLink = _baseProduct.CategoryLinks.FirstOrDefault(c => c.CategorySystemId == categorySystemId);
+
+            if (baseProductToCategoryLink != null && !baseProductToCategoryLink.ActiveVariantSystemIds.Contains(_variant.SystemId))
+            {
+                baseProductToCategoryLink.ActiveVariantSystemIds.Add(_variant.SystemId);
+                _baseProductUpdated = true;
+            }
+            else if (baseProductToCategoryLink == null)
+            {
+                _baseProduct.CategoryLinks.Add(new BaseProductToCategoryLink(categorySystemId)
+                {
+                    ActiveVariantSystemIds = new HashSet<Guid> { _variant.SystemId }
+                });
+                _baseProductUpdated = true;
             }
 
             return this;
