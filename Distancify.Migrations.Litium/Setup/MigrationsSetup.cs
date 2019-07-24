@@ -12,11 +12,11 @@ namespace Distancify.Migrations.Litium.Setup
 
             if (!string.IsNullOrWhiteSpace(connectionString))
             {
-                container.For<IMigrationLog>().UsingFactoryMethod(() => new SqlServerMigrationLog(connectionString)).RegisterAsSingleton();
+                container.For<IMigrationLog>().UsingFactoryMethod(() => new SqlServerMigrationLogFactory(connectionString)).RegisterAsSingleton();
             }
             else
             {
-                container.For<IMigrationLog>().UsingFactoryMethod(() => new InMemoryMigrationLog()).RegisterAsSingleton();
+                container.For<IMigrationLog>().UsingFactoryMethod(() => new InMemoryMigrationLogFactory()).RegisterAsSingleton();
             }
 
             container.For<IMigrationLocator>().UsingFactoryMethod(() => new DefaultMigrationLocator()).RegisterAsSingleton();
