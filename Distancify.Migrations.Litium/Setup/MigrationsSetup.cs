@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Configuration;
+using System.Reflection;
 using Litium.Owin.InversionOfControl;
 
 namespace Distancify.Migrations.Litium.Setup
@@ -7,7 +8,17 @@ namespace Distancify.Migrations.Litium.Setup
     {
         public void Install(IIoCContainer container, Assembly[] assemblies)
         {
-            container.For<IMigrationLog>().UsingFactoryMethod(() => new InMemoryMigrationLog()).RegisterAsSingleton();
+            var connectionString = ConfigurationManager.ConnectionStrings["FoundationConnectionString"].ConnectionString;
+
+            if (!string.IsNullOrWhiteSpace(connectionString))
+            {
+                container.For<IMigrationLog>().UsingFactoryMethod(() => new SqlServerMigrationLog(connectionString)).RegisterAsSingleton();
+            }
+            else
+            {
+                container.For<IMigrationLog>().UsingFactoryMethod(() => new InMemoryMigrationLog()).RegisterAsSingleton();
+            }
+
             container.For<IMigrationLocator>().UsingFactoryMethod(() => new DefaultMigrationLocator()).RegisterAsSingleton();
             container.For<MigrationService>().RegisterAsSingleton();
         }
