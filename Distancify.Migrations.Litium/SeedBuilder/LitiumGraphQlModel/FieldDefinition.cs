@@ -13,6 +13,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
         public bool MultiCulture { get; set; }
         public bool CanBeGridColumn { get; set; }
         public bool CanBeGridFilter { get; set; }
+        public bool SystemDefined { get; set; }
 
         public List<FieldLocalization> Localizations { get; set; }
     }

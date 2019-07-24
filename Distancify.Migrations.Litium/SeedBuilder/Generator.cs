@@ -200,12 +200,13 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             if (data.Common != null)
             {
-                AddOrMerge(_intOptionFieldDefinitionSeedRepository, data.Common.FieldDefinitions.IntOptions);
-                AddOrMerge(_decimalOptionFieldDefintionSeedRepository, data.Common.FieldDefinitions.DecimalOptions);
-                AddOrMerge(_multiFieldDefinitionSeedRepository, data.Common.FieldDefinitions.MultiFields);
-                AddOrMerge(_textOptionFieldDefinitionsSeedRepository, data.Common.FieldDefinitions.TextOptions);
-                AddOrMerge(_fieldDefinitionRepository, data.Common.FieldDefinitions.Primitives);
-                AddOrMerge(_pointerFieldDefinitionSeedRepository, data.Common.FieldDefinitions.Pointers);
+                //Short time fix: not all system definied fields have the property SystemDefined set to true
+                AddOrMerge(_intOptionFieldDefinitionSeedRepository, data.Common.FieldDefinitions.IntOptions.Where(f => !f.SystemDefined && !f.Id.StartsWith("_")));
+                AddOrMerge(_decimalOptionFieldDefintionSeedRepository, data.Common.FieldDefinitions.DecimalOptions.Where(f => !f.SystemDefined && !f.Id.StartsWith("_")));
+                AddOrMerge(_multiFieldDefinitionSeedRepository, data.Common.FieldDefinitions.MultiFields.Where(f => !f.SystemDefined && !f.Id.StartsWith("_")));
+                AddOrMerge(_textOptionFieldDefinitionsSeedRepository, data.Common.FieldDefinitions.TextOptions.Where(f => !f.SystemDefined && !f.Id.StartsWith("_")));
+                AddOrMerge(_fieldDefinitionRepository, data.Common.FieldDefinitions.Primitives.Where(f => !f.SystemDefined && !f.Id.StartsWith("_")));
+                AddOrMerge(_pointerFieldDefinitionSeedRepository, data.Common.FieldDefinitions.Pointers.Where(f => !f.SystemDefined && !f.Id.StartsWith("_")));
             }
 
             if (data.Globalization != null)
