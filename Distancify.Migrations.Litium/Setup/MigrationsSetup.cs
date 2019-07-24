@@ -19,7 +19,6 @@ namespace Distancify.Migrations.Litium.Setup
                 container.For<IMigrationLog>().UsingFactoryMethod(() => new InMemoryMigrationLogFactory()).RegisterAsSingleton();
             }
 
-
             container.For<IMigrationLocator>().UsingFactoryMethod(() => new DefaultMigrationLocator()).RegisterAsSingleton();
             container.For<MigrationService>().RegisterAsSingleton();
         }
