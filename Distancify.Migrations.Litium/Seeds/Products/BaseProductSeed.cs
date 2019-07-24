@@ -4,6 +4,7 @@ using System.Linq;
 using Litium;
 using Litium.FieldFramework;
 using Litium.Globalization;
+using Litium.Media;
 using Litium.Products;
 
 namespace Distancify.Migrations.Litium.Seeds.Products
@@ -150,6 +151,19 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return this;
         }
 
+        public BaseProductSeed WithImage(string fileId)
+        {
+            var images = baseProduct.Fields.GetValue<IList<Guid>>(SystemFieldDefinitionConstants.Images) ?? new List<Guid>();
+            var fileSystemId = IoC.Resolve<FileService>().Get(fileId).SystemId;
+
+            if (!images.Contains(fileSystemId))
+            {
+                images.Add(fileSystemId);
+                baseProduct.Fields.AddOrUpdateValue(SystemFieldDefinitionConstants.Images, images);
+            }
+
+            return this;
+        }
 
         /*
 * TODO: Remove CategoryLinks
