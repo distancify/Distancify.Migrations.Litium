@@ -225,6 +225,22 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return this;
         }
 
+        public PageSeed WithField(string fieldName, Dictionary<string, object> values)
+        {
+            foreach (var localization in values.Keys)
+            {
+                _page.Fields.AddOrUpdateValue(fieldName, localization, values[localization]);
+            }
+
+            return this;
+        }
+
+        public PageSeed WithField(string fieldName, object value)
+        {
+            _page.Fields.AddOrUpdateValue(fieldName, value);
+            return this;
+        }
+
         public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Websites.Page> Update(SeedBuilder.LitiumGraphQlModel.Websites.Page data)
         {
             _page.SystemId = data.SystemId;
