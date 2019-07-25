@@ -22,12 +22,14 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         private bool _visitorsReadPermission;
 
         private List<string> _channelLinksIds;
+        private List<(string fieldId, object value, string culture)> _fields;
 
         protected PageSeed(Page page, string fieldTemplateId, bool isNewPage = false)
         {
             _page = page;
             _fieldTemplateId = fieldTemplateId;
             _isNewPage = isNewPage;
+            _fields = new List<(string fieldId, object value, string culture)>();
         }
 
         public void Commit()
@@ -43,18 +45,20 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 service.Update(_page);
             }
 
+            var dS = IoC.Resolve<DraftPageService>();
+            var draftPage = dS.Get(_page.SystemId).MakeWritableClone();
+
+            UpdateDraftPageWithBlocks();
+            UpdateDraftPageWithFields();
+
+            dS.Update(draftPage);
+
             if (_isPublished)
             {
-                var dS = IoC.Resolve<DraftPageService>();
-                var draftPageClone = dS.Get(_page.SystemId).MakeWritableClone();
-
-                UpdateDraftPageWithBlocks(draftPageClone);
-
-                dS.Update(draftPageClone);
-                dS.Publish(draftPageClone);
+                dS.Publish(draftPage);
             }
 
-            void UpdateDraftPageWithBlocks(DraftPage draftPage)
+            void UpdateDraftPageWithBlocks()
             {
                 foreach (var block in _page.Blocks)
                 {
@@ -74,6 +78,21 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                         }
                     }
 
+                }
+            }
+
+            void UpdateDraftPageWithFields()
+            {
+                foreach (var (fieldId, value, culture) in _fields)
+                {
+                    if (string.IsNullOrEmpty(culture))
+                    {
+                        draftPage.Fields.AddOrUpdateValue(fieldId, value);
+                    }
+                    else
+                    {
+                        draftPage.Fields.AddOrUpdateValue(fieldId, culture, value);
+                    }
                 }
             }
         }
@@ -238,6 +257,8 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         public PageSeed WithField(string fieldName, object value)
         {
             _page.Fields.AddOrUpdateValue(fieldName, value);
+            _fields.Add((fieldName, value, null));
+
             return this;
         }
 
