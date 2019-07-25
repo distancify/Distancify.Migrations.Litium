@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Litium;
@@ -81,6 +82,23 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             {
                 _website.Localizations[culture].Name = name;
             }
+
+            return this;
+        }
+
+        public WebsiteSeed WithField(string fieldName, Dictionary<string, object> values)
+        {
+            foreach (var localization in values.Keys)
+            {
+                _website.Fields.AddOrUpdateValue(fieldName, localization, values[localization]);
+            }
+
+            return this;
+        }
+
+        public WebsiteSeed WithField(string fieldName, object value)
+        {
+            _website.Fields.AddOrUpdateValue(fieldName, value);
 
             return this;
         }

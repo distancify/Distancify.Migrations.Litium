@@ -249,6 +249,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             foreach (var localization in values.Keys)
             {
                 _page.Fields.AddOrUpdateValue(fieldName, localization, values[localization]);
+                _fields.Add((fieldName, values[localization], localization));
             }
 
             return this;
