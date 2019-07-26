@@ -4,6 +4,7 @@ using Litium.Blocks;
 using Litium.Customers;
 using Litium.FieldFramework;
 using Litium.Globalization;
+using Litium.Media;
 using Litium.Products;
 using Litium.Websites;
 using System;
@@ -122,10 +123,25 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
             }
         }
 
+        //TODO: Make overridable
         private ICollection<FieldTemplateFieldGroup> GetFieldGroups()
         {
             switch (fieldTemplate)
             {
+                case FileFieldTemplate fileFieldTemplate:
+                    if (fileFieldTemplate.FieldGroups == null)
+                    {
+                        fileFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
+                    }
+                    return fileFieldTemplate.FieldGroups;
+
+                case FolderFieldTemplate folderFieldTemplate:
+                    if (folderFieldTemplate.FieldGroups == null)
+                    {
+                        folderFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
+                    }
+                    return folderFieldTemplate.FieldGroups;
+
                 case BlockFieldTemplate blockFieldTemplate:
                     if (blockFieldTemplate.FieldGroups == null)
                     {
