@@ -185,6 +185,12 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return this;
         }
 
+        public PageSeed WithWebsite(string websiteId)
+        {
+            _page.WebsiteSystemId = IoC.Resolve<WebsiteService>().Get(websiteId).SystemId;
+            return this;
+        }
+
         public PageSeed WithChannelLink(Guid channelSystemId)
         {
             if (_page.ChannelLinks == null)
