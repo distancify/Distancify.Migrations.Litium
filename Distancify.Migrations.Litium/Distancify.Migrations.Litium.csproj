@@ -380,6 +380,7 @@
   <ItemGroup>
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\GuidExtensions.cs" />
+    <Compile Include="Extensions\StringBuiler.cs" />
     <Compile Include="LitiumMigrationCmdlet.cs" />
     <Compile Include="SeedBuilder\ConfigurationReader.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\AccessControlEntry.cs" />
@@ -391,7 +392,10 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\Blocks.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\BlockToChannelLink.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\Common.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\Field.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\FieldData.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\FieldDefinitions.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\PointerPageItem.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\CompositeFieldOption.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\AccessControlOperationEntry.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\Customers.cs" />
@@ -556,7 +560,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\FieldDefinitions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="NuGetReferenceHintPathRewrite.targets" />
 </Project>

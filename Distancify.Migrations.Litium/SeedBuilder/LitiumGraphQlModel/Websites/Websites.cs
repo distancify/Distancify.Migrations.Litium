@@ -9,6 +9,5 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Websites
 
         public IEnumerable<PageFieldTemplate> PageFieldTemplates { get; set; }
         public IEnumerable<WebsiteFieldTemplate> WebsiteFieldTemplates { get; set; }
-
     }
 }

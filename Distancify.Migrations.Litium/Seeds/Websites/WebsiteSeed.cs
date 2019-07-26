@@ -6,6 +6,7 @@ using Litium;
 using Litium.FieldFramework;
 using Litium.Globalization;
 using Litium.Websites;
+using FieldData = Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Common.FieldData;
 
 namespace Distancify.Migrations.Litium.Seeds.Websites
 {
@@ -14,6 +15,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         private readonly Website _website;
         private string _fieldTemplateId;
         private bool _isNewWebsite;
+        private List<FieldData> _fields;
 
         private WebsiteSeed(Website website, string fieldTemplateId, bool isNewWebsite = false)
         {
@@ -125,6 +127,11 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                     this.Log().Warn("The website with system id {WebsiteSystemId} contains a localization with an empty culture and/or name!", data.SystemId.ToString());
                 }
             }
+
+            _fields = data.Fields?.Where(f => f.Value.Value != null || f.Value.LocalizedValues != null)
+                           .Select(f => f.Value.LocalizedValues?.Select(l => new FieldData(f.Key, l.Value, l.Key)) ?? new[] { new FieldData(f.Key, f.Value.Value) })
+                           .SelectMany(f => f).Where(f => f.Value != null).ToList() ?? new List<FieldData>();
+
             return this;
         }
 
@@ -135,6 +142,11 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             foreach (var localization in _website.Localizations)
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
+            }
+
+            foreach (var field in _fields)
+            {
+                field.WriteMigration(builder);
             }
 
             builder.AppendLine("\t\t\t\t.Commit();");
