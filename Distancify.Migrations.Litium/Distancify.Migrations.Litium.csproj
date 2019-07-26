@@ -380,7 +380,7 @@
   <ItemGroup>
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\GuidExtensions.cs" />
-    <Compile Include="Extensions\StringBuiler.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="LitiumMigrationCmdlet.cs" />
     <Compile Include="SeedBuilder\ConfigurationReader.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\AccessControlEntry.cs" />
@@ -422,6 +422,7 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\MultiFieldOption.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\PointerFieldDefinition.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\PointerOption.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\BaseProduct.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\CategoryDisplayTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\CategoryFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Inventory.cs" />

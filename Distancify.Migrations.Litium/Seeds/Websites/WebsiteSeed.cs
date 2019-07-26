@@ -129,8 +129,8 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             }
 
             _fields = data.Fields?.Where(f => f.Value.Value != null || f.Value.LocalizedValues != null)
-                           .Select(f => f.Value.LocalizedValues?.Select(l => new FieldData(f.Key, l.Value, l.Key)) ?? new[] { new FieldData(f.Key, f.Value.Value) })
-                           .SelectMany(f => f).Where(f => f.Value != null).ToList() ?? new List<FieldData>();
+                          .Select(f => f.Value.LocalizedValues?.Select(l => new FieldData(f.Key, l.Value, l.Key)) ?? new[] { new FieldData(f.Key, f.Value.Value) })
+                          .SelectMany(f => f).Where(f => f.Value != null).ToList() ?? new List<FieldData>();
 
             return this;
         }

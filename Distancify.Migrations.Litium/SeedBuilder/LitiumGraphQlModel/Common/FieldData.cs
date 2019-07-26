@@ -1,4 +1,5 @@
-﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework.Fields;
+﻿using Distancify.Migrations.Litium.Extensions;
+using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework.Fields;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Common
 
         public void WriteMigration(StringBuilder builder, int spacing = 4)
         {
-            builder.Append($"{new string('\t', spacing)}.WithField(\"{FieldId}\", ");
+            builder.Append($"{new string('\t', spacing)}.WithField(\"{FieldId.CapitalizeFirstLetter()}\", ");
 
             switch (Value)
             {
