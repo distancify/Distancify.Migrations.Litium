@@ -40,6 +40,9 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
                 case Guid g:
                     builder.Append($"Guid.Parse(\"{g.ToString()}\")");
                     break;
+                case decimal d:
+                    builder.Append($"{d.ToString()}m");
+                    break;
                 default:
                     if (TryParseJson<List<string>>(Value.ToString(), out var items))
                     {
