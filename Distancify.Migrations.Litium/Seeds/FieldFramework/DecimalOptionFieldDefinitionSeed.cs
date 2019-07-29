@@ -1,4 +1,5 @@
 ﻿using Distancify.Migrations.Litium.Extensions;
+using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework.Definitions;
 using Litium;
 using Litium.FieldFramework;
 using Litium.FieldFramework.FieldTypes;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Seeds.FieldFramework
 {
-    public class DecimalOptionFieldDefinitionSeed : FieldDefinitionSeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.DecimalOptionFieldDefinition>
+    public class DecimalOptionFieldDefinitionSeed : FieldDefinitionSeed, ISeedGenerator<DecimalOptionFieldDefinition>
     {
 
         private DecimalOptionFieldDefinitionSeed(FieldDefinition fieldDefinition) : base(fieldDefinition)
@@ -32,7 +33,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return new DecimalOptionFieldDefinitionSeed(fieldDefinition);
         }
 
-        public static DecimalOptionFieldDefinitionSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.DecimalOptionFieldDefinition graphQlItem)
+        public static DecimalOptionFieldDefinitionSeed CreateFrom(DecimalOptionFieldDefinition graphQlItem)
         {
             var areaType = AppDomain.CurrentDomain
                 .GetAssemblies()
@@ -46,7 +47,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return (DecimalOptionFieldDefinitionSeed)seed.Update(graphQlItem);
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.DecimalOptionFieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.DecimalOptionFieldDefinition data)
+        public ISeedGenerator<DecimalOptionFieldDefinition> Update(DecimalOptionFieldDefinition data)
         {
             base.Update(data);
 

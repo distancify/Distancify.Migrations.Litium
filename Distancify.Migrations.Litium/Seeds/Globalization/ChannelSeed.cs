@@ -11,7 +11,7 @@ using System.Text;
 using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Globalization;
 using Channel = Litium.Globalization.Channel;
 using ChannelFieldTemplate = Litium.Globalization.ChannelFieldTemplate;
-using FieldData = Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Common.FieldData;
+using FieldData = Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldData;
 
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
@@ -325,8 +325,8 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 _channel.WebsiteSystemId = channel.Website.SystemId;
             }
 
-            _fields = channel.Fields?.Where(f => f.Value.Value != null || f.Value.LocalizedValues != null)
-               .Select(f => f.Value.LocalizedValues?.Select(l => new FieldData(f.Key, l.Value, l.Key)) ?? new[] { new FieldData(f.Key, f.Value.Value) })
+            _fields = channel.Fields?.Where(f => f.Value.Value != null || f.Value.Localizations != null)
+               .Select(f => f.Value.Localizations?.Select(l => new FieldData(f.Key, l.Value, l.Culture)) ?? new[] { new FieldData(f.Key, f.Value.Value) })
                .SelectMany(f => f).Where(f => f.Value != null).ToList() ?? new List<FieldData>();
 
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
+namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework
 {
     public class FieldTemplate : GraphQlObject
     {

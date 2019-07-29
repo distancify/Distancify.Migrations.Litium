@@ -11,7 +11,7 @@ using Litium.Validations;
 
 namespace Distancify.Migrations.Litium.Seeds.FieldFramework
 {
-    public class FieldDefinitionSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldDefinition>
+    public class FieldDefinitionSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldFramework.FieldDefinition>
     {
         protected readonly FieldDefinition _fieldDefinition;
 
@@ -109,7 +109,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return this;
         }
 
-        public static FieldDefinitionSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.FieldDefinition graphQlItem)
+        public static FieldDefinitionSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.FieldFramework.FieldDefinition graphQlItem)
         {
             var areaType = AppDomain.CurrentDomain
                 .GetAssemblies()
@@ -123,7 +123,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return (FieldDefinitionSeed)seed.Update(graphQlItem);
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.FieldDefinition data)
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.FieldFramework.FieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.FieldFramework.FieldDefinition data)
         {
             _fieldDefinition.MultiCulture = data.MultiCulture;
             _fieldDefinition.CanBeGridColumn = data.CanBeGridColumn;

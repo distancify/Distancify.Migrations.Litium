@@ -1,4 +1,5 @@
-﻿using Distancify.Migrations.Litium.Seeds.Globalization;
+﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework.Definitions;
+using Distancify.Migrations.Litium.Seeds.Globalization;
 using Litium;
 using Litium.FieldFramework;
 using Litium.FieldFramework.FieldTypes;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.FieldFramework
 {
-    public class MultiFieldDefinitionSeed : FieldDefinitionSeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.MultiFieldDefinition>
+    public class MultiFieldDefinitionSeed : FieldDefinitionSeed, ISeedGenerator<MultiFieldDefinition>
     {
         private MultiFieldDefinitionSeed(FieldDefinition fieldDefinition) : base(fieldDefinition)
         {
@@ -28,7 +29,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return new MultiFieldDefinitionSeed(fieldDefinition);
         }
 
-        public static MultiFieldDefinitionSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.MultiFieldDefinition graphQlItem)
+        public static MultiFieldDefinitionSeed CreateFrom(MultiFieldDefinition graphQlItem)
         {
             var areaType = AppDomain.CurrentDomain
                 .GetAssemblies()
@@ -57,7 +58,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return this;
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.MultiFieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.MultiFieldDefinition data)
+        public ISeedGenerator<MultiFieldDefinition> Update(MultiFieldDefinition data)
         {
             base.Update(data);
 

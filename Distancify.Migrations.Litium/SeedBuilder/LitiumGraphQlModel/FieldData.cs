@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Common
+namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
 {
     public class FieldData
     {

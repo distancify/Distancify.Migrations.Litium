@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
 
-namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
+namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework
 {
     public class FieldDefinition : GraphQlObject
     {

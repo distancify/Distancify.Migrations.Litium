@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework.Definitions;
+using System.Collections.Generic;
 
-namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Common
+namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework
 {
     public class FieldDefinitions
     {

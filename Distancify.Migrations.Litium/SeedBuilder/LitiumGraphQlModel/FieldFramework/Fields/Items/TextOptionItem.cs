@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
+namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework.Fields.Items
 {
     public class TextOptionItem
     {

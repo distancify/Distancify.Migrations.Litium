@@ -1,4 +1,5 @@
 ﻿using Distancify.Migrations.Litium.Extensions;
+using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework.Definitions;
 using Distancify.Migrations.Litium.Seeds.Globalization;
 using Litium;
 using Litium.FieldFramework;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Seeds.FieldFramework
 {
-    public class TextOptionFieldDefinitionSeed : FieldDefinitionSeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.TextOptionFieldDefinition>
+    public class TextOptionFieldDefinitionSeed : FieldDefinitionSeed, ISeedGenerator<TextOptionFieldDefinition>
     {
 
         private TextOptionFieldDefinitionSeed(FieldDefinition fieldDefinition):base(fieldDefinition)
@@ -33,7 +34,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return new TextOptionFieldDefinitionSeed(fieldDefinition);
         }
 
-        public static TextOptionFieldDefinitionSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.TextOptionFieldDefinition graphQlItem)
+        public static TextOptionFieldDefinitionSeed CreateFrom(TextOptionFieldDefinition graphQlItem)
         {
             var areaType = AppDomain.CurrentDomain
                 .GetAssemblies()
@@ -47,7 +48,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return (TextOptionFieldDefinitionSeed)seed.Update(graphQlItem);
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.TextOptionFieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.TextOptionFieldDefinition data)
+        public ISeedGenerator<TextOptionFieldDefinition> Update(TextOptionFieldDefinition data)
         {
             base.Update(data);
 

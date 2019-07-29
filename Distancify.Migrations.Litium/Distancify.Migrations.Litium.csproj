@@ -391,37 +391,38 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\BlockFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\Blocks.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\BlockToChannelLink.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\Common.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\Field.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\FieldData.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Common\FieldDefinitions.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Common.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\Field.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldData.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\FieldDefinitions.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\FieldDataLocalization.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\PointerPageItem.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\CompositeFieldOption.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\CompositeFieldOption.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\AccessControlOperationEntry.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\Customers.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\GroupFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\OrganizationFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\PersonFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\StaticGroup.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\DecimalOption.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\DecimalOptionFieldDefinition.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\DecimalOptionItem.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\DecimalOption.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Definitions\DecimalOptionFieldDefinition.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\Items\DecimalOptionItem.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\DisplayTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\DisplayTemplateToWebsiteLink.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldDefinition.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\FieldDefinition.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldLocalization.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldTemplate.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\FieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldTemplateFieldGroup.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Globalization.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Market.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\MarketFieldTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\IntOption.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\IntOptionFieldDefinition.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\IntOptionItem.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\MultiFieldDefinition.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\MultiFieldOption.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\PointerFieldDefinition.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\PointerOption.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\IntOption.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Definitions\IntOptionFieldDefinition.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\Items\IntOptionItem.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Definitions\MultiFieldDefinition.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\MultiFieldOption.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Definitions\PointerFieldDefinition.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\PointerOption.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\BaseProduct.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\CategoryDisplayTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\CategoryFieldTemplate.cs" />
@@ -430,9 +431,9 @@
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\ProductFieldTemplate.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Products.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\UnitOfMeasurement.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\TextOption.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\TextOptionFieldDefinition.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\TextOptionItem.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\TextOption.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Definitions\TextOptionFieldDefinition.cs" />
+    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\Items\TextOptionItem.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\BlockContainerDefinition.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Page.cs" />
     <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\PageFieldTemplate.cs" />
@@ -561,9 +562,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\FieldDefinitions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="NuGetReferenceHintPathRewrite.targets" />
 </Project>

@@ -1,4 +1,5 @@
-﻿using Distancify.Migrations.Litium.Seeds.Globalization;
+﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework.Definitions;
+using Distancify.Migrations.Litium.Seeds.Globalization;
 using Litium;
 using Litium.FieldFramework;
 using Litium.FieldFramework.FieldTypes;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Distancify.Migrations.Litium.Seeds.FieldFramework
 {
-    public class PointerFieldDefinitionSeed : FieldDefinitionSeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.PointerFieldDefinition>
+    public class PointerFieldDefinitionSeed : FieldDefinitionSeed, ISeedGenerator<PointerFieldDefinition>
     {
         private PointerFieldDefinitionSeed(FieldDefinition fieldDefinition) : base(fieldDefinition)
         {
@@ -30,7 +31,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return new PointerFieldDefinitionSeed(fieldDefinition);
         }
 
-        public static PointerFieldDefinitionSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.PointerFieldDefinition graphQlItem)
+        public static PointerFieldDefinitionSeed CreateFrom(PointerFieldDefinition graphQlItem)
         {
             var areaType = AppDomain.CurrentDomain
                 .GetAssemblies()
@@ -44,7 +45,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return (PointerFieldDefinitionSeed)seed.Update(graphQlItem);
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.PointerFieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.PointerFieldDefinition data)
+        public ISeedGenerator<PointerFieldDefinition> Update(PointerFieldDefinition data)
         {
             base.Update(data);
 

@@ -1,4 +1,5 @@
 ﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel;
+using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework;
 using Distancify.Migrations.Litium.Seeds.FieldFramework;
 using Distancify.Migrations.Litium.Seeds.Globalization;
 

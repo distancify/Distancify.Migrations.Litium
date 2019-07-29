@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Common;
 using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Websites;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Globalization
