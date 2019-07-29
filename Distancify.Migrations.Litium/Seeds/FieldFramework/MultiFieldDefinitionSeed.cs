@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
+namespace Distancify.Migrations.Litium.Seeds.FieldFramework
 {
     public class MultiFieldDefinitionSeed : FieldDefinitionSeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.MultiFieldDefinition>
     {

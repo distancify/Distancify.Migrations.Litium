@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
+namespace Distancify.Migrations.Litium.Seeds.FieldFramework
 {
     public class PointerFieldDefinitionSeed : FieldDefinitionSeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.PointerFieldDefinition>
     {

@@ -1,25 +1,26 @@
 ﻿using Distancify.Migrations.Litium.Extensions;
+using Distancify.Migrations.Litium.Seeds.Globalization;
 using Litium;
 using Litium.FieldFramework;
 using Litium.FieldFramework.FieldTypes;
 using Litium.Runtime;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
+namespace Distancify.Migrations.Litium.Seeds.FieldFramework
 {
-    public class DecimalOptionFieldDefinitionSeed : FieldDefinitionSeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.DecimalOptionFieldDefinition>
+    public class TextOptionFieldDefinitionSeed : FieldDefinitionSeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.TextOptionFieldDefinition>
     {
 
-        private DecimalOptionFieldDefinitionSeed(FieldDefinition fieldDefinition) : base(fieldDefinition)
+        private TextOptionFieldDefinitionSeed(FieldDefinition fieldDefinition):base(fieldDefinition)
         {
         }
 
-        public new static DecimalOptionFieldDefinitionSeed Ensure<TArea>(string id, string fieldType)
+        public new static TextOptionFieldDefinitionSeed Ensure<TArea>(string id, string fieldType)
             where TArea : IArea
         {
             var fieldDefinitionService = IoC.Resolve<FieldDefinitionService>();
@@ -29,10 +30,10 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
                     SystemId = Guid.Empty
                 };
 
-            return new DecimalOptionFieldDefinitionSeed(fieldDefinition);
+            return new TextOptionFieldDefinitionSeed(fieldDefinition);
         }
 
-        public static DecimalOptionFieldDefinitionSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.DecimalOptionFieldDefinition graphQlItem)
+        public static TextOptionFieldDefinitionSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.TextOptionFieldDefinition graphQlItem)
         {
             var areaType = AppDomain.CurrentDomain
                 .GetAssemblies()
@@ -42,18 +43,18 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
             if (areaType == null)
                 throw new Exception($"Cannot find the type for the areaType {graphQlItem.AreaType}");
 
-            var seed = new DecimalOptionFieldDefinitionSeed(new FieldDefinition(graphQlItem.Id, graphQlItem.FieldType, areaType));
-            return (DecimalOptionFieldDefinitionSeed)seed.Update(graphQlItem);
+            var seed = new TextOptionFieldDefinitionSeed(new FieldDefinition(graphQlItem.Id, graphQlItem.FieldType, areaType));
+            return (TextOptionFieldDefinitionSeed)seed.Update(graphQlItem);
         }
 
-        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.DecimalOptionFieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.DecimalOptionFieldDefinition data)
+        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.TextOptionFieldDefinition> Update(SeedBuilder.LitiumGraphQlModel.TextOptionFieldDefinition data)
         {
             base.Update(data);
 
-            _fieldDefinition.Option = new DecimalOption()
+            _fieldDefinition.Option = new TextOption()
             {
                 MultiSelect = data.Option.MultiSelect,
-                Items = data.Option.Items.Select(i => new DecimalOption.Item
+                Items = data.Option.Items.Select(i => new TextOption.Item
                 {
                     Name = i.Localizations.ToDictionary(k => k.Culture, v => v.Name),
                     Value = i.Value
@@ -63,21 +64,21 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
             return this;
         }
 
-        public DecimalOptionFieldDefinitionSeed WithDecimalOption(DecimalOption option)
+        public TextOptionFieldDefinitionSeed WithTextOption(TextOption option)
         {
-            if (!(_fieldDefinition.Option is DecimalOption))
+            if (!(_fieldDefinition.Option is TextOption))
             {
-                _fieldDefinition.Option = new DecimalOption();
+                _fieldDefinition.Option = new TextOption();
             }
 
-            var textOption = _fieldDefinition.Option as DecimalOption;
+            var textOption = _fieldDefinition.Option as TextOption;
             var fieldDefinitionItems = textOption.Items;
 
             textOption.MultiSelect = option.MultiSelect;
 
             foreach (var item in option.Items)
             {
-                if (fieldDefinitionItems.FirstOrDefault(i => i.Value == item.Value) is DecimalOption.Item fieldDefinitionItem)
+                if (fieldDefinitionItems.FirstOrDefault(i => i.Value == item.Value) is TextOption.Item fieldDefinitionItem)
                 {
                     foreach (var localization in item.Name.Keys)
                     {
@@ -102,20 +103,19 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
 
         public new void WriteMigration(StringBuilder builder)
         {
-            builder.AppendLine($"\r\n\t\t\t{nameof(DecimalOptionFieldDefinitionSeed)}.{nameof(Ensure)}<{_fieldDefinition.AreaType.Name}>(\"{_fieldDefinition.Id}\", \"{_fieldDefinition.FieldType}\")");
+            builder.AppendLine($"\r\n\t\t\t{nameof(TextOptionFieldDefinitionSeed)}.{nameof(Ensure)}<{_fieldDefinition.AreaType.Name}>(\"{_fieldDefinition.Id}\", \"{_fieldDefinition.FieldType}\")");
 
-            var decimalOption = _fieldDefinition.Option as DecimalOption;
-            builder.AppendLine($"\t\t\t\t.{nameof(WithDecimalOption)}(new DecimalOption()\r\n\t\t\t\t{{" +
-                               $"\r\n\t\t\t\t\t{nameof(TextOption.MultiSelect)} = {decimalOption.MultiSelect.ToString().ToLower()}," +
-                               $"\r\n\t\t\t\t\t{nameof(TextOption.Items)} = new List<DecimalOption.Item>\r\n\t\t\t\t\t{{\r\n\t\t\t\t\t\t{GetDecimalOptions()}" +
+            var textOption = _fieldDefinition.Option as TextOption;
+            builder.AppendLine($"\t\t\t\t.{nameof(WithTextOption)}(new TextOption()\r\n\t\t\t\t{{\r\n\t\t\t\t\t{nameof(TextOption.MultiSelect)} = {textOption.MultiSelect.ToString().ToLower()}," +
+                               $"\r\n\t\t\t\t\t{nameof(TextOption.Items)} = new List<TextOption.Item>\r\n\t\t\t\t\t{{\r\n\t\t\t\t\t\t{GetTextOptions()}" +
                                 "\r\n\t\t\t\t\t}\r\n\t\t\t\t})");
 
             WritePropertiesMigration(builder);
             builder.AppendLine("\t\t\t\t.Commit();");
 
-            string GetDecimalOptions()
-                => string.Join(",\r\n\t\t\t\t\t\t", decimalOption.Items.Select(i => "new DecimalOption.Item\r\n\t\t\t\t\t\t{" +
-                                                                                 $"\r\n\t\t\t\t\t\t\tValue = {i.Value.ToString(CultureInfo.InvariantCulture)}m," +
+            string GetTextOptions()
+                => string.Join(",\r\n\t\t\t\t\t\t", textOption.Items.Select(i => "new TextOption.Item\r\n\t\t\t\t\t\t{" +
+                                                                                 $"\r\n\t\t\t\t\t\t\tValue = \"{i.Value}\"," +
                                                                                  $"\r\n\t\t\t\t\t\t\tName = {i.Name.GetMigration(7)}" +
                                                                                  "\r\n\t\t\t\t\t\t}"));
         }

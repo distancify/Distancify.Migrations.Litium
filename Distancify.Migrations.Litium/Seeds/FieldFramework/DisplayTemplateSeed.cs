@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
+namespace Distancify.Migrations.Litium.Seeds.FieldFramework
 {
     public abstract class DisplayTemplateSeed<T> : ISeed
         where T : DisplayTemplate

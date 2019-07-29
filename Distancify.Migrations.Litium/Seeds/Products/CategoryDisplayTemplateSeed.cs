@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Distancify.Migrations.Litium.Seeds.BaseSeeds;
+using Distancify.Migrations.Litium.Seeds.FieldFramework;
 using Litium;
 using Litium.Products;
 

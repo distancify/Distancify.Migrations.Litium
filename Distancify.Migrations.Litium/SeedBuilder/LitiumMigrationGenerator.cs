@@ -59,7 +59,7 @@ using System;
 using System.Collections.Generic;
 using Distancify.Migrations.Litium;
 using Distancify.Migrations.Litium.Seeds.Products;
-using Distancify.Migrations.Litium.Seeds.BaseSeeds;
+using Distancify.Migrations.Litium.Seeds.FieldFramework;
 using Distancify.Migrations.Litium.Seeds.Websites;
 using Distancify.Migrations.Litium.Seeds.Globalization;
 using Distancify.Migrations.Litium.Seeds.Customers;

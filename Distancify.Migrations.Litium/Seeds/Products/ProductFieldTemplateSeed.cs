@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Distancify.Migrations.Litium.Extensions;
-using Distancify.Migrations.Litium.Seeds.BaseSeeds;
+using Distancify.Migrations.Litium.Seeds.FieldFramework;
 using Litium;
 using Litium.FieldFramework;
 using Litium.Products;
@@ -132,6 +132,16 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             }
 
             builder.AppendLine("\t\t\t\t.Commit();");
+        }
+
+        protected override ICollection<FieldTemplateFieldGroup> GetFieldGroups()
+        {
+            if (fieldTemplate.ProductFieldGroups == null)
+            {
+                fieldTemplate.ProductFieldGroups = new List<FieldTemplateFieldGroup>();
+            }
+
+            return fieldTemplate.ProductFieldGroups;
         }
     }
 }

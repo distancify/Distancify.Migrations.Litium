@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
+namespace Distancify.Migrations.Litium.Seeds.FieldFramework
 {
     public abstract class FieldTemplateSeed<T> : ISeed
         where T : FieldTemplate
@@ -123,105 +123,6 @@ namespace Distancify.Migrations.Litium.Seeds.BaseSeeds
             }
         }
 
-        //TODO: Make overridable
-        private ICollection<FieldTemplateFieldGroup> GetFieldGroups()
-        {
-            switch (fieldTemplate)
-            {
-                case FileFieldTemplate fileFieldTemplate:
-                    if (fileFieldTemplate.FieldGroups == null)
-                    {
-                        fileFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
-                    }
-                    return fileFieldTemplate.FieldGroups;
-
-                case FolderFieldTemplate folderFieldTemplate:
-                    if (folderFieldTemplate.FieldGroups == null)
-                    {
-                        folderFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
-                    }
-                    return folderFieldTemplate.FieldGroups;
-
-                case BlockFieldTemplate blockFieldTemplate:
-                    if (blockFieldTemplate.FieldGroups == null)
-                    {
-                        blockFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
-                    }
-                    return blockFieldTemplate.FieldGroups;
-
-                case CategoryFieldTemplate categoryFieldTemplate:
-                    if (categoryFieldTemplate.CategoryFieldGroups == null)
-                    {
-                        categoryFieldTemplate.CategoryFieldGroups = new List<FieldTemplateFieldGroup>();
-                    }
-                    return categoryFieldTemplate.CategoryFieldGroups;
-
-                case ChannelFieldTemplate channelFieldTemplate:
-                    if (channelFieldTemplate.FieldGroups == null)
-                    {
-                        channelFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
-                    }
-                    return channelFieldTemplate.FieldGroups;
-
-                case MarketFieldTemplate marketFieldTemplate:
-                    if (marketFieldTemplate.FieldGroups == null)
-                    {
-                        marketFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
-                    }
-
-                    return marketFieldTemplate.FieldGroups;
-
-                case OrganizationFieldTemplate organizationFieldTemplate:
-                    if (organizationFieldTemplate.FieldGroups == null)
-                    {
-                        organizationFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
-                    }
-
-                    return organizationFieldTemplate.FieldGroups;
-
-                case PageFieldTemplate pageFieldTemplate:
-                    if (pageFieldTemplate.FieldGroups == null)
-                    {
-                        pageFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
-                    }
-
-                    return pageFieldTemplate.FieldGroups;
-
-                case GroupFieldTemplate groupFieldTemplate:
-                    if (groupFieldTemplate.FieldGroups == null)
-                    {
-                        groupFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
-                    }
-
-                    return groupFieldTemplate.FieldGroups;
-
-                case PersonFieldTemplate personFieldTemplate:
-                    if (personFieldTemplate.FieldGroups == null)
-                    {
-                        personFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
-                    }
-                    return personFieldTemplate.FieldGroups;
-
-
-                case ProductFieldTemplate productFieldTemplate:
-                    if (productFieldTemplate.ProductFieldGroups == null)
-                    {
-                        productFieldTemplate.ProductFieldGroups = new List<FieldTemplateFieldGroup>();
-                    }
-
-                    return productFieldTemplate.ProductFieldGroups;
-
-                case WebsiteFieldTemplate websiteFieldTemplate:
-                    if (websiteFieldTemplate.FieldGroups == null)
-                    {
-                        websiteFieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
-                    }
-
-                    return websiteFieldTemplate.FieldGroups;
-
-                default:
-                    throw new NotSupportedException("Unknown field template type when building field groups");
-            }
-        }
+        protected abstract ICollection<FieldTemplateFieldGroup> GetFieldGroups();
     }
 }

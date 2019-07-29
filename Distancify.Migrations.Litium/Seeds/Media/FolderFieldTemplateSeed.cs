@@ -1,4 +1,4 @@
-using Distancify.Migrations.Litium.Seeds.BaseSeeds;
+using Distancify.Migrations.Litium.Seeds.FieldFramework;
 using Litium;
 using Litium.FieldFramework;
 using Litium.Media;
@@ -28,5 +28,13 @@ namespace Distancify.Migrations.Litium.Seeds.Media
             return new FolderFieldTemplateSeed(fieldTemplate);
         }
 
+        protected override ICollection<FieldTemplateFieldGroup> GetFieldGroups()
+        {
+            if (fieldTemplate.FieldGroups == null)
+            {
+                fieldTemplate.FieldGroups = new List<FieldTemplateFieldGroup>();
+            }
+            return fieldTemplate.FieldGroups;
+        }
     }
 }
