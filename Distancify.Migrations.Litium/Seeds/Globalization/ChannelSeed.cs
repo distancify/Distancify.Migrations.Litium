@@ -145,7 +145,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             var countrySystemId = IoC.Resolve<CountryService>().Get(countryId).SystemId;
 
             var deliveryMethodSystemIds = GetDeliveryMethodsSystemId();
-            var paymentMethodSystemIds = PaymentMethodSystemIds();
+            var paymentMethodSystemIds = GetPaymentMethodSystemIds();
 
             if (_channel.CountryLinks.FirstOrDefault(link => link.CountrySystemId.Equals(countrySystemId)) is ChannelToCountryLink countryLink)
             {
@@ -180,7 +180,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 => deliveryMethodIds?.Select(id => moduleECommerce.DeliveryMethods.Get(id, Solution.Instance.SystemToken).ID)?.ToList()
                         ?? new List<Guid>();
 
-            List<Guid> PaymentMethodSystemIds()
+            List<Guid> GetPaymentMethodSystemIds()
             {
                 var paymentMethods = moduleECommerce.PaymentMethods.GetAll();
 

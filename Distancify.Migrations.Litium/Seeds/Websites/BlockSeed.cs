@@ -26,6 +26,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             _block = block;
             _fieldTemplateId = fieldTemplateId;
             _isNewBlock = isNewBlock;
+            _fields = new List<FieldData>();
         }
 
         public void Commit()
@@ -41,13 +42,31 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 service.Update(_block);
             }
 
+            var draftService = IoC.Resolve<DraftBlockService>();
+            var draftBlockClone = draftService.Get(_block.SystemId).MakeWritableClone();
+
+            UpdateDraftBlockWithFields();
+
+            draftService.Update(draftBlockClone);
+
             if (_isPublished)
             {
-                var draftService = IoC.Resolve<DraftBlockService>();
-                var draftBlockClone = draftService.Get(_block.SystemId).MakeWritableClone();
-
-                draftService.Update(draftBlockClone);
                 draftService.Publish(draftBlockClone);
+            }
+
+            void UpdateDraftBlockWithFields()
+            {
+                foreach (var field in _fields)
+                {
+                    if (string.IsNullOrEmpty(field.Culture))
+                    {
+                        draftBlockClone.Fields.AddOrUpdateValue(field.FieldId, field.Value);
+                    }
+                    else
+                    {
+                        draftBlockClone.Fields.AddOrUpdateValue(field.FieldId, field.Culture, field.Value);
+                    }
+                }
             }
         }
 
@@ -117,6 +136,22 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             var channelSystemId = IoC.Resolve<ChannelService>().Get(channelId).SystemId;
 
             return this.WithChannelLink(channelSystemId);
+        }
+
+        public BlockSeed WithField(string fieldName, object value)
+        {
+            _block.Fields.AddOrUpdateValue(fieldName, value);
+            _fields.Add(new FieldData(fieldName, value));
+
+            return this;
+        }
+
+        public BlockSeed WithField(string fieldName, object value, string culture)
+        {
+            _block.Fields.AddOrUpdateValue(fieldName, culture, value);
+            _fields.Add(new FieldData(fieldName, value, culture));
+
+            return this;
         }
 
         public static BlockSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Blocks.Block block)
