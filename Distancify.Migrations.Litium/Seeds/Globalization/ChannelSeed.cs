@@ -11,6 +11,8 @@ using System.Text;
 using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Globalization;
 using Channel = Litium.Globalization.Channel;
 using ChannelFieldTemplate = Litium.Globalization.ChannelFieldTemplate;
+using FieldData = Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Common.FieldData;
+
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
@@ -22,10 +24,13 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         private string _productLanguageId;
         private string _websiteLanguageId;
 
+        private List<FieldData> _fields;
+
         private ChannelSeed(Channel channel, string fieldTemplateId)
         {
             _fieldTemplateId = fieldTemplateId;
             _channel = channel;
+            _fields = new List<FieldData>();
         }
 
         public static ChannelSeed Ensure(string identifyingField, string identifyingValue, string fieldTemplateId)
@@ -320,6 +325,11 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 _channel.WebsiteSystemId = channel.Website.SystemId;
             }
 
+            _fields = channel.Fields?.Where(f => f.Value.Value != null || f.Value.LocalizedValues != null)
+               .Select(f => f.Value.LocalizedValues?.Select(l => new FieldData(f.Key, l.Value, l.Key)) ?? new[] { new FieldData(f.Key, f.Value.Value) })
+               .SelectMany(f => f).Where(f => f.Value != null).ToList() ?? new List<FieldData>();
+
+
             return this;
         }
 
@@ -340,6 +350,11 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             foreach (var localization in _channel.Localizations)
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
+            }
+
+            foreach (var field in _fields)
+            {
+                field.WriteMigration(builder);
             }
 
             builder.AppendLine($"\t\t\t\t.{nameof(ProductLanguage)}(\"{_productLanguageId}\")");

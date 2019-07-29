@@ -29,7 +29,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Common
             switch (Value)
             {
                 case string s:
-                    builder.Append($"\"{HttpUtility.JavaScriptStringEncode(s)}\"");
+                    builder.Append($"{s.ToLiteral()}");
                     break;
                 case int i:
                     builder.Append($"{i.ToString()}");
@@ -62,7 +62,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Common
                     throw new NotSupportedException($"The field type for field Id {FieldId} is not supported when building field values");
             }
 
-            builder.Append(!string.IsNullOrEmpty(Culture) ? $", \"{Culture}\"" : "");
+            builder.Append(!string.IsNullOrEmpty(Culture) ? $", \"{Culture.Replace("_", "-")}\"" : "");
             builder.Append(")\r\n");
 
             bool TryParseJson<T>(string text, out T result)
