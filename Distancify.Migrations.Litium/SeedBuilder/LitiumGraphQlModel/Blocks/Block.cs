@@ -16,5 +16,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Blocks
         public List<BlockToChannelLink> ChannelLinks { get; set; }
 
         public BlockFieldTemplate FieldTemplate { get; set; }
+
+        public Dictionary<string, Field> Fields { get; set; }
     }
 }

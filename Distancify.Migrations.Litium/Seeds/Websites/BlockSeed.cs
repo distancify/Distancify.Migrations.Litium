@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Distancify.Migrations.Litium.Extensions;
 using Litium;
 using Litium.Blocks;
 using Litium.Common;
 using Litium.FieldFramework;
 using Litium.Globalization;
+using FieldData = Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldData;
 
 namespace Distancify.Migrations.Litium.Seeds.Websites
 {
@@ -18,12 +20,14 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         private string _fieldTemplateId;
 
         private List<string> _channelLinksIds;
+        private List<FieldData> _fields;
 
         protected BlockSeed(Block block, string fieldTemplateId, bool isNewBlock = false)
         {
             _block = block;
             _fieldTemplateId = fieldTemplateId;
             _isNewBlock = isNewBlock;
+            _fields = new List<FieldData>();
         }
 
         public void Commit()
@@ -39,13 +43,31 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 service.Update(_block);
             }
 
+            var draftService = IoC.Resolve<DraftBlockService>();
+            var draftBlockClone = draftService.Get(_block.SystemId).MakeWritableClone();
+
+            UpdateDraftBlockWithFields();
+
+            draftService.Update(draftBlockClone);
+
             if (_isPublished)
             {
-                var draftService = IoC.Resolve<DraftBlockService>();
-                var draftBlockClone = draftService.Get(_block.SystemId).MakeWritableClone();
-
-                draftService.Update(draftBlockClone);
                 draftService.Publish(draftBlockClone);
+            }
+
+            void UpdateDraftBlockWithFields()
+            {
+                foreach (var field in _fields)
+                {
+                    if (string.IsNullOrEmpty(field.Culture))
+                    {
+                        draftBlockClone.Fields.AddOrUpdateValue(field.FieldId, field.Value);
+                    }
+                    else
+                    {
+                        draftBlockClone.Fields.AddOrUpdateValue(field.FieldId, field.Culture, field.Value);
+                    }
+                }
             }
         }
 
@@ -117,6 +139,22 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return this.WithChannelLink(channelSystemId);
         }
 
+        public BlockSeed WithField(string fieldName, object value)
+        {
+            _block.Fields.AddOrUpdateValue(fieldName, value);
+            _fields.Add(new FieldData(fieldName, value));
+
+            return this;
+        }
+
+        public BlockSeed WithField(string fieldName, object value, string culture)
+        {
+            _block.Fields.AddOrUpdateValue(fieldName, culture, value);
+            _fields.Add(new FieldData(fieldName, value, culture));
+
+            return this;
+        }
+
         public static BlockSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Blocks.Block block)
         {
             var seed = new BlockSeed(new Block(block.SystemId), block.FieldTemplate.Id);
@@ -132,6 +170,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             _channelLinksIds = data.ChannelLinks?.Select(c => c.Channel.Id).ToList() ?? new List<string>();
 
             _fieldTemplateId = data.FieldTemplate.Id;
+            _fields = data.Fields.GetFieldData();
 
             return this;
         }
@@ -143,6 +182,11 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             foreach (var channelLink in _channelLinksIds)
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithChannelLink)}(\"{channelLink}\")");
+            }
+
+            foreach (var field in _fields)
+            {
+                field.WriteMigration(builder);
             }
 
             if (_block.Status.Equals(ContentStatus.Published))

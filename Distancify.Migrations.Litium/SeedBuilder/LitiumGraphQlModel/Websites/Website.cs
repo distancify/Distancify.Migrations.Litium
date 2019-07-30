@@ -13,5 +13,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Websites
         public List<FieldLocalization> Localizations { get; set; }
 
         public List<Page> Pages { get; set; }
+        public Dictionary<string, Field> Fields { get; set; }
     }
 }

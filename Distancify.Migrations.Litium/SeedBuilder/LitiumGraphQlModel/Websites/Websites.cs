@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework;
+using System.Collections.Generic;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Websites
 {
@@ -9,6 +10,5 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Websites
 
         public IEnumerable<PageFieldTemplate> PageFieldTemplates { get; set; }
         public IEnumerable<WebsiteFieldTemplate> WebsiteFieldTemplates { get; set; }
-
     }
 }

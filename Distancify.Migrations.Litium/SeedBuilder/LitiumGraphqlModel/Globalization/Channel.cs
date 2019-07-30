@@ -19,5 +19,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Globalizat
         public List<FieldLocalization> Localizations { get; set; }
 
         public IEnumerable<Country> Countries { get; set; }
+
+        public Dictionary<string, Field> Fields { get; set; }
     }
 }

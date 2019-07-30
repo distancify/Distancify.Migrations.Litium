@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldFramework;
+using System.Collections.Generic;
 
 namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.Customers
 {

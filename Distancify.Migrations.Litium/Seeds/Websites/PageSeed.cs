@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Distancify.Migrations.Litium.Extensions;
 using Litium;
 using Litium.Blocks;
 using Litium.Common;
@@ -10,6 +11,7 @@ using Litium.FieldFramework;
 using Litium.Globalization;
 using Litium.Security;
 using Litium.Websites;
+using FieldData = Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldData;
 
 namespace Distancify.Migrations.Litium.Seeds.Websites
 {
@@ -22,14 +24,14 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         private bool _visitorsReadPermission;
 
         private List<string> _channelLinksIds;
-        private List<(string fieldId, object value, string culture)> _fields;
+        private List<FieldData> _fields;
 
         protected PageSeed(Page page, string fieldTemplateId, bool isNewPage = false)
         {
             _page = page;
             _fieldTemplateId = fieldTemplateId;
             _isNewPage = isNewPage;
-            _fields = new List<(string fieldId, object value, string culture)>();
+            _fields = new List<FieldData>();
         }
 
         public void Commit()
@@ -83,15 +85,15 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
             void UpdateDraftPageWithFields()
             {
-                foreach (var (fieldId, value, culture) in _fields)
+                foreach (var field in _fields)
                 {
-                    if (string.IsNullOrEmpty(culture))
+                    if (string.IsNullOrEmpty(field.Culture))
                     {
-                        draftPage.Fields.AddOrUpdateValue(fieldId, value);
+                        draftPage.Fields.AddOrUpdateValue(field.FieldId, field.Value);
                     }
                     else
                     {
-                        draftPage.Fields.AddOrUpdateValue(fieldId, culture, value);
+                        draftPage.Fields.AddOrUpdateValue(field.FieldId, field.Culture, field.Value);
                     }
                 }
             }
@@ -215,7 +217,6 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
         public PageSeed WithBlock(string containerId, Guid blockSystemId)
         {
-            //BUG: For some reason is blocks not added to the page.. why???
             var blockContainer = _page.Blocks.FirstOrDefault(c => c.Id == containerId);
             if (blockContainer == null)
             {
@@ -255,7 +256,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             foreach (var localization in values.Keys)
             {
                 _page.Fields.AddOrUpdateValue(fieldName, localization, values[localization]);
-                _fields.Add((fieldName, values[localization], localization));
+                _fields.Add(new FieldData(fieldName, values[localization], localization));
             }
 
             return this;
@@ -264,7 +265,15 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         public PageSeed WithField(string fieldName, object value)
         {
             _page.Fields.AddOrUpdateValue(fieldName, value);
-            _fields.Add((fieldName, value, null));
+            _fields.Add(new FieldData(fieldName, value));
+
+            return this;
+        }
+
+        public PageSeed WithField(string fieldName, object value, string culture)
+        {
+            _page.Fields.AddOrUpdateValue(fieldName, culture, value);
+            _fields.Add(new FieldData(fieldName, value, culture));
 
             return this;
         }
@@ -293,6 +302,8 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             _visitorsReadPermission = data.AccessControlList.Any(a => a.Group.Id.Equals(LitiumConstants.Visitors, StringComparison.OrdinalIgnoreCase) &&
                                                                       a.Operation.Contains(Operations.Entity.Read.ToString()));
 
+            _fields = data.Fields.GetFieldData();
+
             foreach (var blockContainer in data.BlockContainers)
             {
                 _page.Blocks.Add(new BlockItemContainer(blockContainer.Id)
@@ -311,6 +322,11 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             foreach (var localization in _page.Localizations)
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
+            }
+
+            foreach (var field in _fields)
+            {
+                field.WriteMigration(builder);
             }
 
             if (_visitorsReadPermission)
