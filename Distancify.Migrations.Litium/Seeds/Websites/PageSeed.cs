@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Distancify.Migrations.Litium.Extensions;
 using Litium;
 using Litium.Blocks;
 using Litium.Common;
@@ -301,9 +302,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             _visitorsReadPermission = data.AccessControlList.Any(a => a.Group.Id.Equals(LitiumConstants.Visitors, StringComparison.OrdinalIgnoreCase) &&
                                                                       a.Operation.Contains(Operations.Entity.Read.ToString()));
 
-            _fields = data.Fields?.Where(f => f.Value.Value != null || f.Value.Localizations != null)
-                          .Select(f => f.Value.Localizations?.Select(l => new FieldData(f.Key, l.Value, l.Culture)) ?? new[] { new FieldData(f.Key, f.Value.Value) })
-                          .SelectMany(f => f).Where(f => f.Value != null).ToList() ?? new List<FieldData>();
+            _fields = data.Fields.GetFieldData();
 
             foreach (var blockContainer in data.BlockContainers)
             {
