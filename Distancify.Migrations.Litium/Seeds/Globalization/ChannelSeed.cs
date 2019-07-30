@@ -184,7 +184,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             {
                 var paymentMethods = moduleECommerce.PaymentMethods.GetAll();
 
-                return paymentMethodIds?.Select(id => paymentMethods.FirstOrDefault(paymentMethod => paymentMethod.Name.Equals(id)).ID).ToList()
+                return paymentMethodIds?.Select(id => paymentMethods.FirstOrDefault(paymentMethod => paymentMethod.Name.Equals(id)).ID)?.ToList()
                     ?? new List<Guid>();
             }
         }
