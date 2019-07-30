@@ -177,15 +177,15 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
 
             List<Guid> GetDeliveryMethodsSystemId()
-                => deliveryMethodIds?.Select(id => moduleECommerce.DeliveryMethods.Get(id, Solution.Instance.SystemToken).ID)?.ToList()
-                        ?? new List<Guid>();
+                => deliveryMethodIds?.Select(id => moduleECommerce.DeliveryMethods.Get(id, Solution.Instance.SystemToken)?.ID)
+                                     .Where(id => id.HasValue).Select(id => id.Value).ToList() ?? new List<Guid>();
 
             List<Guid> GetPaymentMethodSystemIds()
             {
                 var paymentMethods = moduleECommerce.PaymentMethods.GetAll();
 
-                return paymentMethodIds?.Select(id => paymentMethods.FirstOrDefault(paymentMethod => paymentMethod.Name.Equals(id)).ID)?.ToList()
-                    ?? new List<Guid>();
+                return paymentMethodIds?.Select(id => paymentMethods.FirstOrDefault(paymentMethod => paymentMethod.Name.Equals(id))?.ID)
+                                        .Where(id => id.HasValue).Select(id => id.Value).ToList() ?? new List<Guid>();
             }
         }
 
