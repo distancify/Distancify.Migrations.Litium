@@ -18,6 +18,7 @@ namespace Distancify.Migrations.Litium.Migrations
             {
                 connection.Open();
                 EnsureOperations(connection);
+                EnsureCheckoutOperations(connection);
                 EnsureModules(connection);
             }
 
@@ -43,6 +44,10 @@ namespace Distancify.Migrations.Litium.Migrations
                 .Commit();
             FileFieldTemplateSeed.Ensure(LitiumConstants.DefaultFileTemplate)
                 .WithTemplateType(FileTemplateType.Other)
+                .Commit();
+
+            FileFieldTemplateSeed.Ensure(LitiumConstants.DefaultImageFolderTemplate)
+                .WithTemplateType(FileTemplateType.Image)
                 .Commit();
 
             FolderSeed.Ensure("RootFolder", LitiumConstants.DefaultFolderTemplate)
@@ -141,6 +146,19 @@ namespace Distancify.Migrations.Litium.Migrations
                 command.Parameters.AddWithValue("@id", id);
                 command.ExecuteNonQuery();
             }
+        }
+
+        private void EnsureCheckoutOperations(SqlConnection connection)
+        {
+            EnsureTableSingleValue(connection, "ECommerce_ReadableID", "Id", "100000");
+            EnsureTableSingleValue(connection, "ECommerce_ReadableDeliveryID", "Id", "100000");
+        }
+
+        private void EnsureTableSingleValue(SqlConnection connection, string tableName, string columnName, object value)
+        {
+            var command = new SqlCommand($"INSERT INTO [dbo].[{tableName}] ([{columnName}]) VALUES (@value)", connection);
+            command.Parameters.AddWithValue("@value", value);
+            command.ExecuteNonQuery();
         }
     }
 }
