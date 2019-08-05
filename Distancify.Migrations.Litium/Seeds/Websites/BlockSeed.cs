@@ -6,8 +6,10 @@ using Distancify.Migrations.Litium.Extensions;
 using Litium;
 using Litium.Blocks;
 using Litium.Common;
+using Litium.Customers;
 using Litium.FieldFramework;
 using Litium.Globalization;
+using Litium.Security;
 using FieldData = Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldData;
 
 namespace Distancify.Migrations.Litium.Seeds.Websites
@@ -18,6 +20,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         private bool _isPublished = false;
         private bool _isNewBlock = false;
         private string _fieldTemplateId;
+        private bool _visitorsReadPermission;
 
         private List<string> _channelLinksIds;
         private List<FieldData> _fields;
@@ -71,12 +74,29 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             }
         }
 
+        public static BlockSeed Ensure(string blockId, string blockTemplateId)
+        {
+            var blockFieldTemplateSystemGuid = IoC.Resolve<FieldTemplateService>().Get<BlockFieldTemplate>(blockTemplateId).SystemId;
+            var blockClone = IoC.Resolve<BlockService>().Get(blockId)?.MakeWritableClone();
+            var isNewBlock = false;
+
+            if (blockClone is null)
+            {
+                blockClone = new Block(blockFieldTemplateSystemGuid)
+                {
+                    Id = blockId,
+                    SystemId = Guid.NewGuid()
+                };
+                isNewBlock = true;
+            }
+            return new BlockSeed(blockClone, blockTemplateId, isNewBlock);
+        }
+
         public static BlockSeed Ensure(Guid blockSystemId, string blockTemplateId)
         {
             var blockFieldTemplateSystemGuid = IoC.Resolve<FieldTemplateService>().Get<BlockFieldTemplate>(blockTemplateId).SystemId;
             var blockClone = IoC.Resolve<BlockService>().Get(blockSystemId)?.MakeWritableClone();
             var isNewBlock = false;
-
             if (blockClone is null)
             {
                 blockClone = new Block(blockFieldTemplateSystemGuid)
@@ -85,8 +105,19 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 };
                 isNewBlock = true;
             }
-
             return new BlockSeed(blockClone, blockTemplateId, isNewBlock);
+        }
+
+        public BlockSeed WithVisitorReadPermission()
+        {
+            var visitorGroupSystemId = IoC.Resolve<GroupService>().Get<StaticGroup>(LitiumConstants.Visitors).SystemId;
+
+            if (!_block.AccessControlList.Any(a => a.GroupSystemId == visitorGroupSystemId))
+            {
+                _block.AccessControlList.Add(new AccessControlEntry(Operations.Entity.Read, visitorGroupSystemId));
+            }
+
+            return this;
         }
 
         public BlockSeed IsGlobal()
@@ -98,7 +129,6 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         public BlockSeed IsPublished()
         {
             _isPublished = true;
-
             return this;
         }
 
@@ -130,7 +160,6 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
             return this;
         }
-
 
         public BlockSeed WithChannelLink(string channelId)
         {
@@ -171,6 +200,9 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
             _fieldTemplateId = data.FieldTemplate.Id;
             _fields = data.Fields.GetFieldData();
+            _visitorsReadPermission = data.AccessControlList != null && data.AccessControlList.Any(a =>
+                                          a.Group.Id.Equals(LitiumConstants.Visitors, StringComparison.OrdinalIgnoreCase) &&
+                                          a.Operation.Contains(Operations.Entity.Read.ToString()));
 
             return this;
         }
@@ -189,6 +221,11 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 field.WriteMigration(builder);
             }
 
+            if (_visitorsReadPermission)
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithVisitorReadPermission)}()");
+            }
+
             if (_block.Status.Equals(ContentStatus.Published))
             {
                 builder.AppendLine($"\t\t\t\t.{nameof(IsPublished)}()");
@@ -205,11 +242,5 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
             builder.AppendLine("\t\t\t\t.Commit();");
         }
-
-        /* TODO
-         * AccessControlList
-         * Fields
-         * Localizations
-         */
     }
 }
