@@ -5,6 +5,7 @@ using Litium;
 using Litium.FieldFramework;
 using Litium.Globalization;
 using Litium.Products;
+using FieldData = Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldData;
 
 namespace Distancify.Migrations.Litium.Seeds.Products
 {
@@ -39,10 +40,11 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             {
                 _category.SystemId = Guid.NewGuid();
                 service.Create(_category);
-                return;
             }
-
-            service.Update(_category);
+            else
+            {
+                service.Update(_category);
+            }
         }
 
         public AssortmentCategorySeed WithName(string culture, string name)
@@ -126,6 +128,28 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         {
             _category.ParentCategorySystemId = IoC.Resolve<CategoryService>().Get(categoryId).SystemId;
 
+            return this;
+        }
+
+        public AssortmentCategorySeed WithField(string fieldName, Dictionary<string, object> values)
+        {
+            foreach (var localization in values.Keys)
+            {
+                _category.Fields.AddOrUpdateValue(fieldName, localization, values[localization]);
+            }
+
+            return this;
+        }
+
+        public AssortmentCategorySeed WithField(string fieldName, object value)
+        {
+            _category.Fields.AddOrUpdateValue(fieldName, value);
+            return this;
+        }
+
+        public AssortmentCategorySeed WithField(string fieldName, object value, string culture)
+        {
+            _category.Fields.AddOrUpdateValue(fieldName, culture, value);
             return this;
         }
     }
