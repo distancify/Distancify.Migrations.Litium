@@ -25,43 +25,65 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         private string _websiteLanguageId;
 
         private List<FieldData> _fields;
+        private bool _isNewChannel;
 
-        private ChannelSeed(Channel channel, string fieldTemplateId)
+        private ChannelSeed(Channel channel, string fieldTemplateId, bool isNewChannel)
         {
             _fieldTemplateId = fieldTemplateId;
             _channel = channel;
             _fields = new List<FieldData>();
+            _isNewChannel = isNewChannel;
         }
 
         public static ChannelSeed Ensure(string identifyingField, string identifyingValue, string fieldTemplateId)
         {
             var channel = IoC.Resolve<ChannelService>().GetAll().FirstOrDefault(c => c.Fields.GetValue<string>(identifyingField).Equals(identifyingValue));
-            return Ensure(channel, fieldTemplateId);
+            return Ensure(channel, fieldTemplateId, false);
         }
 
         public static ChannelSeed Ensure(string channelId, string channelFieldTemplateId)
         {
             var channel = IoC.Resolve<ChannelService>().Get(channelId)?.MakeWritableClone();
+            var isNewChannel = false;
+
             if (channel is null)
             {
                 channel = new Channel(Guid.Empty)
                 {
                     Id = channelId,
-                    SystemId = Guid.Empty
+                    SystemId = Guid.NewGuid()
                 };
+                isNewChannel = true;
             }
 
-            return Ensure(channel, channelFieldTemplateId);
+            return Ensure(channel, channelFieldTemplateId, isNewChannel);
         }
 
-        private static ChannelSeed Ensure(Channel channel, string fieldTemplateId)
+        public static ChannelSeed Ensure(Guid channelSystemId, string channelFieldTemplateId)
+        {
+            var channel = IoC.Resolve<ChannelService>().Get(channelSystemId)?.MakeWritableClone();
+            var isNewChannel = false;
+
+            if (channel is null)
+            {
+                channel = new Channel(Guid.Empty)
+                {
+                    SystemId = channelSystemId
+                };
+                isNewChannel = true;
+            }
+
+            return Ensure(channel, channelFieldTemplateId, isNewChannel);
+        }
+
+        private static ChannelSeed Ensure(Channel channel, string fieldTemplateId, bool isNewChannel)
         {
             if (channel is Channel)
             {
                 channel = channel.MakeWritableClone();
             }
 
-            return new ChannelSeed(channel, fieldTemplateId);
+            return new ChannelSeed(channel, fieldTemplateId, isNewChannel);
         }
 
         public void Commit()
@@ -74,9 +96,8 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             var templateSystemId = IoC.Resolve<FieldTemplateService>().Get<ChannelFieldTemplate>(_fieldTemplateId).SystemId;
             _channel.FieldTemplateSystemId = templateSystemId;
 
-            if (_channel.SystemId == Guid.Empty)
+            if (_isNewChannel)
             {
-                _channel.SystemId = Guid.NewGuid();
                 service.Create(_channel);
                 return;
             }
@@ -259,7 +280,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 
         public static ChannelSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Globalization.Channel channel)
         {
-            var seed = new ChannelSeed(new Channel(Guid.Empty), channel.FieldTemplate.Id);
+            var seed = new ChannelSeed(new Channel(Guid.Empty) { SystemId = Guid.NewGuid() }, channel.FieldTemplate.Id, false);
             return (ChannelSeed)seed.Update(channel);
         }
 

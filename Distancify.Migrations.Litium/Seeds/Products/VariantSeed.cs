@@ -161,8 +161,11 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
         public VariantSeed WithChannelLink(string channelId)
         {
-            var channelSystemId = IoC.Resolve<ChannelService>().Get(channelId).SystemId;
+            return this.WithChannelLink(IoC.Resolve<ChannelService>().Get(channelId).SystemId);
+        }
 
+        public VariantSeed WithChannelLink(Guid channelSystemId)
+        {
             if (!_variant.ChannelLinks.Any(l => l.ChannelSystemId == channelSystemId))
             {
                 _variant.ChannelLinks.Add(new VariantToChannelLink(channelSystemId));

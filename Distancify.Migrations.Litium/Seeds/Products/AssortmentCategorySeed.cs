@@ -109,8 +109,11 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
         public AssortmentCategorySeed WithChannelLink(string channelId)
         {
-            var channelSystemId = IoC.Resolve<ChannelService>().Get(channelId).SystemId;
+            return this.WithChannelLink(IoC.Resolve<ChannelService>().Get(channelId).SystemId);
+        }
 
+        public AssortmentCategorySeed WithChannelLink(Guid channelSystemId)
+        {
             if (_category.ChannelLinks is null)
             {
                 _category.ChannelLinks = new List<CategoryToChannelLink>();
