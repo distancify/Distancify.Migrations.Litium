@@ -6,6 +6,7 @@ using Litium.Media;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using Distancify.Migrations.Litium.Seeds.Websites;
 
 namespace Distancify.Migrations.Litium.Migrations
@@ -156,9 +157,27 @@ namespace Distancify.Migrations.Litium.Migrations
 
         private void EnsureTableSingleValue(SqlConnection connection, string tableName, string columnName, object value)
         {
-            var command = new SqlCommand($"INSERT INTO [dbo].[{tableName}] ([{columnName}]) VALUES (@value)", connection);
-            command.Parameters.AddWithValue("@value", value);
-            command.ExecuteNonQuery();
+            var values = new List<object>();
+            var readCommand = new SqlCommand($"SELECT {columnName} FROM [dbo].[{tableName}]", connection);
+            var reader = readCommand.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    values.Add(reader.GetValue(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+            }
+
+            if (!values.Any(v=> v.ToString().Equals(value.ToString())))
+            {
+                var command = new SqlCommand($"INSERT INTO [dbo].[{tableName}] ([{columnName}]) VALUES (@value)", connection);
+                command.Parameters.AddWithValue("@value", value);
+                command.ExecuteNonQuery();
+            }
         }
     }
 }
