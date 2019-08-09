@@ -7,25 +7,25 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
     public class CurrencySeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Globalization.Currency>
     {
-        private readonly Currency currency;
+        private readonly Currency _currency;
 
         private CurrencySeed(Currency currency)
         {
-            this.currency = currency;
+           _currency = currency;
         }
 
         public void Commit()
         {
             var currencyService = IoC.Resolve<CurrencyService>();
 
-            if (currency.SystemId == Guid.Empty)
+            if (_currency.SystemId == Guid.Empty)
             {
-                currency.SystemId = Guid.NewGuid();
-                currencyService.Create(currency);
+                _currency.SystemId = Guid.NewGuid();
+                currencyService.Create(_currency);
                 return;
             }
 
-            currencyService.Update(currency);
+            currencyService.Update(_currency);
         }
 
         public static CurrencySeed Ensure(string id)
@@ -45,21 +45,72 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return (CurrencySeed)seed.Update(currency);
         }
 
+        public CurrencySeed WithSymbol(string symbol)
+        {
+            _currency.Symbol = symbol;
+            return this;
+        }
+
+        public CurrencySeed WithSymbolPosition(Currency.Positions position)
+        {
+            _currency.SymbolPosition = position;
+            return this;
+        }
+
+        public CurrencySeed WithExchangeRate(decimal exchangeRate)
+        {
+            _currency.ExchangeRate = exchangeRate;
+            return this;
+        }
+
+        public CurrencySeed WithGroupSeparator(string groupSeparator)
+        {
+            _currency.GroupSeparator = groupSeparator;
+            return this;
+        }
+
+        public CurrencySeed WithTextFormat(string textFormat)
+        {
+            _currency.TextFormat = textFormat;
+            return this;
+        }
+
         public CurrencySeed IsBaseCurrency(bool on)
         {
-            currency.IsBaseCurrency = on;
+            _currency.IsBaseCurrency = on;
             return this;
         }
 
         public void WriteMigration(StringBuilder builder)
         {
-            if (currency == null || string.IsNullOrEmpty(currency.Id))
+            if (_currency == null || string.IsNullOrEmpty(_currency.Id))
             {
                 throw new NullReferenceException("At least one Currency with an ID obtained from the GraphQL endpoint is needed in order to ensure the Currencies");
             }
 
-            builder.AppendLine($"\r\n\t\t\t{nameof(CurrencySeed)}.{nameof(CurrencySeed.Ensure)}(\"{currency.Id}\")");
-            builder.AppendLine($"\t\t\t\t.{nameof(CurrencySeed.IsBaseCurrency)}({currency.IsBaseCurrency.ToString().ToLower()})");
+            builder.AppendLine($"\r\n\t\t\t{nameof(CurrencySeed)}.{nameof(Ensure)}(\"{_currency.Id}\")");
+            builder.AppendLine($"\t\t\t\t.{nameof(IsBaseCurrency)}({_currency.IsBaseCurrency.ToString().ToLower()})");
+
+            if (!string.IsNullOrEmpty(_currency.Symbol))
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithSymbol)}(\"{_currency.Symbol}\")");
+                builder.AppendLine($"\t\t\t\t.{nameof(WithSymbolPosition)}({_currency.SymbolPosition})");
+            }
+
+            if (_currency.ExchangeRate != 0)
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithExchangeRate)}({_currency.ExchangeRate})");
+            }
+
+            if (!string.IsNullOrEmpty(_currency.GroupSeparator))
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithGroupSeparator)}(\"{_currency.GroupSeparator}\")");
+            }
+
+            if (!string.IsNullOrEmpty(_currency.TextFormat))
+            {
+                builder.AppendLine($"\t\t\t\t.{nameof(WithTextFormat)}(\"{_currency.TextFormat}\")");
+            }
 
             builder.AppendLine("\t\t\t\t.Commit();");
         }
@@ -68,18 +119,21 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         {
             if (data.IsBaseCurrency.HasValue)
             {
-                this.currency.IsBaseCurrency = data.IsBaseCurrency.Value;
+               _currency.IsBaseCurrency = data.IsBaseCurrency.Value;
             }
+
+            _currency.Symbol = data.Symbol;
+
+            if (Enum.TryParse(data.SymbolPosition.ToString(), out Currency.Positions position))
+            {
+                _currency.SymbolPosition = position;
+            }
+
+            _currency.ExchangeRate = data.ExchangeRate;
+            _currency.GroupSeparator = data.GroupSeparator;
+            _currency.TextFormat = data.TextFormat;
+
             return this;
         }
-
-
-
-        //TODO: EchangeRate
-        //TODO: GroupSeperator
-        //TODO:  Symbol
-        //TODO:  SymbolPosition
-        //TODO: TextFormat
-
     }
 }
