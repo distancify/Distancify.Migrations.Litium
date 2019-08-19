@@ -511,6 +511,7 @@
     <Compile Include="Seeds\Products\InventoryItemSeed.cs" />
     <Compile Include="Seeds\Products\InventorySeed.cs" />
     <Compile Include="Seeds\Products\PriceListSeed.cs" />
+    <Compile Include="Seeds\Products\RelationshipTypeSeed.cs" />
     <Compile Include="Seeds\Products\VariantSeed.cs" />
     <Compile Include="Seeds\Globalization\CountrySeed.cs" />
     <Compile Include="Seeds\Cultures.cs" />
