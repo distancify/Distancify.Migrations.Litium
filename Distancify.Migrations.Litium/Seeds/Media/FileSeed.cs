@@ -29,12 +29,12 @@ namespace Distancify.Migrations.Litium.Seeds.Media
 
         public static FileSeed Ensure(string fileId, string filePath, string fileFieldTemplateId, Guid folderSystemId)
         {
-            var fileName = System.IO.Path.GetFileName(filePath);
-            var file = IoC.Resolve<FileService>().Get(fileName)?.MakeWritableClone();
+            var file = IoC.Resolve<FileService>().Get(fileId)?.MakeWritableClone();
             var fileFieldTemplate = IoC.Resolve<FieldTemplateService>().Get<FileFieldTemplate>(fileFieldTemplateId);
 
             if (file is null)
             {
+                var fileName = System.IO.Path.GetFileName(filePath);
                 var blobContainer = IoC.Resolve<BlobService>().Create(File.BlobAuthority);
 
                 file = new File(fileFieldTemplate.SystemId, folderSystemId, blobContainer.Uri, fileName)
