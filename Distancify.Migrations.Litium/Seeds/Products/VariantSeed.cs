@@ -13,7 +13,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
     {
         private readonly Variant _variant;
         private readonly BaseProduct _baseProduct;
-        private bool _isNewVariant;
+        private readonly bool _isNewVariant;
         private bool _baseProductUpdated = false;
 
         protected VariantSeed(Variant variant, BaseProduct baseProduct, bool isNewVariant = false)
@@ -161,7 +161,15 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
         public VariantSeed WithChannelLink(string channelId)
         {
-            return this.WithChannelLink(IoC.Resolve<ChannelService>().Get(channelId).SystemId);
+            var channelService = IoC.Resolve<ChannelService>();
+            return WithChannelLink(channelService.Get(channelId).SystemId);
+
+            if (channelService.Get(channelId) is Channel channel)
+            {
+                return WithChannelLink(channel.SystemId);
+            }
+
+            return this;
         }
 
         public VariantSeed WithChannelLink(Guid channelSystemId)

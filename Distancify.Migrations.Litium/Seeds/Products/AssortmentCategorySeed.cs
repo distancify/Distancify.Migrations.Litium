@@ -20,10 +20,17 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
         public static AssortmentCategorySeed Ensure(string assortmentCategoryId, string categoryFieldTemplateId, string assortmentId)
         {
-            var fieldTemplateSystemGuid = IoC.Resolve<FieldTemplateService>().Get<CategoryFieldTemplate>(categoryFieldTemplateId).SystemId;
-            var assortmentSystemGuid = IoC.Resolve<AssortmentService>().Get(assortmentId).SystemId;
-            var categoryClone = IoC.Resolve<CategoryService>().Get(assortmentCategoryId)?.MakeWritableClone() ??
-                new Category(fieldTemplateSystemGuid, assortmentSystemGuid)
+            var fieldTemplateService = IoC.Resolve<FieldTemplateService>();
+            var fieldTemplate = fieldTemplateService.Get<CategoryFieldTemplate>(categoryFieldTemplateId);
+
+            var assortmentService = IoC.Resolve<AssortmentService>();
+            var assortment = assortmentService.Get(assortmentId);
+
+            var categoryService = IoC.Resolve<CategoryService>();
+            var category = categoryService.Get(assortmentCategoryId);
+
+            var categoryClone = category?.MakeWritableClone() ??
+                new Category(fieldTemplate.SystemId, assortment.SystemId)
                 {
                     SystemId = Guid.Empty,
                     Id = assortmentCategoryId
