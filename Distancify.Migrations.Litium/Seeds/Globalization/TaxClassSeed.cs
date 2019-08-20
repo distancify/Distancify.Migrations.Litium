@@ -26,7 +26,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return new TaxClassSeed(taxClassClone);
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var fieldTemplateService = IoC.Resolve<TaxClassService>();
 
@@ -34,10 +34,13 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             {
                 taxClass.SystemId = Guid.NewGuid();
                 fieldTemplateService.Create(taxClass);
-                return;
+            }
+            else
+            {
+                fieldTemplateService.Update(taxClass);
             }
 
-            fieldTemplateService.Update(taxClass);
+            return taxClass.SystemId;
         }
 
         public TaxClassSeed WithName(string culture, string name)

@@ -32,7 +32,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return new DeliveryMethodSeed(deliveryMethod);
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<ModuleECommerce>();
 
@@ -40,6 +40,8 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             {
                 service.DeliveryMethods.Create(_deliveryMethodCarrier, Solution.Instance.SystemToken);
             }
+
+            return _deliveryMethodCarrier.ID;
         }
 
         public DeliveryMethodSeed WithCostCarrier(string currencyId, decimal cost, bool includeVAT, decimal vatPercentage)

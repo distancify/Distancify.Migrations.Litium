@@ -15,17 +15,20 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             _unitOfMeasurement = unitOfMeasurement;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<UnitOfMeasurementService>();
             if (_unitOfMeasurement.SystemId == Guid.Empty)
             {
                 _unitOfMeasurement.SystemId = Guid.NewGuid();
                 service.Create(_unitOfMeasurement);
-                return;
+            }
+            else
+            {
+                service.Update(_unitOfMeasurement);
             }
 
-            service.Update(_unitOfMeasurement);
+            return _unitOfMeasurement.SystemId;
         }
 
         public static UnitOfMeasurementSeed Ensure(string id)

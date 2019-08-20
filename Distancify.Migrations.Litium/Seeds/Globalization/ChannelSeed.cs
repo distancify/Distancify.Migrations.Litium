@@ -86,7 +86,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return new ChannelSeed(channel, fieldTemplateId, isNewChannel);
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<ChannelService>();
             var template = IoC.Resolve<FieldTemplateService>().Get<ChannelFieldTemplate>(_fieldTemplateId);
@@ -99,10 +99,13 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             if (_isNewChannel)
             {
                 service.Create(_channel);
-                return;
+            }
+            else
+            {
+                service.Update(_channel);
             }
 
-            service.Update(_channel);
+            return _channel.SystemId;
         }
 
 

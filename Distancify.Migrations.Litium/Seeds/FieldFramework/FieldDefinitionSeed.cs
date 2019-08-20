@@ -20,13 +20,13 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             _fieldDefinition = fieldDefinition;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             //TODO: Figure out why we get validation errors even if some fields are not marked as system defined (even though they are)
             try
             {
                 if (_fieldDefinition.SystemDefined)
-                    return; ;
+                    return _fieldDefinition.SystemId;
 
                 var fieldDefinitionService = IoC.Resolve<FieldDefinitionService>();
                 if (_fieldDefinition.SystemId == Guid.Empty)
@@ -38,11 +38,16 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
                 {
                     fieldDefinitionService.Update(_fieldDefinition);
                 }
+
+                return _fieldDefinition.SystemId;
             }
             catch (ValidationException ex)
             {
                 this.Log().Error(ex.Message, ex);
+                
             }
+
+            return Guid.Empty;
         }
 
         public static FieldDefinitionSeed Ensure<TArea>(string id, string fieldType)

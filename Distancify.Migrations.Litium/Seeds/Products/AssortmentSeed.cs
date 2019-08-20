@@ -15,7 +15,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             _assortment = assortment;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<AssortmentService>();
 
@@ -23,10 +23,13 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             {
                 _assortment.SystemId = Guid.NewGuid();
                 service.Create(_assortment);
-                return;
+            }
+            else
+            {
+                service.Update(_assortment);
             }
 
-            service.Update(_assortment);
+            return _assortment.SystemId;
         }
 
         public static AssortmentSeed Ensure(string assortment)

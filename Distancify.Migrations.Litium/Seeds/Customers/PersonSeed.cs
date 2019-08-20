@@ -66,7 +66,7 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
             return new PersonSeed(person);
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<PersonService>();
 
@@ -92,6 +92,8 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
             {
                 service.Update(person);
             }
+
+            return person.SystemId;
         }
 
         public PersonSeed WithFirstName(string firstName)

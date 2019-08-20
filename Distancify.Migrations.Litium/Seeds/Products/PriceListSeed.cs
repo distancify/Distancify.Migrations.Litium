@@ -15,7 +15,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             priceList = variant;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<PriceListService>();
 
@@ -23,10 +23,13 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             {
                 priceList.SystemId = Guid.NewGuid();
                 service.Create(priceList);
-                return;
+            }
+            else
+            {
+                service.Update(priceList);
             }
 
-            service.Update(priceList);
+            return priceList.SystemId;
         }
 
         public static PriceListSeed Ensure(string priceListId, string currencyId)

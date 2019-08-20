@@ -74,7 +74,7 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
             return this;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<OrganizationService>();
 
@@ -87,6 +87,8 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
             {
                 service.Update(_organization);
             }
+
+            return _organization.SystemId;
         }
     }
 }

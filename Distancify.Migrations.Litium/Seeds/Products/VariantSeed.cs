@@ -23,7 +23,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             _isNewVariant = isNewVariant;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<VariantService>();
 
@@ -41,6 +41,8 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             {
                 IoC.Resolve<BaseProductService>().Update(_baseProduct);
             }
+
+            return _variant.SystemId;
         }
 
         public static VariantSeed Ensure(string variantId, string baseProductId)

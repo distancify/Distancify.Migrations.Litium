@@ -13,7 +13,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             this.inventoryItem = inventoryItem;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<InventoryItemService>();
 
@@ -21,11 +21,13 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             {
                 inventoryItem.SystemId = Guid.NewGuid();
                 service.Create(inventoryItem);
-
-                return;
+            }
+            else
+            {
+                service.Update(inventoryItem);
             }
 
-            service.Update(inventoryItem);
+            return inventoryItem.SystemId;
         }
 
         public static InventoryItemSeed Ensure(string inventoryId, string variantId)

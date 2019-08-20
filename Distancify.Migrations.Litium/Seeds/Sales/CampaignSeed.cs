@@ -34,7 +34,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return new CampaignSeed(campaign);
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<ModuleECommerce>();
 
@@ -47,6 +47,8 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                     campaign.SetIsActive(true, Solution.Instance.SystemToken);
                 }
             }
+
+            return _campaignCarrier.ID;
         }
 
         public CampaignSeed WithName(string culture, string name)

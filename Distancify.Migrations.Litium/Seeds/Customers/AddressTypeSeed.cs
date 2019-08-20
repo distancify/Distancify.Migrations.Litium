@@ -29,7 +29,7 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
             return new AddressTypeSeed(addressType);
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<AddressTypeService>();
 
@@ -42,6 +42,8 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
             {
                 service.Update(_addressType);
             }
+
+            return _addressType.SystemId;
         }
     }
 }

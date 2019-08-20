@@ -17,7 +17,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             this.displayTemplate = displayTemplate;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<DisplayTemplateService>();
 
@@ -25,9 +25,13 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             {
                 displayTemplate.SystemId = Guid.NewGuid();
                 service.Create(displayTemplate);
-                return;
             }
-            service.Update(displayTemplate);
+            else
+            {
+                service.Update(displayTemplate);
+            }
+
+            return displayTemplate.SystemId;
         }
 
         public DisplayTemplateSeed<T> WithTemplatePath(string templatePath)

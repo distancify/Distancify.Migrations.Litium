@@ -151,7 +151,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<ModuleECommerce>();
             if (_isNewOrder)
@@ -159,6 +159,8 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 service.Orders.CalculateOrderTotals(_orderCarrier, Solution.Instance.SystemToken);
                 service.Orders.CreateOrder(_orderCarrier, Solution.Instance.SystemToken);
             }
+
+            return _orderCarrier.ID;
         }
     }
 }

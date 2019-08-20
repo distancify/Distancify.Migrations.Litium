@@ -39,7 +39,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return new AssortmentCategorySeed(categoryClone);
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<CategoryService>();
 
@@ -52,6 +52,8 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             {
                 service.Update(_category);
             }
+
+            return _category.SystemId;
         }
 
         public AssortmentCategorySeed WithName(string culture, string name)

@@ -79,7 +79,7 @@ namespace Distancify.Migrations.Litium.Seeds.Media
             return Ensure(fileName, filePath, fileFieldTemplateId, folderSystemId);
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<FileService>();
 
@@ -96,6 +96,7 @@ namespace Distancify.Migrations.Litium.Seeds.Media
                 service.Update(_file);
             }
 
+            return _file.SystemId;
 
             long GetFileSize()
             {

@@ -21,17 +21,20 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             _isNewMarket = isNewMarket;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var marketService = IoC.Resolve<MarketService>();
 
             if (_isNewMarket)
             {
                 marketService.Create(_market);
-                return;
+            }
+            else
+            {
+                marketService.Update(_market);
             }
 
-            marketService.Update(_market);
+            return _market.SystemId;
         }
 
         public static MarketSeed Ensure(string id, string fieldTemplateId)

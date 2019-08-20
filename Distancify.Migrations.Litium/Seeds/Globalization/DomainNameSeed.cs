@@ -25,7 +25,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return new DomainNameSeed(domainName);
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<DomainNameService>();
 
@@ -33,10 +33,13 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             {
                 domainName.SystemId = Guid.NewGuid();
                 service.Create(domainName);
-                return;
+            }
+            else
+            {
+                service.Update(domainName);
             }
 
-            service.Update(domainName);
+            return domainName.SystemId;
         }
 
         internal static DomainNameSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Globalization.DomainName channel)

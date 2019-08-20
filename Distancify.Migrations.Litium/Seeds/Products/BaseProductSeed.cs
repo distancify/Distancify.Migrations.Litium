@@ -32,7 +32,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return new BaseProductSeed(productClone);
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<BaseProductService>();
 
@@ -40,10 +40,13 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             {
                 baseProduct.SystemId = Guid.NewGuid();
                 service.Create(baseProduct);
-                return;
+            }
+            else
+            {
+                service.Update(baseProduct);
             }
 
-            service.Update(baseProduct);
+            return baseProduct.SystemId;
         }
 
 

@@ -14,7 +14,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
            _currency = currency;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var currencyService = IoC.Resolve<CurrencyService>();
 
@@ -22,10 +22,13 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             {
                 _currency.SystemId = Guid.NewGuid();
                 currencyService.Create(_currency);
-                return;
+            }
+            else
+            {
+                currencyService.Update(_currency);
             }
 
-            currencyService.Update(_currency);
+            return _currency.SystemId;
         }
 
         public static CurrencySeed Ensure(string id)

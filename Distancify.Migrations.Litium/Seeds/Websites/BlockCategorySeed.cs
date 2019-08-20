@@ -14,7 +14,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             _blockCategory = blockCategory;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<CategoryService>();
 
@@ -22,10 +22,14 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             {
                 _blockCategory.SystemId = Guid.NewGuid();
                 service.Create(_blockCategory);
-                return;
+            }
+            else
+            {
+                service.Update(_blockCategory);
             }
 
-            service.Update(_blockCategory);
+
+            return _blockCategory.SystemId;
         }
 
         public static BlockCategorySeed Ensure(string blockCategoryId)

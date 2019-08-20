@@ -24,7 +24,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             this.fieldTemplate = fieldTemplate;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var fieldTemplateService = IoC.Resolve<FieldTemplateService>();
 
@@ -32,10 +32,13 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             {
                 fieldTemplate.SystemId = Guid.NewGuid();
                 fieldTemplateService.Create(fieldTemplate);
-                return;
+            }
+            else
+            {
+                fieldTemplateService.Update(fieldTemplate);
             }
 
-            fieldTemplateService.Update(fieldTemplate);
+            return fieldTemplate.SystemId;
         }
 
         public FieldTemplateSeed<T> WithName(string culture, string name)

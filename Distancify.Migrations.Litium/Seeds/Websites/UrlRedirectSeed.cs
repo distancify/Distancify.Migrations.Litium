@@ -33,7 +33,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return this;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var dataService = IoC.Resolve<DataService>();
             var all = IoC.Resolve<DataService>().CreateQuery<UrlRedirect>().ToList();
@@ -56,6 +56,8 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 }
                 batch.Commit();
             }
+
+            return Guid.Empty;
         }
     }
 }

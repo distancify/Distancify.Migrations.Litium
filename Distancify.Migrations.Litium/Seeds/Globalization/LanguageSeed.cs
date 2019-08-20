@@ -25,7 +25,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return new LanguageSeed(languageClone);
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<LanguageService>();
 
@@ -33,10 +33,13 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             {
                 language.SystemId = Guid.NewGuid();
                 service.Create(language);
-                return;
+            }
+            else
+            {
+                service.Update(language);
             }
 
-            service.Update(language);
+            return language.SystemId;
         }
 
         internal static LanguageSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Globalization.Language language)

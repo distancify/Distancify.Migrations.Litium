@@ -15,7 +15,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             _relationshipType = relationshipType;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<RelationshipTypeService>();
 
@@ -23,10 +23,13 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             {
                 _relationshipType.SystemId = Guid.NewGuid();
                 service.Create(_relationshipType);
-                return;
+            }
+            else
+            {
+                service.Update(_relationshipType);
             }
 
-            service.Update(_relationshipType);
+            return _relationshipType.SystemId;
         }
 
         public static RelationshipTypeSeed Ensure(string relationshipType)

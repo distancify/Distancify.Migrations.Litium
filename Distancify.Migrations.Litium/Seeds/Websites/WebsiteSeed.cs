@@ -25,7 +25,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             _isNewWebsite = isNewWebsite;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<WebsiteService>();
 
@@ -37,10 +37,13 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             if (_isNewWebsite)
             {
                 service.Create(_website);
-                return;
+            }
+            else
+            {
+                service.Update(_website);
             }
 
-            service.Update(_website);
+            return _website.SystemId;
         }
 
         public static WebsiteSeed Ensure(string websiteName, string websiteTemplateName)

@@ -38,7 +38,7 @@ namespace Distancify.Migrations.Litium.Seeds.Media
             return new FolderSeed(folder);
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<FolderService>();
 
@@ -51,6 +51,8 @@ namespace Distancify.Migrations.Litium.Seeds.Media
             {
                 service.Update(_folder);
             }
+
+            return _folder.SystemId;
         }
 
         public FolderSeed WithVisitorReadPermission()

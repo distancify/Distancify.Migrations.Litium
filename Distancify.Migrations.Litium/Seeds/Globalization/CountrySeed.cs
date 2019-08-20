@@ -18,7 +18,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             this.currencyId = currencyId;
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var countryService = IoC.Resolve<CountryService>();
 
@@ -34,6 +34,8 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             {
                 countryService.Update(country);
             }
+
+            return country.SystemId;
         }
 
         public static CountrySeed Ensure(string id, string currencyId)

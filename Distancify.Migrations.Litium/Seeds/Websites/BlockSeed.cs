@@ -33,7 +33,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             _fields = new List<FieldData>();
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<BlockService>();
 
@@ -57,6 +57,8 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             {
                 draftService.Publish(draftBlockClone);
             }
+
+            return _block.SystemId;
 
             void UpdateDraftBlockWithFields()
             {

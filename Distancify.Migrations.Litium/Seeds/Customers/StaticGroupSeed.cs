@@ -40,7 +40,7 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
             return (StaticGroupSeed)seed.Update(staticGroup);
         }
 
-        public void Commit()
+        public Guid Commit()
         {
             var service = IoC.Resolve<GroupService>();
 
@@ -54,6 +54,8 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
             {
                 service.Update(_group);
             }
+
+            return _group.SystemId;
         }
 
         public StaticGroupSeed WithProductsContentAccess()
