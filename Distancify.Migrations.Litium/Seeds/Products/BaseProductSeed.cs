@@ -165,11 +165,36 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return this;
         }
 
+        public BaseProductSeed WithBaseProductRelation(string relationshipTypeId, string relatedBaseProductId)
+        {
+            var relationshipTypeService = IoC.Resolve<RelationshipTypeService>();
+            var relationshipType = relationshipTypeService.Get(relationshipTypeId);
+
+            var baseProductService = IoC.Resolve<BaseProductService>();
+            var relatedBaseProduct = baseProductService.Get(relatedBaseProductId);
+
+            baseProduct.RelationshipLinks.Add(new BaseProductToBaseProductRelationshipLink(relationshipType.SystemId, relatedBaseProduct.SystemId));
+
+            return this;
+        }
+
+        public BaseProductSeed WithVariantRelation(string relationshipTypeId, string relatedVariantId)
+        {
+            var relationshipTypeService = IoC.Resolve<RelationshipTypeService>();
+            var relationshipType = relationshipTypeService.Get(relationshipTypeId);
+
+            var variantService = IoC.Resolve<VariantService>();
+            var relatedVariant = variantService.Get(relatedVariantId);
+
+            baseProduct.RelationshipLinks.Add(new BaseProductToVariantRelationshipLink(relationshipType.SystemId, relatedVariant.SystemId));
+
+            return this;
+        }
+
         /*
 * TODO: Remove CategoryLinks
 * TODO: Fields
 * TODO: ProductListLinks
-* TODO: RelationshipLinks
 */
 
         /*TODO:?

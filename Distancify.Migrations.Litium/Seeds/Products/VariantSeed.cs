@@ -139,6 +139,11 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
         public VariantSeed WithPrice(string priceListId, decimal price)
         {
+            return WithPrice(priceListId, price, default);
+        }
+
+        public VariantSeed WithPrice(string priceListId, decimal price, decimal minimumQuantity)
+        {
             var priceListSystemGuid = IoC.Resolve<PriceListService>().Get(priceListId).SystemId;
             var priceItem = _variant.Prices.FirstOrDefault(p => p.PriceListSystemId == priceListSystemGuid);
 
@@ -147,7 +152,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                 _variant.Prices.Add(
                     new VariantPriceItem(priceListSystemGuid)
                     {
-                        //MinimumQuantity
+                        MinimumQuantity = minimumQuantity,
                         Price = price
                         //VatPercentage
                     });
@@ -226,10 +231,35 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return this;
         }
 
+        public VariantSeed WithBaseProductRelation(string relationshipTypeId, string relatedBaseProductId)
+        {
+            var relationshipTypeService = IoC.Resolve<RelationshipTypeService>();
+            var relationshipType = relationshipTypeService.Get(relationshipTypeId);
+
+            var baseProductService = IoC.Resolve<BaseProductService>();
+            var relatedBaseProduct = baseProductService.Get(relatedBaseProductId);
+
+            _variant.RelationshipLinks.Add(new VariantToBaseProductRelationshipLink(relationshipType.SystemId, relatedBaseProduct.SystemId));
+
+            return this;
+        }
+
+        public VariantSeed WithVariantRelation(string relationshipTypeId, string relatedVariantId)
+        {
+            var relationshipTypeService = IoC.Resolve<RelationshipTypeService>();
+            var relationshipType = relationshipTypeService.Get(relationshipTypeId);
+
+            var variantService = IoC.Resolve<VariantService>();
+            var relatedVariant = variantService.Get(relatedVariantId);
+
+            _variant.RelationshipLinks.Add(new VariantToVariantRelationshipLink(relationshipType.SystemId, relatedVariant.SystemId));
+
+            return this;
+        }
+
         /* TODO:
          * BundledVariants
          * BundleOfVariants
-         * RelationshipLinks
          * SortIndex
          */
     }
