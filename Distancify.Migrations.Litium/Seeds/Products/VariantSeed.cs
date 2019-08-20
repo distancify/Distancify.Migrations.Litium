@@ -145,7 +145,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         public VariantSeed WithPrice(string priceListId, decimal price, decimal minimumQuantity)
         {
             var priceListSystemGuid = IoC.Resolve<PriceListService>().Get(priceListId).SystemId;
-            var priceItem = _variant.Prices.FirstOrDefault(p => p.PriceListSystemId == priceListSystemGuid);
+            var priceItem = _variant.Prices.FirstOrDefault(p => p.PriceListSystemId == priceListSystemGuid && p.MinimumQuantity == minimumQuantity);
 
             if (priceItem == null)
             {
@@ -160,6 +160,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             }
 
             priceItem.Price = price;
+            priceItem.MinimumQuantity = minimumQuantity;
 
             return this;
         }
