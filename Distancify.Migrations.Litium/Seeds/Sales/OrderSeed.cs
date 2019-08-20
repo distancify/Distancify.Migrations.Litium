@@ -82,6 +82,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             _orderCarrier.CustomerInfo = new CustomerInfoCarrier();
             _orderCarrier.CustomerInfo.PersonID = person.SystemId;
             _orderCarrier.CustomerInfo.Address = new AddressCarrier();
+            _orderCarrier.CustomerInfo.Address.CarrierState = new CarrierState { IsMarkedForUpdating = true };
             _orderCarrier.CustomerInfo.Address.Email = person.Email;
 
             _orderCarrier.CustomerInfo.Address.ID = address.SystemId;
