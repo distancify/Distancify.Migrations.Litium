@@ -139,6 +139,11 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
         public VariantSeed WithPrice(string priceListId, decimal price)
         {
+            return WithPrice(priceListId, price, default);
+        }
+
+        public VariantSeed WithPrice(string priceListId, decimal price, decimal minimumQuantity)
+        {
             var priceListSystemGuid = IoC.Resolve<PriceListService>().Get(priceListId).SystemId;
             var priceItem = _variant.Prices.FirstOrDefault(p => p.PriceListSystemId == priceListSystemGuid);
 
@@ -147,7 +152,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                 _variant.Prices.Add(
                     new VariantPriceItem(priceListSystemGuid)
                     {
-                        //MinimumQuantity
+                        MinimumQuantity = minimumQuantity,
                         Price = price
                         //VatPercentage
                     });
