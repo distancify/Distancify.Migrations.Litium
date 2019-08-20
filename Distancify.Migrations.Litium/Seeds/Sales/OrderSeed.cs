@@ -144,6 +144,12 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
+        public OrderSeed WithOrderCreationDate(DateTime date)
+        {
+            _orderCarrier.OrderDate = date;
+            return this;
+        }
+
         public void Commit()
         {
             var service = IoC.Resolve<ModuleECommerce>();
