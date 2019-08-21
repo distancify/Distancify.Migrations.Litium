@@ -64,41 +64,54 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 Quantity = quantity,
                 OrderID = _orderCarrier.ID,
                 ExternalOrderRowID = Guid.NewGuid().ToString(),
-                UnitListPrice = priceItem?.Price ?? 0
+                UnitListPrice = priceItem?.Price ?? 0,
+                ID = Guid.NewGuid()
             });
 
             return this;
         }
 
-        public OrderSeed WithCustomer(string personId)
+        public OrderSeed WithPersonCustomer(string personId)
         {
-            var customerService = IoC.Resolve<PersonService>();
+            var personService = IoC.Resolve<PersonService>();
+            var person = personService.Get(personId);
+            SetCustomerInfo(person, person.Addresses.First());
+
+            return this;
+        }
+
+        public OrderSeed WithOrganizationCustomer(string personId)
+        {
+            var personService = IoC.Resolve<PersonService>();
             var organizationService = IoC.Resolve<OrganizationService>();
 
-            var person = customerService.Get(personId);
+            var person = personService.Get(personId);
             var organization = organizationService.Get(person.OrganizationLinks.FirstOrDefault()?.OrganizationSystemId ?? Guid.Empty);
-            var address = person?.Addresses?.FirstOrDefault() ?? organization?.Addresses?.FirstOrDefault() ?? new Address(Guid.Empty);
+            SetCustomerInfo(person, organization.Addresses.First());
 
+            return this;
+        }
+
+        private void SetCustomerInfo(Person person, Address address)
+        {
             _orderCarrier.CustomerInfo = new CustomerInfoCarrier();
+            _orderCarrier.CustomerInfo.CustomerNumber = person.Id;
             _orderCarrier.CustomerInfo.PersonID = person.SystemId;
+            _orderCarrier.CustomerInfo.ID = person.SystemId;
             _orderCarrier.CustomerInfo.Address = new AddressCarrier();
-            _orderCarrier.CustomerInfo.Address.CarrierState = new CarrierState { IsMarkedForUpdating = true };
             _orderCarrier.CustomerInfo.Address.Email = person.Email;
-
-            _orderCarrier.CustomerInfo.Address.ID = address.SystemId;
-
+            _orderCarrier.CustomerInfo.Address.ID = Guid.NewGuid();
             _orderCarrier.CustomerInfo.Address.FirstName = person.FirstName;
             _orderCarrier.CustomerInfo.Address.LastName = person.LastName;
-            _orderCarrier.CustomerInfo.Address.Phone = address?.PhoneNumber;
-            _orderCarrier.CustomerInfo.Address.Fax = address?.PhoneNumber;
-            _orderCarrier.CustomerInfo.Address.MobilePhone = address?.PhoneNumber;
-            _orderCarrier.CustomerInfo.Address.CareOf = address?.CareOf;
-            _orderCarrier.CustomerInfo.Address.Address1 = address?.Address1;
-            _orderCarrier.CustomerInfo.Address.Address2 = address?.Address2;
-            _orderCarrier.CustomerInfo.Address.City = address?.City;
-            _orderCarrier.CustomerInfo.Address.Zip = address?.ZipCode;
-            _orderCarrier.CustomerInfo.Address.Country = address?.Country;
-            return this;
+            _orderCarrier.CustomerInfo.Address.Phone = address.PhoneNumber;
+            _orderCarrier.CustomerInfo.Address.Fax = address.PhoneNumber;
+            _orderCarrier.CustomerInfo.Address.MobilePhone = address.PhoneNumber;
+            _orderCarrier.CustomerInfo.Address.CareOf = address.CareOf;
+            _orderCarrier.CustomerInfo.Address.Address1 = address.Address1;
+            _orderCarrier.CustomerInfo.Address.Address2 = address.Address2;
+            _orderCarrier.CustomerInfo.Address.City = address.City;
+            _orderCarrier.CustomerInfo.Address.Zip = address.ZipCode;
+            _orderCarrier.CustomerInfo.Address.Country = address.Country;
         }
 
         public OrderSeed WithCurrency(string currencyId)
@@ -130,6 +143,12 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         public OrderSeed WithOrderType(string orderType)
         {
             _orderCarrier.AdditionalOrderInfo.Add(new AdditionalOrderInfoCarrier("Order type", _orderCarrier.ID, orderType));
+            return this;
+        }
+
+        public OrderSeed WithOrderStatus(short status)
+        {
+            _orderCarrier.OrderStatus = status;
             return this;
         }
 
