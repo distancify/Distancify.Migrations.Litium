@@ -49,7 +49,8 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                     {
                         IsMarkedForCreating = true
                     },
-                    Deliveries = new List<DeliveryCarrier>()
+                    Deliveries = new List<DeliveryCarrier>(),
+                    PaymentInfo = new List<PaymentInfoCarrier>()
                 }, true);
             }
             return new OrderSeed(order);
@@ -77,7 +78,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         {
             var personService = IoC.Resolve<PersonService>();
             var person = personService.Get(personId);
-            SetCustomerInfo(person, person.Addresses.First());
+            SetCustomerInfo(person, person.Addresses.FirstOrDefault());
 
             return this;
         }
@@ -161,7 +162,14 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         public OrderSeed WithPayment(Guid paymentMethodId)
         {
             var payment = IoC.Resolve<ModuleECommerce>().PaymentMethods.Get(paymentMethodId, Solution.Instance.SystemToken);
-            var paymentMethod = _orderCarrier.PaymentInfo.First();
+            var paymentMethod = _orderCarrier.PaymentInfo.FirstOrDefault();
+
+            if (paymentMethod == null)
+            {
+                paymentMethod = new PaymentInfoCarrier();
+                _orderCarrier.PaymentInfo.Add(paymentMethod);
+            }
+
             paymentMethod.ID = payment.ID;
             paymentMethod.PaymentMethod = payment.Name;
             paymentMethod.PaymentProvider = payment.PaymentProviderName;
