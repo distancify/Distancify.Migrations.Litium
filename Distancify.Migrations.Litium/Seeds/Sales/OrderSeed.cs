@@ -102,7 +102,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 CustomerNumber = person.Id,
                 PersonID = person.SystemId,
                 ID = Guid.NewGuid(),
-                Address = address == null ? new AddressCarrier() : new AddressCarrier
+                Address = address == null ? null : new AddressCarrier
                 {
                     Email = person.Email,
                     ID = Guid.NewGuid(),
@@ -170,10 +170,11 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 _orderCarrier.PaymentInfo.Add(paymentMethod);
             }
 
-            paymentMethod.ID = payment.ID;
+            paymentMethod.ID = Guid.NewGuid();
             paymentMethod.PaymentMethod = payment.Name;
             paymentMethod.PaymentProvider = payment.PaymentProviderName;
             paymentMethod.ReferenceID = payment.Name;
+            paymentMethod.OrderID = _orderCarrier.ID;
 
             return this;
         }
