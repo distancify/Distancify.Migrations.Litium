@@ -159,22 +159,23 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public OrderSeed WithPayment(Guid paymentMethodId)
+        public OrderSeed WithPayment(Guid paymentMethodId, AddressCarrier billingAddress)
         {
-            var payment = IoC.Resolve<ModuleECommerce>().PaymentMethods.Get(paymentMethodId, Solution.Instance.SystemToken);
-            var paymentMethod = _orderCarrier.PaymentInfo.FirstOrDefault();
+            var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.Get(paymentMethodId, Solution.Instance.SystemToken);
+            var paymentInfoCarrier = _orderCarrier.PaymentInfo.FirstOrDefault();
 
-            if (paymentMethod == null)
+            if (paymentInfoCarrier == null)
             {
-                paymentMethod = new PaymentInfoCarrier();
-                _orderCarrier.PaymentInfo.Add(paymentMethod);
+                paymentInfoCarrier = new PaymentInfoCarrier();
+                _orderCarrier.PaymentInfo.Add(paymentInfoCarrier);
             }
 
-            paymentMethod.ID = Guid.NewGuid();
-            paymentMethod.PaymentMethod = payment.Name;
-            paymentMethod.PaymentProvider = payment.PaymentProviderName;
-            paymentMethod.ReferenceID = payment.Name;
-            paymentMethod.OrderID = _orderCarrier.ID;
+            paymentInfoCarrier.ID = Guid.NewGuid();
+            paymentInfoCarrier.OrderID = _orderCarrier.ID;
+            paymentInfoCarrier.PaymentMethod = paymentMethod.Name;
+            paymentInfoCarrier.PaymentProvider = paymentMethod.PaymentProviderName;
+            paymentInfoCarrier.ReferenceID = paymentMethod.Name;
+            paymentInfoCarrier.BillingAddress = billingAddress;
 
             return this;
         }
@@ -185,7 +186,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public OrderSeed WithDelivery(Guid deliveryMethodId, AddressCarrier addressCarrier)
+        public OrderSeed WithDelivery(Guid deliveryMethodId, AddressCarrier deliveryAddress)
         {
             var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken);
             var deliveryCarrier = _orderCarrier.Deliveries.FirstOrDefault();
@@ -198,7 +199,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
             deliveryCarrier.DeliveryMethodID = deliveryMethodId;
             deliveryCarrier.DeliveryProviderID = delivery.DeliveryProviderID;
-            deliveryCarrier.Address = addressCarrier;
+            deliveryCarrier.Address = deliveryAddress;
             deliveryCarrier.OrderID = _orderCarrier.ID;
             deliveryCarrier.ID = Guid.NewGuid();
 
