@@ -191,6 +191,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             deliveryCarrier.DeliveryProviderID = delivery.DeliveryProviderID;
             deliveryCarrier.Address = addressCarrier;
             deliveryCarrier.OrderID = _orderCarrier.ID;
+            deliveryCarrier.ID = Guid.NewGuid();
 
             return this;
         }
