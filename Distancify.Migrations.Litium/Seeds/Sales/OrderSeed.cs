@@ -89,31 +89,35 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
             var person = personService.Get(personId);
             var organization = organizationService.Get(person.OrganizationLinks.FirstOrDefault()?.OrganizationSystemId ?? Guid.Empty);
-            SetCustomerInfo(person, organization.Addresses.First());
+            SetCustomerInfo(person, organization.Addresses.FirstOrDefault());
 
             return this;
         }
 
         private void SetCustomerInfo(Person person, Address address)
         {
-            _orderCarrier.CustomerInfo = new CustomerInfoCarrier();
-            _orderCarrier.CustomerInfo.CustomerNumber = person.Id;
-            _orderCarrier.CustomerInfo.PersonID = person.SystemId;
-            _orderCarrier.CustomerInfo.ID = Guid.NewGuid();
-            _orderCarrier.CustomerInfo.Address = new AddressCarrier();
-            _orderCarrier.CustomerInfo.Address.Email = person.Email;
-            _orderCarrier.CustomerInfo.Address.ID = Guid.NewGuid();
-            _orderCarrier.CustomerInfo.Address.FirstName = person.FirstName;
-            _orderCarrier.CustomerInfo.Address.LastName = person.LastName;
-            _orderCarrier.CustomerInfo.Address.Phone = address.PhoneNumber;
-            _orderCarrier.CustomerInfo.Address.Fax = address.PhoneNumber;
-            _orderCarrier.CustomerInfo.Address.MobilePhone = address.PhoneNumber;
-            _orderCarrier.CustomerInfo.Address.CareOf = address.CareOf;
-            _orderCarrier.CustomerInfo.Address.Address1 = address.Address1;
-            _orderCarrier.CustomerInfo.Address.Address2 = address.Address2;
-            _orderCarrier.CustomerInfo.Address.City = address.City;
-            _orderCarrier.CustomerInfo.Address.Zip = address.ZipCode;
-            _orderCarrier.CustomerInfo.Address.Country = address.Country;
+            _orderCarrier.CustomerInfo = new CustomerInfoCarrier
+            {
+                CustomerNumber = person.Id,
+                PersonID = person.SystemId,
+                ID = Guid.NewGuid(),
+                Address = address == null ? new AddressCarrier() : new AddressCarrier
+                {
+                    Email = person.Email,
+                    ID = Guid.NewGuid(),
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    Phone = address.PhoneNumber,
+                    Fax = address.PhoneNumber,
+                    MobilePhone = address.PhoneNumber,
+                    CareOf = address.CareOf,
+                    Address1 = address.Address1,
+                    Address2 = address.Address2,
+                    City = address.City,
+                    Zip = address.ZipCode,
+                    Country = address.Country
+                }
+            };
         }
 
         public OrderSeed WithCurrency(string currencyId)
@@ -186,6 +190,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             deliveryCarrier.DeliveryMethodID = deliveryMethodId;
             deliveryCarrier.DeliveryProviderID = delivery.DeliveryProviderID;
             deliveryCarrier.Address = addressCarrier;
+            deliveryCarrier.OrderID = _orderCarrier.ID;
 
             return this;
         }
