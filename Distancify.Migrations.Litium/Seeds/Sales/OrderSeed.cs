@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -41,13 +42,14 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             {
                 return new OrderSeed(new OrderCarrier
                 {
-                    ID = orderId, 
-                    OrderDate = DateTime.Now, 
-                    Comments = "-", 
+                    ID = orderId,
+                    OrderDate = DateTime.Now,
+                    Comments = "-",
                     CarrierState = new CarrierState
                     {
                         IsMarkedForCreating = true
-                    }
+                    },
+                    Deliveries = new List<DeliveryCarrier>()
                 }, true);
             }
             return new OrderSeed(order);
@@ -167,6 +169,24 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         public OrderSeed WithOrderCreationDate(DateTime date)
         {
             _orderCarrier.OrderDate = date;
+            return this;
+        }
+
+        public OrderSeed WithDelivery(Guid deliveryMethodId, AddressCarrier addressCarrier)
+        {
+            var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken);
+            var deliveryCarrier = _orderCarrier.Deliveries.FirstOrDefault();
+
+            if (deliveryCarrier == null)
+            {
+                deliveryCarrier = new DeliveryCarrier();
+                _orderCarrier.Deliveries.Add(deliveryCarrier);
+            }
+
+            deliveryCarrier.DeliveryMethodID = deliveryMethodId;
+            deliveryCarrier.DeliveryProviderID = delivery.DeliveryProviderID;
+            deliveryCarrier.Address = addressCarrier;
+
             return this;
         }
 
