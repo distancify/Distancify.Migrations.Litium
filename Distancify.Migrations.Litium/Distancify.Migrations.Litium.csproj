@@ -471,7 +471,7 @@
     <Compile Include="Seeds\FieldFramework\TextOptionFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\Customers\AddressTypeSeed.cs" />
     <Compile Include="Seeds\Customers\OrganizationSeed.cs" />
-    <Compile Include="Seeds\Globalization\DeliveryMethodSeed.cs" />
+    <Compile Include="Seeds\Sales\DeliveryMethodSeed.cs" />
     <Compile Include="Seeds\LitiumConstants.cs" />
     <Compile Include="Seeds\Countries.cs" />
     <Compile Include="Seeds\Currencies.cs" />
@@ -543,6 +543,7 @@
     <Compile Include="Seeds\Products\ProductFieldTemplateSeed.cs" />
     <Compile Include="Seeds\Sales\CampaignSeed.cs" />
     <Compile Include="Seeds\Sales\OrderSeed.cs" />
+    <Compile Include="Seeds\Sales\PaymentMethodSeed.cs" />
     <Compile Include="Setup\MigrationsSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seeds\Websites\BlockCategorySeed.cs" />

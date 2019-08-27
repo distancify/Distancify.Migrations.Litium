@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Distancify.Migrations.Litium.Seeds.Globalization
+namespace Distancify.Migrations.Litium.Seeds.Sales
 {
     public class DeliveryMethodSeed : ISeed
     {
