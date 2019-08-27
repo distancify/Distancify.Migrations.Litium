@@ -27,7 +27,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         public static PaymentMethodSeed Ensure(string paymentMethodName, string paymentProviderName)
         {
             var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.Get(paymentMethodName, paymentProviderName, Solution.Instance.SystemToken)
-                                   .GetAsCarrier();
+                                   ?.GetAsCarrier();
 
             if (paymentMethod is null)
             {
