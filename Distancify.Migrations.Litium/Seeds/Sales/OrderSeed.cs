@@ -78,7 +78,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         {
             var personService = IoC.Resolve<PersonService>();
             var person = personService.Get(personId);
-            SetCustomerInfo(person, person.Addresses.FirstOrDefault());
+            SetCustomerInfo(person, person.Addresses.First());
 
             return this;
         }
@@ -89,8 +89,11 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             var organizationService = IoC.Resolve<OrganizationService>();
 
             var person = personService.Get(personId);
-            var organization = organizationService.Get(person.OrganizationLinks.FirstOrDefault()?.OrganizationSystemId ?? Guid.Empty);
-            SetCustomerInfo(person, organization.Addresses.FirstOrDefault());
+            var organizationId = person.OrganizationLinks.First().OrganizationSystemId;
+            var organization = organizationService.Get(organizationId);
+
+            SetCustomerInfo(person, organization.Addresses.First());
+            _orderCarrier.CustomerInfo.OrganizationID = organizationId;
 
             return this;
         }
@@ -102,7 +105,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 CustomerNumber = person.Id,
                 PersonID = person.SystemId,
                 ID = Guid.NewGuid(),
-                Address = address == null ? null : new AddressCarrier
+                Address = new AddressCarrier
                 {
                     Email = person.Email,
                     ID = Guid.NewGuid(),

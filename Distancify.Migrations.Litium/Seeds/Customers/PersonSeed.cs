@@ -3,6 +3,7 @@ using Litium.FieldFramework;
 using Litium.Customers;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Distancify.Migrations.Litium.Seeds.Customers
 {
@@ -130,6 +131,18 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
         public PersonSeed WithEmail(string email)
         {
             person.Email = email;
+
+            return this;
+        }
+
+        public PersonSeed WithAddress(Address address)
+        {
+            if (person.Addresses == null)
+            {
+                person.Addresses = new List<Address>();
+            }
+
+            person.Addresses.Add(address);
 
             return this;
         }
