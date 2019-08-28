@@ -127,11 +127,12 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public CampaignSeed WithActionInfoType(Type actionType)
+        public CampaignSeed WithActionInfo(Type actionType, string data = null)
         {
             _campaignCarrier.ActionInfo = new CampaignActionInfoCarrier()
             {
-                TypeName = actionType.FullName
+                TypeName = actionType.FullName,
+                Data = data,
             };
 
             return this;
@@ -154,6 +155,30 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                     TypeName = typeName,
                     Data = data
                 });
+            }
+
+            return this;
+        }
+
+        public CampaignSeed CombineWithAllCampaigns()
+        {
+            _campaignCarrier.CombineWithAllCampaigns = true;
+
+            return this;
+        }
+
+        public CampaignSeed WithCurrency(string currencyId)
+        {
+            var currencySystemId = IoC.Resolve<CurrencyService>().Get(currencyId).SystemId;
+
+            if (_campaignCarrier.Data.Currencies is null)
+            {
+                _campaignCarrier.Data.Currencies = new List<Guid>();
+            }
+
+            if (!_campaignCarrier.Data.Currencies.Any(c => c == currencySystemId))
+            {
+                _campaignCarrier.Data.Currencies.Add(currencySystemId);
             }
 
             return this;
