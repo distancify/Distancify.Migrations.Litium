@@ -7,6 +7,8 @@ using Litium.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Sales
 {
@@ -20,6 +22,17 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         {
             _campaignCarrier = campaignCarrier;
             _isNewCampaign = isNewCampaign;
+        }
+
+        public static CampaignSeed Ensure(string campaignId)
+        {
+            using (var md5 = MD5.Create())
+            {
+                var hash = md5.ComputeHash(Encoding.Default.GetBytes(campaignId));
+                var orderSystemId = new Guid(hash);
+
+                return Ensure(campaignId);
+            }
         }
 
         public static CampaignSeed Ensure(Guid campaignId)
