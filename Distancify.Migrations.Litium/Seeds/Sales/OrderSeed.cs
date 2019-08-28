@@ -56,7 +56,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return new OrderSeed(order);
         }
 
-        public OrderSeed WithProduct(string articleNumber, decimal quantity)
+        public OrderSeed WithProduct(string articleNumber, decimal quantity, decimal vatPercentage = 0, decimal discountPercentage=0)
         {
             var variant = IoC.Resolve<VariantService>().Get(articleNumber);
             var priceItem = variant.Prices.FirstOrDefault();
@@ -68,6 +68,8 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 OrderID = _orderCarrier.ID,
                 ExternalOrderRowID = Guid.NewGuid().ToString(),
                 UnitListPrice = priceItem?.Price ?? 0,
+                VATPercentage = vatPercentage,
+                DiscountPercentage = discountPercentage,
                 ID = Guid.NewGuid()
             });
 
@@ -148,7 +150,6 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             _orderCarrier.CountryID = country.SystemId;
             return this;
         }
-
 
         public OrderSeed WithOrderType(string orderType)
         {
