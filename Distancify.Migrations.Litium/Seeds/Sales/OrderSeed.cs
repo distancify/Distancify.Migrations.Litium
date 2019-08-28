@@ -209,6 +209,27 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
+        public OrderSeed WithAdditionalOrderInfo(string key, string value)
+        {
+            if (_orderCarrier.AdditionalOrderInfo == null)
+            {
+                _orderCarrier.AdditionalOrderInfo = new List<AdditionalOrderInfoCarrier>();
+            }
+
+            var additionalInfoCarrier = _orderCarrier.AdditionalOrderInfo.FirstOrDefault(x => x.Key == key && !x.CarrierState.IsMarkedForDeleting);
+
+            if (additionalInfoCarrier == null)
+            {
+                _orderCarrier.AdditionalOrderInfo.Add(new AdditionalOrderInfoCarrier(key, _orderCarrier.ID, value));
+            }
+            else if (additionalInfoCarrier.Value != value)
+            {
+                additionalInfoCarrier.Value = value;
+            }
+
+            return this;
+        }
+
         public Guid Commit()
         {
             var service = IoC.Resolve<ModuleECommerce>();
@@ -216,6 +237,11 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             {
                 service.Orders.CalculateOrderTotals(_orderCarrier, Solution.Instance.SystemToken);
                 service.Orders.CreateOrder(_orderCarrier, Solution.Instance.SystemToken);
+            }
+            else
+            {
+                var order = service.Orders.GetOrder(_orderCarrier.ID, Solution.Instance.SystemToken);
+                order.SetValuesFromCarrier(_orderCarrier, Solution.Instance.SystemToken);
             }
 
             return _orderCarrier.ID;
