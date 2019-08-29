@@ -56,7 +56,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return new OrderSeed(order);
         }
 
-        public OrderSeed WithProduct(string articleNumber, decimal quantity, decimal vatPercentage = 0, decimal discountPercentage=0)
+        public OrderSeed WithProduct(string articleNumber, decimal quantity, decimal vatPercentage = 0, decimal discountPercentage = 0)
         {
             var variant = IoC.Resolve<VariantService>().Get(articleNumber);
             var priceItem = variant.Prices.FirstOrDefault();
@@ -110,7 +110,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 Address = new AddressCarrier
                 {
                     Email = person.Email,
-                    ID = _orderCarrier.CustomerInfo?.Address?.ID ?? Guid.NewGuid(),
+                    ID = Guid.NewGuid(),
                     FirstName = person.FirstName,
                     LastName = person.LastName,
                     Phone = address.PhoneNumber,
@@ -226,6 +226,23 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             else if (additionalInfoCarrier.Value != value)
             {
                 additionalInfoCarrier.Value = value;
+            }
+
+            return this;
+        }
+
+        public OrderSeed WithOrderCampaign(Guid campaignId, decimal discountAmountWtihVAT)
+        {
+            if (_orderCarrier.OrderDiscounts == null)
+            {
+                _orderCarrier.OrderDiscounts = new List<OrderDiscountCarrier>();
+            }
+
+            var campaign = IoC.Resolve<ModuleECommerce>().Campaigns.GetCampaign(campaignId, Solution.Instance.SystemToken);
+
+            if (!_orderCarrier.OrderDiscounts.Any(d => d.CampaignID == campaignId))
+            {
+                _orderCarrier.OrderDiscounts.Add(new OrderDiscountCarrier(campaign.Description, _orderCarrier.ID, discountAmountWtihVAT, campaignId));
             }
 
             return this;
