@@ -8,6 +8,7 @@ using Litium.Customers;
 using Litium.Foundation;
 using Litium.Foundation.Modules.ECommerce;
 using Litium.Foundation.Modules.ECommerce.Carriers;
+using Litium.Foundation.Modules.ECommerce.Plugins.Campaigns;
 using Litium.Globalization;
 using Litium.Products;
 
@@ -230,6 +231,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             else if (additionalInfoCarrier.Value != value)
             {
                 additionalInfoCarrier.Value = value;
+                additionalInfoCarrier.CarrierState.IsMarkedForUpdating = true;
             }
 
             return this;
