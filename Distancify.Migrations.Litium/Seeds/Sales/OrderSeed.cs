@@ -38,7 +38,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
         public static OrderSeed Ensure(Guid orderId)
         {
-            var order = IoC.Resolve<ModuleECommerce>().Orders.GetOrder(orderId, Solution.Instance.SystemToken)?.GetAsCarrier();
+            var order = IoC.Resolve<ModuleECommerce>().Orders.GetOrder(orderId, Solution.Instance.SystemToken)?.GetAsCarrier(true, true, true, true , true, true);
             if (order is null)
             {
                 return new OrderSeed(new OrderCarrier
@@ -231,7 +231,6 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             else if (additionalInfoCarrier.Value != value)
             {
                 additionalInfoCarrier.Value = value;
-                additionalInfoCarrier.CarrierState.IsMarkedForUpdating = true;
             }
 
             return this;
