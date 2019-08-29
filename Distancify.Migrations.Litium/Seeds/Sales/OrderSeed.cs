@@ -202,7 +202,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
             if (deliveryCarrier == null)
             {
-                deliveryCarrier = new DeliveryCarrier();
+                deliveryCarrier = new DeliveryCarrier() { ID = Guid.NewGuid() };
                 _orderCarrier.Deliveries.Add(deliveryCarrier);
             }
 
@@ -210,7 +210,6 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             deliveryCarrier.DeliveryProviderID = delivery.DeliveryProviderID;
             deliveryCarrier.Address = deliveryAddress;
             deliveryCarrier.OrderID = _orderCarrier.ID;
-            deliveryCarrier.ID = Guid.NewGuid();
 
             return this;
         }
