@@ -29,9 +29,9 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             using (var md5 = MD5.Create())
             {
                 var hash = md5.ComputeHash(Encoding.Default.GetBytes(campaignId));
-                var orderSystemId = new Guid(hash);
+                var campaignSystemId = new Guid(hash);
 
-                return Ensure(campaignId);
+                return Ensure(campaignSystemId);
             }
         }
 

@@ -106,11 +106,11 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             {
                 CustomerNumber = person.Id,
                 PersonID = person.SystemId,
-                ID = Guid.NewGuid(),
+                ID = _orderCarrier.CustomerInfo?.ID ?? Guid.NewGuid(),
                 Address = new AddressCarrier
                 {
                     Email = person.Email,
-                    ID = Guid.NewGuid(),
+                    ID = _orderCarrier.CustomerInfo?.Address?.ID ?? Guid.NewGuid(),
                     FirstName = person.FirstName,
                     LastName = person.LastName,
                     Phone = address.PhoneNumber,
