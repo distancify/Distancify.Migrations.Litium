@@ -102,28 +102,31 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
         private void SetCustomerInfo(Person person, Address address)
         {
-            _orderCarrier.CustomerInfo = new CustomerInfoCarrier
+            if (_orderCarrier.CustomerInfo == null)
             {
-                CustomerNumber = person.Id,
-                PersonID = person.SystemId,
-                ID = _orderCarrier.CustomerInfo?.ID ?? Guid.NewGuid(),
-                Address = new AddressCarrier
-                {
-                    Email = person.Email,
-                    ID = Guid.NewGuid(),
-                    FirstName = person.FirstName,
-                    LastName = person.LastName,
-                    Phone = address.PhoneNumber,
-                    Fax = address.PhoneNumber,
-                    MobilePhone = address.PhoneNumber,
-                    CareOf = address.CareOf,
-                    Address1 = address.Address1,
-                    Address2 = address.Address2,
-                    City = address.City,
-                    Zip = address.ZipCode,
-                    Country = address.Country
-                }
-            };
+                _orderCarrier.CustomerInfo = new CustomerInfoCarrier() { ID = Guid.NewGuid() };
+            }
+
+            _orderCarrier.CustomerInfo.CustomerNumber = person.Id;
+            _orderCarrier.CustomerInfo.PersonID = person.SystemId;
+
+            if (_orderCarrier.CustomerInfo.Address == null)
+            {
+                _orderCarrier.CustomerInfo.Address = new AddressCarrier { ID = Guid.NewGuid() };
+            }
+
+            _orderCarrier.CustomerInfo.Address.Email = person.Email;
+            _orderCarrier.CustomerInfo.Address.FirstName = person.FirstName;
+            _orderCarrier.CustomerInfo.Address.LastName = person.LastName;
+            _orderCarrier.CustomerInfo.Address.Phone = address.PhoneNumber;
+            _orderCarrier.CustomerInfo.Address.Fax = address.PhoneNumber;
+            _orderCarrier.CustomerInfo.Address.MobilePhone = address.PhoneNumber;
+            _orderCarrier.CustomerInfo.Address.CareOf = address.CareOf;
+            _orderCarrier.CustomerInfo.Address.Address1 = address.Address1;
+            _orderCarrier.CustomerInfo.Address.Address2 = address.Address2;
+            _orderCarrier.CustomerInfo.Address.City = address.City;
+            _orderCarrier.CustomerInfo.Address.Zip = address.ZipCode;
+            _orderCarrier.CustomerInfo.Address.Country = address.Country;
         }
 
         public OrderSeed WithCurrency(string currencyId)
@@ -163,7 +166,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public OrderSeed WithPayment(Guid paymentMethodId, AddressCarrier billingAddress)
+        public OrderSeed WithPayment(Guid paymentMethodId, AddressCarrier billingAddress, string transactionReference = null)
         {
             var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.Get(paymentMethodId, Solution.Instance.SystemToken);
             var paymentInfoCarrier = _orderCarrier.PaymentInfo.FirstOrDefault();
@@ -180,6 +183,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             paymentInfoCarrier.PaymentProvider = paymentMethod.PaymentProviderName;
             paymentInfoCarrier.ReferenceID = paymentMethod.Name;
             paymentInfoCarrier.BillingAddress = billingAddress;
+            paymentInfoCarrier.TransactionReference = transactionReference;
 
             return this;
         }
