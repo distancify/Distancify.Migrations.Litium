@@ -289,6 +289,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         {
             var service = IoC.Resolve<ModuleECommerce>();
             service.Orders.CalculateOrderTotals(_orderCarrier, Solution.Instance.SystemToken);
+            service.Orders.CalculatePaymentInfoAmounts(_orderCarrier, Solution.Instance.SystemToken);
 
             if (_isNewOrder)
             {
