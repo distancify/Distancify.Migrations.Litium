@@ -179,7 +179,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 paymentInfoCarrier = new PaymentInfoCarrier()
                 {
                     ID = Guid.NewGuid(),
-                    BillingAddress = billingAddress ,
+                    BillingAddress = billingAddress,
                     OrderID = _orderCarrier.ID
                 };
                 _orderCarrier.PaymentInfo.Add(paymentInfoCarrier);
@@ -199,33 +199,23 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public OrderSeed WithDelivery(Guid deliveryMethodId, AddressCarrier deliveryAddress)
+        public OrderSeed WithDelivery(Guid deliveryMethodId, AddressCarrier deliveryAddress, string externalReferenceId)
         {
             var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken);
             var deliveryCarrier = _orderCarrier.Deliveries.FirstOrDefault();
-            var deliveryCost = delivery.GetCost(_orderCarrier.CurrencyID);
+            var cost = delivery.GetCost(_orderCarrier.CurrencyID);
+            var deliveryCost = cost.IncludeVat ? cost.Cost / (1 + cost.VatPercentage / 100m) : cost.Cost;
+            var deliceryCostWithVat = cost.IncludeVat ? cost.Cost : cost.Cost * (1 + cost.VatPercentage / 100m);
 
-            //if (deliveryCarrier == null)
-            //{
-            //    deliveryCarrier = new DeliveryCarrier()
-            //    {
-            //        ID = Guid.NewGuid(),
-            //        Address = deliveryAddress,
-            //        OrderID = _orderCarrier.ID
-            //    };
-            //    _orderCarrier.Deliveries.Add(deliveryCarrier);
-            //}
+            if (deliveryCarrier != null)
+            {
+                _orderCarrier.Deliveries.Remove(deliveryCarrier);
+            }
 
-            //deliveryCarrier.DeliveryMethodID = deliveryMethodId;
-            //deliveryCarrier.DeliveryProviderID = delivery.DeliveryProviderID;
-            //deliveryCarrier.DeliveryCost = deliveryCost.IncludeVat ? deliveryCost.Cost / (1 + deliveryCost.VatPercentage / 100m) : deliveryCost.Cost;
-            //deliveryCarrier.DeliveryCostWithVAT = deliveryCost.IncludeVat ? deliveryCost.Cost : deliveryCost.Cost * (1 + deliveryCost.VatPercentage / 100m);
-            //deliveryCarrier.VATPercentage = deliveryCost.VatPercentage / 100m;
-            //deliveryCarrier.TotalVATAmount = deliveryCarrier.DeliveryCostWithVAT - deliveryCarrier.DeliveryCost;
+            deliveryCarrier = new DeliveryCarrier(DateTime.Now, "", deliveryCost, deliveryMethodId, 1, externalReferenceId, _orderCarrier.ID,
+                DateTime.Now.AddHours(1), deliceryCostWithVat - deliveryCost, cost.VatPercentage / 100m, true, 
+                deliveryAddress, true, new List<AdditionalDeliveryInfoCarrier>(), Guid.Empty, 0, deliveryCost, "", true, deliceryCostWithVat);
 
-            deliveryCarrier = new DeliveryCarrier(DateTime.Now, "", 100, deliveryMethodId, 1, "TEST01", _orderCarrier.ID,
-                DateTime.Now.AddHours(1), 20, .25m, true, deliveryAddress, true, new List<AdditionalDeliveryInfoCarrier>(),
-                Guid.Empty, 0, 100, "", true, 100);
             _orderCarrier.Deliveries.Add(deliveryCarrier);
 
             return this;
