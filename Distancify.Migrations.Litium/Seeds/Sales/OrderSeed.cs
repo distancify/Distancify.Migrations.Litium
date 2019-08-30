@@ -200,7 +200,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         public OrderSeed WithDelivery(Guid deliveryMethodId, AddressCarrier deliveryAddress)
         {
             var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken);
-            var deliveryCarrier = _orderCarrier.Deliveries.First();
+            var deliveryCarrier = _orderCarrier.Deliveries.FirstOrDefault();
             var deliveryCost = delivery.GetCost(_orderCarrier.CurrencyID);
 
             if (deliveryCarrier == null)
