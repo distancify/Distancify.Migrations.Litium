@@ -199,6 +199,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         {
             var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken);
             var deliveryCarrier = _orderCarrier.Deliveries.FirstOrDefault();
+            var deliveryCost = delivery.GetCost(_orderCarrier.CurrencyID);
 
             if (deliveryCarrier == null)
             {
@@ -210,6 +211,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             deliveryCarrier.DeliveryProviderID = delivery.DeliveryProviderID;
             deliveryCarrier.Address = deliveryAddress;
             deliveryCarrier.OrderID = _orderCarrier.ID;
+            deliveryCarrier.DeliveryCost = deliveryCost.IncludeVat ? deliveryCost.Cost * (1 - deliveryCost.VatPercentage / 100m) : deliveryCost.Cost;
 
             return this;
         }
@@ -235,7 +237,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public OrderSeed WithOrderCampaign(Guid campaignId, decimal discountAmountWtihVAT)
+        public OrderSeed WithAmountBasedOrderCampaign(Guid campaignId, decimal discountAmountWithVAT, decimal vatRate)
         {
             if (_orderCarrier.OrderDiscounts == null)
             {
@@ -246,7 +248,16 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
             if (!_orderCarrier.OrderDiscounts.Any(d => d.CampaignID == campaignId))
             {
-                _orderCarrier.OrderDiscounts.Add(new OrderDiscountCarrier(campaign.Description, _orderCarrier.ID, discountAmountWtihVAT, campaignId));
+                _orderCarrier.OrderDiscounts.Add(new OrderDiscountCarrier(
+                    discountAmount: discountAmountWithVAT * (1 - vatRate),
+                    discountDescription: campaign.Description,
+                    discountPercentage: 0,
+                    orderID: _orderCarrier.ID,
+                    vatAmount: discountAmountWithVAT - (discountAmountWithVAT * (1 - vatRate)),
+                    vatPercentage: vatRate,
+                    discountAmountWithVat: discountAmountWithVAT,
+                    campaignID: campaignId,
+                    externalCampaignID: campaign.Name));
             }
 
             return this;
