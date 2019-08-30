@@ -216,7 +216,10 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
             deliveryCarrier.DeliveryMethodID = deliveryMethodId;
             deliveryCarrier.DeliveryProviderID = delivery.DeliveryProviderID;
-            deliveryCarrier.DeliveryCost = deliveryCost.IncludeVat ? deliveryCost.Cost * (1 - deliveryCost.VatPercentage / 100m) : deliveryCost.Cost;
+            deliveryCarrier.DeliveryCost = deliveryCost.IncludeVat ? deliveryCost.Cost / (1 + deliveryCost.VatPercentage / 100m) : deliveryCost.Cost;
+            deliveryCarrier.DeliveryCostWithVAT = deliveryCost.IncludeVat ? deliveryCost.Cost : deliveryCost.Cost * (1 + deliveryCost.VatPercentage / 100m);
+            deliveryCarrier.VATPercentage = deliveryCost.VatPercentage / 100m;
+            deliveryCarrier.TotalVATAmount = deliveryCarrier.DeliveryCostWithVAT - deliveryCarrier.DeliveryCost;
 
             return this;
         }
