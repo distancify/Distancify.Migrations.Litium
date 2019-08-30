@@ -38,7 +38,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
         public static OrderSeed Ensure(Guid orderId)
         {
-            var order = IoC.Resolve<ModuleECommerce>().Orders.GetOrder(orderId, Solution.Instance.SystemToken)?.GetAsCarrier(true, true, true, true , true, true);
+            var order = IoC.Resolve<ModuleECommerce>().Orders.GetOrder(orderId, Solution.Instance.SystemToken)?.GetAsCarrier(true, true, true, true, true, true);
             if (order is null)
             {
                 return new OrderSeed(new OrderCarrier
@@ -174,16 +174,18 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
             if (paymentInfoCarrier == null)
             {
-                paymentInfoCarrier = new PaymentInfoCarrier();
+                paymentInfoCarrier = new PaymentInfoCarrier()
+                {
+                    ID = Guid.NewGuid(),
+                    BillingAddress = billingAddress ,
+                    OrderID = _orderCarrier.ID
+                };
                 _orderCarrier.PaymentInfo.Add(paymentInfoCarrier);
             }
 
-            paymentInfoCarrier.ID = Guid.NewGuid();
-            paymentInfoCarrier.OrderID = _orderCarrier.ID;
             paymentInfoCarrier.PaymentMethod = paymentMethod.Name;
             paymentInfoCarrier.PaymentProvider = paymentMethod.PaymentProviderName;
             paymentInfoCarrier.ReferenceID = paymentMethod.Name;
-            paymentInfoCarrier.BillingAddress = billingAddress;
             paymentInfoCarrier.TransactionReference = transactionReference;
 
             return this;
@@ -198,19 +200,22 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         public OrderSeed WithDelivery(Guid deliveryMethodId, AddressCarrier deliveryAddress)
         {
             var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken);
-            var deliveryCarrier = _orderCarrier.Deliveries.FirstOrDefault();
+            var deliveryCarrier = _orderCarrier.Deliveries.First();
             var deliveryCost = delivery.GetCost(_orderCarrier.CurrencyID);
 
             if (deliveryCarrier == null)
             {
-                deliveryCarrier = new DeliveryCarrier() { ID = Guid.NewGuid() };
+                deliveryCarrier = new DeliveryCarrier()
+                {
+                    ID = Guid.NewGuid(),
+                    Address = deliveryAddress,
+                    OrderID = _orderCarrier.ID
+                };
                 _orderCarrier.Deliveries.Add(deliveryCarrier);
             }
 
             deliveryCarrier.DeliveryMethodID = deliveryMethodId;
             deliveryCarrier.DeliveryProviderID = delivery.DeliveryProviderID;
-            deliveryCarrier.Address = deliveryAddress;
-            deliveryCarrier.OrderID = _orderCarrier.ID;
             deliveryCarrier.DeliveryCost = deliveryCost.IncludeVat ? deliveryCost.Cost * (1 - deliveryCost.VatPercentage / 100m) : deliveryCost.Cost;
 
             return this;
@@ -237,28 +242,42 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public OrderSeed WithAmountBasedOrderCampaign(Guid campaignId, decimal discountAmountWithVAT, decimal vatRate)
+        public OrderSeed WithAmountBasedOrderDiscount(decimal discountAmountWithVAT, decimal vatRate)
         {
             if (_orderCarrier.OrderDiscounts == null)
             {
                 _orderCarrier.OrderDiscounts = new List<OrderDiscountCarrier>();
             }
 
-            var campaign = IoC.Resolve<ModuleECommerce>().Campaigns.GetCampaign(campaignId, Solution.Instance.SystemToken);
+            _orderCarrier.OrderDiscounts.Add(new OrderDiscountCarrier(
+                discountAmount: discountAmountWithVAT * (1 - vatRate),
+                discountDescription: $"Discount for {discountAmountWithVAT}",
+                discountPercentage: 0,
+                orderID: _orderCarrier.ID,
+                vatAmount: discountAmountWithVAT - (discountAmountWithVAT * (1 - vatRate)),
+                vatPercentage: vatRate,
+                discountAmountWithVat: discountAmountWithVAT
+            ));
 
-            if (!_orderCarrier.OrderDiscounts.Any(d => d.CampaignID == campaignId))
+            return this;
+        }
+
+        public OrderSeed WithPercentageBasedOrderDiscount(decimal percentage)
+        {
+            if (_orderCarrier.OrderDiscounts == null)
             {
-                _orderCarrier.OrderDiscounts.Add(new OrderDiscountCarrier(
-                    discountAmount: discountAmountWithVAT * (1 - vatRate),
-                    discountDescription: campaign.Description,
-                    discountPercentage: 0,
-                    orderID: _orderCarrier.ID,
-                    vatAmount: discountAmountWithVAT - (discountAmountWithVAT * (1 - vatRate)),
-                    vatPercentage: vatRate,
-                    discountAmountWithVat: discountAmountWithVAT,
-                    campaignID: campaignId,
-                    externalCampaignID: campaign.Name));
+                _orderCarrier.OrderDiscounts = new List<OrderDiscountCarrier>();
             }
+
+            _orderCarrier.OrderDiscounts.Add(new OrderDiscountCarrier(
+                discountAmount: 0,
+                discountDescription: $"Discount for {percentage}%",
+                discountPercentage: percentage,
+                orderID: _orderCarrier.ID,
+                vatAmount: 0,
+                vatPercentage: 0,
+                discountAmountWithVat: 0
+            ));
 
             return this;
         }
@@ -266,9 +285,10 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         public Guid Commit()
         {
             var service = IoC.Resolve<ModuleECommerce>();
+            service.Orders.CalculateOrderTotals(_orderCarrier, Solution.Instance.SystemToken);
+
             if (_isNewOrder)
             {
-                service.Orders.CalculateOrderTotals(_orderCarrier, Solution.Instance.SystemToken);
                 service.Orders.CreateOrder(_orderCarrier, Solution.Instance.SystemToken);
             }
             else
