@@ -286,6 +286,12 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
+        public OrderSeed WithExternalOrderId(string externalOrderId)
+        {
+            _orderCarrier.ExternalOrderID = externalOrderId;
+            return this;
+        }
+
         public Guid Commit()
         {
             var service = IoC.Resolve<ModuleECommerce>();
