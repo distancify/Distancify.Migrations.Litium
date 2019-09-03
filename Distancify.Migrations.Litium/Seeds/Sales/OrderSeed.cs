@@ -8,9 +8,6 @@ using Litium.Customers;
 using Litium.Foundation;
 using Litium.Foundation.Modules.ECommerce;
 using Litium.Foundation.Modules.ECommerce.Carriers;
-using Litium.Foundation.Modules.ECommerce.Deliveries;
-using Litium.Foundation.Modules.ECommerce.Plugins.Campaigns;
-using Litium.Foundation.Modules.ECommerce.StateTransitionSystem;
 using Litium.Globalization;
 using Litium.Products;
 
@@ -66,7 +63,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
             if (_orderCarrier.OrderRows.FirstOrDefault(r => r.ArticleNumber.Equals(variant.Id)) is OrderRowCarrier orderRow)
             {
-                _orderCarrier.OrderRows.Remove(orderRow);
+                orderRow.CarrierState.IsMarkedForDeleting = true;
             }
 
             _orderCarrier.OrderRows.Add(new OrderRowCarrier
@@ -293,7 +290,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         {
             var service = IoC.Resolve<ModuleECommerce>();
             service.Orders.CalculateOrderTotals(_orderCarrier, Solution.Instance.SystemToken);
-            service.Orders.CalculatePaymentInfoAmounts(_orderCarrier, Solution.Instance.SystemToken);
+            //service.Orders.CalculatePaymentInfoAmounts(_orderCarrier, Solution.Instance.SystemToken);
 
             if (_isNewOrder)
             {
