@@ -50,15 +50,20 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         public Guid Commit()
         {
             var service = IoC.Resolve<ModuleECommerce>();
+            Campaign campaign;
 
             if (_isNewCampaign)
             {
-                var campaign = service.Campaigns.CreateCampaign(_campaignCarrier, Solution.Instance.SystemToken);
+                campaign = service.Campaigns.CreateCampaign(_campaignCarrier, Solution.Instance.SystemToken);
+            }
+            else
+            {
+                campaign = service.Campaigns.GetCampaign(_campaignCarrier.ID, Solution.Instance.SystemToken);
+            }
 
-                if (_isActive)
-                {
-                    campaign.SetIsActive(true, Solution.Instance.SystemToken);
-                }
+            if (_isActive)
+            {
+                campaign.SetIsActive(true, Solution.Instance.SystemToken);
             }
 
             return _campaignCarrier.ID;
@@ -180,6 +185,13 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             {
                 _campaignCarrier.Data.Currencies.Add(currencySystemId);
             }
+
+            return this;
+        }
+
+        public CampaignSeed WithPriority(int priority)
+        {
+            _campaignCarrier.Priority = priority;
 
             return this;
         }
