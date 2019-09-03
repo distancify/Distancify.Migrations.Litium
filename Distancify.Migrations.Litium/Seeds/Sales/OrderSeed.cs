@@ -64,6 +64,11 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             var variant = IoC.Resolve<VariantService>().Get(articleNumber);
             var priceItem = variant.Prices.FirstOrDefault();
 
+            if (_orderCarrier.OrderRows.FirstOrDefault(r => r.ArticleNumber.Equals(variant.Id)) is OrderRowCarrier orderRow)
+            {
+                _orderCarrier.OrderRows.Remove(orderRow);
+            }
+
             _orderCarrier.OrderRows.Add(new OrderRowCarrier
             {
                 ArticleNumber = variant.Id,
@@ -73,8 +78,10 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 UnitListPrice = priceItem?.Price ?? 0,
                 VATPercentage = vatPercentage,
                 DiscountPercentage = discountPercentage,
+                ProductID = variant.SystemId,
                 ID = Guid.NewGuid()
             });
+
 
             return this;
         }
@@ -213,7 +220,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             }
 
             deliveryCarrier = new DeliveryCarrier(DateTime.Now, "", deliveryCost, deliveryMethodId, 1, externalReferenceId, _orderCarrier.ID,
-                DateTime.Now.AddHours(1), deliceryCostWithVat - deliveryCost, cost.VatPercentage / 100m, true, 
+                DateTime.Now.AddHours(1), deliceryCostWithVat - deliveryCost, cost.VatPercentage / 100m, true,
                 deliveryAddress, true, new List<AdditionalDeliveryInfoCarrier>(), Guid.Empty, 0, deliveryCost, "", true, deliceryCostWithVat);
 
             _orderCarrier.Deliveries.Add(deliveryCarrier);
