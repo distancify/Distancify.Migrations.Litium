@@ -471,6 +471,7 @@
     <Compile Include="Seeds\FieldFramework\TextOptionFieldDefinitionSeed.cs" />
     <Compile Include="Seeds\Customers\AddressTypeSeed.cs" />
     <Compile Include="Seeds\Customers\OrganizationSeed.cs" />
+    <Compile Include="Seeds\Products\DynamicProductListSeed.cs" />
     <Compile Include="Seeds\Sales\DeliveryMethodSeed.cs" />
     <Compile Include="Seeds\LitiumConstants.cs" />
     <Compile Include="Seeds\Countries.cs" />
