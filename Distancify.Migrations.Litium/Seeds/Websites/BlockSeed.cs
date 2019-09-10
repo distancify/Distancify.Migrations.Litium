@@ -142,7 +142,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         {
             var visitorGroupSystemId = IoC.Resolve<GroupService>().Get<StaticGroup>(LitiumConstants.Visitors).SystemId;
 
-            if (_block.AccessControlList.Any(a => a.GroupSystemId == visitorGroupSystemId))
+            if (!_block.AccessControlList.Any(a => a.GroupSystemId == visitorGroupSystemId))
             {
                 _block.AccessControlList.Add(new AccessControlEntry(Operations.Entity.Read, visitorGroupSystemId));
             }
