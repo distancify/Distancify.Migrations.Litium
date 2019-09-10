@@ -50,6 +50,8 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             var draftBlockClone = draftService.Get(_block.SystemId).MakeWritableClone();
 
             UpdateDraftBlockWithFields();
+            UpdateDraftBlockWithAccessControlList();
+            UpdateDraftBlockWithWithChannelLinks();
 
             draftService.Update(draftBlockClone);
 
@@ -71,6 +73,32 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                     else
                     {
                         draftBlockClone.Fields.AddOrUpdateValue(field.FieldId, field.Culture, field.Value);
+                    }
+                }
+            }
+
+            void UpdateDraftBlockWithAccessControlList()
+            {
+                foreach (var accessControl in _block.AccessControlList)
+                {
+                    if (draftBlockClone.AccessControlList.FirstOrDefault(a => a.GroupSystemId == accessControl.GroupSystemId) is AccessControlEntry ace)
+                    {
+                        ace.Operation = accessControl.Operation;
+                    }
+                    else
+                    {
+                        draftBlockClone.AccessControlList.Add(new AccessControlEntry(accessControl.Operation, accessControl.GroupSystemId));
+                    }
+                }
+            }
+
+            void UpdateDraftBlockWithWithChannelLinks()
+            {
+                foreach (var channelLink in _block.ChannelLinks)
+                {
+                    if (!draftBlockClone.ChannelLinks.Any(c => c.ChannelSystemId == channelLink.ChannelSystemId))
+                    {
+                        draftBlockClone.ChannelLinks.Add(new DraftBlockToChannelLink(channelLink.ChannelSystemId));
                     }
                 }
             }
@@ -114,7 +142,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         {
             var visitorGroupSystemId = IoC.Resolve<GroupService>().Get<StaticGroup>(LitiumConstants.Visitors).SystemId;
 
-            if (!_block.AccessControlList.Any(a => a.GroupSystemId == visitorGroupSystemId))
+            if (_block.AccessControlList.Any(a => a.GroupSystemId == visitorGroupSystemId))
             {
                 _block.AccessControlList.Add(new AccessControlEntry(Operations.Entity.Read, visitorGroupSystemId));
             }
