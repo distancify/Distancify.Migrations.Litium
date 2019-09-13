@@ -149,7 +149,12 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         {
             var channelService = IoC.Resolve<ChannelService>();
             var channel = channelService.Get(channelId);
-            _orderCarrier.ChannelID = channel.SystemId;
+            return WithChannelLink(channel.SystemId);
+        }
+
+        public OrderSeed WithChannelLink(Guid channelSystemId)
+        {
+            _orderCarrier.ChannelID = channelSystemId;
             return this;
         }
 
