@@ -119,7 +119,11 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         {
             var channelSystemId = IoC.Resolve<ChannelService>().Get(channelId).SystemId;
 
+            return WithChannel(channelSystemId);
+        }
 
+        public CampaignSeed WithChannel(Guid channelSystemId)
+        {
             if (_campaignCarrier.Data.Channels is null)
             {
                 _campaignCarrier.Data.Channels = new List<CampaignData.Channel>();
@@ -132,7 +136,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                     ChannelId = channelSystemId,
                     CampainPage = new CampaignData.CampaignPagePointer
                     {
-                        ChannelSystemId = channelSystemId                       
+                        ChannelSystemId = channelSystemId
                     }
                 });
             }
