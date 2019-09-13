@@ -108,6 +108,11 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return _channel.SystemId;
         }
 
+        public ChannelSeed WithId(string id)
+        {
+            _channel.Id = id;
+            return this;
+        }
 
         public ChannelSeed WithField(string id, object value)
         {
