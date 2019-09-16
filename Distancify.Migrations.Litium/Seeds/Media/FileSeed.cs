@@ -18,6 +18,7 @@ namespace Distancify.Migrations.Litium.Seeds.Media
         private readonly string _filePath;
         private readonly BlobContainer _blobContainer;
         private readonly FileFieldTemplate _fieldTemplate;
+        private Guid _newSystemId;
 
         private FileSeed(File file, string filePath, FileFieldTemplate fieldTemplate, BlobContainer blobContainer)
         {
@@ -25,6 +26,7 @@ namespace Distancify.Migrations.Litium.Seeds.Media
             _filePath = filePath;
             _blobContainer = blobContainer;
             _fieldTemplate = fieldTemplate;
+            _newSystemId = Guid.NewGuid();
         }
 
         public static FileSeed Ensure(string fileId, string filePath, string fileFieldTemplateId, Guid folderSystemId)
@@ -79,6 +81,15 @@ namespace Distancify.Migrations.Litium.Seeds.Media
             return Ensure(fileName, filePath, fileFieldTemplateId, folderSystemId);
         }
 
+        /// <summary>
+        /// Sets the future system id of new entities.
+        /// </summary>
+        public FileSeed WithSystemId(Guid systemId)
+        {
+            _newSystemId = systemId;
+            return this;
+        }
+
         public Guid Commit()
         {
             var service = IoC.Resolve<FileService>();
@@ -86,7 +97,7 @@ namespace Distancify.Migrations.Litium.Seeds.Media
             if (_file.SystemId.Equals(Guid.Empty))
             {
                 _file.FileSize = GetFileSize();
-                _file.SystemId = Guid.NewGuid();
+                _file.SystemId = _newSystemId;
                 IoC.Resolve<FileMetadataExtractorService>().UpdateMetadata(_fieldTemplate, _file, null, _file.BlobUri);
 
                 service.Create(_file);
