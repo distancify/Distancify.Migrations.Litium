@@ -200,9 +200,15 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
         public VariantSeed WithImage(string fileId)
         {
-            var images = _variant.Fields.GetValue<IList<Guid>>(SystemFieldDefinitionConstants.Images) ?? new List<Guid>();
             var fileSystemId = IoC.Resolve<FileService>().Get(fileId).SystemId;
 
+            return WithImage(fileSystemId);
+        }
+
+        public VariantSeed WithImage(Guid fileSystemId)
+        {
+            var images = _variant.Fields.GetValue<IList<Guid>>(SystemFieldDefinitionConstants.Images) ?? new List<Guid>();
+            
             if (!images.Contains(fileSystemId))
             {
                 images.Add(fileSystemId);
