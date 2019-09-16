@@ -6,7 +6,7 @@
         public const string DefaultSystemGroupTemplate = nameof(DefaultSystemGroupTemplate);
         public const string DefaultFileTemplate = nameof(DefaultFileTemplate);
         public const string DefaultFolderTemplate = nameof(DefaultFolderTemplate);
-        public const string DefaultImageFolderTemplate = "Image";
+        public const string DefaultImageFileTemplate = "Image";
         public const string Visitors = nameof(Visitors);
     }
 }

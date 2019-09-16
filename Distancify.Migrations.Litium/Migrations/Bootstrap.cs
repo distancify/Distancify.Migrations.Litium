@@ -47,7 +47,7 @@ namespace Distancify.Migrations.Litium.Migrations
                 .WithTemplateType(FileTemplateType.Other)
                 .Commit();
 
-            FileFieldTemplateSeed.Ensure(LitiumConstants.DefaultImageFolderTemplate)
+            FileFieldTemplateSeed.Ensure(LitiumConstants.DefaultImageFileTemplate)
                 .WithTemplateType(FileTemplateType.Image)
                 .Commit();
 
