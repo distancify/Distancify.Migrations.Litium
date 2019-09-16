@@ -12,10 +12,12 @@ namespace Distancify.Migrations.Litium.Seeds.Products
     public class AssortmentCategorySeed : ISeed
     {
         private readonly Category _category;
+        private Guid _newSystemId;
 
         protected AssortmentCategorySeed(Category category)
         {
-            this._category = category;
+            _category = category;
+            _newSystemId = Guid.NewGuid(); 
         }
 
         public static AssortmentCategorySeed Ensure(string assortmentCategoryId, string categoryFieldTemplateId, string assortmentId)
@@ -45,7 +47,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
             if (_category.SystemId == null || _category.SystemId == Guid.Empty)
             {
-                _category.SystemId = Guid.NewGuid();
+                _category.SystemId = _newSystemId;
                 service.Create(_category);
             }
             else
@@ -54,6 +56,12 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             }
 
             return _category.SystemId;
+        }
+
+        public AssortmentCategorySeed WithSystemId(Guid systemId)
+        {
+            _newSystemId = systemId;
+            return this;
         }
 
         public AssortmentCategorySeed WithName(string culture, string name)
