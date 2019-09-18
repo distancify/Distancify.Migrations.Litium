@@ -36,24 +36,25 @@ of `Distancify.Migrations.Migration`, this will be automatically taken care of f
 If you have a set of migrations that you want to run on all environments, you can make sure these are applied everywhere by creating a startup task:
 
 ```csharp
+using Distancify.Migrations;
+using Distancify.Migrations.Litium;
+using Litium;
+using Litium.Foundation;
+using Litium.Owin.Lifecycle;
+using System.Collections.Generic;
+using System.Reflection;
+
 public class MigrationsSetup : IPostSetupTask
 {
-    private readonly MigrationService migrationService;
-
-    public MigrationsSetup(MigrationService migrationService)
-    {
-        this.migrationService = migrationService;
-    }
-
     public void PostSetup(IEnumerable<Assembly> assemblies)
     {
         using (Solution.Instance.SystemToken.Use())
         {
-            migrationService.Apply<ProductionMigration>();
+            IoC.Resolve<MigrationService>().Apply<ProductionMigration>();
 
             if (bool.TryParse(ConfigurationManager.AppSettings["RunDevMigrationAtStartup"], out bool result) && result)
             {
-                migrationService.Apply<DevelopmentMigration>();
+                IoC.Resolve<MigrationService>().Apply<DevelopmentMigration>();
             }
         }
     }
