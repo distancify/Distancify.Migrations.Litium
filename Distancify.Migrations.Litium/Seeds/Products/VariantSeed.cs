@@ -91,6 +91,13 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return this;
         }
 
+        public VariantSeed WithField(string fieldName, string culture, object value)
+        {
+            _variant.Fields.AddOrUpdateValue(fieldName, culture, value);
+
+            return this;
+        }
+
         public VariantSeed WithDescription(string culture, string description)
         {
             if (!_variant.Localizations.Any(l => l.Key.Equals(culture)) ||

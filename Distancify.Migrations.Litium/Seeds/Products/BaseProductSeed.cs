@@ -154,6 +154,13 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return this;
         }
 
+        public BaseProductSeed WithField(string fieldName, string culture, object value)
+        {
+            baseProduct.Fields.AddOrUpdateValue(fieldName, culture, value);
+
+            return this;
+        }
+
         public BaseProductSeed WithImage(string fileId)
         {
             var images = baseProduct.Fields.GetValue<IList<Guid>>(SystemFieldDefinitionConstants.Images) ?? new List<Guid>();
