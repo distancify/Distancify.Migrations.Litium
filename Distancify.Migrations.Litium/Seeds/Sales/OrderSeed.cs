@@ -111,7 +111,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         {
             if (_orderCarrier.CustomerInfo == null)
             {
-                _orderCarrier.CustomerInfo = new CustomerInfoCarrier() { ID = Guid.NewGuid() };
+                _orderCarrier.CustomerInfo = new CustomerInfoCarrier { ID = Guid.NewGuid() };
             }
 
             _orderCarrier.CustomerInfo.CustomerNumber = person.Id;
@@ -178,7 +178,41 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public OrderSeed WithPayment(Guid paymentMethodId, AddressCarrier billingAddress, string transactionReference = null)
+        public OrderSeed WithPayment(Guid paymentMethodId, AddressCarrier billingAddress, string transactionReference)
+        {
+            return AddPaymentMethod(paymentMethodId, billingAddress, transactionReference);
+        }
+
+        public OrderSeed WithPayment(Guid paymentMethodId, AddressCarrier billingAddress)
+        {
+            return AddPaymentMethod(paymentMethodId, billingAddress, null);
+        }
+
+        public OrderSeed WithPayment(AddressCarrier billingAddress, string transactionReference)
+        {
+            var payment = IoC.Resolve<ModuleECommerce>().PaymentMethods.GetAll().First();
+            return AddPaymentMethod(payment.ID, billingAddress, transactionReference);
+        }
+
+        public OrderSeed WithPayment(AddressCarrier billingAddress)
+        {
+            var payment = IoC.Resolve<ModuleECommerce>().PaymentMethods.GetAll().First();
+            return AddPaymentMethod(payment.ID, billingAddress, null);
+        }
+
+        public OrderSeed WithPayment(string personId, string transactionReference)
+        {
+            var payment = IoC.Resolve<ModuleECommerce>().PaymentMethods.GetAll().First();
+            return AddPaymentMethod(payment.ID, CreateAddressCarrier(personId), transactionReference);
+        }
+
+        public OrderSeed WithPayment(string personId)
+        {
+            var payment = IoC.Resolve<ModuleECommerce>().PaymentMethods.GetAll().First();
+            return AddPaymentMethod(payment.ID, CreateAddressCarrier(personId), null);
+        }
+
+        private OrderSeed AddPaymentMethod(Guid paymentMethodId, AddressCarrier billingAddress, string transactionReference)
         {
             var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.Get(paymentMethodId, Solution.Instance.SystemToken);
             var paymentInfoCarrier = _orderCarrier.PaymentInfo.FirstOrDefault();
@@ -202,19 +236,47 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public OrderSeed WithOrderCreationDate(DateTime date)
+        public OrderSeed WithDelivery(Guid deliveryMethodId, AddressCarrier deliveryAddress, string externalReferenceId)
         {
-            _orderCarrier.OrderDate = date;
-            return this;
+            return AddDeliveryMethod(deliveryMethodId, deliveryAddress, externalReferenceId);
         }
 
-        public OrderSeed WithDelivery(Guid deliveryMethodId, AddressCarrier deliveryAddress, string externalReferenceId)
+        public OrderSeed WithDelivery(Guid deliveryMethodId, string personId, string externalReferenceId)
+        {
+            return AddDeliveryMethod(deliveryMethodId, CreateAddressCarrier(personId), externalReferenceId);
+        }
+
+        public OrderSeed WithDelivery(Guid deliveryMethodId, string personId)
+        {
+            return AddDeliveryMethod(deliveryMethodId, CreateAddressCarrier(personId), personId);
+        }
+
+        public OrderSeed WithDelivery(AddressCarrier deliveryAddress, string externalReferenceId)
+        {
+            var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.GetAll().First();
+            return AddDeliveryMethod(delivery.ID, deliveryAddress, externalReferenceId);
+        }
+
+        public OrderSeed WithDelivery(string personId, string externalReferenceId)
+        {
+            var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.GetAll().First();
+            return AddDeliveryMethod(delivery.ID, CreateAddressCarrier(personId), externalReferenceId);
+        }
+
+        public OrderSeed WithDelivery(string personId)
+        {
+            var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.GetAll().First();
+            return AddDeliveryMethod(delivery.ID, CreateAddressCarrier(personId), personId);
+        }
+
+        //TODO: What happens if the currency isn't set up till this point?
+        private OrderSeed AddDeliveryMethod(Guid deliveryMethodId, AddressCarrier deliveryAddress, string externalReferenceId)
         {
             var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken);
             var deliveryCarrier = _orderCarrier.Deliveries.FirstOrDefault();
             var cost = delivery.GetCost(_orderCarrier.CurrencyID);
             var deliveryCost = cost.IncludeVat ? cost.Cost / (1 + cost.VatPercentage / 100m) : cost.Cost;
-            var deliceryCostWithVat = cost.IncludeVat ? cost.Cost : cost.Cost * (1 + cost.VatPercentage / 100m);
+            var deliveryCostWithVat = cost.IncludeVat ? cost.Cost : cost.Cost * (1 + cost.VatPercentage / 100m);
 
             if (deliveryCarrier != null)
             {
@@ -222,11 +284,41 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             }
 
             deliveryCarrier = new DeliveryCarrier(DateTime.Now, "", deliveryCost, deliveryMethodId, 1, externalReferenceId, _orderCarrier.ID,
-                DateTime.Now.AddHours(1), deliceryCostWithVat - deliveryCost, cost.VatPercentage / 100m, true,
-                deliveryAddress, true, new List<AdditionalDeliveryInfoCarrier>(), Guid.Empty, 0, deliveryCost, "", true, deliceryCostWithVat);
+                DateTime.Now.AddHours(1), deliveryCostWithVat - deliveryCost, cost.VatPercentage / 100m, true,
+                deliveryAddress, true, new List<AdditionalDeliveryInfoCarrier>(), Guid.Empty, 0, deliveryCost, "", true, deliveryCostWithVat);
 
             _orderCarrier.Deliveries.Add(deliveryCarrier);
 
+            return this;
+        }
+
+        private AddressCarrier CreateAddressCarrier(string personId)
+        {
+            var personService = IoC.Resolve<PersonService>();
+            var person = personService.Get(personId);
+            var addressCarrier = new AddressCarrier {ID = Guid.NewGuid()};
+
+            var address = person.Addresses.First();
+
+            addressCarrier.Email = person.Email;
+            addressCarrier.FirstName = person.FirstName;
+            addressCarrier.LastName = person.LastName;
+            addressCarrier.Phone = address.PhoneNumber;
+            addressCarrier.Fax = address.PhoneNumber;
+            addressCarrier.MobilePhone = address.PhoneNumber;
+            addressCarrier.CareOf = addressCarrier.CareOf;
+            addressCarrier.Address1 = addressCarrier.Address1;
+            addressCarrier.Address2 = addressCarrier.Address2;
+            addressCarrier.City = addressCarrier.City;
+            addressCarrier.Zip = address.ZipCode;
+            addressCarrier.Country = addressCarrier.Country;
+
+            return addressCarrier;
+        }
+
+        public OrderSeed WithOrderCreationDate(DateTime date)
+        {
+            _orderCarrier.OrderDate = date;
             return this;
         }
 
