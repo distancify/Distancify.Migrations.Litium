@@ -21,12 +21,12 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
         {
         }
 
-        public new static TextOptionFieldDefinitionSeed Ensure<TArea>(string id, string fieldType)
+        public static TextOptionFieldDefinitionSeed Ensure<TArea>(string id)
             where TArea : IArea
         {
             var fieldDefinitionService = IoC.Resolve<FieldDefinitionService>();
             var fieldDefinition = fieldDefinitionService.Get<TArea>(id)?.MakeWritableClone() ??
-                new FieldDefinition<TArea>(id, fieldType)
+                new FieldDefinition<TArea>(id, SystemFieldTypeConstants.TextOption)
                 {
                     SystemId = Guid.Empty
                 };
