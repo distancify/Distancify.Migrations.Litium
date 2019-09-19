@@ -116,6 +116,8 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
 
         private void SetFieldGroupLocalizations(FieldTemplateFieldGroup fieldGroup, Dictionary<string, string> localizedNamesByCulture)
         {
+            if (localizedNamesByCulture == null) return;
+
             foreach (var newLocalization in localizedNamesByCulture)
             {
                 if (!fieldGroup.Localizations.Any(currentLocalization => currentLocalization.Key.Equals(newLocalization.Key)) ||
