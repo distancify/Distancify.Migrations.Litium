@@ -395,14 +395,17 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             service.Orders.CalculateOrderTotals(_orderCarrier, Solution.Instance.SystemToken);
             //service.Orders.CalculatePaymentInfoAmounts(_orderCarrier, Solution.Instance.SystemToken);
 
-            if (_isNewOrder)
+            using (Solution.Instance.SystemToken.Use())
             {
-                service.Orders.CreateOrder(_orderCarrier, Solution.Instance.SystemToken);
-            }
-            else
-            {
-                var order = service.Orders.GetOrder(_orderCarrier.ID, Solution.Instance.SystemToken);
-                order.SetValuesFromCarrier(_orderCarrier, Solution.Instance.SystemToken);
+                if (_isNewOrder)
+                {
+                    service.Orders.CreateOrder(_orderCarrier, Solution.Instance.SystemToken);
+                }
+                else
+                {
+                    var order = service.Orders.GetOrder(_orderCarrier.ID, Solution.Instance.SystemToken);
+                    order.SetValuesFromCarrier(_orderCarrier, Solution.Instance.SystemToken);
+                }
             }
 
             return _orderCarrier.ID;
