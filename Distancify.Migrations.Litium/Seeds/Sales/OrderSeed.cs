@@ -83,6 +83,21 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
+        public OrderSeed WithDeliveredProduct(string personId, string externalDeliveryId, string articleNumber, decimal quantity, decimal vatPercentage = 0, decimal discountPercentage = 0)
+        {
+            var deliveryMethod = IoC.Resolve<ModuleECommerce>().DeliveryMethods.GetAll().First();
+            AddDeliveryMethod(deliveryMethod.ID, CreateAddressCarrier(personId), externalDeliveryId);
+            WithProduct(articleNumber, quantity, vatPercentage, discountPercentage);
+
+            var row = _orderCarrier.OrderRows.LastOrDefault(r => r.ArticleNumber == articleNumber);
+            if (row != null)
+            {
+                row.DeliveryID = _orderCarrier.Deliveries.Last().ID;
+            }
+
+            return this;
+        }
+
         public OrderSeed WithPersonCustomer(string personId)
         {
             var personService = IoC.Resolve<PersonService>();
@@ -175,6 +190,25 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         public OrderSeed WithOrderStatus(short status)
         {
             _orderCarrier.OrderStatus = status;
+            return this;
+        }
+
+        public OrderSeed WithDeliveryStatus(short status)
+        {
+            _orderCarrier.DeliveryStatus = status;
+            _orderCarrier.Deliveries.ForEach(d => d.DeliveryStatus = status);
+            return this;
+        }
+
+        public OrderSeed WithDeliveryTrackingUrl(string url)
+        {
+            _orderCarrier.Deliveries.ForEach(d => d.TrackingUrl = url);
+            return this;
+        }
+
+        public OrderSeed WithDeliveryComment(string comment)
+        {
+            _orderCarrier.Deliveries.ForEach(d => d.Comments = comment);
             return this;
         }
 
@@ -273,7 +307,12 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         private OrderSeed AddDeliveryMethod(Guid deliveryMethodId, AddressCarrier deliveryAddress, string externalReferenceId)
         {
             var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken);
-            var deliveryCarrier = _orderCarrier.Deliveries.FirstOrDefault();
+
+            var deliveryCarrier = string.IsNullOrEmpty(externalReferenceId)
+                ? _orderCarrier.Deliveries.FirstOrDefault(d => d.DeliveryMethodID == deliveryMethodId)
+                : _orderCarrier.Deliveries.FirstOrDefault(d =>
+                    d.DeliveryMethodID == deliveryMethodId && d.ExternalReferenceID == externalReferenceId);
+
             var cost = delivery.GetCost(_orderCarrier.CurrencyID);
             var deliveryCost = cost.IncludeVat ? cost.Cost / (1 + cost.VatPercentage / 100m) : cost.Cost;
             var deliveryCostWithVat = cost.IncludeVat ? cost.Cost : cost.Cost * (1 + cost.VatPercentage / 100m);
@@ -285,7 +324,10 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
             deliveryCarrier = new DeliveryCarrier(DateTime.Now, "", deliveryCost, deliveryMethodId, 1, externalReferenceId, _orderCarrier.ID,
                 DateTime.Now.AddHours(1), deliveryCostWithVat - deliveryCost, cost.VatPercentage / 100m, true,
-                deliveryAddress, true, new List<AdditionalDeliveryInfoCarrier>(), Guid.Empty, 0, deliveryCost, "", true, deliveryCostWithVat);
+                deliveryAddress, true, new List<AdditionalDeliveryInfoCarrier>(), Guid.Empty, 0, deliveryCost, "", true, deliveryCostWithVat)
+            {
+                ID = Guid.NewGuid()
+            };
 
             _orderCarrier.Deliveries.Add(deliveryCarrier);
 
@@ -394,20 +436,15 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             var service = IoC.Resolve<ModuleECommerce>();
             service.Orders.CalculateOrderTotals(_orderCarrier, Solution.Instance.SystemToken);
             //service.Orders.CalculatePaymentInfoAmounts(_orderCarrier, Solution.Instance.SystemToken);
-
-            using (Solution.Instance.SystemToken.Use())
+            if (_isNewOrder)
             {
-                if (_isNewOrder)
-                {
-                    service.Orders.CreateOrder(_orderCarrier, Solution.Instance.SystemToken);
-                }
-                else
-                {
-                    var order = service.Orders.GetOrder(_orderCarrier.ID, Solution.Instance.SystemToken);
-                    order.SetValuesFromCarrier(_orderCarrier, Solution.Instance.SystemToken);
-                }
+                service.Orders.CreateOrder(_orderCarrier, Solution.Instance.SystemToken);
             }
-
+            else
+            {
+                var order = service.Orders.GetOrder(_orderCarrier.ID, Solution.Instance.SystemToken);
+                order.SetValuesFromCarrier(_orderCarrier, Solution.Instance.SystemToken);
+            }
             return _orderCarrier.ID;
         }
     }
