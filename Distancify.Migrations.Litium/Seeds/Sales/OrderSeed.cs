@@ -37,7 +37,9 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
         public static OrderSeed Ensure(Guid orderId)
         {
-            var order = IoC.Resolve<ModuleECommerce>().Orders.GetOrder(orderId, Solution.Instance.SystemToken)?.GetAsCarrier(true, true, true, true, true, true);
+            var order = IoC.Resolve<ModuleECommerce>().Orders.GetOrder(orderId, Solution.Instance.SystemToken)?
+                .GetAsCarrier(true, true, true, true, true, true);
+
             if (order is null)
             {
                 return new OrderSeed(new OrderCarrier
@@ -49,7 +51,17 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                     {
                         IsMarkedForCreating = true
                     },
-                    Deliveries = new List<DeliveryCarrier>(),
+                    Deliveries = new List<DeliveryCarrier>
+                    {
+                        new DeliveryCarrier
+                        {
+                            ID = Guid.NewGuid(),
+                            CarrierState = new CarrierState
+                            {
+                                IsMarkedForCreating = true
+                            }
+                        }
+                    },
                     PaymentInfo = new List<PaymentInfoCarrier>()
                 }, true);
             }
@@ -76,24 +88,31 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 VATPercentage = vatPercentage,
                 DiscountPercentage = discountPercentage,
                 ProductID = variant.SystemId,
-                ID = Guid.NewGuid()
+                ID = Guid.NewGuid(),
+                DeliveryID = _orderCarrier.Deliveries.Last().ID
             });
 
 
             return this;
         }
 
-        public OrderSeed WithDeliveredProduct(string personId, string externalDeliveryId, string articleNumber, decimal quantity, decimal vatPercentage = 0, decimal discountPercentage = 0)
+        public OrderSeed WithProductInDeliveryState(string articleNumber, decimal quantity, short deliveryState, decimal vatPercentage = 0, decimal discountPercentage = 0)
         {
-            var deliveryMethod = IoC.Resolve<ModuleECommerce>().DeliveryMethods.GetAll().First();
-            AddDeliveryMethod(deliveryMethod.ID, CreateAddressCarrier(personId), externalDeliveryId);
             WithProduct(articleNumber, quantity, vatPercentage, discountPercentage);
+            var orderRow = _orderCarrier.OrderRows.Last(r => r.ArticleNumber == articleNumber);
 
-            var row = _orderCarrier.OrderRows.LastOrDefault(r => r.ArticleNumber == articleNumber);
-            if (row != null)
+            var deliveryCarrier = _orderCarrier.Deliveries.FirstOrDefault(d => d.DeliveryStatus == deliveryState);
+            if (deliveryCarrier == null)
             {
-                row.DeliveryID = _orderCarrier.Deliveries.Last().ID;
+                deliveryCarrier = new DeliveryCarrier
+                {
+                    ID = Guid.NewGuid(),
+                    DeliveryStatus = deliveryState
+                };
+
+                _orderCarrier.Deliveries.Add(deliveryCarrier);
             }
+            orderRow.DeliveryID = deliveryCarrier.ID;
 
             return this;
         }
@@ -291,20 +310,20 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return AddDeliveryMethod(delivery.ID, deliveryAddress, externalReferenceId);
         }
 
-        public OrderSeed WithDelivery(string personId, string externalReferenceId)
+        public OrderSeed WithDelivery(string personId, string externalReferenceId, short deliveryState = 0)
         {
             var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.GetAll().First();
-            return AddDeliveryMethod(delivery.ID, CreateAddressCarrier(personId), externalReferenceId);
+            return AddDeliveryMethod(delivery.ID, CreateAddressCarrier(personId), externalReferenceId, deliveryState);
         }
 
-        public OrderSeed WithDelivery(string personId)
+        public OrderSeed WithDelivery(string personId, short deliveryState = 0)
         {
             var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.GetAll().First();
-            return AddDeliveryMethod(delivery.ID, CreateAddressCarrier(personId), personId);
+            return AddDeliveryMethod(delivery.ID, CreateAddressCarrier(personId), personId, deliveryState: deliveryState);
         }
 
         //TODO: What happens if the currency isn't set up till this point?
-        private OrderSeed AddDeliveryMethod(Guid deliveryMethodId, AddressCarrier deliveryAddress, string externalReferenceId)
+        private OrderSeed AddDeliveryMethod(Guid deliveryMethodId, AddressCarrier deliveryAddress, string externalReferenceId, short deliveryState = 0)
         {
             var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken);
 
@@ -326,7 +345,8 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 DateTime.Now.AddHours(1), deliveryCostWithVat - deliveryCost, cost.VatPercentage / 100m, true,
                 deliveryAddress, true, new List<AdditionalDeliveryInfoCarrier>(), Guid.Empty, 0, deliveryCost, "", true, deliveryCostWithVat)
             {
-                ID = Guid.NewGuid()
+                ID = Guid.NewGuid(),
+                DeliveryStatus = deliveryState
             };
 
             _orderCarrier.Deliveries.Add(deliveryCarrier);
