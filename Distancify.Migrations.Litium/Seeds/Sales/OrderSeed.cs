@@ -60,6 +60,14 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                             CarrierState = new CarrierState
                             {
                                 IsMarkedForCreating = true
+                            },
+                            Address = new AddressCarrier
+                            {
+                                ID = Guid.NewGuid(),
+                                CarrierState = new CarrierState
+                                {
+                                    IsMarkedForCreating = true
+                                }
                             }
                         }
                     },
@@ -109,7 +117,19 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 {
                     ID = Guid.NewGuid(),
                     OrderID = _orderCarrier.ID,
-                    DeliveryStatus = deliveryState
+                    DeliveryStatus = deliveryState,
+                    CarrierState = new CarrierState
+                    {
+                        IsMarkedForCreating = true
+                    },
+                    Address = new AddressCarrier
+                    {
+                        ID = Guid.NewGuid(),
+                        CarrierState = new CarrierState
+                        {
+                            IsMarkedForCreating = true
+                        }
+                    }
                 };
 
                 _orderCarrier.Deliveries.Add(deliveryCarrier);
