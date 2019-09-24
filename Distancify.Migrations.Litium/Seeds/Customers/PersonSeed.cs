@@ -142,7 +142,26 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
                 person.Addresses = new List<Address>();
             }
 
-            person.Addresses.Add(address);
+            var existing = person.Addresses.FirstOrDefault(r => r.SystemId == address.SystemId);
+            if (existing == null)
+            {
+                person.Addresses.Add(address);
+            }
+            else
+            {
+                existing.Address1 = address.Address1;
+                existing.Address2 = address.Address2;
+                existing.AddressTypeSystemId = address.AddressTypeSystemId;
+                existing.CareOf = address.CareOf;
+                existing.City = address.City;
+                existing.Country = address.Country;
+                existing.CustomData = address.CustomData;
+                existing.HouseExtension = address.HouseExtension;
+                existing.HouseNumber = address.HouseNumber;
+                existing.PhoneNumber = address.PhoneNumber;
+                existing.State = address.State;
+                existing.ZipCode = address.ZipCode;
+            }
 
             return this;
         }
