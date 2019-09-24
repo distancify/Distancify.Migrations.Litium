@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -55,7 +56,9 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                     {
                         GetDeliveryCarrier(orderId)
                     },
-                    PaymentInfo = new List<PaymentInfoCarrier>()
+                    PaymentInfo = new List<PaymentInfoCarrier>(),
+                    Fees = new List<FeeCarrier>(),
+                    OrderDiscounts = new List<OrderDiscountCarrier>()
                 }, true);
             }
             return new OrderSeed(order);
@@ -464,9 +467,18 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
         public Guid Commit()
         {
+            var languageService = IoC.Resolve<LanguageService>();
+            var language = languageService.Get(CultureInfo.CurrentUICulture);
+            var currentCulture = CultureInfo.CurrentUICulture;
+            if (language == null)
+            {
+                // Payment calculator in Litium depends on CurrentUICulture existing as a registered language in Litium
+                CultureInfo.CurrentUICulture = languageService.GetAll().FirstOrDefault()?.CultureInfo;
+            }
+
             var service = IoC.Resolve<ModuleECommerce>();
             service.Orders.CalculateOrderTotals(_orderCarrier, Solution.Instance.SystemToken);
-            //service.Orders.CalculatePaymentInfoAmounts(_orderCarrier, Solution.Instance.SystemToken);
+            service.Orders.CalculatePaymentInfoAmounts(_orderCarrier, Solution.Instance.SystemToken);
             if (_isNewOrder)
             {
                 service.Orders.CreateOrder(_orderCarrier, Solution.Instance.SystemToken);
@@ -476,6 +488,10 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 var order = service.Orders.GetOrder(_orderCarrier.ID, Solution.Instance.SystemToken);
                 order.SetValuesFromCarrier(_orderCarrier, Solution.Instance.SystemToken);
             }
+
+            // Set culture back to what it was before
+            CultureInfo.CurrentUICulture = currentCulture;
+
             return _orderCarrier.ID;
         }
     }
