@@ -53,23 +53,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                     },
                     Deliveries = new List<DeliveryCarrier>
                     {
-                        new DeliveryCarrier
-                        {
-                            ID = Guid.NewGuid(),
-                            OrderID = orderId,
-                            CarrierState = new CarrierState
-                            {
-                                IsMarkedForCreating = true
-                            },
-                            Address = new AddressCarrier
-                            {
-                                ID = Guid.NewGuid(),
-                                CarrierState = new CarrierState
-                                {
-                                    IsMarkedForCreating = true
-                                }
-                            }
-                        }
+                        GetDeliveryCarrier(orderId)
                     },
                     PaymentInfo = new List<PaymentInfoCarrier>()
                 }, true);
@@ -113,30 +97,35 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             var deliveryCarrier = _orderCarrier.Deliveries.FirstOrDefault(d => d.DeliveryStatus == deliveryState);
             if (deliveryCarrier == null)
             {
-                deliveryCarrier = new DeliveryCarrier
-                {
-                    ID = Guid.NewGuid(),
-                    OrderID = _orderCarrier.ID,
-                    DeliveryStatus = deliveryState,
-                    CarrierState = new CarrierState
-                    {
-                        IsMarkedForCreating = true
-                    },
-                    Address = new AddressCarrier
-                    {
-                        ID = Guid.NewGuid(),
-                        CarrierState = new CarrierState
-                        {
-                            IsMarkedForCreating = true
-                        }
-                    }
-                };
-
+                deliveryCarrier = GetDeliveryCarrier(_orderCarrier.ID, deliveryState);
                 _orderCarrier.Deliveries.Add(deliveryCarrier);
             }
             orderRow.DeliveryID = deliveryCarrier.ID;
 
             return this;
+        }
+
+        private static DeliveryCarrier GetDeliveryCarrier(Guid orderId, short deliveryState = 0)
+        {
+            return new DeliveryCarrier
+            {
+                ID = Guid.NewGuid(),
+                OrderID = orderId,
+                DeliveryStatus = deliveryState,
+                DeliveryMethodID = IoC.Resolve<ModuleECommerce>().DeliveryMethods.GetAll().First().ID,
+                CarrierState = new CarrierState
+                {
+                    IsMarkedForCreating = true
+                },
+                Address = new AddressCarrier
+                {
+                    ID = Guid.NewGuid(),
+                    CarrierState = new CarrierState
+                    {
+                        IsMarkedForCreating = true
+                    }
+                }
+            };
         }
 
         public OrderSeed WithPersonCustomer(string personId)
