@@ -178,6 +178,12 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
+        public OrderSeed WithComments(string comments)
+        {
+            _orderCarrier.Comments = comments;
+            return this;
+        }
+
         public OrderSeed WithOrganizationCustomer(string personId)
         {
             var personService = IoC.Resolve<PersonService>();
