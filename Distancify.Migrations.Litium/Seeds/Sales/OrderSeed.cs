@@ -140,13 +140,11 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             orderRow.Comments = comments;
         }
 
-
         private OrderRowCarrier GetLastMatchingRow(string articleNumber)
         {
             var orderRow = _orderCarrier.OrderRows.Last(r => r.ArticleNumber == articleNumber);
             return orderRow;
         }
-
 
         private static DeliveryCarrier GetDeliveryCarrier(Guid orderId, short deliveryState = 0)
         {
