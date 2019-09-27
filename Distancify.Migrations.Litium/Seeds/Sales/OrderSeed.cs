@@ -330,7 +330,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
             if (paymentInfoCarrier == null)
             {
-                paymentInfoCarrier = new PaymentInfoCarrier()
+                paymentInfoCarrier = new PaymentInfoCarrier
                 {
                     ID = Guid.NewGuid(),
                     BillingAddress = billingAddress,
@@ -522,7 +522,16 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
             var service = IoC.Resolve<ModuleECommerce>();
             service.Orders.CalculateOrderTotals(_orderCarrier, Solution.Instance.SystemToken);
-            service.Orders.CalculatePaymentInfoAmounts(_orderCarrier, Solution.Instance.SystemToken);
+
+            try
+            {
+                service.Orders.CalculatePaymentInfoAmounts(_orderCarrier, Solution.Instance.SystemToken);
+            }
+            catch (Exception ex)
+            {
+                this.Log().Debug("Failed to calculate payment info amounts for order {Order} due to {ex}", _orderCarrier.ExternalOrderID, ex);
+            }
+            
             if (_isNewOrder)
             {
                 service.Orders.CreateOrder(_orderCarrier, Solution.Instance.SystemToken);
