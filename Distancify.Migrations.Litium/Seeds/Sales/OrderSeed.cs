@@ -67,6 +67,36 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
         public OrderSeed WithProduct(string articleNumber, decimal quantity, decimal vatPercentage = 0, decimal discountPercentage = 0)
         {
+            return AddProduct(articleNumber, quantity, vatPercentage, discountPercentage);
+        }
+
+        public OrderSeed WithProduct(string articleNumber, decimal quantity, string comments, decimal vatPercentage = 0, decimal discountPercentage = 0)
+        {
+            AddProduct(articleNumber, quantity, vatPercentage, discountPercentage);
+            AddRowComments(articleNumber, comments);
+            return this;
+        }
+
+        public OrderSeed WithProductInDeliveryState(string articleNumber, decimal quantity, short deliveryState, decimal vatPercentage = 0, decimal discountPercentage = 0)
+        {
+            AddProduct(articleNumber, quantity, vatPercentage, discountPercentage);
+            SetRowDeliveryState(articleNumber, deliveryState);
+
+            return this;
+        }
+
+        public OrderSeed WithProductInDeliveryState(string articleNumber, decimal quantity, string comments, short deliveryState, decimal vatPercentage = 0,
+            decimal discountPercentage = 0)
+        {
+            AddProduct(articleNumber, quantity, vatPercentage, discountPercentage);
+            SetRowDeliveryState(articleNumber, deliveryState);
+            AddRowComments(articleNumber, comments);
+
+            return this;
+        }
+
+        private OrderSeed AddProduct(string articleNumber, decimal quantity, decimal vatPercentage, decimal discountPercentage)
+        {
             var variant = IoC.Resolve<VariantService>().Get(articleNumber);
             var priceItem = variant.Prices.FirstOrDefault();
 
@@ -89,14 +119,12 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 DeliveryID = _orderCarrier.Deliveries.Last().ID
             });
 
-
             return this;
         }
 
-        public OrderSeed WithProductInDeliveryState(string articleNumber, decimal quantity, short deliveryState, decimal vatPercentage = 0, decimal discountPercentage = 0)
+        private void SetRowDeliveryState(string articleNumber, short deliveryState)
         {
-            WithProduct(articleNumber, quantity, vatPercentage, discountPercentage);
-            var orderRow = _orderCarrier.OrderRows.Last(r => r.ArticleNumber == articleNumber);
+            var orderRow = GetLastMatchingRow(articleNumber);
 
             var deliveryCarrier = _orderCarrier.Deliveries.FirstOrDefault(d => d.DeliveryStatus == deliveryState);
             if (deliveryCarrier == null)
@@ -105,8 +133,18 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 _orderCarrier.Deliveries.Add(deliveryCarrier);
             }
             orderRow.DeliveryID = deliveryCarrier.ID;
+        }
 
-            return this;
+        private void AddRowComments(string articleNumber, string comments)
+        {
+            var orderRow = GetLastMatchingRow(articleNumber);
+            orderRow.Comments = comments;
+        }
+
+        private OrderRowCarrier GetLastMatchingRow(string articleNumber)
+        {
+            var orderRow = _orderCarrier.OrderRows.Last(r => r.ArticleNumber == articleNumber);
+            return orderRow;
         }
 
         private static DeliveryCarrier GetDeliveryCarrier(Guid orderId, short deliveryState = 0)
@@ -138,6 +176,12 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             var person = personService.Get(personId);
             SetCustomerInfo(person, person.Addresses.First());
 
+            return this;
+        }
+
+        public OrderSeed WithComments(string comments)
+        {
+            _orderCarrier.Comments = comments;
             return this;
         }
 
@@ -478,7 +522,16 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
             var service = IoC.Resolve<ModuleECommerce>();
             service.Orders.CalculateOrderTotals(_orderCarrier, Solution.Instance.SystemToken);
-            service.Orders.CalculatePaymentInfoAmounts(_orderCarrier, Solution.Instance.SystemToken);
+
+            try
+            {
+                service.Orders.CalculatePaymentInfoAmounts(_orderCarrier, Solution.Instance.SystemToken);
+            }
+            catch (Exception ex)
+            {
+                this.Log().Debug("Failed to calculate payment info amounts for order {Order} due to {ex}", _orderCarrier.ExternalOrderID, ex);
+            }
+            
             if (_isNewOrder)
             {
                 service.Orders.CreateOrder(_orderCarrier, Solution.Instance.SystemToken);
