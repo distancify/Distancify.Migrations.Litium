@@ -9,6 +9,7 @@ using Litium.Customers;
 using Litium.Foundation;
 using Litium.Foundation.Modules.ECommerce;
 using Litium.Foundation.Modules.ECommerce.Carriers;
+using Litium.Foundation.Modules.ECommerce.Payments;
 using Litium.Globalization;
 using Litium.Products;
 
@@ -245,62 +246,61 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public OrderSeed WithPayment(Guid paymentMethodId, AddressCarrier billingAddress, string transactionReference)
+        public class PaymentSeed : OrderSeed
         {
-            return AddPaymentMethod(paymentMethodId, billingAddress, transactionReference);
-        }
+            private readonly PaymentInfoCarrier payment;
 
-        public OrderSeed WithPayment(Guid paymentMethodId, AddressCarrier billingAddress)
-        {
-            return AddPaymentMethod(paymentMethodId, billingAddress, null);
-        }
-
-        public OrderSeed WithPayment(AddressCarrier billingAddress, string transactionReference)
-        {
-            var payment = IoC.Resolve<ModuleECommerce>().PaymentMethods.GetAll().First();
-            return AddPaymentMethod(payment.ID, billingAddress, transactionReference);
-        }
-
-        public OrderSeed WithPayment(AddressCarrier billingAddress)
-        {
-            var payment = IoC.Resolve<ModuleECommerce>().PaymentMethods.GetAll().First();
-            return AddPaymentMethod(payment.ID, billingAddress, null);
-        }
-
-        public OrderSeed WithPayment(string personId, string transactionReference)
-        {
-            var payment = IoC.Resolve<ModuleECommerce>().PaymentMethods.GetAll().First();
-            return AddPaymentMethod(payment.ID, CreateAddressCarrier(personId), transactionReference);
-        }
-
-        public OrderSeed WithPayment(string personId)
-        {
-            var payment = IoC.Resolve<ModuleECommerce>().PaymentMethods.GetAll().First();
-            return AddPaymentMethod(payment.ID, CreateAddressCarrier(personId), null);
-        }
-
-        private OrderSeed AddPaymentMethod(Guid paymentMethodId, AddressCarrier billingAddress, string transactionReference)
-        {
-            var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.Get(paymentMethodId, Solution.Instance.SystemToken);
-            var paymentInfoCarrier = _orderCarrier.PaymentInfo.FirstOrDefault();
-
-            if (paymentInfoCarrier == null)
+            internal PaymentSeed(OrderCarrier orderCarrier, bool isNewOrder, PaymentMethod paymentMethod)
+                : base(orderCarrier, isNewOrder)
             {
-                paymentInfoCarrier = new PaymentInfoCarrier()
+                payment = new PaymentInfoCarrier()
                 {
                     ID = Guid.NewGuid(),
-                    BillingAddress = billingAddress,
                     OrderID = _orderCarrier.ID
                 };
-                _orderCarrier.PaymentInfo.Add(paymentInfoCarrier);
+                _orderCarrier.PaymentInfo.Add(payment);
+
+                payment.PaymentMethod = paymentMethod.Name;
+                payment.PaymentProvider = paymentMethod.PaymentProviderName;
+                payment.ReferenceID = paymentMethod.Name;
             }
 
-            paymentInfoCarrier.PaymentMethod = paymentMethod.Name;
-            paymentInfoCarrier.PaymentProvider = paymentMethod.PaymentProviderName;
-            paymentInfoCarrier.ReferenceID = paymentMethod.Name;
-            paymentInfoCarrier.TransactionReference = transactionReference;
+            public PaymentSeed WithTransactionReference(string transactionReference)
+            {
+                payment.TransactionReference = transactionReference;
+                return this;
+            }
 
-            return this;
+
+            public PaymentSeed WithBillingAddress(AddressCarrier billingAddress)
+            {
+                payment.BillingAddress = billingAddress;
+                return this;
+            }
+
+            public PaymentSeed WithStatus(PaymentStatus status)
+            {
+                payment.PaymentStatus = (short)status;
+                return this;
+            }
+        }
+
+        public PaymentSeed WithPayment(Guid paymentMethodId)
+        {
+            var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.Get(paymentMethodId, Solution.Instance.SystemToken);
+            return new PaymentSeed(_orderCarrier, _isNewOrder, paymentMethod);
+        }
+
+        public PaymentSeed WithPayment(string method, string providerName)
+        {
+            var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.Get(method, providerName, Solution.Instance.SystemToken);
+            return new PaymentSeed(_orderCarrier, _isNewOrder, paymentMethod);
+        }
+
+        public PaymentSeed WithPayment()
+        {
+            var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.GetAll().First();
+            return new PaymentSeed(_orderCarrier, _isNewOrder, paymentMethod);
         }
 
         public OrderSeed WithDelivery(Guid deliveryMethodId, AddressCarrier deliveryAddress, string externalReferenceId)
@@ -465,7 +465,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public Guid Commit()
+        public OrderCarrier Commit()
         {
             var languageService = IoC.Resolve<LanguageService>();
             var language = languageService.Get(CultureInfo.CurrentUICulture);
@@ -492,7 +492,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             // Set culture back to what it was before
             CultureInfo.CurrentUICulture = currentCulture;
 
-            return _orderCarrier.ID;
+            return _orderCarrier;
         }
     }
 }
