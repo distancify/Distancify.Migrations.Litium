@@ -54,6 +54,12 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
         }
 
+        public DomainNameSeed WithHSTSAge(int hstsMaxAge)
+        {
+            domainName.HttpStrictTransportSecurityMaxAge = hstsMaxAge;
+            return this;
+        }
+
         public DomainNameSeed WithHttpStrictTransportSecurityMaxAge(long? httpStrictTransportSecurityMaxAge)
         {
             domainName.HttpStrictTransportSecurityMaxAge = httpStrictTransportSecurityMaxAge;
