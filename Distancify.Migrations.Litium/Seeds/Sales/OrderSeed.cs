@@ -165,7 +165,9 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                     CarrierState = new CarrierState
                     {
                         IsMarkedForCreating = true
-                    }
+                    },
+                    Country = string.Empty,
+                    Address1 = string.Empty
                 }
             };
         }
@@ -378,6 +380,32 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         {
             var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.GetAll().First();
             return AddDeliveryMethod(delivery.ID, CreateAddressCarrier(personId), personId, deliveryState: deliveryState);
+        }
+
+        public OrderSeed WithDefaultDelivery(Guid deliveryMethodId, AddressCarrier deliveryAddress, string externalReferenceId = null, short deliveryState = 0)
+        {
+            var delivery = IoC.Resolve<ModuleECommerce>().DeliveryMethods.Get(deliveryMethodId, Solution.Instance.SystemToken);
+
+            var cost = delivery.GetCost(_orderCarrier.CurrencyID);
+            var deliveryCost = cost.IncludeVat ? cost.Cost / (1 + cost.VatPercentage / 100m) : cost.Cost;
+            var deliveryCostWithVat = cost.IncludeVat ? cost.Cost : cost.Cost * (1 + cost.VatPercentage / 100m);
+
+            var deliveryCarrier = new DeliveryCarrier(DateTime.Now, "", deliveryCost, deliveryMethodId, 1, externalReferenceId, _orderCarrier.ID,
+                DateTime.Now.AddHours(1), deliveryCostWithVat - deliveryCost, cost.VatPercentage / 100m, true,
+                deliveryAddress, true, new List<AdditionalDeliveryInfoCarrier>(), Guid.Empty, 0, deliveryCost, "", true, deliveryCostWithVat)
+            {
+                ID = Guid.NewGuid(),
+                DeliveryStatus = deliveryState
+            };
+
+            if (_orderCarrier.Deliveries.Any())
+            {
+                _orderCarrier.Deliveries.Clear();
+            }
+
+            _orderCarrier.OrderRows.ForEach(r=> r.DeliveryID = deliveryCarrier.ID);
+
+            return this;
         }
 
         //TODO: What happens if the currency isn't set up till this point?
