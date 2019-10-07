@@ -403,6 +403,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 _orderCarrier.Deliveries.Clear();
             }
 
+            _orderCarrier.Deliveries.Add(deliveryCarrier);
             _orderCarrier.OrderRows.ForEach(r=> r.DeliveryID = deliveryCarrier.ID);
 
             return this;
