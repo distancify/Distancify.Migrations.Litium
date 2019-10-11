@@ -471,15 +471,15 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             addressCarrier.Email = person.Email;
             addressCarrier.FirstName = person.FirstName;
             addressCarrier.LastName = person.LastName;
-            addressCarrier.Phone = person.Phone;
-            addressCarrier.Fax = person.Phone;
-            addressCarrier.MobilePhone = person.Phone;
-            addressCarrier.CareOf = addressCarrier.CareOf;
-            addressCarrier.Address1 = addressCarrier.Address1;
-            addressCarrier.Address2 = addressCarrier.Address2;
-            addressCarrier.City = addressCarrier.City;
+            addressCarrier.Phone = address.PhoneNumber;
+            addressCarrier.Fax = address.PhoneNumber;
+            addressCarrier.MobilePhone = address.PhoneNumber;
+            addressCarrier.CareOf = address.CareOf;
+            addressCarrier.Address1 = address.Address1;
+            addressCarrier.Address2 = address.Address2;
+            addressCarrier.City = address.City;
             addressCarrier.Zip = address.ZipCode;
-            addressCarrier.Country = addressCarrier.Country;
+            addressCarrier.Country = address.Country;
 
             return addressCarrier;
         }
