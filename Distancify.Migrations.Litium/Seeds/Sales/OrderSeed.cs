@@ -292,41 +292,53 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
+        public OrderSeed WithPersonDeliveryAddress(string personId)
+        {
+            _orderCarrier.Deliveries.ForEach(d => d.Address = CreateAddressCarrier(personId));
+            return this;
+        }
+
         public class PaymentSeed : OrderSeed
         {
-            private readonly PaymentInfoCarrier payment;
+            private readonly PaymentInfoCarrier _payment;
 
             internal PaymentSeed(OrderCarrier orderCarrier, bool isNewOrder, PaymentMethod paymentMethod)
                 : base(orderCarrier, isNewOrder)
             {
-                payment = new PaymentInfoCarrier()
+                _payment = new PaymentInfoCarrier()
                 {
                     ID = Guid.NewGuid(),
                     OrderID = _orderCarrier.ID
                 };
-                _orderCarrier.PaymentInfo.Add(payment);
+                _orderCarrier.PaymentInfo.Add(_payment);
 
-                payment.PaymentMethod = paymentMethod.Name;
-                payment.PaymentProvider = paymentMethod.PaymentProviderName;
-                payment.ReferenceID = paymentMethod.Name;
+                _payment.PaymentMethod = paymentMethod.Name;
+                _payment.PaymentProvider = paymentMethod.PaymentProviderName;
+                _payment.ReferenceID = paymentMethod.Name;
             }
 
             public PaymentSeed WithTransactionReference(string transactionReference)
             {
-                payment.TransactionReference = transactionReference;
+                _payment.TransactionReference = transactionReference;
                 return this;
             }
 
 
             public PaymentSeed WithBillingAddress(AddressCarrier billingAddress)
             {
-                payment.BillingAddress = billingAddress;
+                _payment.BillingAddress = billingAddress;
+                return this;
+            }
+
+            public PaymentSeed WithPersonBillingAddress(string personId)
+            {
+                _payment.BillingAddress = CreateAddressCarrier(personId);
                 return this;
             }
 
             public PaymentSeed WithStatus(PaymentStatus status)
             {
-                payment.PaymentStatus = (short)status;
+                _payment.PaymentStatus = (short)status;
                 return this;
             }
         }
@@ -445,16 +457,23 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         {
             var personService = IoC.Resolve<PersonService>();
             var person = personService.Get(personId);
-            var addressCarrier = new AddressCarrier {ID = Guid.NewGuid()};
+            var addressCarrier = new AddressCarrier
+            {
+                ID = Guid.NewGuid(), 
+                CarrierState = new CarrierState
+                {
+                    IsMarkedForCreating = true
+                }
+            };
 
             var address = person.Addresses.First();
 
             addressCarrier.Email = person.Email;
             addressCarrier.FirstName = person.FirstName;
             addressCarrier.LastName = person.LastName;
-            addressCarrier.Phone = address.PhoneNumber;
-            addressCarrier.Fax = address.PhoneNumber;
-            addressCarrier.MobilePhone = address.PhoneNumber;
+            addressCarrier.Phone = person.Phone;
+            addressCarrier.Fax = person.Phone;
+            addressCarrier.MobilePhone = person.Phone;
             addressCarrier.CareOf = addressCarrier.CareOf;
             addressCarrier.Address1 = addressCarrier.Address1;
             addressCarrier.Address2 = addressCarrier.Address2;
