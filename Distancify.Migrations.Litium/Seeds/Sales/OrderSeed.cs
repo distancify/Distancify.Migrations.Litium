@@ -12,6 +12,7 @@ using Litium.Foundation.Modules.ECommerce.Carriers;
 using Litium.Foundation.Modules.ECommerce.Payments;
 using Litium.Globalization;
 using Litium.Products;
+using Litium.Websites;
 
 namespace Distancify.Migrations.Litium.Seeds.Sales
 {
@@ -250,6 +251,21 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         public OrderSeed WithChannelLink(Guid channelSystemId)
         {
             _orderCarrier.ChannelID = channelSystemId;
+            return this;
+        }
+
+
+        public OrderSeed WithWebsiteLink(string websiteId)
+        {
+            var websiteService = IoC.Resolve<WebsiteService>();
+            var website = websiteService.Get(websiteId);
+            _orderCarrier.WebSiteID = website.SystemId;
+            return this;
+        }
+
+        public OrderSeed WithWebsiteLink(Guid websiteSystemId)
+        {
+            _orderCarrier.WebSiteID = websiteSystemId;
             return this;
         }
 
