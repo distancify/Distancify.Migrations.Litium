@@ -1,6 +1,8 @@
 using Litium;
 using Litium.Globalization;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
@@ -53,6 +55,27 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
         {
             language.IsDefaultLanguage = isDefaultLanguage;
             return this;
+        }
+
+
+        public LanguageSeed WithFallbackLanguage(Guid languageSystemId)
+        {
+            if (language.FallbackLanguages is null)
+            {
+                language.FallbackLanguages = new List<LanguageToFallbackLanguageLink>();
+            }
+
+            if (!language.FallbackLanguages.Any(l => l.FallbackLanguageSystemId == languageSystemId))
+            {
+                language.FallbackLanguages.Add(new LanguageToFallbackLanguageLink(languageSystemId));
+            }
+
+            return this;
+        }
+
+        public LanguageSeed WithFallbackLanguage(string culture)
+        {
+            return this.WithFallbackLanguage(IoC.Resolve<LanguageService>().Get(culture).SystemId);
         }
 
         public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Globalization.Language> Update(SeedBuilder.LitiumGraphQlModel.Globalization.Language data)
