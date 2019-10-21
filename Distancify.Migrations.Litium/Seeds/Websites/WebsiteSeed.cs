@@ -109,6 +109,12 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return this;
         }
 
+        public WebsiteSeed WithText(string id, string culture, string value)
+        {
+            _website.Texts.AddOrUpdateValue(id, culture, value);
+            return this;
+        }
+
         public static WebsiteSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Websites.Website website)
         {
             var seed = new WebsiteSeed(new Website(website.SystemId), website.FieldTemplate.Id);
