@@ -26,43 +26,43 @@ namespace Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel
         {
             builder.Append($"{new string('\t', spacing)}.WithField(\"{FieldId.CapitalizeFirstLetter()}\", ");
 
-            switch (Value)
+            if (int.TryParse(Value.ToString(), out int i))
             {
-                case string s:
-                    builder.Append($"{s.ToLiteral()}");
-                    break;
-                case int i:
-                    builder.Append($"{i.ToString()}");
-                    break;
-                case bool b:
-                    builder.Append($"{b.ToString().ToLower()}");
-                    break;
-                case Guid g:
-                    builder.Append($"Guid.Parse(\"{g.ToString()}\")");
-                    break;
-                case decimal d:
-                    builder.Append($"{d.ToString()}m");
-                    break;
-                default:
-                    if (TryParseJson<List<string>>(Value.ToString(), out var items))
-                    {
-                        builder.Append($"new List<string> {{ {string.Join(", ", items.Select(i => $"\"{i}\""))} }}");
-                        break;
-                    }
-                    if (TryParseJson<PointerPageItem>(Value.ToString(), out var p))
-                    {
-                        builder.Append(GetPointerPageItemMigration(p, spacing));
-                        break;
-                    }
-                    if (TryParseJson<List<PointerPageItem>>(Value.ToString(), out var pl))
-                    {
-                        builder.Append($"new List<PointerPageItem> {{\r\n{new string('\t', spacing + 1)}" +
-                                       string.Join($",\r\n{new string('\t', spacing + 1)}", pl.Select(i => GetPointerPageItemMigration(i, spacing + 1))) +
-                                       $"\r\n{new string('\t', spacing)}}}");
-                        break;
-                    }
-
-                    throw new NotSupportedException($"The field type for field Id {FieldId} is not supported when building field values");
+                builder.Append($"{i.ToString()}");
+            }
+            else if (Guid.TryParse(Value.ToString(), out Guid g))
+            {
+                builder.Append($"Guid.Parse(\"{g.ToString()}\")");
+            }
+            else if (bool.TryParse(Value.ToString(), out bool b))
+            {
+                builder.Append($"{b.ToString().ToLower()}");
+            }
+            else if (decimal.TryParse(Value.ToString(), out decimal d))
+            {
+                builder.Append($"{d.ToString()}m");
+            }
+            else if (TryParseJson<List<string>>(Value.ToString(), out var items))
+            {
+                builder.Append($"new List<string> {{ {string.Join(", ", items.Select(it => $"\"{it}\""))} }}");
+            }
+            else if (TryParseJson<PointerPageItem>(Value.ToString(), out var p))
+            {
+                builder.Append(GetPointerPageItemMigration(p, spacing));
+            }
+            else if (TryParseJson<List<PointerPageItem>>(Value.ToString(), out var pl))
+            {
+                builder.Append($"new List<PointerPageItem> {{\r\n{new string('\t', spacing + 1)}" +
+                               string.Join($",\r\n{new string('\t', spacing + 1)}", pl.Select(pi => GetPointerPageItemMigration(pi, spacing + 1))) +
+                               $"\r\n{new string('\t', spacing)}}}");
+            }
+            else if (Value is string s)
+            {
+                builder.Append($"{s.ToLiteral()}");
+            }
+            else
+            {
+                throw new NotSupportedException($"The field type for field Id {FieldId} is not supported when building field values");
             }
 
             builder.Append(!string.IsNullOrEmpty(Culture) ? $", \"{Culture.Replace("_", "-")}\"" : "");
