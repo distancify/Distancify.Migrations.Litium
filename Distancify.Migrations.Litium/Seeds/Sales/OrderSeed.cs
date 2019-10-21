@@ -437,6 +437,12 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
+        public OrderSeed WithDefaultDeliveryStatus(short deliveryStatus)
+        {
+            _orderCarrier.Deliveries.First().DeliveryStatus = deliveryStatus;
+            return this;
+        }
+
         //TODO: What happens if the currency isn't set up till this point?
         private OrderSeed AddDeliveryMethod(Guid deliveryMethodId, AddressCarrier deliveryAddress, string externalReferenceId, short deliveryState = 0)
         {
