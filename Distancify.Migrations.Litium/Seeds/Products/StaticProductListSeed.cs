@@ -61,13 +61,13 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                 if (_productList.Items == null)
                 {
                     _productList.Items = new List<ProductListToBaseProductLink>();
+                }
 
-                    foreach (var baseProduct in baseProductSystemIds)
+                foreach (var baseProduct in baseProductSystemIds)
+                {
+                    if (!_productList.Items.Any(i => i.BaseProductSystemId == baseProduct))
                     {
-                        if (!_productList.Items.Any(i => i.BaseProductSystemId == baseProduct))
-                        {
-                            _productList.Items.Add(GetProductListToBaseProductLink(baseProduct));
-                        }
+                        _productList.Items.Add(GetProductListToBaseProductLink(baseProduct));
                     }
                 }
             }
