@@ -50,9 +50,11 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
         public StaticProductListSeed WithItems(List<Guid> baseProductSystemIds, bool overrideProducts = false)
         {
+            var variantService = IoC.Resolve<VariantService>();
+
             if (overrideProducts)
             {
-                _productList.Items = baseProductSystemIds.Select(b => new ProductListToBaseProductLink(b)).ToList();
+                _productList.Items = baseProductSystemIds.Select(GetProductListToBaseProductLink).ToList();
             }
             else
             {
@@ -64,13 +66,19 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                     {
                         if (!_productList.Items.Any(i => i.BaseProductSystemId == baseProduct))
                         {
-                            _productList.Items.Add(new ProductListToBaseProductLink(baseProduct));
+                            _productList.Items.Add(GetProductListToBaseProductLink(baseProduct));
                         }
                     }
                 }
             }
 
             return this;
+
+            ProductListToBaseProductLink GetProductListToBaseProductLink(Guid baseProductSystemId)
+                => new ProductListToBaseProductLink(baseProductSystemId)
+                {
+                    ActiveVariantSystemIds = variantService.GetByBaseProduct(baseProductSystemId).Select(v => v.SystemId).ToHashSet()
+                };
         }
 
         public Guid Commit()
