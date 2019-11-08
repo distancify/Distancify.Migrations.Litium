@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FieldData = Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldData;
 
 namespace Distancify.Migrations.Litium.Seeds.Media
 {
@@ -19,6 +20,7 @@ namespace Distancify.Migrations.Litium.Seeds.Media
         private readonly BlobContainer _blobContainer;
         private readonly FileFieldTemplate _fieldTemplate;
         private Guid _newSystemId;
+        private readonly List<FieldData> _fields;
 
         private FileSeed(File file, string filePath, FileFieldTemplate fieldTemplate, BlobContainer blobContainer)
         {
@@ -27,6 +29,7 @@ namespace Distancify.Migrations.Litium.Seeds.Media
             _blobContainer = blobContainer;
             _fieldTemplate = fieldTemplate;
             _newSystemId = Guid.NewGuid();
+            _fields = new List<FieldData>();
         }
 
         public static FileSeed Ensure(string fileId, string filePath, string fileFieldTemplateId, Guid folderSystemId)
@@ -90,6 +93,25 @@ namespace Distancify.Migrations.Litium.Seeds.Media
             return this;
         }
 
+        public FileSeed WithField(string fieldName, Dictionary<string, object> values)
+        {
+            foreach (var localization in values.Keys)
+            {
+                _file.Fields.AddOrUpdateValue(fieldName, localization, values[localization]);
+                _fields.Add(new FieldData(fieldName, values[localization], localization));
+            }
+
+            return this;
+        }
+
+        public FileSeed WithField(string fieldName, object value)
+        {
+            _file.Fields.AddOrUpdateValue(fieldName, value);
+            _fields.Add(new FieldData(fieldName, value));
+
+            return this;
+        }
+
         public Guid Commit()
         {
             var service = IoC.Resolve<FileService>();
@@ -100,12 +122,13 @@ namespace Distancify.Migrations.Litium.Seeds.Media
                 _file.SystemId = _newSystemId;
                 IoC.Resolve<FileMetadataExtractorService>().UpdateMetadata(_fieldTemplate, _file, null, _file.BlobUri);
 
+                UpdateFields();
+
                 service.Create(_file);
             }
-            else
-            {
-                service.Update(_file);
-            }
+
+            UpdateFields();
+            service.Update(_file);
 
             return _file.SystemId;
 
@@ -123,6 +146,21 @@ namespace Distancify.Migrations.Litium.Seeds.Media
                 }
 
                 return fileSize;
+            }
+
+            void UpdateFields()
+            {
+                foreach (var field in _fields)
+                {
+                    if (string.IsNullOrEmpty(field.Culture))
+                    {
+                        _file.Fields.AddOrUpdateValue(field.FieldId, field.Value);
+                    }
+                    else
+                    {
+                        _file.Fields.AddOrUpdateValue(field.FieldId, field.Culture, field.Value);
+                    }
+                }
             }
         }
 
