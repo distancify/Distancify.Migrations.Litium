@@ -5,6 +5,7 @@ using Litium.Foundation.Modules.ECommerce.Carriers;
 using Litium.Globalization;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Distancify.Migrations.Litium.Seeds.Sales
@@ -44,39 +45,74 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return _deliveryMethodCarrier.ID;
         }
 
-        public DeliveryMethodSeed WithCostCarrier(string currencyId, decimal cost, bool includeVAT, decimal vatPercentage)
+        public CostSeed WithCurrency(string currencyId)
         {
             var currencySystemId = IoC.Resolve<CurrencyService>().Get(currencyId).SystemId;
+            return new CostSeed(_deliveryMethodCarrier, _isNewDeliveryMethod, currencySystemId);
+        }
 
-            if (_deliveryMethodCarrier.Costs is null)
-            {
-                _deliveryMethodCarrier.Costs = new List<DeliveryMethodCostCarrier>();
-            }
-
-            if (_deliveryMethodCarrier.Costs.FirstOrDefault(c => c.CurrencyID == currencySystemId) is DeliveryMethodCostCarrier carrier)
-            {
-                carrier.Cost = cost;
-                carrier.IncludeVat = includeVAT;
-                carrier.VatPercentage = vatPercentage;
-            }
-            else
-            {
-                _deliveryMethodCarrier.Costs.Add(new DeliveryMethodCostCarrier()
-                {
-                    DeliveryMethodID = _deliveryMethodCarrier.ID,
-                    CurrencyID = currencySystemId,
-                    Cost = cost,
-                    IncludeVat = includeVAT,
-                    VatPercentage = vatPercentage
-                });
-            }
-
+        /// <summary>
+        /// Shorthand for .WithCurrency(...).WithCost(...).IsIncludeVat(...).WithVatPercentage(...)
+        /// </summary>
+        /// <param name="currencyId"></param>
+        /// <param name="cost"></param>
+        /// <param name="includeVat"></param>
+        /// <param name="vatPercentage"></param>
+        /// <returns></returns>
+        public DeliveryMethodSeed WithCost(string currencyId, decimal cost, bool? includeVat = null, decimal? vatPercentage = null)
+        {
+            var seed = WithCurrency(currencyId)
+                .WithCost(cost);
+            if (includeVat != null) seed.IsIncludeVat((bool)includeVat);
+            if (vatPercentage != null) seed.WithVatPercentage((decimal)vatPercentage);
             return this;
         }
 
-        public DeliveryMethodSeed WithTranslationCarrier(string languageId, string displayName)
+        public class CostSeed : DeliveryMethodSeed
         {
-            var languageSystemId = IoC.Resolve<LanguageService>().Get(languageId).SystemId;
+            private readonly DeliveryMethodCostCarrier _costCarrier;
+
+            internal CostSeed(DeliveryMethodCarrier deliveryMethodCarrier, bool isNew, Guid currencySystemId)
+                : base(deliveryMethodCarrier, isNew)
+            {
+                if (_deliveryMethodCarrier.Costs is null)
+                {
+                    _deliveryMethodCarrier.Costs = new List<DeliveryMethodCostCarrier>();
+                }
+
+                _costCarrier = _deliveryMethodCarrier.Costs.FirstOrDefault(c => c.CurrencyID == currencySystemId);
+
+                if (_costCarrier == null)
+                {
+                    _costCarrier = new DeliveryMethodCostCarrier();
+                    _costCarrier.DeliveryMethodID = _deliveryMethodCarrier.ID;
+                    _costCarrier.CurrencyID = currencySystemId;
+                    _deliveryMethodCarrier.Costs.Add(_costCarrier);
+                }
+            }
+
+            public CostSeed WithCost(decimal cost)
+            {
+                _costCarrier.Cost = cost;
+                return this;
+            }
+
+            public CostSeed IsIncludeVat(bool value)
+            {
+                _costCarrier.IncludeVat = value;
+                return this;
+            }
+
+            public CostSeed WithVatPercentage(decimal vatPercentage)
+            {
+                _costCarrier.VatPercentage = vatPercentage;
+                return this;
+            }
+        }
+
+        public DeliveryMethodSeed WithName(CultureInfo language, string displayName)
+        {
+            var languageSystemId = IoC.Resolve<LanguageService>().Get(language).SystemId;
 
             if (_deliveryMethodCarrier.Translations is null)
             {
