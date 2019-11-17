@@ -168,7 +168,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
         }
 
-        public ChannelSeed WithCountryLink(string countryId, List<string> deliveryMethodIds = null, List<string> paymentMethodIds = null)
+        public ChannelSeed WithCountryLink(string countryId, IEnumerable<string> deliveryMethodIds = null, IEnumerable<string> paymentMethodIds = null)
         {
             var moduleECommerce = IoC.Resolve<ModuleECommerce>();
             var countrySystemId = IoC.Resolve<CountryService>().Get(countryId).SystemId;
