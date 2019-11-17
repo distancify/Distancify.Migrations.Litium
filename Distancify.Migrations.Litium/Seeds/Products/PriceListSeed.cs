@@ -74,6 +74,12 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return this;
         }
 
+        public PriceListSeed IsIncludeVat(bool includeVat)
+        {
+            priceList.IncludeVat = includeVat;
+            return this;
+        }
+
 
         //TODO: CountryLinks
         //TODO: OrganizationLinks
@@ -82,7 +88,6 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         //TODO: Items
         //TODO: GroupLinks
         //TODO: CustomData
-        //TODO: IncludeVat
         //TODO: Fields
     }
 }
