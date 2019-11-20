@@ -110,10 +110,18 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             }
         }
 
+        public DeliveryMethodSeed WithName(string languageId, string displayName)
+        {
+            return this.WithName(IoC.Resolve<LanguageService>().Get(languageId).SystemId, displayName);
+        }
+
         public DeliveryMethodSeed WithName(CultureInfo language, string displayName)
         {
-            var languageSystemId = IoC.Resolve<LanguageService>().Get(language).SystemId;
+            return this.WithName(IoC.Resolve<LanguageService>().Get(language).SystemId, displayName);
+        }
 
+        public DeliveryMethodSeed WithName(Guid languageSystemId, string displayName)
+        {
             if (_deliveryMethodCarrier.Translations is null)
             {
                 _deliveryMethodCarrier.Translations = new List<DeliveryMethodTranslationCarrier>();
