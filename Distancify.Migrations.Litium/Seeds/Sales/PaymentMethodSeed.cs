@@ -104,5 +104,11 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
             return this;
         }
+
+        public PaymentMethodSeed WithImage(Guid imageSystemId)
+        {
+            _paymentMethodCarrier.ImageID = imageSystemId;
+            return this;
+        }
     }
 }
