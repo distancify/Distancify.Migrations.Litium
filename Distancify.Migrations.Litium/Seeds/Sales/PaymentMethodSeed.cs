@@ -43,12 +43,16 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
         public Guid Commit()
         {
-            var service = IoC.Resolve<ModuleECommerce>().PaymentMethods;
+            var service = IoC.Resolve<ModuleECommerce>();
 
             if (_isNewPaymentMethod)
             {
-                var createPaymentMethod = service.GetType().GetMethod("Create", BindingFlags.NonPublic | BindingFlags.Instance);
+                var createPaymentMethod = service.PaymentMethods.GetType().GetMethod("Create", BindingFlags.NonPublic | BindingFlags.Instance);
                 createPaymentMethod.Invoke(service, new object[] { _paymentMethodCarrier, Solution.Instance.SystemToken });
+            }
+            else
+            {
+                service.PaymentMethods.Get(_paymentMethodCarrier.ID, service.AdminToken).SetValuesFromCarrier(_paymentMethodCarrier, service.AdminToken);
             }
             return _paymentMethodCarrier.ID;
         }
@@ -102,6 +106,12 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                     new PaymentMethodTranslationCarrier(_paymentMethodCarrier.ID, languageSystemId, displayName, string.Empty));
             }
 
+            return this;
+        }
+
+        public PaymentMethodSeed WithImage(Guid imageSystemId)
+        {
+            _paymentMethodCarrier.ImageID = imageSystemId;
             return this;
         }
     }

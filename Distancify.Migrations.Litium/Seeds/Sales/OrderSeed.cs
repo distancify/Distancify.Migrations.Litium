@@ -12,6 +12,7 @@ using Litium.Foundation.Modules.ECommerce.Carriers;
 using Litium.Foundation.Modules.ECommerce.Payments;
 using Litium.Globalization;
 using Litium.Products;
+using Litium.Sales;
 using Litium.Websites;
 
 namespace Distancify.Migrations.Litium.Seeds.Sales
@@ -280,6 +281,12 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         public OrderSeed WithOrderType(string orderType)
         {
             _orderCarrier.AdditionalOrderInfo.Add(new AdditionalOrderInfoCarrier("Order type", _orderCarrier.ID, orderType));
+            return this;
+        }
+
+        public OrderSeed WithType(OrderType type)
+        {
+            _orderCarrier.Type = type;
             return this;
         }
 
