@@ -148,6 +148,16 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
         }
 
+        /// <summary>
+        /// Clears all domain name links
+        /// </summary>
+        /// <returns></returns>
+        public ChannelSeed WithoutDomainNameLinks()
+        {
+            _channel.DomainNameLinks.Clear();
+            return this;
+        }
+
         public ChannelSeed WithoutDomainNameLink(string domainName)
         {
             var systemId = IoC.Resolve<DomainNameService>().Get(domainName).SystemId;
@@ -239,37 +249,37 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
         }
 
-        public ChannelSeed WebsiteLanguage(string id)
+        public ChannelSeed WithWebsiteLanguage(string id)
         {
             _channel.WebsiteLanguageSystemId = string.IsNullOrEmpty(id) ? null : (Guid?)IoC.Resolve<LanguageService>().Get(id).SystemId;
             return this;
         }
 
-        public ChannelSeed ProductLanguage(string id)
+        public ChannelSeed WithProductLanguage(string id)
         {
             _channel.ProductLanguageSystemId = string.IsNullOrEmpty(id) ? null : (Guid?)IoC.Resolve<LanguageService>().Get(id).SystemId;
             return this;
         }
 
-        public ChannelSeed GoogleAnalyticsAccountId(string id)
+        public ChannelSeed WithGoogleAnalyticsAccountId(string id)
         {
             _channel.GoogleAnalyticsAccountId = id;
             return this;
         }
 
-        public ChannelSeed GoogleTagManagerContainerId(string id)
+        public ChannelSeed WithGoogleTagManagerContainerId(string id)
         {
             _channel.GoogleTagManagerContainerId = id;
             return this;
         }
 
-        public ChannelSeed ShowPricesWithVat(bool on)
+        public ChannelSeed WithShowPricesWithVat(bool on)
         {
             _channel.ShowPricesWithVat = on;
             return this;
         }
 
-        public ChannelSeed PriceAgents(bool on)
+        public ChannelSeed WithPriceAgents(bool on)
         {
             _channel.PriceAgents = on;
             return this;
@@ -386,8 +396,8 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 field.WriteMigration(builder);
             }
 
-            builder.AppendLine($"\t\t\t\t.{nameof(ProductLanguage)}(\"{_productLanguageId}\")");
-            builder.AppendLine($"\t\t\t\t.{nameof(WebsiteLanguage)}(\"{_websiteLanguageId}\")");
+            builder.AppendLine($"\t\t\t\t.{nameof(WithProductLanguage)}(\"{_productLanguageId}\")");
+            builder.AppendLine($"\t\t\t\t.{nameof(WithWebsiteLanguage)}(\"{_websiteLanguageId}\")");
 
             // WithField
             // WithField
