@@ -14,12 +14,12 @@ using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.FieldFramework
 {
-    public abstract class FieldTemplateSeed<T> : ISeed
-        where T : FieldTemplate
+    public abstract class FieldTemplateSeed<TTemplate, TSeed> : ISeed
+        where TTemplate : FieldTemplate
     {
-        protected readonly T fieldTemplate;
+        protected readonly TTemplate fieldTemplate;
 
-        protected FieldTemplateSeed(T fieldTemplate)
+        protected FieldTemplateSeed(TTemplate fieldTemplate)
         {
             this.fieldTemplate = fieldTemplate;
         }
@@ -41,7 +41,9 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return fieldTemplate.SystemId;
         }
 
-        public FieldTemplateSeed<T> WithName(string culture, string name)
+        protected abstract TSeed Me { get; }
+
+        public TSeed WithName(string culture, string name)
         {
             if (!fieldTemplate.Localizations.Any(l => l.Key.Equals(culture)) ||
                 !fieldTemplate.Localizations[culture].Name.Equals(name))
@@ -49,23 +51,23 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
                 fieldTemplate.Localizations[culture].Name = name;
             }
 
-            return this;
+            return Me;
         }
 
-        public FieldTemplateSeed<T> WithNames(Dictionary<string, string> localizedNamesByCulture)
+        public TSeed WithNames(Dictionary<string, string> localizedNamesByCulture)
         {
             foreach (var item in localizedNamesByCulture)
             {
                 WithName(item.Key, item.Value);
             }
 
-            return this;
+            return Me;
         }
 
-        public FieldTemplateSeed<T> WithFieldGroup(string id, List<string> fieldIds, Dictionary<string, string> localizedNamesByCulture, bool collapsed = false)
+        public TSeed WithFieldGroup(string id, List<string> fieldIds, Dictionary<string, string> localizedNamesByCulture, bool collapsed = false)
         {
             AddOrUpdateFieldGroup(GetFieldGroups(), id, fieldIds, localizedNamesByCulture, collapsed);
-            return this;
+            return Me;
         }
 
         protected void AddOrUpdateFieldGroup(ICollection<FieldTemplateFieldGroup> fieldGroups, string id, List<string> fieldIds,

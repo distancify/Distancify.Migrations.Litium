@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Distancify.Migrations.Litium.Seeds.Media
 {
-    public class FileFieldTemplateSeed : FieldTemplateSeed<FileFieldTemplate>
+    public class FileFieldTemplateSeed : FieldTemplateSeed<FileFieldTemplate, FileFieldTemplateSeed>
     {
 
 
@@ -15,6 +15,8 @@ namespace Distancify.Migrations.Litium.Seeds.Media
             : base(fieldTemplate)
         {
         }
+
+        protected override FileFieldTemplateSeed Me => this;
 
         public static FileFieldTemplateSeed Ensure(string id)
         {

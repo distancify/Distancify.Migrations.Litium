@@ -10,8 +10,10 @@ using Litium.Websites;
 
 namespace Distancify.Migrations.Litium.Seeds.Websites
 {
-    public class PageFieldTemplateSeed : FieldTemplateSeed<PageFieldTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Websites.PageFieldTemplate>
+    public class PageFieldTemplateSeed : FieldTemplateSeed<PageFieldTemplate, PageFieldTemplateSeed>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Websites.PageFieldTemplate>
     {
+        protected override PageFieldTemplateSeed Me => this;
+
         public PageFieldTemplateSeed(PageFieldTemplate fieldTemplate) : base(fieldTemplate)
         {
         }

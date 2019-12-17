@@ -9,8 +9,10 @@ using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
-    public class ChannelFieldTemplateSeed : FieldTemplateSeed<ChannelFieldTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Globalization.ChannelFieldTemplate>
+    public class ChannelFieldTemplateSeed : FieldTemplateSeed<ChannelFieldTemplate, ChannelFieldTemplateSeed>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Globalization.ChannelFieldTemplate>
     {
+        protected override ChannelFieldTemplateSeed Me => this;
+
         protected ChannelFieldTemplateSeed(ChannelFieldTemplate fieldTemplate) : base(fieldTemplate)
         {
         }

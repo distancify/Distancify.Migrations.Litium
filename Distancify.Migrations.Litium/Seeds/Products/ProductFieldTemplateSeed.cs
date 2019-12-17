@@ -10,9 +10,11 @@ using Litium.Products;
 
 namespace Distancify.Migrations.Litium.Seeds.Products
 {
-    public class ProductFieldTemplateSeed : FieldTemplateSeed<ProductFieldTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.ProductFieldTemplate>
+    public class ProductFieldTemplateSeed : FieldTemplateSeed<ProductFieldTemplate, ProductFieldTemplateSeed>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Products.ProductFieldTemplate>
     {
         private string _displayTemplateId;
+
+        protected override ProductFieldTemplateSeed Me => this;
 
         public ProductFieldTemplateSeed(ProductFieldTemplate fieldTemplate) : base(fieldTemplate)
         {

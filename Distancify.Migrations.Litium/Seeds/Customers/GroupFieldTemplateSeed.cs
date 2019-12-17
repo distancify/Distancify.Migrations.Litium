@@ -9,8 +9,9 @@ using System.Linq;
 
 namespace Distancify.Migrations.Litium.Seeds.Customers
 {
-    public class GroupFieldTemplateSeed : FieldTemplateSeed<GroupFieldTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Customers.GroupFieldTemplate>
+    public class GroupFieldTemplateSeed : FieldTemplateSeed<GroupFieldTemplate, GroupFieldTemplateSeed>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Customers.GroupFieldTemplate>
     {
+        protected override GroupFieldTemplateSeed Me => this;
 
         protected GroupFieldTemplateSeed(GroupFieldTemplate fieldTemplate)
             : base(fieldTemplate)

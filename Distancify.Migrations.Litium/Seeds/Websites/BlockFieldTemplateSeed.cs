@@ -9,8 +9,10 @@ using Litium.FieldFramework;
 
 namespace Distancify.Migrations.Litium.Seeds.Websites
 {
-    public class BlockFieldTemplateSeed : FieldTemplateSeed<BlockFieldTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Blocks.BlockFieldTemplate>
+    public class BlockFieldTemplateSeed : FieldTemplateSeed<BlockFieldTemplate, BlockFieldTemplateSeed>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Blocks.BlockFieldTemplate>
     {
+        protected override BlockFieldTemplateSeed Me => this;
+
         public BlockFieldTemplateSeed(BlockFieldTemplate fieldTemplate) : base(fieldTemplate)
         {
         }

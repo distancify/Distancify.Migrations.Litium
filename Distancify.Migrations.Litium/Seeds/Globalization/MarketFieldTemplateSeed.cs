@@ -9,8 +9,10 @@ using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.Globalization
 {
-    public class MarketFieldTemplateSeed : FieldTemplateSeed<MarketFieldTemplate>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Globalization.MarketFieldTemplate>
+    public class MarketFieldTemplateSeed : FieldTemplateSeed<MarketFieldTemplate, MarketFieldTemplateSeed>, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Globalization.MarketFieldTemplate>
     {
+        protected override MarketFieldTemplateSeed Me => this;
+
         public MarketFieldTemplateSeed(MarketFieldTemplate fieldTemplate) : base(fieldTemplate)
         {
         }

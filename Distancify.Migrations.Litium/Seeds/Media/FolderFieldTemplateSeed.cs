@@ -7,12 +7,14 @@ using System.Collections.Generic;
 
 namespace Distancify.Migrations.Litium.Seeds.Media
 {
-    public class FolderFieldTemplateSeed : FieldTemplateSeed<FolderFieldTemplate>
+    public class FolderFieldTemplateSeed : FieldTemplateSeed<FolderFieldTemplate, FolderFieldTemplateSeed>
     {
         protected FolderFieldTemplateSeed(FolderFieldTemplate fieldTemplate)
             : base(fieldTemplate)
         {
         }
+
+        protected override FolderFieldTemplateSeed Me => this;
 
         public static FolderFieldTemplateSeed Ensure(string id)
         {
