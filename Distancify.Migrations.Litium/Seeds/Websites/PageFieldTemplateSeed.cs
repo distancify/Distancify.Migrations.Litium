@@ -37,30 +37,52 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return (PageFieldTemplateSeed)seed.Update(pageFieldTemplate);
         }
 
-        public PageFieldTemplateSeed WithContainer(string containerId, Dictionary<string, string> localizedNamesByCulture)
+        public PageFieldTemplateSeed WithContainer(string containerId)
         {
             if (fieldTemplate.Containers == null)
             {
                 fieldTemplate.Containers = new List<BlockContainerDefinition>();
             }
 
-            if (fieldTemplate.Containers.FirstOrDefault(c => c.Id == containerId) is BlockContainerDefinition blockContainer)
+            BlockContainerDefinition container = fieldTemplate.Containers.FirstOrDefault(c => c.Id == containerId);
+
+            if (container == null)
             {
-                foreach (var item in localizedNamesByCulture)
+                container = new BlockContainerDefinition()
                 {
-                    if (!blockContainer.Name.Any(l => l.Key.Equals(item.Key)) ||
-                        !blockContainer.Name[item.Key].Equals(item.Value))
-                    {
-                        blockContainer.Name[item.Key] = item.Value;
-                    }
-                }
-            }
-            else
-            {
-                fieldTemplate.Containers.Add(new BlockContainerDefinition() { Id = containerId, Name = localizedNamesByCulture });
+                    Id = containerId
+                };
             }
 
-            return this;
+            return new PageFieldTemplateContainerSeed(fieldTemplate, container);
+        }
+
+        public class PageFieldTemplateContainerSeed : PageFieldTemplateSeed
+        {
+            private readonly BlockContainerDefinition blockContainerDefintion;
+
+            internal PageFieldTemplateContainerSeed(PageFieldTemplate fieldTemplate, BlockContainerDefinition blockContainerDefintion) : base(fieldTemplate)
+            {
+                this.blockContainerDefintion = blockContainerDefintion;
+            }
+
+            public PageFieldTemplateContainerSeed WithContainerDisplayName(string culture, string displayName)
+            {
+                if (blockContainerDefintion.Name == null)
+                {
+                    blockContainerDefintion.Name = new Dictionary<string, string>();
+                }
+
+                if (blockContainerDefintion.Name.ContainsKey(culture))
+                {
+                    blockContainerDefintion.Name[culture] = displayName;
+                }
+                else
+                {
+                    blockContainerDefintion.Name.Add(culture, displayName);
+                }
+                return this;
+            }
         }
 
         public PageFieldTemplateSeed WithTemplatePath(string templatePath)
