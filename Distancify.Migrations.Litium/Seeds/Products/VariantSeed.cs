@@ -178,13 +178,6 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         {
             var channelService = IoC.Resolve<ChannelService>();
             return WithChannelLink(channelService.Get(channelId).SystemId);
-
-            if (channelService.Get(channelId) is Channel channel)
-            {
-                return WithChannelLink(channel.SystemId);
-            }
-
-            return this;
         }
 
         public VariantSeed WithChannelLink(Guid channelSystemId)
