@@ -27,31 +27,31 @@ namespace Distancify.Migrations.Litium.Migrations
                 .Add("/", "~/Litium/", true)
                 .Commit();
 
-            GroupFieldTemplateSeed.Ensure(LitiumConstants.DefaultSystemGroupTemplate)
+            GroupFieldTemplateSeed.Ensure(BootstrapConstants.DefaultSystemGroupTemplate)
                 .Commit();
-            PersonFieldTemplateSeed.Ensure(LitiumConstants.DefaultSystemUserTemplate)
-                .Commit();
-
-            StaticGroupSeed.Ensure(LitiumConstants.Visitors, LitiumConstants.DefaultSystemGroupTemplate)
+            PersonFieldTemplateSeed.Ensure(BootstrapConstants.DefaultSystemUserTemplate)
                 .Commit();
 
-            PersonSeed.EnsureSystem(LitiumConstants.DefaultSystemUserTemplate)
-                .Commit();
-            PersonSeed.EnsureEveryone(LitiumConstants.DefaultSystemUserTemplate)
-                .WithGroupLink(LitiumConstants.Visitors)
+            StaticGroupSeed.Ensure(SystemConstants.Visitors, BootstrapConstants.DefaultSystemGroupTemplate)
                 .Commit();
 
-            FolderFieldTemplateSeed.Ensure(LitiumConstants.DefaultFolderTemplate)
+            PersonSeed.EnsureSystem(BootstrapConstants.DefaultSystemUserTemplate)
                 .Commit();
-            FileFieldTemplateSeed.Ensure(LitiumConstants.DefaultFileTemplate)
+            PersonSeed.EnsureEveryone(BootstrapConstants.DefaultSystemUserTemplate)
+                .WithGroupLink(SystemConstants.Visitors)
+                .Commit();
+
+            FolderFieldTemplateSeed.Ensure(BootstrapConstants.DefaultFolderTemplate)
+                .Commit();
+            FileFieldTemplateSeed.Ensure(BootstrapConstants.DefaultFileTemplate)
                 .WithTemplateType(FileTemplateType.Other)
                 .Commit();
 
-            FileFieldTemplateSeed.Ensure(LitiumConstants.DefaultImageFileTemplate)
+            FileFieldTemplateSeed.Ensure(BootstrapConstants.DefaultImageFileTemplate)
                 .WithTemplateType(FileTemplateType.Image)
                 .Commit();
 
-            FolderSeed.Ensure("RootFolder", LitiumConstants.DefaultFolderTemplate)
+            FolderSeed.Ensure("RootFolder", BootstrapConstants.DefaultFolderTemplate)
                 .WithVisitorReadPermission()
                 .Commit();
         }

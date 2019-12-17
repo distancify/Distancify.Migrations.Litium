@@ -483,9 +483,6 @@
     <Compile Include="Seeds\Products\DynamicProductListSeed.cs" />
     <Compile Include="Seeds\Products\StaticProductListSeed.cs" />
     <Compile Include="Seeds\Sales\DeliveryMethodSeed.cs" />
-    <Compile Include="Seeds\LitiumConstants.cs" />
-    <Compile Include="Seeds\Countries.cs" />
-    <Compile Include="Seeds\Currencies.cs" />
     <Compile Include="SeedBuilder\Repositories\AssortmentRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\ChannelRepository.cs" />
     <Compile Include="SeedBuilder\Repositories\CountryRepository.cs" />
@@ -525,7 +522,6 @@
     <Compile Include="Seeds\Products\RelationshipTypeSeed.cs" />
     <Compile Include="Seeds\Products\VariantSeed.cs" />
     <Compile Include="Seeds\Globalization\CountrySeed.cs" />
-    <Compile Include="Seeds\Cultures.cs" />
     <Compile Include="Seeds\Globalization\CurrencySeed.cs" />
     <Compile Include="Seeds\Customers\PersonSeed.cs" />
     <Compile Include="Seeds\Customers\StaticGroupSeed.cs" />

@@ -57,7 +57,7 @@ namespace Distancify.Migrations.Litium.Seeds.Media
 
         public FolderSeed WithVisitorReadPermission()
         {
-            var visitorGroupSystemId = IoC.Resolve<GroupService>().Get<StaticGroup>(LitiumConstants.Visitors).SystemId;
+            var visitorGroupSystemId = IoC.Resolve<GroupService>().Get<StaticGroup>(LitiumMigration.SystemConstants.Visitors).SystemId;
 
             if (!_folder.AccessControlList.Any(a => a.GroupSystemId == visitorGroupSystemId))
             {

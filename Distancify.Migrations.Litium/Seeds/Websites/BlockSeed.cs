@@ -140,7 +140,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
         public BlockSeed WithVisitorReadPermission()
         {
-            var visitorGroupSystemId = IoC.Resolve<GroupService>().Get<StaticGroup>(LitiumConstants.Visitors).SystemId;
+            var visitorGroupSystemId = IoC.Resolve<GroupService>().Get<StaticGroup>(LitiumMigration.SystemConstants.Visitors).SystemId;
 
             if (!_block.AccessControlList.Any(a => a.GroupSystemId == visitorGroupSystemId))
             {
@@ -231,7 +231,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             _fieldTemplateId = data.FieldTemplate.Id;
             _fields = data.Fields.GetFieldData();
             _visitorsReadPermission = data.AccessControlList != null && data.AccessControlList.Any(a =>
-                                          a.Group.Id.Equals(LitiumConstants.Visitors, StringComparison.OrdinalIgnoreCase) &&
+                                          a.Group.Id.Equals(LitiumMigration.SystemConstants.Visitors, StringComparison.OrdinalIgnoreCase) &&
                                           a.Operation.Contains(Operations.Entity.Read.ToString()));
 
             return this;
