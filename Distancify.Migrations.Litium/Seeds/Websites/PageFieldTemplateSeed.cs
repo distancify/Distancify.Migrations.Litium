@@ -39,7 +39,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return (PageFieldTemplateSeed)seed.Update(pageFieldTemplate);
         }
 
-        public PageFieldTemplateSeed WithContainer(string containerId)
+        public PageFieldTemplateContainerSeed WithContainer(string containerId)
         {
             if (fieldTemplate.Containers == null)
             {
