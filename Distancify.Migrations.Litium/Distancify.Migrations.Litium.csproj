@@ -1,41 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AB6964F2-EBFA-4775-BDDD-C1860EA66A47}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Distancify.Migrations.Litium</RootNamespace>
-    <AssemblyName>Distancify.Migrations.Litium</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>net472</TargetFramework>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
     <TransformOnBuild>false</TransformOnBuild>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Kristoffer|AnyCPU'">
-    <OutputPath>bin\Kristoffer\</OutputPath>
+    <Description>This project contains a fluid API to aid in generating data in Litium together with Distancify.Migrations.</Description>
+    <Copyright>Copyright © Distancify AB 2019</Copyright>
+    <Authors>Distancify AB</Authors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -68,181 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\DictionaryExtensions.cs" />
-    <Compile Include="Extensions\FieldsExtensions.cs" />
-    <Compile Include="Extensions\GuidExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="SeedBuilder\ConfigurationReader.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\AccessControlEntry.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\AreaType.cs" />
-    <Compile Include="SeedBuilder\IGenerator.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\Block.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\BlockContainer.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\BlockFieldTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\Blocks.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Blocks\BlockToChannelLink.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Common.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Field.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldData.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\FieldDefinitions.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\FieldDataLocalization.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\PointerPageItem.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\CompositeFieldOption.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\AccessControlOperationEntry.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\Customers.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\GroupFieldTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\OrganizationFieldTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\PersonFieldTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Customers\StaticGroup.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\DecimalOption.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Definitions\DecimalOptionFieldDefinition.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\Items\DecimalOptionItem.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\DisplayTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\DisplayTemplateToWebsiteLink.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\FieldDefinition.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldLocalization.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\FieldTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldTemplateFieldGroup.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Globalization.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Market.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\MarketFieldTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\IntOption.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Definitions\IntOptionFieldDefinition.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\Items\IntOptionItem.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Definitions\MultiFieldDefinition.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\MultiFieldOption.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Definitions\PointerFieldDefinition.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\PointerOption.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\BaseProduct.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\CategoryDisplayTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\CategoryFieldTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Inventory.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\ProductDisplayTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\ProductFieldTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\Products.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Products\UnitOfMeasurement.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\TextOption.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Definitions\TextOptionFieldDefinition.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\FieldFramework\Fields\Items\TextOptionItem.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\BlockContainerDefinition.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Page.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\PageFieldTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\PageToChannelLink.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Websites.cs" />
-    <Compile Include="SeedBuilder\Repositories\BlockFieldTemplateRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\BlockRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\CategoryDisplayTemplateRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\CategoryFieldTemplateRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\ChannelFieldTemplateRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\DecimalOptionFieldDefintionRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\FieldDefinitionRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\GroupFieldTemplateRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\IntOptionFieldDefinitionRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\InventoryRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\MarketFieldTemplateRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\MarketRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\MultiFieldDefinitionRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\OrganizationFieldTemplateRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\PersonFieldTemplateRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\PointerFieldDefinitionRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\ProductDisplayTemplateRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\ProductFieldTemplateRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\TextOptionFieldDefinitionsRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\Websites\PageRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\UnitOfMeasurementRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\Websites\PageFieldTemplateRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\Websites\WebsiteFieldTemplateRepository.cs" />
-    <Compile Include="Seeds\FieldFramework\DecimalOptionFieldDefinitionSeed.cs" />
-    <Compile Include="Seeds\FieldFramework\DisplayTemplateSeed.cs" />
-    <Compile Include="Seeds\FieldFramework\IntOptionFieldDefinitionSeed.cs" />
-    <Compile Include="Seeds\FieldFramework\MultiFieldDefinitionSeed.cs" />
-    <Compile Include="Seeds\FieldFramework\PointerFieldDefinitionSeed.cs" />
-    <Compile Include="Seeds\FieldFramework\TextOptionFieldDefinitionSeed.cs" />
-    <Compile Include="Seeds\Customers\AddressTypeSeed.cs" />
-    <Compile Include="Seeds\Customers\OrganizationSeed.cs" />
-    <Compile Include="Seeds\Products\DynamicProductListSeed.cs" />
-    <Compile Include="Seeds\Products\StaticProductListSeed.cs" />
-    <Compile Include="Seeds\Sales\DeliveryMethodSeed.cs" />
-    <Compile Include="SeedBuilder\Repositories\AssortmentRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\ChannelRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\CountryRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\CurrencyRepository.cs" />
-    <Compile Include="SeedBuilder\Repositories\DomainNameRepository.cs" />
-    <Compile Include="SeedBuilder\GeneratedFile.cs" />
-    <Compile Include="SeedBuilder\GraphqlClient.cs" />
-    <Compile Include="SeedBuilder\IGraphqlClient.cs" />
-    <Compile Include="SeedBuilder\Repositories\LanguageRepository.cs" />
-    <Compile Include="SeedBuilder\LitiumMigrationGenerator.cs" />
-    <Compile Include="Seeds\FieldFramework\FieldDefinitionSeed.cs" />
-    <Compile Include="SeedBuilder\Repositories\Repository.cs" />
-    <Compile Include="SeedBuilder\Generator.cs" />
-    <Compile Include="SeedBuilder\Repositories\Websites\WebsiteRepository.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Assortment.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Channel.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\ChannelDomainLink.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\ChannelFieldTemplate.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Country.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Currency.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Data.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\DomainName.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\GraphQlObject.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Globalization\Language.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\ResponseContainer.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\Website.cs" />
-    <Compile Include="SeedBuilder\LitiumGraphQlModel\Websites\WebsiteFieldTemplate.cs" />
-    <Compile Include="SeedBuilder\MigrationConfiguration.cs" />
-    <Compile Include="Seeds\ISeedGenerator.cs" />
-    <Compile Include="Seeds\Media\FileSeed.cs" />
-    <Compile Include="Seeds\Media\FolderSeed.cs" />
-    <Compile Include="Seeds\Products\AssortmentCategorySeed.cs" />
-    <Compile Include="Seeds\Products\BaseProductSeed.cs" />
-    <Compile Include="Seeds\Products\InventoryItemSeed.cs" />
-    <Compile Include="Seeds\Products\InventorySeed.cs" />
-    <Compile Include="Seeds\Products\PriceListSeed.cs" />
-    <Compile Include="Seeds\Products\RelationshipTypeSeed.cs" />
-    <Compile Include="Seeds\Products\VariantSeed.cs" />
-    <Compile Include="Seeds\Globalization\CountrySeed.cs" />
-    <Compile Include="Seeds\Globalization\CurrencySeed.cs" />
-    <Compile Include="Seeds\Customers\PersonSeed.cs" />
-    <Compile Include="Seeds\Customers\StaticGroupSeed.cs" />
-    <Compile Include="Seeds\Customers\OrganizationFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\Customers\PersonFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\Customers\GroupFieldTemplateSeed.cs" />
-    <Compile Include="Data\ConnectionProvider.cs" />
-    <Compile Include="Seeds\Globalization\ChannelSeed.cs" />
-    <Compile Include="Seeds\Globalization\DomainNameSeed.cs" />
-    <Compile Include="Seeds\Globalization\ChannelFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\Globalization\LanguageSeed.cs" />
-    <Compile Include="Seeds\Globalization\MarketFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\Globalization\TaxClassSeed.cs" />
-    <Compile Include="Seeds\ISeed.cs" />
-    <Compile Include="Seeds\FieldFramework\FieldTemplateSeed.cs" />
-    <Compile Include="LitiumMigration.cs" />
-    <Compile Include="Seeds\Globalization\MarketSeed.cs" />
-    <Compile Include="Seeds\Media\FolderFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\Media\FileFieldTemplateSeed.cs" />
-    <Compile Include="Migrations\Bootstrap.cs" />
-    <Compile Include="Seeds\Globalization\UnitOfMeasurementSeed.cs" />
-    <Compile Include="Seeds\Products\AssortmentSeed.cs" />
-    <Compile Include="Seeds\Products\CategoryDisplayTemplateSeed.cs" />
-    <Compile Include="Seeds\Products\CategoryFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\Products\ProductDisplayTemplateSeed.cs" />
-    <Compile Include="Seeds\Products\ProductFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\Sales\CampaignSeed.cs" />
-    <Compile Include="Seeds\Sales\OrderSeed.cs" />
-    <Compile Include="Seeds\Sales\PaymentMethodSeed.cs" />
-    <Compile Include="Setup\MigrationsSetup.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Seeds\Websites\BlockCategorySeed.cs" />
-    <Compile Include="Seeds\Websites\BlockSeed.cs" />
-    <Compile Include="Seeds\Websites\BlockFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\Websites\PageFieldTemplateSeed.cs" />
-    <Compile Include="Seeds\Websites\PageSeed.cs" />
-    <Compile Include="Seeds\Websites\UrlRedirectSeed.cs" />
-    <Compile Include="Seeds\Websites\WebsiteSeed.cs" />
-    <Compile Include="Seeds\Websites\WebsiteFieldTemplateSeed.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="Distancify.Migrations.Litium.nuspec" />
     <None Include="migrationConfiguration.yml.example" />
@@ -260,6 +57,7 @@
     <PackageReference Include="Litium.Setup.Core">
       <Version>7.2.3</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers">
       <Version>2.2.4</Version>
     </PackageReference>
@@ -285,6 +83,7 @@
       <Version>6.1.1</Version>
     </PackageReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="NuGetReferenceHintPathRewrite.targets" />
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
 </Project>
