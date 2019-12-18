@@ -12,14 +12,14 @@ namespace Distancify.Migrations.Litium.Seeds.Products
     public class VariantSeed : ISeed
     {
         private readonly Variant _variant;
-        private readonly BaseProduct _baseProduct;
+        private readonly Guid baseProductSystemId;
         private readonly bool _isNewVariant;
         private ISet<string> categoryLinks = new HashSet<string>();
 
-        protected VariantSeed(Variant variant, BaseProduct baseProduct, bool isNewVariant = false)
+        protected VariantSeed(Variant variant, Guid baseProductSystemId, bool isNewVariant = false)
         {
             _variant = variant;
-            _baseProduct = baseProduct;
+            this.baseProductSystemId = baseProductSystemId;
             _isNewVariant = isNewVariant;
         }
 
@@ -39,12 +39,12 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
             if (categoryLinks.Count > 0)
             {
-                var b = _baseProduct.MakeWritableClone();
+                var baseProduct = IoC.Resolve<BaseProductService>().Get(baseProductSystemId).MakeWritableClone();
 
                 foreach (var categoryId in categoryLinks)
                 {
                     var categorySystemId = IoC.Resolve<CategoryService>().Get(categoryId).SystemId;
-                    var baseProductToCategoryLink = b.CategoryLinks.FirstOrDefault(c => c.CategorySystemId == categorySystemId);
+                    var baseProductToCategoryLink = baseProduct.CategoryLinks.FirstOrDefault(c => c.CategorySystemId == categorySystemId);
 
                     if (baseProductToCategoryLink != null && !baseProductToCategoryLink.ActiveVariantSystemIds.Contains(_variant.SystemId))
                     {
@@ -52,14 +52,14 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                     }
                     else if (baseProductToCategoryLink == null)
                     {
-                        b.CategoryLinks.Add(new BaseProductToCategoryLink(categorySystemId)
+                        baseProduct.CategoryLinks.Add(new BaseProductToCategoryLink(categorySystemId)
                         {
                             ActiveVariantSystemIds = new HashSet<Guid> { _variant.SystemId }
                         });
                     }
                 }
 
-                IoC.Resolve<BaseProductService>().Update(b);
+                IoC.Resolve<BaseProductService>().Update(baseProduct);
             }
 
             return _variant.SystemId;
@@ -80,7 +80,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                 isNewVariant = true;
             }
 
-            return new VariantSeed(variantClone, baseProduct, isNewVariant);
+            return new VariantSeed(variantClone, baseProduct.SystemId, isNewVariant);
         }
         public VariantSeed WithName(string culture, string name)
         {
