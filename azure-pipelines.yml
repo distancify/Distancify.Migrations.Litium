@@ -34,12 +34,6 @@ steps:
     targetType: 'filePath'
     filePath: 'SetBuildVariables.ps1'
 
-- task: PowerShell@2
-  displayName: 'SetVersion.ps1'
-  inputs:
-    targetType: 'filePath'
-    filePath: 'SetVersion.ps1'
-
 - task: VSBuild@1
   displayName: 'Build solution'
   inputs:
