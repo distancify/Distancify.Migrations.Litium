@@ -61,13 +61,31 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return this;
         }
 
-        public InventorySeed WithAddress(string address1)
-        {
-            //TODO: Handle all parameters
+        public InventorySeed WithAddress(string address1 = null,
+            string address2 = null,
+            string city = null,
+            string country = null,
+            string email = null,
+            string fax = null,
+            string mobilePhone = null,
+            string phone = null,
+            string state = null,
+            string zip = null)
+        {   
             _inventory.Address = new InventoryAddressInfo()
             {
-                Address1 = address1
+                Address1 = address1,
+                Address2 = address2,
+                City = city,
+                Country = country,
+                Email = email,
+                Fax = fax,
+                MobilePhone = mobilePhone,
+                Phone = phone,
+                State =state,
+                Zip = zip
             };
+
             return this;
         }
 
