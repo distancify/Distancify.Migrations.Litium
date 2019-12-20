@@ -87,7 +87,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public PaymentMethodSeed WithTranslationCarrier(string languageId, string displayName)
+        public PaymentMethodSeed WithTranslationCarrier(string languageId, string displayName, string description)
         {
             var languageSystemId = IoC.Resolve<LanguageService>().Get(languageId).SystemId;
 
@@ -99,11 +99,12 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             if (_paymentMethodCarrier.Translations.FirstOrDefault(t => t.LanguageID == languageSystemId) is PaymentMethodTranslationCarrier carrier)
             {
                 carrier.DisplayName = displayName;
+                carrier.Description = description;
             }
             else
             {
                 _paymentMethodCarrier.Translations.Add(
-                    new PaymentMethodTranslationCarrier(_paymentMethodCarrier.ID, languageSystemId, displayName, string.Empty));
+                    new PaymentMethodTranslationCarrier(_paymentMethodCarrier.ID, languageSystemId, displayName, description));
             }
 
             return this;
