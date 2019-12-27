@@ -185,9 +185,9 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
                 builder.AppendLine($"\t\t\t\t.{nameof(WithNames)}({_fieldDefinition.Localizations.ToDictionary(k => k.Key, v => v.Value.Name).GetMigration(4)})");
             }
 
-            builder.AppendLine($"\t\t\t\t.{nameof(IsMultiCulture)}({_fieldDefinition.MultiCulture.ToString().ToLower()})");
-            builder.AppendLine($"\t\t\t\t.{nameof(CanBeGridColumn)}({_fieldDefinition.CanBeGridColumn.ToString().ToLower()})");
-            builder.AppendLine($"\t\t\t\t.{nameof(CanBeGridFilter)}({_fieldDefinition.CanBeGridFilter.ToString().ToLower()})");
+            builder.AppendLine($"\t\t\t\t.{nameof(WithMultiCulture)}({_fieldDefinition.MultiCulture.ToString().ToLower()})");
+            builder.AppendLine($"\t\t\t\t.{nameof(WithCanBeGridColumn)}({_fieldDefinition.CanBeGridColumn.ToString().ToLower()})");
+            builder.AppendLine($"\t\t\t\t.{nameof(WithCanBeGridFilter)}({_fieldDefinition.CanBeGridFilter.ToString().ToLower()})");
         }
     }
 }
