@@ -86,15 +86,32 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return this;
         }
 
+        public FieldDefinitionSeed WithName(string culture, string name)
+        {
+            if (!_fieldDefinition.Localizations.Any(l => l.Key.Equals(culture)) ||
+                !_fieldDefinition.Localizations[culture].Name.Equals(name))
+            {
+                _fieldDefinition.Localizations[culture].Name = name;
+            }
+            return this;
+        }
+
         public FieldDefinitionSeed WithNames(Dictionary<string, string> localizedNamesByCulture)
         {
             foreach (var item in localizedNamesByCulture)
             {
-                if (!_fieldDefinition.Localizations.Any(l => l.Key.Equals(item.Key)) ||
-                    !_fieldDefinition.Localizations[item.Key].Name.Equals(item.Value))
-                {
-                    _fieldDefinition.Localizations[item.Key].Name = item.Value;
-                }
+                WithName(item.Key, item.Value);
+            }
+
+            return this;
+        }
+
+        public FieldDefinitionSeed WithDescription(string culture, string description)
+        {
+            if (!_fieldDefinition.Localizations.Any(l => l.Key.Equals(culture)) ||
+                !description.Equals(_fieldDefinition.Localizations[description].Description))
+            {
+                _fieldDefinition.Localizations[culture].Description = description;
             }
 
             return this;
@@ -104,11 +121,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
         {
             foreach (var item in localizedDescriptionsByCulture)
             {
-                if (!_fieldDefinition.Localizations.Any(l => l.Key.Equals(item.Key)) ||
-                    !item.Value.Equals(_fieldDefinition.Localizations[item.Key].Description))
-                {
-                    _fieldDefinition.Localizations[item.Key].Description = item.Value;
-                }
+                WithDescription(item.Key, item.Value);
             }
 
             return this;
