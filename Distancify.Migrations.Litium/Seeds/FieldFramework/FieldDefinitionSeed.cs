@@ -63,26 +63,32 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return new FieldDefinitionSeed(fieldDefinition);
         }
 
-        public FieldDefinitionSeed IsMultiCulture(bool on)
+        public FieldDefinitionSeed WithMultiCulture(bool value)
         {
             if (_fieldDefinition.SystemId == Guid.Empty)//Cannot change this value for existing fields
             {
-                _fieldDefinition.MultiCulture = on;
+                _fieldDefinition.MultiCulture = value;
             }
 
             return this;
         }
 
-        public FieldDefinitionSeed CanBeGridColumn(bool on)
+        public FieldDefinitionSeed WithCanBeGridColumn(bool value)
         {
-            _fieldDefinition.CanBeGridColumn = on;
+            _fieldDefinition.CanBeGridColumn = value;
             return this;
         }
 
 
-        public FieldDefinitionSeed CanBeGridFilter(bool on)
+        public FieldDefinitionSeed WithCanBeGridFilter(bool value)
         {
-            _fieldDefinition.CanBeGridFilter = on;
+            _fieldDefinition.CanBeGridFilter = value;
+            return this;
+        }
+
+        public FieldDefinitionSeed WithEditable(bool value)
+        {
+            _fieldDefinition.Editable = value;
             return this;
         }
 
