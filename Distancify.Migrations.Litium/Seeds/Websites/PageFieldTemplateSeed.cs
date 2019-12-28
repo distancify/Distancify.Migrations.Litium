@@ -54,6 +54,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 {
                     Id = containerId
                 };
+                fieldTemplate.Containers.Add(container);
             }
 
             return new PageFieldTemplateContainerSeed(fieldTemplate, container);
