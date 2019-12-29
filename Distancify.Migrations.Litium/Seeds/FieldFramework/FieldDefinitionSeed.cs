@@ -63,6 +63,17 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             return new FieldDefinitionSeed(fieldDefinition);
         }
 
+        public static void EnsureDoesNotExist<TArea>(string id)
+            where TArea : IArea
+        {
+            var fieldDefinitionService = IoC.Resolve<FieldDefinitionService>();
+            var fieldDefinition = fieldDefinitionService.Get<TArea>(id);
+            if (fieldDefinition != null)
+            {
+                fieldDefinitionService.Delete(fieldDefinition);
+            }
+        }
+
         public FieldDefinitionSeed WithMultiCulture(bool value)
         {
             if (_fieldDefinition.SystemId == Guid.Empty)//Cannot change this value for existing fields
