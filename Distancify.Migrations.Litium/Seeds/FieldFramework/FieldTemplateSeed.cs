@@ -10,6 +10,7 @@ using Litium.Websites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Distancify.Migrations.Litium.Seeds.FieldFramework
@@ -68,6 +69,60 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
         {
             AddOrUpdateFieldGroup(GetFieldGroups(), id, fieldIds, localizedNamesByCulture, collapsed);
             return Me;
+        }
+
+        public TSeed WithFieldGroup(string id, Action<FieldGroupSeed> groupConfig)
+        {
+            var fieldGroups = GetFieldGroups();
+            var fieldGroup = fieldGroups.FirstOrDefault(g => g.Id.Equals(id));
+
+            if (fieldGroup == null)
+            {
+                fieldGroup = new FieldTemplateFieldGroup()
+                {
+                    Id = id
+                };
+                fieldGroups.Add(fieldGroup);
+            }
+
+            groupConfig(new FieldGroupSeed(fieldGroup));
+            return Me;
+        }
+
+        public class FieldGroupSeed
+        {
+            private readonly FieldTemplateFieldGroup fieldGroup;
+
+            internal FieldGroupSeed(FieldTemplateFieldGroup fieldGroup)
+            {
+                this.fieldGroup = fieldGroup;
+            }
+
+            public FieldGroupSeed WithField(string fieldId)
+            {
+                if (!fieldGroup.Fields.Contains(fieldId))
+                {
+                    fieldGroup.Fields.Add(fieldId);
+                }
+
+                return this;
+            }
+
+            public FieldGroupSeed WithoutField(string fieldId)
+            {
+                if (fieldGroup.Fields.Contains(fieldId))
+                {
+                    fieldGroup.Fields.Remove(fieldId);
+                }
+
+                return this;
+            }
+
+            public FieldGroupSeed WithCollapsed(bool value)
+            {
+                fieldGroup.Collapsed = value;
+                return this;
+            }
         }
 
         protected void AddOrUpdateFieldGroup(ICollection<FieldTemplateFieldGroup> fieldGroups, string id, List<string> fieldIds,
