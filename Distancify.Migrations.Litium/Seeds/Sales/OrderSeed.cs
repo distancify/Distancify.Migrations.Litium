@@ -321,11 +321,11 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return this;
         }
 
-        public class PaymentSeed : OrderSeed
+        public class LegacyPaymentSeed : OrderSeed
         {
             private readonly PaymentInfoCarrier _payment;
 
-            internal PaymentSeed(OrderCarrier orderCarrier, bool isNewOrder, PaymentMethod paymentMethod)
+            internal LegacyPaymentSeed(OrderCarrier orderCarrier, bool isNewOrder, PaymentMethod paymentMethod)
                 : base(orderCarrier, isNewOrder)
             {
                 _payment = new PaymentInfoCarrier()
@@ -338,6 +338,52 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 _payment.PaymentMethod = paymentMethod.Name;
                 _payment.PaymentProvider = paymentMethod.PaymentProviderName;
                 _payment.ReferenceID = paymentMethod.Name;
+            }
+
+            public LegacyPaymentSeed WithTransactionReference(string transactionReference)
+            {
+                _payment.TransactionReference = transactionReference;
+                return this;
+            }
+
+
+            public LegacyPaymentSeed WithBillingAddress(AddressCarrier billingAddress)
+            {
+                _payment.BillingAddress = billingAddress;
+                return this;
+            }
+
+            public LegacyPaymentSeed WithPersonBillingAddress(string personId)
+            {
+                _payment.BillingAddress = CreateAddressCarrier(personId);
+                return this;
+            }
+
+            public LegacyPaymentSeed WithStatus(PaymentStatus status)
+            {
+                _payment.PaymentStatus = (short)status;
+                return this;
+            }
+        }
+
+        public class PaymentSeed
+        {
+            private readonly PaymentInfoCarrier _payment;
+            private readonly OrderSeed orderSeed;
+
+            internal PaymentSeed(OrderSeed orderSeed, OrderCarrier orderCarrier, PaymentMethod paymentMethod)
+            {
+                _payment = new PaymentInfoCarrier()
+                {
+                    ID = Guid.NewGuid(),
+                    OrderID = orderCarrier.ID
+                };
+                orderCarrier.PaymentInfo.Add(_payment);
+
+                _payment.PaymentMethod = paymentMethod.Name;
+                _payment.PaymentProvider = paymentMethod.PaymentProviderName;
+                _payment.ReferenceID = paymentMethod.Name;
+                this.orderSeed = orderSeed;
             }
 
             public PaymentSeed WithTransactionReference(string transactionReference)
@@ -355,7 +401,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
 
             public PaymentSeed WithPersonBillingAddress(string personId)
             {
-                _payment.BillingAddress = CreateAddressCarrier(personId);
+                _payment.BillingAddress = orderSeed.CreateAddressCarrier(personId);
                 return this;
             }
 
@@ -366,22 +412,32 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             }
         }
 
-        public PaymentSeed WithPayment(Guid paymentMethodId)
+        [Obsolete("Use WithPayment(string method, string providerName, Action<PaymentSeed> paymentConfig) instead")]
+        public LegacyPaymentSeed WithPayment(Guid paymentMethodId)
         {
             var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.Get(paymentMethodId, Solution.Instance.SystemToken);
-            return new PaymentSeed(_orderCarrier, _isNewOrder, paymentMethod);
+            return new LegacyPaymentSeed(_orderCarrier, _isNewOrder, paymentMethod);
         }
 
-        public PaymentSeed WithPayment(string method, string providerName)
+        [Obsolete("Use WithPayment(string method, string providerName, Action<PaymentSeed> paymentConfig) instead")]
+        public LegacyPaymentSeed WithPayment(string method, string providerName)
         {
             var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.Get(method, providerName, Solution.Instance.SystemToken);
-            return new PaymentSeed(_orderCarrier, _isNewOrder, paymentMethod);
+            return new LegacyPaymentSeed(_orderCarrier, _isNewOrder, paymentMethod);
         }
 
-        public PaymentSeed WithPayment()
+        [Obsolete("Use WithPayment(string method, string providerName, Action<PaymentSeed> paymentConfig) instead")]
+        public LegacyPaymentSeed WithPayment()
         {
             var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.GetAll().First();
-            return new PaymentSeed(_orderCarrier, _isNewOrder, paymentMethod);
+            return new LegacyPaymentSeed(_orderCarrier, _isNewOrder, paymentMethod);
+        }
+
+        public OrderSeed WithPayment(string method, string providerName, Action<PaymentSeed> paymentConfig)
+        {
+            var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.Get(method, providerName, Solution.Instance.SystemToken);
+            paymentConfig(new PaymentSeed(this, _orderCarrier, paymentMethod));
+            return this;
         }
 
         public OrderSeed WithDelivery(Guid deliveryMethodId, AddressCarrier deliveryAddress, string externalReferenceId)
