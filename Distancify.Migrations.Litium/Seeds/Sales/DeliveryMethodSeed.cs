@@ -41,6 +41,11 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             {
                 service.DeliveryMethods.Create(_deliveryMethodCarrier, Solution.Instance.SystemToken);
             }
+            else
+            {
+                service.DeliveryMethods.Get(_deliveryMethodCarrier.ID, service.AdminToken)
+                       .SetValuesFromCarrier(_deliveryMethodCarrier, service.AdminToken);
+            }
 
             return _deliveryMethodCarrier.ID;
         }
