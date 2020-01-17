@@ -178,7 +178,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         {
             var personService = IoC.Resolve<PersonService>();
             var person = personService.Get(personId);
-            SetCustomerInfo(person, person.Addresses.First());
+            SetCustomerInfo(person, person.Addresses.FirstOrDefault());
 
             return this;
         }
@@ -222,15 +222,18 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             _orderCarrier.CustomerInfo.Address.Email = person.Email;
             _orderCarrier.CustomerInfo.Address.FirstName = person.FirstName;
             _orderCarrier.CustomerInfo.Address.LastName = person.LastName;
-            _orderCarrier.CustomerInfo.Address.Phone = address.PhoneNumber;
-            _orderCarrier.CustomerInfo.Address.Fax = address.PhoneNumber;
-            _orderCarrier.CustomerInfo.Address.MobilePhone = address.PhoneNumber;
-            _orderCarrier.CustomerInfo.Address.CareOf = address.CareOf;
-            _orderCarrier.CustomerInfo.Address.Address1 = address.Address1;
-            _orderCarrier.CustomerInfo.Address.Address2 = address.Address2;
-            _orderCarrier.CustomerInfo.Address.City = address.City;
-            _orderCarrier.CustomerInfo.Address.Zip = address.ZipCode;
-            _orderCarrier.CustomerInfo.Address.Country = address.Country;
+            if (address != null)
+            {
+                _orderCarrier.CustomerInfo.Address.Phone = address.PhoneNumber;
+                _orderCarrier.CustomerInfo.Address.Fax = address.PhoneNumber;
+                _orderCarrier.CustomerInfo.Address.MobilePhone = address.PhoneNumber;
+                _orderCarrier.CustomerInfo.Address.CareOf = address.CareOf;
+                _orderCarrier.CustomerInfo.Address.Address1 = address.Address1;
+                _orderCarrier.CustomerInfo.Address.Address2 = address.Address2;
+                _orderCarrier.CustomerInfo.Address.City = address.City;
+                _orderCarrier.CustomerInfo.Address.Zip = address.ZipCode;
+                _orderCarrier.CustomerInfo.Address.Country = address.Country;
+            }
         }
 
         public OrderSeed WithCurrency(string currencyId)
