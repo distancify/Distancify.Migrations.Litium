@@ -63,6 +63,20 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
         }
 
+        public CountrySeed WithCurrency(Guid currencySystemId)
+        {
+            country.CurrencySystemId = currencySystemId;
+            return this;
+        }
+
+        public CountrySeed WithCurrency(string currencyId)
+        {
+            var currency = IoC.Resolve<CurrencyService>().Get(currencyId);
+            if (currency == null) throw new ArgumentException($"Currency with id ${currencyId} not found", "currencyId");
+            country.CurrencySystemId = currency.SystemId;
+            return this;
+        }
+
         public CountrySeed WithTaxClassLink(string taxClassId, decimal vatRate)
         {
             var taxClassSystemGuid = IoC.Resolve<TaxClassService>().Get(taxClassId).SystemId;
