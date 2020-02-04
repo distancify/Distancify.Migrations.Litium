@@ -54,11 +54,13 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                 {
                     var category = categoryService.Get(categoryLink)?.MakeWritableClone();
 
-                    if (!category.ProductLinks.Any(l => l.BaseProductSystemId == baseProduct.SystemId))
+                    if (category.ProductLinks.Any(l => l.BaseProductSystemId == baseProduct.SystemId))
                     {
-                        category.ProductLinks.Add(new CategoryToProductLink(baseProduct.SystemId));
-                        categoryService.Update(category);
+                        continue;
                     }
+
+                    category.ProductLinks.Add(new CategoryToProductLink(baseProduct.SystemId));
+                    categoryService.Update(category);
                 }
             }
 

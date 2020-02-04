@@ -71,7 +71,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                 foreach(var priceItem in priceListItems)
                 {
                     var existingPriceItem = priceListItemService.Get(priceItem.VariantSystemId, priceItem.PriceListSystemId)
-                        .FirstOrDefault(p => p.MinimumQuantity == priceItem.MinimumQuantity)
+                        ?.FirstOrDefault(p => p.MinimumQuantity == priceItem.MinimumQuantity)
                         ?.MakeWritableClone();
 
                     if(existingPriceItem == null)
