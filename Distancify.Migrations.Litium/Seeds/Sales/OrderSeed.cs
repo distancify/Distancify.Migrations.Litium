@@ -100,7 +100,8 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         private OrderSeed AddProduct(string articleNumber, decimal quantity, decimal vatPercentage, decimal discountPercentage)
         {
             var variant = IoC.Resolve<VariantService>().Get(articleNumber);
-            var priceItem = variant.Prices.FirstOrDefault();
+            var priceListItemService = IoC.Resolve<PriceListItemService>();
+            var priceItem = priceListItemService.GetByVariant(variant.SystemId).FirstOrDefault();
 
             if (_orderCarrier.OrderRows.FirstOrDefault(r => r.ArticleNumber.Equals(variant.Id)) is OrderRowCarrier orderRow)
             {

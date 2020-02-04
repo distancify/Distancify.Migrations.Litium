@@ -13,6 +13,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
     {
 
         private readonly BaseProduct baseProduct;
+        private ISet<string> categoryLinks = new HashSet<string>();
 
         protected BaseProductSeed(BaseProduct baseProduct)
         {
@@ -44,6 +45,21 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             else
             {
                 service.Update(baseProduct);
+            }
+
+            if (categoryLinks.Count > 0)
+            {
+                var categoryService = IoC.Resolve<CategoryService>();
+                foreach (var categoryLink in categoryLinks)
+                {
+                    var category = categoryService.Get(categoryLink)?.MakeWritableClone();
+
+                    if (!category.ProductLinks.Any(l => l.BaseProductSystemId == baseProduct.SystemId))
+                    {
+                        category.ProductLinks.Add(new CategoryToProductLink(baseProduct.SystemId));
+                        categoryService.Update(category);
+                    }
+                }
             }
 
             return baseProduct.SystemId;
@@ -121,18 +137,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
         public BaseProductSeed WithCategoryLink(string assortmentCategoryId)
         {
-            var categorySystemGuid = IoC.Resolve<CategoryService>().Get(assortmentCategoryId).SystemId;
-            var categoryLink = baseProduct.CategoryLinks.FirstOrDefault(c => c.CategorySystemId == categorySystemGuid);
-
-            if (categoryLink == null)
-            {
-                baseProduct.CategoryLinks.Add(
-                new BaseProductToCategoryLink(categorySystemGuid)
-                {
-                    //TODO:ActiveVariantSystemIds
-                    //TODO:MainCategory
-                });
-            }
+            categoryLinks.Add(assortmentCategoryId);
 
             return this;
         }

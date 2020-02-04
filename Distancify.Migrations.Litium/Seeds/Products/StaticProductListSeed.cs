@@ -9,6 +9,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
     public class StaticProductListSeed : ISeed
     {
         private readonly StaticProductList _productList;
+        private HashSet<Guid> _listItems = new HashSet<Guid>();
 
         public StaticProductListSeed(StaticProductList productList)
         {
@@ -50,49 +51,59 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
         public StaticProductListSeed WithItems(List<Guid> baseProductSystemIds, bool overrideProducts = false)
         {
-            var variantService = IoC.Resolve<VariantService>();
-
             if (overrideProducts)
             {
-                _productList.Items = baseProductSystemIds.Select(GetProductListToBaseProductLink).ToList();
+                _listItems = baseProductSystemIds.Distinct().ToHashSet();
             }
             else
             {
-                if (_productList.Items == null)
+                foreach (var baseProductSystemId in baseProductSystemIds)
                 {
-                    _productList.Items = new List<ProductListToBaseProductLink>();
-                }
-
-                foreach (var baseProduct in baseProductSystemIds)
-                {
-                    if (!_productList.Items.Any(i => i.BaseProductSystemId == baseProduct))
+                    if (!_listItems.Contains(baseProductSystemId))
                     {
-                        _productList.Items.Add(GetProductListToBaseProductLink(baseProduct));
+                        _listItems.Add(baseProductSystemId);
                     }
                 }
             }
 
             return this;
-
-            ProductListToBaseProductLink GetProductListToBaseProductLink(Guid baseProductSystemId)
-                => new ProductListToBaseProductLink(baseProductSystemId)
-                {
-                    ActiveVariantSystemIds = variantService.GetByBaseProduct(baseProductSystemId).Select(v => v.SystemId).ToHashSet()
-                };
         }
 
         public Guid Commit()
         {
-            var service = IoC.Resolve<ProductListService>();
+            var productListService = IoC.Resolve<ProductListService>();
+            var productListItemService = IoC.Resolve<ProductListItemService>();
+            var variantService = IoC.Resolve<VariantService>();
 
             if (_productList.SystemId == Guid.Empty)
             {
                 _productList.SystemId = Guid.NewGuid();
-                service.Create(_productList);
+                productListService.Create(_productList);
             }
             else
             {
-                service.Update(_productList);
+                productListService.Update(_productList);
+            }
+
+            if (_listItems.Count > 0)
+            {
+                var existingItems = productListItemService.GetByProductList(_productList.SystemId);
+
+                var itemsToRemove = existingItems.Where(i => !_listItems.Contains(i.BaseProductSystemId));
+                foreach (var itemToRemove in itemsToRemove)
+                {
+                    productListItemService.Delete(itemToRemove);
+                }
+
+                var existingItemIds = existingItems.Select(i => i.BaseProductSystemId);
+                var itemsToCreate = _listItems.Where(i => !existingItemIds.Contains(i));
+                foreach(var itemToCreate in itemsToCreate)
+                {
+                    productListItemService.Create(new ProductListItem(itemToCreate, _productList.SystemId)
+                    {
+                        ActiveVariantSystemIds = variantService.GetByBaseProduct(itemToCreate).Select(v=>v.SystemId).ToHashSet()
+                    });
+                }   
             }
 
             return _productList.SystemId;

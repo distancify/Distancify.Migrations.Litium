@@ -15,6 +15,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         private readonly Guid baseProductSystemId;
         private readonly bool _isNewVariant;
         private ISet<string> categoryLinks = new HashSet<string>();
+        private List<PriceListItem> priceListItems = new List<PriceListItem>();
 
         protected VariantSeed(Variant variant, Guid baseProductSystemId, bool isNewVariant = false)
         {
@@ -39,27 +40,52 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
             if (categoryLinks.Count > 0)
             {
-                var baseProduct = IoC.Resolve<BaseProductService>().Get(baseProductSystemId).MakeWritableClone();
+                var categoryService = IoC.Resolve<CategoryService>();
+                
+                var baseProduct = IoC.Resolve<BaseProductService>().Get(baseProductSystemId);
 
                 foreach (var categoryId in categoryLinks)
                 {
-                    var categorySystemId = IoC.Resolve<CategoryService>().Get(categoryId).SystemId;
-                    var baseProductToCategoryLink = baseProduct.CategoryLinks.FirstOrDefault(c => c.CategorySystemId == categorySystemId);
+                    var category = categoryService.Get(categoryId).MakeWritableClone();
+                    var categoryToProductLink = category.ProductLinks.FirstOrDefault(c => c.BaseProductSystemId == baseProduct.SystemId);
 
-                    if (baseProductToCategoryLink != null && !baseProductToCategoryLink.ActiveVariantSystemIds.Contains(_variant.SystemId))
+                    if (categoryToProductLink != null && !categoryToProductLink.ActiveVariantSystemIds.Contains(_variant.SystemId))
                     {
-                        baseProductToCategoryLink.ActiveVariantSystemIds.Add(_variant.SystemId);
+                        categoryToProductLink.ActiveVariantSystemIds.Add(_variant.SystemId);
                     }
-                    else if (baseProductToCategoryLink == null)
+                    else if (categoryToProductLink == null)
                     {
-                        baseProduct.CategoryLinks.Add(new BaseProductToCategoryLink(categorySystemId)
+                        category.ProductLinks.Add(new CategoryToProductLink(baseProductSystemId)
                         {
                             ActiveVariantSystemIds = new HashSet<Guid> { _variant.SystemId }
                         });
                     }
-                }
 
-                IoC.Resolve<BaseProductService>().Update(baseProduct);
+                    categoryService.Update(category);
+                }
+            }
+
+            if(priceListItems.Count > 0)
+            {
+                var priceListItemService = IoC.Resolve<PriceListItemService>();
+                foreach(var priceItem in priceListItems)
+                {
+                    var existingPriceItem = priceListItemService.Get(priceItem.VariantSystemId, priceItem.PriceListSystemId)
+                        .FirstOrDefault(p => p.MinimumQuantity == priceItem.MinimumQuantity)
+                        ?.MakeWritableClone();
+
+                    if(existingPriceItem == null)
+                    {
+                        priceListItemService.Create(priceItem);
+                    }
+                    else
+                    {
+                        existingPriceItem.MinimumQuantity = priceItem.MinimumQuantity;
+                        existingPriceItem.Price = priceItem.Price;
+
+                        priceListItemService.Update(priceItem);
+                    }
+                }
             }
 
             return _variant.SystemId;
@@ -172,24 +198,22 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         }
 
         public VariantSeed WithPrice(string priceListId, decimal price, decimal minimumQuantity)
-        {
+        {   
             var priceListSystemGuid = IoC.Resolve<PriceListService>().Get(priceListId).SystemId;
-            var priceItem = _variant.Prices.FirstOrDefault(p => p.PriceListSystemId == priceListSystemGuid && p.MinimumQuantity == minimumQuantity);
 
-            if (priceItem == null)
+            var priceListItem = priceListItems.FirstOrDefault(p => p.PriceListSystemId == priceListSystemGuid && p.MinimumQuantity == minimumQuantity);
+            if (priceListItem == null)
             {
-                _variant.Prices.Add(
-                    new VariantPriceItem(priceListSystemGuid)
-                    {
-                        MinimumQuantity = minimumQuantity,
-                        Price = price
-                        //VatPercentage
-                    });
+                priceListItems.Add(new PriceListItem(_variant.SystemId, priceListSystemGuid)
+                {
+                    MinimumQuantity = minimumQuantity,
+                    Price = price
+                });
                 return this;
             }
 
-            priceItem.Price = price;
-            priceItem.MinimumQuantity = minimumQuantity;
+            priceListItem.Price = price;
+            priceListItem.MinimumQuantity = minimumQuantity;
 
             return this;
         }
