@@ -86,7 +86,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                         existingPriceItem.MinimumQuantity = priceItem.MinimumQuantity;
                         existingPriceItem.Price = priceItem.Price;
 
-                        priceListItemService.Update(priceItem);
+                        priceListItemService.Update(existingPriceItem);
                     }
                 }
             }
