@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
 using Litium;
+using Litium.Customers;
 using Litium.Globalization;
 using Litium.Products;
+using Litium.Security;
 
 namespace Distancify.Migrations.Litium.Seeds.Products
 {
@@ -77,6 +79,18 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         public PriceListSeed IsIncludeVat(bool includeVat)
         {
             priceList.IncludeVat = includeVat;
+            return this;
+        }
+
+        public PriceListSeed WithVisitorReadPermission()
+        {
+            var visitorGroupSystemId = IoC.Resolve<GroupService>().Get<StaticGroup>(LitiumMigration.SystemConstants.Visitors).SystemId;
+
+            if (!priceList.AccessControlList.Any(a => a.GroupSystemId == visitorGroupSystemId))
+            {
+                priceList.AccessControlList.Add(new AccessControlEntry(Operations.Entity.Read, visitorGroupSystemId));
+            }
+
             return this;
         }
 
