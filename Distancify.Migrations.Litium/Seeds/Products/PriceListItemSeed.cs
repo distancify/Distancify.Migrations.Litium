@@ -40,14 +40,22 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         {
             var priceListSystemId = IoC.Resolve<PriceListService>().Get(priceListId).SystemId;
             var variantSystemId = IoC.Resolve<VariantService>().Get(variantId).SystemId;
-            
-            var priceListItem = IoC.Resolve<PriceListItemService>().Get(variantSystemId, priceListSystemId)
-                .FirstOrDefault(i=>i.MinimumQuantity == minimumQuantity)?.MakeWritableClone() ??
-                new PriceListItem(variantSystemId, priceListSystemId)
+
+            var priceListItemService = IoC.Resolve<PriceListItemService>();
+            var priceListItems = priceListItemService.Get(variantSystemId, priceListSystemId);
+            var priceListItem = priceListItems.FirstOrDefault(i => i.MinimumQuantity == minimumQuantity);
+            if(priceListItem != null)
+            {
+                priceListItem = priceListItem.MakeWritableClone();
+            }
+            else
+            {
+                priceListItem = new PriceListItem(variantSystemId, priceListSystemId)
                 {
                     SystemId = Guid.Empty,
                     MinimumQuantity = minimumQuantity
                 };
+            }   
 
             return new PriceListItemSeed(priceListItem);
         }
