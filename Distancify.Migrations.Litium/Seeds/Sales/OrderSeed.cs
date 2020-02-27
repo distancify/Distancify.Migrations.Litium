@@ -437,6 +437,17 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             return new LegacyPaymentSeed(_orderCarrier, _isNewOrder, paymentMethod);
         }
 
+        /// <summary>
+        /// Creates a payment with first available payment method
+        /// </summary>
+        /// <param name="paymentConfig"></param>
+        /// <returns></returns>
+        public OrderSeed WithPayment(Action<PaymentSeed> paymentConfig)
+        {
+            var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.GetAll().First();
+            return WithPayment(paymentMethod.Name, paymentMethod.PaymentProviderName, paymentConfig);
+        }
+
         public OrderSeed WithPayment(string method, string providerName, Action<PaymentSeed> paymentConfig)
         {
             var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.Get(method, providerName, Solution.Instance.SystemToken);
