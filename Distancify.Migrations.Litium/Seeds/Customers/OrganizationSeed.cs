@@ -11,6 +11,7 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
     public class OrganizationSeed : ISeed
     {
         private readonly Organization _organization;
+        private HashSet<string> _personIds = new HashSet<string>();
 
         private OrganizationSeed(Organization organization)
         {
@@ -32,18 +33,8 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
 
         public OrganizationSeed WithPersonLink(string personId)
         {
-            var personSystemId = IoC.Resolve<PersonService>().Get(personId).SystemId;
-
-            if (_organization.PersonLinks is null)
-            {
-                _organization.PersonLinks = new List<OrganizationToPersonLink>();
-            }
-
-            if (!_organization.PersonLinks.Any(p => p.PersonSystemId == personSystemId))
-            {
-                _organization.PersonLinks.Add(new OrganizationToPersonLink(personSystemId));
-            }
-
+            _personIds.Add(personId);
+            
             return this;
         }
 
@@ -86,6 +77,22 @@ namespace Distancify.Migrations.Litium.Seeds.Customers
             else
             {
                 service.Update(_organization);
+            }
+
+            if(_personIds.Count > 0)
+            {
+                var personService = IoC.Resolve<PersonService>();
+                foreach(var personId in _personIds)
+                {
+                    var person = personService.Get(personId)?.MakeWritableClone();
+                    if (person.OrganizationLinks.Any(l => l.OrganizationSystemId == _organization.SystemId))
+                    {
+                        continue;
+                    }
+
+                    person.OrganizationLinks.Add(new PersonToOrganizationLink(_organization.SystemId));
+                    personService.Update(person);
+                }
             }
 
             return _organization.SystemId;

@@ -6,6 +6,8 @@ using Litium.FieldFramework;
 using Litium.Globalization;
 using Litium.Media;
 using Litium.Products;
+using Litium.Customers;
+using Litium.Security;
 
 namespace Distancify.Migrations.Litium.Seeds.Products
 {
@@ -13,6 +15,8 @@ namespace Distancify.Migrations.Litium.Seeds.Products
     {
 
         private readonly BaseProduct baseProduct;
+        private ISet<string> categoryLinks = new HashSet<string>();
+        private string mainCategory;
 
         protected BaseProductSeed(BaseProduct baseProduct)
         {
@@ -46,9 +50,43 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                 service.Update(baseProduct);
             }
 
+            if (categoryLinks.Count > 0)
+            {
+                var categoryService = IoC.Resolve<CategoryService>();
+                foreach (var categoryLink in categoryLinks)
+                {
+                    var category = categoryService.Get(categoryLink)?.MakeWritableClone();
+
+                    var productLink = category.ProductLinks.FirstOrDefault(l => l.BaseProductSystemId == baseProduct.SystemId);
+                    if (productLink == null)
+                    {
+                        category.ProductLinks.Add(new CategoryToProductLink(baseProduct.SystemId)
+                        {
+                            MainCategory = categoryLink == mainCategory
+                        });
+                    }
+                    else
+                    {
+                        productLink.MainCategory = categoryLink == mainCategory;
+                        categoryService.Update(category);
+                    }
+                }
+            }
+
             return baseProduct.SystemId;
         }
 
+        public BaseProductSeed WithVisitorReadPermission()
+        {
+            var visitorGroupSystemId = IoC.Resolve<GroupService>().Get<StaticGroup>(LitiumMigration.SystemConstants.Visitors).SystemId;
+
+            if (!baseProduct.AccessControlList.Any(a => a.GroupSystemId == visitorGroupSystemId))
+            {
+                baseProduct.AccessControlList.Add(new AccessControlEntry(Operations.Entity.Read, visitorGroupSystemId));
+            }
+
+            return this;
+        }
 
         // Active is obsolutlete by Litium
 
@@ -121,20 +159,15 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
         public BaseProductSeed WithCategoryLink(string assortmentCategoryId)
         {
-            var categorySystemGuid = IoC.Resolve<CategoryService>().Get(assortmentCategoryId).SystemId;
-            var categoryLink = baseProduct.CategoryLinks.FirstOrDefault(c => c.CategorySystemId == categorySystemGuid);
-
-            if (categoryLink == null)
-            {
-                baseProduct.CategoryLinks.Add(
-                new BaseProductToCategoryLink(categorySystemGuid)
-                {
-                    //TODO:ActiveVariantSystemIds
-                    //TODO:MainCategory
-                });
-            }
+            categoryLinks.Add(assortmentCategoryId);
 
             return this;
+        }
+
+        public BaseProductSeed WithMainCategoryLink(string assortmentCategoryId)
+        {
+            mainCategory = assortmentCategoryId;
+            return WithCategoryLink(assortmentCategoryId);
         }
 
         public BaseProductSeed WithField(string fieldName, Dictionary<string, object> values)

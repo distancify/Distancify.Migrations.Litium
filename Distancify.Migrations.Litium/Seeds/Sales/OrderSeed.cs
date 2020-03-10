@@ -100,7 +100,8 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         private OrderSeed AddProduct(string articleNumber, decimal quantity, decimal vatPercentage, decimal discountPercentage)
         {
             var variant = IoC.Resolve<VariantService>().Get(articleNumber);
-            var priceItem = variant.Prices.FirstOrDefault();
+            var priceListItemService = IoC.Resolve<PriceListItemService>();
+            var priceItem = priceListItemService.GetByVariant(variant.SystemId).FirstOrDefault();
 
             if (_orderCarrier.OrderRows.FirstOrDefault(r => r.ArticleNumber.Equals(variant.Id)) is OrderRowCarrier orderRow)
             {
@@ -434,6 +435,17 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
         {
             var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.GetAll().First();
             return new LegacyPaymentSeed(_orderCarrier, _isNewOrder, paymentMethod);
+        }
+
+        /// <summary>
+        /// Creates a payment with first available payment method
+        /// </summary>
+        /// <param name="paymentConfig"></param>
+        /// <returns></returns>
+        public OrderSeed WithPayment(Action<PaymentSeed> paymentConfig)
+        {
+            var paymentMethod = IoC.Resolve<ModuleECommerce>().PaymentMethods.GetAll().First();
+            return WithPayment(paymentMethod.Name, paymentMethod.PaymentProviderName, paymentConfig);
         }
 
         public OrderSeed WithPayment(string method, string providerName, Action<PaymentSeed> paymentConfig)
