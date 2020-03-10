@@ -6,6 +6,8 @@ using Litium.FieldFramework;
 using Litium.Globalization;
 using Litium.Media;
 using Litium.Products;
+using Litium.Customers;
+using Litium.Security;
 
 namespace Distancify.Migrations.Litium.Seeds.Products
 {
@@ -74,6 +76,17 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return baseProduct.SystemId;
         }
 
+        public BaseProductSeed WithVisitorReadPermission()
+        {
+            var visitorGroupSystemId = IoC.Resolve<GroupService>().Get<StaticGroup>(LitiumMigration.SystemConstants.Visitors).SystemId;
+
+            if (!baseProduct.AccessControlList.Any(a => a.GroupSystemId == visitorGroupSystemId))
+            {
+                baseProduct.AccessControlList.Add(new AccessControlEntry(Operations.Entity.Read, visitorGroupSystemId));
+            }
+
+            return this;
+        }
 
         // Active is obsolutlete by Litium
 
