@@ -233,6 +233,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 _orderCarrier.CustomerInfo.Address.Address2 = address.Address2;
                 _orderCarrier.CustomerInfo.Address.City = address.City;
                 _orderCarrier.CustomerInfo.Address.Zip = address.ZipCode;
+                _orderCarrier.CustomerInfo.Address.State = address.State;
                 _orderCarrier.CustomerInfo.Address.Country = address.Country;
             }
         }
@@ -578,6 +579,7 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
             addressCarrier.Address1 = address.Address1;
             addressCarrier.Address2 = address.Address2;
             addressCarrier.City = address.City;
+            addressCarrier.State = address.State;
             addressCarrier.Zip = address.ZipCode;
             addressCarrier.Country = address.Country;
 
