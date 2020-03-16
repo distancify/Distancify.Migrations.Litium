@@ -16,12 +16,12 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
         {
         }
 
-        public new static MultiFieldDefinitionSeed Ensure<TArea>(string id, string fieldType)
+        public static MultiFieldDefinitionSeed Ensure<TArea>(string id)
             where TArea : IArea
         {
             var fieldDefinitionService = IoC.Resolve<FieldDefinitionService>();
             var fieldDefinition = fieldDefinitionService.Get<TArea>(id)?.MakeWritableClone() ??
-                new FieldDefinition<TArea>(id, fieldType)
+                new FieldDefinition<TArea>(id, SystemFieldTypeConstants.MultiField)
                 {
                     SystemId = Guid.Empty
                 };
