@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Litium;
+using Litium.Customers;
 using Litium.FieldFramework;
 using Litium.Globalization;
 using Litium.Products;
-using FieldData = Distancify.Migrations.Litium.SeedBuilder.LitiumGraphQlModel.FieldData;
+using Litium.Security;
 
 namespace Distancify.Migrations.Litium.Seeds.Products
 {
@@ -170,6 +171,18 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         public AssortmentCategorySeed WithField(string fieldName, object value, string culture)
         {
             _category.Fields.AddOrUpdateValue(fieldName, culture, value);
+            return this;
+        }
+
+        public AssortmentCategorySeed WithVisitorReadPermission()
+        {
+            var visitorGroupSystemId = IoC.Resolve<GroupService>().Get<StaticGroup>(LitiumMigration.SystemConstants.Visitors).SystemId;
+
+            if (!_category.AccessControlList.Any(a => a.GroupSystemId == visitorGroupSystemId))
+            {
+                _category.AccessControlList.Add(new AccessControlEntry(Operations.Entity.Read, visitorGroupSystemId));
+            }
+
             return this;
         }
     }
