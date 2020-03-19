@@ -15,7 +15,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         private readonly Guid baseProductSystemId;
         private readonly bool _isNewVariant;
         private ISet<string> categoryLinks = new HashSet<string>();
-        private string mainCategory;
+        private List<string> mainCategories = new List<string>();
         private List<PriceListItem> priceListItems = new List<PriceListItem>();
 
         protected VariantSeed(Variant variant, Guid baseProductSystemId, bool isNewVariant = false)
@@ -53,14 +53,14 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                     if (categoryToProductLink != null && !categoryToProductLink.ActiveVariantSystemIds.Contains(_variant.SystemId))
                     {
                         categoryToProductLink.ActiveVariantSystemIds.Add(_variant.SystemId);
-                        categoryToProductLink.MainCategory = categoryId == mainCategory;
+                        categoryToProductLink.MainCategory = mainCategories.Contains(categoryId);
                     }
                     else if (categoryToProductLink == null)
                     {
                         category.ProductLinks.Add(new CategoryToProductLink(baseProductSystemId)
                         {
                             ActiveVariantSystemIds = new HashSet<Guid> { _variant.SystemId },
-                            MainCategory = categoryId == mainCategory
+                            MainCategory = mainCategories.Contains(categoryId)
                         });
                     }
 
@@ -274,7 +274,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
         public VariantSeed WithMainCategoryLink(string categoryId)
         {
-            mainCategory = categoryId;
+            mainCategories.Add(categoryId);
 
             return WithCategoryLink(categoryId);
         }
