@@ -54,6 +54,13 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
             return this;
         }
 
+        public BlockFieldTemplateSeed WithIcon(string icon)
+        {
+            fieldTemplate.Icon = icon;
+
+            return this;
+        }
+
         public static BlockFieldTemplateSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Blocks.BlockFieldTemplate blockFieldTemplate)
         {
             var seed = new BlockFieldTemplateSeed(new BlockFieldTemplate(blockFieldTemplate.Id));
