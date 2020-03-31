@@ -111,7 +111,28 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
 
         public WebsiteSeed WithText(string id, string culture, string value)
         {
-            _website.Texts.AddOrUpdateValue(id, culture, value);
+            _website.Texts.AddOrUpdateValue(id.ToLower(), culture, value);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the default value to all available language. Does not overwrite existing value.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public WebsiteSeed WithDefaultText(string id, string value)
+        {
+            id = id.ToLower();
+            var s = IoC.Resolve<LanguageService>();
+            foreach (var language in s.GetAll())
+            {
+                if (_website.Texts.GetValue(id, language.CultureInfo) == null)
+                {
+                    _website.Texts.AddOrUpdateValue(id, language.CultureInfo, value);
+                }
+            }
+
             return this;
         }
 
