@@ -124,7 +124,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         public WebsiteSeed WithDefaultText(string id, string culture, string value)
         {
             id = id.ToLower();
-            if (_website.Texts.GetValue(id, culture) == null)
+            if (string.IsNullOrEmpty(_website.Texts.GetValue(id, culture)))
             {
                 _website.Texts.AddOrUpdateValue(id, culture, value);
             }
