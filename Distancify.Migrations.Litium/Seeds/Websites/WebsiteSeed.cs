@@ -121,16 +121,12 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
         /// <param name="id"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public WebsiteSeed WithDefaultText(string id, string value)
+        public WebsiteSeed WithDefaultText(string id, string culture, string value)
         {
             id = id.ToLower();
-            var s = IoC.Resolve<LanguageService>();
-            foreach (var language in s.GetAll())
+            if (_website.Texts.GetValue(id, culture) == null)
             {
-                if (_website.Texts.GetValue(id, language.CultureInfo) == null)
-                {
-                    _website.Texts.AddOrUpdateValue(id, language.CultureInfo, value);
-                }
+                _website.Texts.AddOrUpdateValue(id, culture, value);
             }
 
             return this;
