@@ -53,6 +53,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return new ProductFieldTemplateSeed(productFieldTemplate);
         }
 
+        [Obsolete]
         public ProductFieldTemplateSeed WithVariantFieldGroup(string id, List<string> fieldIds, Dictionary<string, string> localizedNamesByCulture, bool collapsed = false)
         {
             if (fieldTemplate.VariantFieldGroups == null)
@@ -63,6 +64,28 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             AddOrUpdateFieldGroup(fieldTemplate.VariantFieldGroups, id, fieldIds, localizedNamesByCulture, collapsed);
 
             return this;
+        }
+
+        public ProductFieldTemplateSeed WithVariantFieldGroup(string id, Action<FieldGroupSeed> groupConfig)
+        {
+            if (fieldTemplate.VariantFieldGroups == null)
+            {
+                fieldTemplate.VariantFieldGroups = new List<FieldTemplateFieldGroup>();
+            }
+            var fieldGroups = fieldTemplate.VariantFieldGroups;
+            var fieldGroup = fieldTemplate.VariantFieldGroups.FirstOrDefault(g => g.Id.Equals(id));
+
+            if (fieldGroup == null)
+            {
+                fieldGroup = new FieldTemplateFieldGroup()
+                {
+                    Id = id
+                };
+                fieldGroups.Add(fieldGroup);
+            }
+
+            groupConfig(new FieldGroupSeed(fieldGroup));
+            return Me;
         }
 
         public static ProductFieldTemplateSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Products.ProductFieldTemplate productFieldTemplate)
