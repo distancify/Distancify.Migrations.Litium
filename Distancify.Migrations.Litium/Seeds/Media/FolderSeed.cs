@@ -27,7 +27,7 @@ namespace Distancify.Migrations.Litium.Seeds.Media
 
         public static FolderSeed Ensure(string folderName, string folderId, string folderFieldTemplateId)
         {
-            var folder = IoC.Resolve<FolderService>().Get(folderName)?.MakeWritableClone();
+            var folder = IoC.Resolve<FolderService>().Get(folderId)?.MakeWritableClone();
 
             if (folder is null)
             {
