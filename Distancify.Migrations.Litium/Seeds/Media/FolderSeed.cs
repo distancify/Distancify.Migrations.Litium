@@ -78,5 +78,29 @@ namespace Distancify.Migrations.Litium.Seeds.Media
 
             return this;
         }
+
+        public FolderSeed WithField(string fieldName, Dictionary<string, object> values)
+        {
+            foreach (var localization in values.Keys)
+            {
+                _folder.Fields.AddOrUpdateValue(fieldName, localization, values[localization]);
+            }
+
+            return this;
+        }
+
+        public FolderSeed WithField(string fieldName, object value)
+        {
+            _folder.Fields.AddOrUpdateValue(fieldName, value);
+
+            return this;
+        }
+
+        public FolderSeed WithField(string fieldName, string culture, object value)
+        {
+            _folder.Fields.AddOrUpdateValue(fieldName, culture, value);
+
+            return this;
+        }
     }
 }
