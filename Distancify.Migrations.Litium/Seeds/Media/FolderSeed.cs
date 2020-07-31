@@ -22,6 +22,11 @@ namespace Distancify.Migrations.Litium.Seeds.Media
 
         public static FolderSeed Ensure(string folderName, string folderFieldTemplateId)
         {
+            return Ensure(folderName, folderName, folderFieldTemplateId);
+        }
+
+        public static FolderSeed Ensure(string folderName, string folderId, string folderFieldTemplateId)
+        {
             var folder = IoC.Resolve<FolderService>().Get(folderName)?.MakeWritableClone();
 
             if (folder is null)
@@ -30,7 +35,7 @@ namespace Distancify.Migrations.Litium.Seeds.Media
 
                 folder = new Folder(fieldTemplateSystemId, folderName)
                 {
-                    Id = folderName,
+                    Id = folderId,
                     SystemId = Guid.Empty
                 };
             }
@@ -67,9 +72,9 @@ namespace Distancify.Migrations.Litium.Seeds.Media
             return this;
         }
 
-        public FolderSeed WithParentFolder(string folderName)
+        public FolderSeed WithParentFolder(string folderId)
         {
-            _folder.ParentFolderSystemId = IoC.Resolve<FolderService>().Get(folderName).SystemId;
+            _folder.ParentFolderSystemId = IoC.Resolve<FolderService>().Get(folderId).SystemId;
 
             return this;
         }
