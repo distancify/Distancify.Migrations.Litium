@@ -136,6 +136,9 @@ namespace Distancify.Migrations.Litium.Migrations
             EnsureOperation(connection, definitions, "FunctionOperationDefinitionEntity", "Function/Sales/Content");
             EnsureOperation(connection, definitions, "FunctionOperationDefinitionEntity", "Function/Products/Content");
             EnsureOperation(connection, definitions, "FunctionOperationDefinitionEntity", "Function/Websites/Settings");
+            EnsureOperation(connection, definitions, "FunctionOperationDefinitionEntity", "Function/Connect/Erp");
+            EnsureOperation(connection, definitions, "FunctionOperationDefinitionEntity", "Function/SwaggerUI");
+            EnsureOperation(connection, definitions, "FunctionOperationDefinitionEntity", "Function/AdminWebApi");
         }
 
         private void EnsureOperation(SqlConnection connection, ISet<string> definitions, string discriminator, string id)
