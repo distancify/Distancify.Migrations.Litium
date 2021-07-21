@@ -42,6 +42,27 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return new AssortmentCategorySeed(categoryClone);
         }
 
+        public static AssortmentCategorySeed Ensure(string assortmentCategoryId, string categoryFieldTemplateId, Guid assortmentSystemId)
+        {
+            var fieldTemplateService = IoC.Resolve<FieldTemplateService>();
+            var fieldTemplate = fieldTemplateService.Get<CategoryFieldTemplate>(categoryFieldTemplateId);
+
+            var assortmentService = IoC.Resolve<AssortmentService>();
+            var assortment = assortmentService.Get(assortmentSystemId);
+
+            var categoryService = IoC.Resolve<CategoryService>();
+            var category = categoryService.Get(assortmentCategoryId);
+
+            var categoryClone = category?.MakeWritableClone() ??
+                new Category(fieldTemplate.SystemId, assortment.SystemId)
+                {
+                    SystemId = Guid.Empty,
+                    Id = assortmentCategoryId
+                };
+
+            return new AssortmentCategorySeed(categoryClone);
+        }
+
         public Guid Commit()
         {
             var service = IoC.Resolve<CategoryService>();
