@@ -6,22 +6,27 @@ using Litium.Products;
 
 namespace Distancify.Migrations.Litium.Seeds.Products
 {
-    public class AssortmentSeed : ISeed, ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Assortment>
+    public class AssortmentSeed : ISeed
     {
         private readonly Assortment _assortment;
+        private readonly bool isNew;
 
-        protected AssortmentSeed(Assortment assortment)
+        protected AssortmentSeed(Assortment assortment, bool isNew)
         {
             _assortment = assortment;
+            this.isNew = isNew;
         }
 
         public Guid Commit()
         {
             var service = IoC.Resolve<AssortmentService>();
 
-            if (_assortment.SystemId == Guid.Empty)
+            if (this.isNew)
             {
-                _assortment.SystemId = Guid.NewGuid();
+                if (_assortment.SystemId == Guid.Empty)
+                {
+                    _assortment.SystemId = Guid.NewGuid();
+                }
                 service.Create(_assortment);
             }
             else
@@ -32,16 +37,47 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return _assortment.SystemId;
         }
 
-        public static AssortmentSeed Ensure(string assortment)
+        public static AssortmentSeed Ensure(string assortmentId)
         {
-            var assortmentClone = IoC.Resolve<AssortmentService>().Get(assortment)?.MakeWritableClone() ??
-                new Assortment()
-                {
-                    Id = assortment,
-                    SystemId = Guid.Empty
-                };
+            var assortment = IoC.Resolve<AssortmentService>().Get(assortmentId)?.MakeWritableClone();
+            var isNew = false;
 
-            return new AssortmentSeed(assortmentClone);
+            if (assortment is null)
+            {
+                assortment = new Assortment()
+                {
+                    Id = assortmentId,
+                    SystemId = Guid.NewGuid()
+                };
+                isNew = true;
+            }
+            else
+            {
+                assortment = assortment.MakeWritableClone();
+            }
+
+            return new AssortmentSeed(assortment, isNew);
+        }
+
+        public static AssortmentSeed Ensure(Guid assortmentSystemId)
+        {
+            var assortment = IoC.Resolve<AssortmentService>().Get(assortmentSystemId)?.MakeWritableClone();
+            var isNew = false;
+
+            if (assortment is null)
+            {
+                assortment = new Assortment()
+                {
+                    SystemId = assortmentSystemId
+                };
+                isNew = true;
+            }
+            else
+            {
+                assortment = assortment.MakeWritableClone();
+            }
+
+            return new AssortmentSeed(assortment, isNew);
         }
 
         public AssortmentSeed WithName(string culture, string name)
@@ -53,35 +89,6 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             }
 
             return this;
-        }
-
-        public static AssortmentSeed CreateFrom(SeedBuilder.LitiumGraphQlModel.Assortment assortment)
-        {
-            var seed = new AssortmentSeed(new Assortment());
-            return (AssortmentSeed)seed.Update(assortment);
-        }
-
-        public ISeedGenerator<SeedBuilder.LitiumGraphQlModel.Assortment> Update(SeedBuilder.LitiumGraphQlModel.Assortment data)
-        {
-            _assortment.Id = data.Id;
-
-            foreach (var localization in data.Localizations)
-            {
-                if (!string.IsNullOrEmpty(localization.Culture) && !string.IsNullOrEmpty(localization.Name))
-                    _assortment.Localizations[localization.Culture].Name = localization.Name;
-                else
-                    this.Log().Warn("The Assortment {AssortmentId} contains a localization with an empty culture and/or name!", data.Id);
-            }
-
-            return this;
-        }
-
-        public void WriteMigration(StringBuilder builder)
-        {
-            builder.AppendLine($"\r\n\t\t\t{nameof(AssortmentSeed)}.{nameof(AssortmentSeed.Ensure)}(\"{_assortment.Id}\")");
-            foreach (var localization in _assortment.Localizations)
-                builder.AppendLine($"\t\t\t\t.{nameof(WithName)}(\"{localization.Key}\", \"{localization.Value.Name}\")");
-            builder.AppendLine("\t\t\t\t.Commit();");
         }
     }
 }

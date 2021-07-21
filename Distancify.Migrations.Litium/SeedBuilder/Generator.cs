@@ -22,7 +22,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private readonly CurrencyRepository _currencySeedRepository = new CurrencyRepository();
         private readonly LanguageRepository _languageSeedRepository = new LanguageRepository();
         private readonly WebsiteRepository _websiteSeedRepository = new WebsiteRepository();
-        private readonly AssortmentRepository _assortmentSeedRepository = new AssortmentRepository();
         private readonly PageRepository _pageSeedRepository = new PageRepository();
         private readonly ChannelFieldTemplateRepository _channelFieldTemplateSeedRepository = new ChannelFieldTemplateRepository();
         private readonly BlockFieldTemplateRepository _blockFieldTemplateSeedRepository = new BlockFieldTemplateRepository();
@@ -59,7 +58,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 seedsCount += _currencySeedRepository.NumberOfItems;
                 seedsCount += _languageSeedRepository.NumberOfItems;
                 seedsCount += _websiteSeedRepository.NumberOfItems;
-                seedsCount += _assortmentSeedRepository.NumberOfItems;
                 seedsCount += _pageSeedRepository.NumberOfItems;
                 seedsCount += _channelFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _blockFieldTemplateSeedRepository.NumberOfItems;
@@ -172,8 +170,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder
 
             _inventoryRepository.WriteMigration(migrationBuilder);
 
-            _assortmentSeedRepository.WriteMigration(migrationBuilder);
-
             _currencySeedRepository.WriteMigration(migrationBuilder);
 
             _countrySeedRepository.WriteMigration(migrationBuilder);
@@ -227,7 +223,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 AddOrMerge(_categoryDisplayTemplateSeedRepository, data.Products.CategoryDisplayTemplates);
                 AddOrMerge(_productFieldTemplateSeedRepository, data.Products.ProductFieldTemplates);
                 AddOrMerge(_categoryFieldTemplateSeedRepository, data.Products.CategoryFieldTemplates);
-                AddOrMerge(_assortmentSeedRepository, data.Products.Assortments);
                 AddOrMerge(_unitOfMeasurementRepository, data.Products.UnitOfMeasurements);
                 AddOrMerge(_inventoryRepository, data.Products.Inventories);
             }
