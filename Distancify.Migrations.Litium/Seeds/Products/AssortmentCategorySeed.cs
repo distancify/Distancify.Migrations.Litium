@@ -146,6 +146,30 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return this;
         }
 
+        public AssortmentCategorySeed WithoutChannelLinks()
+        {
+            _category.ChannelLinks = new List<CategoryToChannelLink>();
+
+            return this;
+        }
+
+        public AssortmentCategorySeed WithoutChannelLink(Guid channelSystemId)
+        {
+            if (_category.ChannelLinks is null)
+            {
+                _category.ChannelLinks = new List<CategoryToChannelLink>();
+            }
+
+            var channel = _category.ChannelLinks.SingleOrDefault(cl => cl.ChannelSystemId == channelSystemId);
+
+            if (channel != null)
+            {
+                _category.ChannelLinks.Remove(channel);
+            }
+
+            return this;
+        }
+
         public AssortmentCategorySeed WithChannelLink(string channelId)
         {
             return this.WithChannelLink(IoC.Resolve<ChannelService>().Get(channelId).SystemId);
