@@ -397,6 +397,11 @@ namespace Distancify.Migrations.Litium.Seeds.Sales
                 return this;
             }
 
+            public PaymentSeed WithTransactionNumber(string transactionNumber)
+            {
+                _payment.TransactionNumber = transactionNumber;
+                return this;
+            }
 
             public PaymentSeed WithBillingAddress(AddressCarrier billingAddress)
             {
