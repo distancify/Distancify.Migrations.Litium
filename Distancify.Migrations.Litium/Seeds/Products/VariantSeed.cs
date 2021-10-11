@@ -42,7 +42,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             if (categoryLinks.Count > 0)
             {
                 var categoryService = IoC.Resolve<CategoryService>();
-                
+
                 var baseProduct = IoC.Resolve<BaseProductService>().Get(baseProductSystemId);
 
                 foreach (var categoryId in categoryLinks)
@@ -68,16 +68,16 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                 }
             }
 
-            if(priceListItems.Count > 0)
+            if (priceListItems.Count > 0)
             {
                 var priceListItemService = IoC.Resolve<PriceListItemService>();
-                foreach(var priceItem in priceListItems)
+                foreach (var priceItem in priceListItems)
                 {
                     var existingPriceItem = priceListItemService.Get(priceItem.VariantSystemId, priceItem.PriceListSystemId)
                         ?.FirstOrDefault(p => p.MinimumQuantity == priceItem.MinimumQuantity)
                         ?.MakeWritableClone();
 
-                    if(existingPriceItem == null)
+                    if (existingPriceItem == null)
                     {
                         priceListItemService.Create(priceItem);
                     }
@@ -201,7 +201,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         }
 
         public VariantSeed WithPrice(string priceListId, decimal price, decimal minimumQuantity)
-        {   
+        {
             var priceListSystemGuid = IoC.Resolve<PriceListService>().Get(priceListId).SystemId;
 
             var priceListItem = priceListItems.FirstOrDefault(p => p.PriceListSystemId == priceListSystemGuid && p.MinimumQuantity == minimumQuantity);
@@ -255,7 +255,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         public VariantSeed WithImage(Guid fileSystemId)
         {
             var images = _variant.Fields.GetValue<IList<Guid>>(SystemFieldDefinitionConstants.Images) ?? new List<Guid>();
-            
+
             if (!images.Contains(fileSystemId))
             {
                 images.Add(fileSystemId);
@@ -305,8 +305,23 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return this;
         }
 
+        public VariantSeed WithBundledVariant(string variantId, decimal quantity)
+        {
+            var bundledVariantSystemId = IoC.Resolve<VariantService>().Get(variantId).SystemId;
+
+            if (_variant.BundledVariants.FirstOrDefault(b => b.BundledVariantSystemId == bundledVariantSystemId) is VariantBundledLink existing)
+            {
+                existing.Quantity = quantity;
+            }
+            else
+            {
+                _variant.BundledVariants.Add(new VariantBundledLink(bundledVariantSystemId) { Quantity = quantity });
+            }
+
+            return this;
+        }
+
         /* TODO:
-         * BundledVariants
          * BundleOfVariants
          * SortIndex
          */
