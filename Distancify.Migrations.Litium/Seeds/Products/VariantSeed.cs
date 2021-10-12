@@ -300,6 +300,14 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             var variantService = IoC.Resolve<VariantService>();
             var relatedVariant = variantService.Get(relatedVariantId);
 
+
+            if (_variant.RelationshipLinks.Any(r => r is VariantToVariantRelationshipLink variantLink &&
+                                                    variantLink.RelationshipTypeSystemId == relationshipType.SystemId && 
+                                                    variantLink.VariantSystemId == relatedVariant.SystemId)) 
+            {
+                return this;
+            }
+
             _variant.RelationshipLinks.Add(new VariantToVariantRelationshipLink(relationshipType.SystemId, relatedVariant.SystemId));
 
             return this;
