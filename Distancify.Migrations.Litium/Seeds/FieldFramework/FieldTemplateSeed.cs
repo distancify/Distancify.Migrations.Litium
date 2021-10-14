@@ -20,9 +20,12 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
     {
         protected readonly TTemplate fieldTemplate;
 
-        protected FieldTemplateSeed(TTemplate fieldTemplate)
+        protected bool isNewEntity = false;
+
+        protected FieldTemplateSeed(TTemplate fieldTemplate, bool isNewEntity = false)
         {
             this.fieldTemplate = fieldTemplate;
+            this.isNewEntity = isNewEntity;
         }
 
         public Guid Commit()
@@ -32,6 +35,10 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             if (fieldTemplate.SystemId == Guid.Empty)
             {
                 fieldTemplate.SystemId = Guid.NewGuid();
+                fieldTemplateService.Create(fieldTemplate);
+            }
+            else if (isNewEntity)
+            {
                 fieldTemplateService.Create(fieldTemplate);
             }
             else

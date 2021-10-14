@@ -16,7 +16,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 
         protected override CategoryFieldTemplateSeed Me => this;
 
-        public CategoryFieldTemplateSeed(CategoryFieldTemplate fieldTemplate) : base(fieldTemplate)
+        public CategoryFieldTemplateSeed(CategoryFieldTemplate fieldTemplate, bool isNewEntity = false) : base(fieldTemplate, isNewEntity)
         {
         }
 
@@ -34,6 +34,46 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             }
 
             return new CategoryFieldTemplateSeed(categoryFieldTemplate);
+        }
+
+        public static CategoryFieldTemplateSeed Ensure(Guid systemId, string categoryDisplayTemplateId)
+        {
+            var isNewEntity = false;
+
+            var categoryDisplayTemplateSystemGuid = IoC.Resolve<DisplayTemplateService>().Get<CategoryDisplayTemplate>(categoryDisplayTemplateId).SystemId;
+            var categoryFieldTemplate = IoC.Resolve<FieldTemplateService>().Get<CategoryFieldTemplate>(systemId)?.MakeWritableClone();
+            if (categoryFieldTemplate is null)
+            {
+                isNewEntity = true;
+
+                categoryFieldTemplate = new CategoryFieldTemplate(systemId.ToString(), categoryDisplayTemplateSystemGuid)
+                {
+                    SystemId = systemId,
+                    CategoryFieldGroups = new List<FieldTemplateFieldGroup>()
+                };
+            }
+
+            return new CategoryFieldTemplateSeed(categoryFieldTemplate, isNewEntity);
+        }
+
+        public static CategoryFieldTemplateSeed Ensure(string id, Guid systemId, string categoryDisplayTemplateId)
+        {
+            var isNewEntity = false;
+
+            var categoryDisplayTemplateSystemGuid = IoC.Resolve<DisplayTemplateService>().Get<CategoryDisplayTemplate>(categoryDisplayTemplateId).SystemId;
+            var categoryFieldTemplate = IoC.Resolve<FieldTemplateService>().Get<CategoryFieldTemplate>(systemId)?.MakeWritableClone();
+            if (categoryFieldTemplate is null)
+            {
+                isNewEntity = true;
+
+                categoryFieldTemplate = new CategoryFieldTemplate(id, categoryDisplayTemplateSystemGuid)
+                {
+                    SystemId = systemId,
+                    CategoryFieldGroups = new List<FieldTemplateFieldGroup>()
+                };
+            }
+
+            return new CategoryFieldTemplateSeed(categoryFieldTemplate, isNewEntity);
         }
 
         public static CategoryFieldTemplateSeed Ensure(string id, Guid categoryDisplayTemplateSystemId)
