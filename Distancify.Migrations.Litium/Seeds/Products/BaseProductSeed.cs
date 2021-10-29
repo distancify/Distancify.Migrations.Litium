@@ -18,31 +18,40 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         private ISet<string> categoryLinks = new HashSet<string>();
         private string mainCategory;
 
-        protected BaseProductSeed(BaseProduct baseProduct)
+        private readonly bool _isNewBaseProduct = false;
+
+        protected BaseProductSeed(BaseProduct baseProduct, bool isNewBaseProduct = false)
         {
             this.baseProduct = baseProduct;
+            _isNewBaseProduct = isNewBaseProduct;
         }
 
         public static BaseProductSeed Ensure(string productId, string productFieldTemplateId)
         {
-            var fieldTemplate = IoC.Resolve<FieldTemplateService>().Get<ProductFieldTemplate>(productFieldTemplateId).SystemId;
-            var productClone = IoC.Resolve<BaseProductService>().Get(productId)?.MakeWritableClone() ??
-                new BaseProduct(productId, fieldTemplate)
-                {
-                    SystemId = Guid.Empty,
+            var isNewBaseProduct = false;
 
+            var fieldTemplate = IoC.Resolve<FieldTemplateService>().Get<ProductFieldTemplate>(productFieldTemplateId).SystemId;
+            var productClone = IoC.Resolve<BaseProductService>().Get(productId)?.MakeWritableClone();
+            
+            if (productClone is null)
+            {
+                productClone = new BaseProduct(productId, fieldTemplate)
+                {
+                    SystemId = Guid.NewGuid(),
                 };
 
-            return new BaseProductSeed(productClone);
+                isNewBaseProduct = true;
+            }
+
+            return new BaseProductSeed(productClone, isNewBaseProduct);
         }
 
         public Guid Commit()
         {
             var service = IoC.Resolve<BaseProductService>();
 
-            if (baseProduct.SystemId == null || baseProduct.SystemId == Guid.Empty)
+            if (_isNewBaseProduct)
             {
-                baseProduct.SystemId = Guid.NewGuid();
                 service.Create(baseProduct);
             }
             else
@@ -234,27 +243,38 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return this;
         }
 
+
+        /// <summary>
+        /// Sets the future system id of new entities.
+        /// </summary>
+        public BaseProductSeed WithSystemId(Guid systemId)
+        {
+            baseProduct.SystemId = systemId;
+
+            return this;
+        }
+
         /*
 * TODO: Remove CategoryLinks
 * TODO: Fields
 * TODO: ProductListLinks
 */
 
-        /*TODO:?
-         With
-        - Image
-        - Variants
-        - Relations
-        - Bundle
-        - Plan
-        - Publish
-        - Price (variant?)
-        - Inventory
-        - Workflow
-        - History
-        - Settings
+            /*TODO:?
+             With
+            - Image
+            - Variants
+            - Relations
+            - Bundle
+            - Plan
+            - Publish
+            - Price (variant?)
+            - Inventory
+            - Workflow
+            - History
+            - Settings
 
-        TaxClass?
-        */
+            TaxClass?
+            */
     }
 }

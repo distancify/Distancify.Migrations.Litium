@@ -329,6 +329,16 @@ namespace Distancify.Migrations.Litium.Seeds.Products
             return this;
         }
 
+        /// <summary>
+        /// Sets the future system id of new entities.
+        /// </summary>
+        public VariantSeed WithSystemId(Guid systemId)
+        {
+            _variant.SystemId = systemId;
+
+            return this;
+        }
+
         /* TODO:
          * BundleOfVariants
          * SortIndex
