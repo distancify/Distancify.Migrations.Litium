@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Distancify.Migrations">
-      <Version>1.1.1</Version>
+      <Version>2023.11.9.3-ci</Version>
     </PackageReference>
     <PackageReference Include="GraphQlClientGenerator">
       <Version>0.1.12</Version>
@@ -59,10 +59,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers">
-      <Version>2.2.4</Version>
+      <Version>3.1.7</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-      <Version>2.2.4</Version>
+      <Version>3.1.7</Version>
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.PowerShell.5.1.ReferenceAssemblies">
       <Version>1.0.0</Version>

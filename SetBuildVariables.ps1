@@ -24,7 +24,7 @@ elseif ($Env:BUILD_BUILDNUMBER -match "^\d+.(\d+)$")
 	{
 		$packageVersion = "$fileVersion-ci"
 	}
-    $pushToNugetOrg = 'false'
+    $pushToNugetOrg = 'true'
 }
 
 Write-Output "Setting build variables..."
