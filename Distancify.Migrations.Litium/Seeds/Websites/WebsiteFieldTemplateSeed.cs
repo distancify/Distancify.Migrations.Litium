@@ -56,7 +56,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 }
                 else
                 {
-                    this.Log().Warn("The Field Template with system id {FieldTemplateSystemId} contains a localization with an empty culture and/or name!",
+                    Serilog.Log.Warning("The Field Template with system id {FieldTemplateSystemId} contains a localization with an empty culture and/or name!",
                         data.SystemId.ToString());
                 }
             }

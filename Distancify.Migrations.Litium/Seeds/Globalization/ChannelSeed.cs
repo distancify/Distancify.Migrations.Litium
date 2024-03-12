@@ -1,7 +1,5 @@
 using Litium;
 using Litium.FieldFramework;
-using Litium.Foundation;
-using Litium.Foundation.Modules.ECommerce;
 using Litium.Globalization;
 using Litium.Websites;
 using System;
@@ -178,54 +176,18 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
             return this;
         }
 
-        public ChannelSeed WithCountryLink(string countryId, IEnumerable<string> deliveryMethodIds = null, IEnumerable<string> paymentMethodIds = null)
-        {
-            var moduleECommerce = IoC.Resolve<ModuleECommerce>();
+        public ChannelSeed WithCountryLink(string countryId)
+        {   
             var countrySystemId = IoC.Resolve<CountryService>().Get(countryId).SystemId;
-
-            var deliveryMethodSystemIds = GetDeliveryMethodsSystemId();
-            var paymentMethodSystemIds = GetPaymentMethodSystemIds();
 
             if (_channel.CountryLinks.FirstOrDefault(link => link.CountrySystemId.Equals(countrySystemId)) is ChannelToCountryLink countryLink)
             {
-                foreach (var deliveryMethodSystemId in deliveryMethodSystemIds)
-                {
-                    if (!countryLink.DeliveryMethodSystemIds.Contains(deliveryMethodSystemId))
-                    {
-                        countryLink.DeliveryMethodSystemIds.Add(deliveryMethodSystemId);
-                    }
-                }
+                return this;
+            }
 
-                foreach (var paymentMethodSystemId in paymentMethodSystemIds)
-                {
-                    if (!countryLink.PaymentMethodSystemIds.Contains(paymentMethodSystemId))
-                    {
-                        countryLink.PaymentMethodSystemIds.Add(paymentMethodSystemId);
-                    }
-                }
-            }
-            else
-            {
-                _channel.CountryLinks.Add(new ChannelToCountryLink(countrySystemId)
-                {
-                    DeliveryMethodSystemIds = deliveryMethodSystemIds,
-                    PaymentMethodSystemIds = paymentMethodSystemIds
-                });
-            }
+            _channel.CountryLinks.Add(new ChannelToCountryLink(countrySystemId));
 
             return this;
-
-            List<Guid> GetDeliveryMethodsSystemId()
-                => deliveryMethodIds?.Select(id => moduleECommerce.DeliveryMethods.Get(id, Solution.Instance.SystemToken)?.ID)
-                                     .Where(id => id.HasValue).Select(id => id.Value).ToList() ?? new List<Guid>();
-
-            List<Guid> GetPaymentMethodSystemIds()
-            {
-                var paymentMethods = moduleECommerce.PaymentMethods.GetAll();
-
-                return paymentMethodIds?.Select(id => paymentMethods.FirstOrDefault(paymentMethod => paymentMethod.Name.Equals(id))?.ID)
-                                        .Where(id => id.HasValue).Select(id => id.Value).ToList() ?? new List<Guid>();
-            }
         }
 
         public ChannelSeed WithoutCountryLink(string id)
@@ -328,7 +290,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 }
                 else
                 {
-                    this.Log().Warn("The Channel with system id {ChannelSystemId} contains a localization with an empty culture and/or name!", channel.SystemId.ToString());
+                    Serilog.Log.Warning("The Channel with system id {ChannelSystemId} contains a localization with an empty culture and/or name!", channel.SystemId.ToString());
                 }
             }
 

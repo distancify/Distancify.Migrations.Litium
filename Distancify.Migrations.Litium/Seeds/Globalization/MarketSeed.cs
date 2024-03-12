@@ -125,7 +125,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 }
                 else
                 {
-                    this.Log().Warn("The Market with system id {MarketSystemId} contains a localization with an empty culture and/or name!", data.SystemId.ToString());
+                    Serilog.Log.Warning("The Market with system id {MarketSystemId} contains a localization with an empty culture and/or name!", data.SystemId.ToString());
                 }
             }
             return this;

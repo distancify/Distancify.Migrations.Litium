@@ -21,12 +21,11 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         }
 
         public static CategoryFieldTemplateSeed Ensure(string id, string categoryDisplayTemplateId)
-        {
-            var categoryDisplayTemplateSystemGuid = IoC.Resolve<DisplayTemplateService>().Get<CategoryDisplayTemplate>(categoryDisplayTemplateId).SystemId;
+        {   
             var categoryFieldTemplate = IoC.Resolve<FieldTemplateService>().Get<CategoryFieldTemplate>(id)?.MakeWritableClone();
             if (categoryFieldTemplate is null)
             {
-                categoryFieldTemplate = new CategoryFieldTemplate(id, categoryDisplayTemplateSystemGuid)
+                categoryFieldTemplate = new CategoryFieldTemplate(id)
                 {
                     SystemId = Guid.Empty,
                     CategoryFieldGroups = new List<FieldTemplateFieldGroup>()
@@ -40,13 +39,12 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         {
             var isNewEntity = false;
 
-            var categoryDisplayTemplateSystemGuid = IoC.Resolve<DisplayTemplateService>().Get<CategoryDisplayTemplate>(categoryDisplayTemplateId).SystemId;
             var categoryFieldTemplate = IoC.Resolve<FieldTemplateService>().Get<CategoryFieldTemplate>(systemId)?.MakeWritableClone();
             if (categoryFieldTemplate is null)
             {
                 isNewEntity = true;
 
-                categoryFieldTemplate = new CategoryFieldTemplate(systemId.ToString(), categoryDisplayTemplateSystemGuid)
+                categoryFieldTemplate = new CategoryFieldTemplate(systemId.ToString())
                 {
                     SystemId = systemId,
                     CategoryFieldGroups = new List<FieldTemplateFieldGroup>()
@@ -60,13 +58,12 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         {
             var isNewEntity = false;
 
-            var categoryDisplayTemplateSystemGuid = IoC.Resolve<DisplayTemplateService>().Get<CategoryDisplayTemplate>(categoryDisplayTemplateId).SystemId;
             var categoryFieldTemplate = IoC.Resolve<FieldTemplateService>().Get<CategoryFieldTemplate>(systemId)?.MakeWritableClone();
             if (categoryFieldTemplate is null)
             {
                 isNewEntity = true;
 
-                categoryFieldTemplate = new CategoryFieldTemplate(id, categoryDisplayTemplateSystemGuid)
+                categoryFieldTemplate = new CategoryFieldTemplate(id)
                 {
                     SystemId = systemId,
                     CategoryFieldGroups = new List<FieldTemplateFieldGroup>()
@@ -118,7 +115,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                 }
                 else
                 {
-                    this.Log().Warn("The Field Template with system id {FieldTemplateSystemId} contains a localization with an empty culture and/or name!",
+                    Serilog.Log.Warning("The Field Template with system id {FieldTemplateSystemId} contains a localization with an empty culture and/or name!",
                         data.SystemId.ToString());
                 }
             }

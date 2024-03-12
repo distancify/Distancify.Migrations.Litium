@@ -84,7 +84,7 @@ namespace Distancify.Migrations.Litium.Seeds.Globalization
                 if (!string.IsNullOrEmpty(localization.Culture) && !string.IsNullOrEmpty(localization.Name))
                     _unitOfMeasurement.Localizations[localization.Culture].Name = localization.Name;
                 else 
-                    this.Log().Warn("The UnitOfMeasurement {UnitOfMeasurementId} contains a localization with an empty culture and/or name!", data.Id);
+                    Serilog.Log.Warning("The UnitOfMeasurement {UnitOfMeasurementId} contains a localization with an empty culture and/or name!", data.Id);
             }
 
             return this;

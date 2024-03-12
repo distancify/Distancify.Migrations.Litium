@@ -21,12 +21,11 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         }
 
         public static ProductFieldTemplateSeed Ensure(string id, string productDisplayTemplateId)
-        {
-            var productDisplayTemplateSystemGuid = IoC.Resolve<DisplayTemplateService>().Get<ProductDisplayTemplate>(productDisplayTemplateId).SystemId;
+        {   
             var productFieldTemplate = IoC.Resolve<FieldTemplateService>().Get<ProductFieldTemplate>(id)?.MakeWritableClone();
             if (productFieldTemplate is null)
             {
-                productFieldTemplate = new ProductFieldTemplate(id, productDisplayTemplateSystemGuid)
+                productFieldTemplate = new ProductFieldTemplate(id)
                 {
                     SystemId = Guid.Empty,
                     ProductFieldGroups = new List<FieldTemplateFieldGroup>(),
@@ -122,7 +121,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
                 }
                 else
                 {
-                    this.Log().Warn("The Field Template with system id {FieldTemplateSystemId} contains a localization with an empty culture and/or name!",
+                    Serilog.Log.Warning("The Field Template with system id {FieldTemplateSystemId} contains a localization with an empty culture and/or name!",
                         data.SystemId.ToString());
                 }
             }

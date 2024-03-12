@@ -43,7 +43,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
             }
             catch (ValidationException ex)
             {
-                this.Log().Error(ex.Message, ex);
+                Serilog.Log.Error(ex.Message, ex);
                 
             }
 
@@ -173,7 +173,7 @@ namespace Distancify.Migrations.Litium.Seeds.FieldFramework
                 }
                 else
                 {
-                    this.Log().Warn("The field definition with system id {FieldDefinitionSystemId} contains a localization with an empty culture and/or name!", data.SystemId.ToString());
+                    Serilog.Log.Warning("The field definition with system id {FieldDefinitionSystemId} contains a localization with an empty culture and/or name!", data.SystemId.ToString());
                 }
             }
 

@@ -1,27 +1,33 @@
-﻿using System.Configuration;
+﻿using Litium.Runtime;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Configuration;
 using System.Reflection;
-using Litium.Owin.InversionOfControl;
 
 namespace Distancify.Migrations.Litium.Setup
 {
-    public class MigrationsSetup : IComponentInstaller
+    public class MigrationsSetup : IApplicationConfiguration
     {
-        public void Install(IIoCContainer container, Assembly[] assemblies)
+        public void Configure(ApplicationConfigurationBuilder app)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["FoundationConnectionString"].ConnectionString;
 
-            if (!string.IsNullOrWhiteSpace(connectionString))
+            app.ConfigureServices(services =>
             {
-                container.For<IMigrationLogFactory>().UsingFactoryMethod(() => new SqlServerMigrationLogFactory(connectionString)).RegisterAsSingleton();
-            }
-            else
-            {
-                container.For<IMigrationLogFactory>().UsingFactoryMethod(() => new InMemoryMigrationLogFactory()).RegisterAsSingleton();
-            }
+                var connectionString = ConfigurationManager.ConnectionStrings["FoundationConnectionString"].ConnectionString;
 
-            container.For<IMigrationLocator>().UsingFactoryMethod(() => new DefaultMigrationLocator()).RegisterAsSingleton();
-            container.For<IMigrationFactory>().UsingFactoryMethod(() => new MigrationFactory()).RegisterAsSingleton();
-            container.For<MigrationService>().RegisterAsSingleton();
+                if (!string.IsNullOrWhiteSpace(connectionString))
+                {
+                    services.AddSingleton<IMigrationLogFactory>((serviceProvider) => new SqlServerMigrationLogFactory(connectionString));
+                }
+                else
+                {
+                    services.AddSingleton<IMigrationLogFactory>((serviceProvider) => new InMemoryMigrationLogFactory());
+                }
+
+                services.AddSingleton<IMigrationLocator>((serviceProvider) => new DefaultMigrationLocator());
+                services.AddSingleton<IMigrationFactory>((serviceProvider) => new MigrationFactory());
+                services.AddSingleton<MigrationService>();
+            });
         }
     }
 }

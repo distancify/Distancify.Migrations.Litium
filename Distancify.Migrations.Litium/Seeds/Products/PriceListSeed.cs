@@ -10,9 +10,9 @@ namespace Distancify.Migrations.Litium.Seeds.Products
 {
     public class PriceListSeed : ISeed
     {
-        private readonly PriceList priceList;
+        private readonly ProductPriceList priceList;
 
-        protected PriceListSeed(PriceList variant)
+        protected PriceListSeed(ProductPriceList variant)
         {
             priceList = variant;
         }
@@ -38,7 +38,7 @@ namespace Distancify.Migrations.Litium.Seeds.Products
         {
             var currencySystemGuid = IoC.Resolve<CurrencyService>().Get(currencyId).SystemId;
             var priceListClone = IoC.Resolve<PriceListService>().Get(priceListId)?.MakeWritableClone() ??
-                new PriceList(currencySystemGuid)
+                new ProductPriceList(currencySystemGuid)
                 {
                     SystemId = Guid.Empty,
                     Id = priceListId

@@ -30,8 +30,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder
         private readonly WebsiteFieldTemplateRepository _websiteFieldTemplateSeedRepository = new WebsiteFieldTemplateRepository();
         private readonly ProductFieldTemplateRepository _productFieldTemplateSeedRepository = new ProductFieldTemplateRepository();
         private readonly CategoryFieldTemplateRepository _categoryFieldTemplateSeedRepository = new CategoryFieldTemplateRepository();
-        private readonly CategoryDisplayTemplateRepository _categoryDisplayTemplateSeedRepository = new CategoryDisplayTemplateRepository();
-        private readonly ProductDisplayTemplateRepository _productDisplayTemplateRepository = new ProductDisplayTemplateRepository();
         private readonly PersonFieldTemplateRepository _personFieldTemplateSeedRepository = new PersonFieldTemplateRepository();
         private readonly OrganizationFieldTemplateRepository _organizationFieldTemplateSeedRepository = new OrganizationFieldTemplateRepository();
         private readonly GroupFieldTemplateRepository _groupFieldTemplateSeedRepository = new GroupFieldTemplateRepository();
@@ -65,9 +63,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
                 seedsCount += _pageFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _websiteFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _productFieldTemplateSeedRepository.NumberOfItems;
-                seedsCount += _categoryFieldTemplateSeedRepository.NumberOfItems;
-                seedsCount += _categoryDisplayTemplateSeedRepository.NumberOfItems;
-                seedsCount += _productDisplayTemplateRepository.NumberOfItems;
+                seedsCount += _categoryFieldTemplateSeedRepository.NumberOfItems;                
                 seedsCount += _personFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _organizationFieldTemplateSeedRepository.NumberOfItems;
                 seedsCount += _groupFieldTemplateSeedRepository.NumberOfItems;
@@ -136,12 +132,6 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             _decimalOptionFieldDefintionSeedRepository.WriteMigration(migrationBuilder);
 
             _intOptionFieldDefinitionSeedRepository.WriteMigration(migrationBuilder);
-
-
-            _categoryDisplayTemplateSeedRepository.WriteMigration(migrationBuilder);
-
-            _productDisplayTemplateRepository.WriteMigration(migrationBuilder);
-
 
             _channelFieldTemplateSeedRepository.WriteMigration(migrationBuilder);
 
@@ -218,9 +208,7 @@ namespace Distancify.Migrations.Litium.SeedBuilder
             }
 
             if (data.Products != null)
-            {
-                AddOrMerge(_productDisplayTemplateRepository, data.Products.ProductDisplayTemplates);
-                AddOrMerge(_categoryDisplayTemplateSeedRepository, data.Products.CategoryDisplayTemplates);
+            {   
                 AddOrMerge(_productFieldTemplateSeedRepository, data.Products.ProductFieldTemplates);
                 AddOrMerge(_categoryFieldTemplateSeedRepository, data.Products.CategoryFieldTemplates);
                 AddOrMerge(_unitOfMeasurementRepository, data.Products.UnitOfMeasurements);

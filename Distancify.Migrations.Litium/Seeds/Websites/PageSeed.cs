@@ -295,7 +295,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 }
                 else
                 {
-                    this.Log().Warn("The page with system id {PageSystemId} contains a localization with an empty culture and/or name!", data.SystemId.ToString());
+                    Serilog.Log.Warning("The page with system id {PageSystemId} contains a localization with an empty culture and/or name!", data.SystemId.ToString());
                 }
             }
 

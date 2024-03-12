@@ -151,7 +151,7 @@ namespace Distancify.Migrations.Litium.Seeds.Websites
                 }
                 else
                 {
-                    this.Log().Warn("The website with system id {WebsiteSystemId} contains a localization with an empty culture and/or name!", data.SystemId.ToString());
+                    Serilog.Log.Warning("The website with system id {WebsiteSystemId} contains a localization with an empty culture and/or name!", data.SystemId.ToString());
                 }
             }
 

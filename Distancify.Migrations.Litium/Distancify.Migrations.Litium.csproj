@@ -2,43 +2,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProjectGuid>{AB6964F2-EBFA-4775-BDDD-C1860EA66A47}</ProjectGuid>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Deterministic>true</Deterministic>
     <TransformOnBuild>false</TransformOnBuild>
     <Description>This project contains a fluid API to aid in generating data in Litium together with Distancify.Migrations.</Description>
     <Copyright>Copyright © Distancify AB 2019</Copyright>
     <Authors>Distancify AB</Authors>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.DirectoryServices" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IdentityModel" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Runtime.Caching" />
-    <Reference Include="System.Runtime.Remoting" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Web" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Distancify.Migrations.Litium.nuspec" />
@@ -49,23 +19,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Distancify.Migrations">
-      <Version>1.1.1</Version>
+      <Version>2024.3.12.6-ci</Version>
     </PackageReference>
     <PackageReference Include="GraphQlClientGenerator">
       <Version>0.1.12</Version>
     </PackageReference>
     <PackageReference Include="Litium.Setup.Core">
-      <Version>7.4.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers">
-      <Version>2.2.4</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-      <Version>2.2.4</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.PowerShell.5.1.ReferenceAssemblies">
-      <Version>1.0.0</Version>
+      <Version>8.14.2</Version>
     </PackageReference>
     <PackageReference Include="NLog">
       <Version>4.6.4</Version>
@@ -76,12 +36,20 @@
     <PackageReference Include="Scriban">
       <Version>2.0.1</Version>
     </PackageReference>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="XmpCore.StrongName">
       <Version>6.1.10</Version>
     </PackageReference>
     <PackageReference Include="YamlDotNet">
       <Version>6.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.SystemWebAdapters" Version="1.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.0.0" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
