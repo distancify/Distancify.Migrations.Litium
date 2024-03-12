@@ -1,4 +1,5 @@
 ﻿using Litium.Runtime;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Configuration;
@@ -13,7 +14,7 @@ namespace Distancify.Migrations.Litium.Setup
 
             app.ConfigureServices(services =>
             {
-                var connectionString = ConfigurationManager.ConnectionStrings["FoundationConnectionString"].ConnectionString;
+                var connectionString = app.Configuration.GetValue<string>("Litium:Data:ConnectionString");
 
                 if (!string.IsNullOrWhiteSpace(connectionString))
                 {
